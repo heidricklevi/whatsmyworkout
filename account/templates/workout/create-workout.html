@@ -1,0 +1,163 @@
+{% load staticfiles %}
+{% load widget_tweaks %}
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>My Dashboard</title>
+    <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+    <link href='https://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+
+{#    <link rel="stylesheet" href="{% static 'css/foundation.css' %}">#}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css'%}">
+{#    <link rel="stylesheet" href="{% static 'css/materialize.css' %}">#}
+    <link rel="stylesheet" href="{% static 'css/dashboard-custom.css' %}">
+
+    <script src="https://use.fontawesome.com/3567d7e6dd.js"></script>
+</head>
+<body>
+<div class="container-custom">
+
+        <div class="top-nav">
+         <div class="logo-custom">
+             <img class="img-responsive custom" src="{% static 'img/wmwLogo.png' %}">
+         </div>
+            <div class="dropdown">
+                <a class="btn dropdown-toggle" id="dLabel" href="http://example.com" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                   <img src="{% if user_obj.avatar %}{{ user_obj.avatar.url }}{% else %}{% static 'img/user.svg' %}{% endif %}" class="rounded-circle account">
+                </a>
+                <div class="dropdown-menu" aria-labelledby="dLabel">
+                    <a class="dropdown-item" href="#">Account Settings</a>
+                    <a class="dropdown-item" href="#">Logout</a>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="side-nav">
+            <ul class="side-nav-list">
+                <li class="side-list-li"><img src="{% static 'img/home.png' %}">
+                    <a href="{% url 'dashboard' %}">Home</a>
+                </li>
+                <li class="side-list-li"><img src="{% static 'img/clipboard-variant-with-pencil-and-check-mark-variant.png' %}">
+                    <a href="#">Create Workouts</a>
+                </li>
+                <li class="side-list-li"><img src="{% static 'img/calendar.png' %}">
+                    <a href="#">Manage Schedule</a>
+                </li>
+                <li class="side-list-li"><img src="{% static 'img/envelope.png' %}">
+                    <a href="#">Messages</a>
+                </li>
+                <li class="side-list-li"><img src="{% static 'img/archive.png' %}">
+                    <a href="#">Archive</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-8">
+            <h3 style="margin: 6% 5% 6% 0">Create your workout</h3>
+            <form id="workout-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ workout_form.as_p }}
+{#                <div class="form-group row">#}
+{#                    <label for="dateComplete" class="col-sm-3 col-form-label">Completion Date</label>#}
+{#                    <div class="col-sm-10 col-md-4">#}
+{#                        {{ workout_form.date_for_completion|attr:'type:date' }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="workoutTitle" class="col-sm-3 col-form-label">Workout Title</label>#}
+{#                    <div class="col-sm-10 col-md-4">#}
+{#                        {{ workout_form.title }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="image" class="col-sm-3 col-form-label">Workout Image</label>#}
+{#                    <div class="col-sm-10 col-md-4">#}
+{#                        {{ workout_form.workout_image }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div>#}
+{#                    <img id="previewimg">#}
+{#                </div>#}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="targetMuscle" class="col-sm-3 col-form-label">Target Muscle</label>#}
+{#                    <div class="col-sm-10 col-md-4">#}
+{#                        {{ workout_form.target_muscle }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="trainingType" class="col-sm-3 col-form-label">Training Type</label>#}
+{#                    <div class="colcol-sm-10 col-md-4">#}
+{#                        {{ workout_form.training_type }}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="trainingType" class="col-sm-3 col-form-label">slug</label>#}
+{#                    <div class="colcol-sm-10 col-md-4">#}
+{#                        {{ workout_form.slug}}#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{##}
+{#                <div class="form-group row">#}
+{#                    <label for="trainingType" class="col-sm-3 col-form-label">user</label>#}
+{#                    <div class="colcol-sm-10 col-md-4">#}
+{#                        {{ workout_form.user }}#}
+{#                    </div>#}
+{#                </div>#}
+
+
+            <div class="form-group row">
+                <div class="col-sm-10 col-md-4">
+                    <input type="submit" class="btn btn-primary" value="Save changes and add exercises">
+                </div>
+            </div>
+            </form>
+        <form method="post" id="exercise-form">
+            {% csrf_token %}
+            {{ exercise_form.as_p}}
+
+            <div class="form-group row">
+                <div class="col-sm-10 col-md-4">
+                    <input type="submit" class="btn btn-primary" value="Save and add">
+                </div>
+            </div>
+        </form>
+        </div>
+
+        <div class="col-sm-4">
+
+        </div>
+
+</div>
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+        integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+{#<script src="{% static 'js/materialize.js' %}"></script>#}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/blueimp-file-upload/9.18.0/js/jquery.fileupload.js"></script>
+{#<script src="{% static 'js/foundation.js' %}"></script>#}
+<script src="{% static 'js/custom.js' %}"></script>
+<script src="{% static 'js/what-input.js' %}"></script>
+</body>
+</html>

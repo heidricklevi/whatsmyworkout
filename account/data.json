@@ -1,0 +1,3199 @@
+{
+   "array":[
+      {
+         "exercise_name":" 3/4 Sit-Up ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Ab Crunch Machine ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Ab Roller ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Breakdancer ",
+         "exercise_rating":null,
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Advanced Kettlebell Windmill ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Air Bike ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Butt-Ups ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cable Crunch ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Alternate Heel Touchers ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Barbell Ab Rollout ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Barbell Ab Rollout - On Knees ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cable Judo Flip ",
+         "exercise_rating":"5.0",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cable Reverse Crunch ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cable Russian Twists ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Barbell Rollout from Bench ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Barbell Side Bend ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Bent Press ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cable Seated Crunch ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cocoons ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Crab Toe Touch ",
+         "exercise_rating":null,
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Bent-Knee Hip Raise ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cross Crunch ",
+         "exercise_rating":null,
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Bosu Ball Cable Crunch With Side Bends ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Bosu Ball Crunch ",
+         "exercise_rating":null,
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Bottoms Up ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Cross-Body Crunch ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Crunch - Hands Overhead ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Crunch - Legs On Exercise Ball ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Crunches ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Dead Bug ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Abdominals "
+      },
+      {
+         "exercise_name":" Alternate Hammer Curl ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Alternate Incline Dumbbell Curl ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Barbell Curl ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Barbell Curls Lying Against An Incline ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Biceps Curl To Shoulder Press ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Brachialis-SMR ",
+         "exercise_rating":"3.2",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Cable Hammer Curls - Rope Attachment ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Cable Preacher Curl ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Close-Grip EZ Bar Curl ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Close-Grip EZ-Bar Curl with Band ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Close-Grip Standing Barbell Curl ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Concentration Curls ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Cross Body Hammer Curl ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Drag Curl ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Dumbbell Alternate Bicep Curl ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Biceps "
+      },
+      {
+         "exercise_name":" Ankle Circles ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Anterior Tibialis-SMR ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Balance Board ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Barbell Seated Calf Raise ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Press ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Press On The Leg Press Machine ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Raise On A Dumbbell ",
+         "exercise_rating":"4.8",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Raises - With Bands ",
+         "exercise_rating":"4.8",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Stretch Elbows Against Wall ",
+         "exercise_rating":"4.9",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calf Stretch Hands Against Wall ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Calves-SMR ",
+         "exercise_rating":"6.0",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Donkey Calf Raises ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Dumbbell Seated One-Leg Calf Raise ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Foot-SMR ",
+         "exercise_rating":"2.7",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Knee Circles ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Calves "
+      },
+      {
+         "exercise_name":" Alternating Floor Press ",
+         "exercise_rating":"6.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Around The Worlds ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bar Push-Up Smith Machine ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bar Throw And Press ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Barbell Bench Press - Medium Grip ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Barbell Bench Press-Wide Grip ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Barbell Guillotine Bench Press ",
+         "exercise_rating":"6.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Barbell Incline Bench Press Medium-Grip ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Behind Head Chest Stretch ",
+         "exercise_rating":"4.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bench Press - With Bands ",
+         "exercise_rating":"5.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bench Press With Short Bands ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bent-Arm Dumbbell Pullover ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bodyweight Flyes ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bosu Ball Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Burpee To Medicine Ball Press ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Butterfly ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Cable Chest Press ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Cable Crossover ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Cable Iron Cross ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chain Press ",
+         "exercise_rating":"5.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest And Front Of Shoulder Stretch ",
+         "exercise_rating":"3.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest Push (multiple response) ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest Push (single response) ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest Push from 3 point stance ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest Push with Run Release ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Chest Stretch on Stability Ball ",
+         "exercise_rating":"3.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Clapping Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Clock Push-Up ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Close-Hands Push-Up ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Cross Over - With Bands ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Barbell Bench Press ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Dumbbell Bench Press ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Dumbbell Flyes ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Explosive Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Push-Up ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Decline Smith Press ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Diamond Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dips - Chest Version ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dive Bomber Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Drop Push ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dumbbell Bench Press ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dumbbell Bench Press with Neutral Grip ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dumbbell Flyes ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Dynamic Chest Stretch ",
+         "exercise_rating":"5.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Elbows Back ",
+         "exercise_rating":"4.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Extended Range One-Arm Kettlebell Floor Press ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Feet-Elevated TRX Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Flat Bench Cable Flyes ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Forward Drag with Press ",
+         "exercise_rating":"6.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Front Raise And Pullover ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Hammer Grip Incline DB Bench Press ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Hand Release Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Heavy Bag Thrust ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Cable Chest Press ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Cable Flye ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Dumbbell Bench With Palms Facing In ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Dumbbell Flyes ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Dumbbell Flyes - With A Twist ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Dumbbell Press ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Dumbbell Press Reverse-Grip ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Push-Up ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Push-Up Depth Jump ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Push-Up Medium ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Push-Up Reverse Grip ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Incline Push-Up Wide ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Isometric Chest Squeezes ",
+         "exercise_rating":"7.1",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Isometric Wipers ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Leg-Over Floor Press ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Leverage Chest Press ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Leverage Decline Chest Press ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Leverage Incline Chest Press ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Low Cable Crossover ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Machine Bench Press ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Medicine Ball Chest Pass ",
+         "exercise_rating":"5.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Medicine-Ball Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Neck Press ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" One Arm Dumbbell Bench Press ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" One-Arm Flat Bench Dumbbell Flye ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" One-Arm Kettlebell Floor Press ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" One-Arm Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Plyo Kettlebell Pushups ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Plyo Push-up ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Push Up to Side Plank ",
+         "exercise_rating":"7.1",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Push-Up Wide ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Push-Ups With Feet Elevated ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Push-Ups With Feet On An Exercise Ball ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Pushups ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Pushups (Close and Wide Hand Positions) ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Side To Side Push-Up ",
+         "exercise_rating":"6.7",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Single-Arm Cable Crossover ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Single-Arm Push-Up ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Smith Machine Bench Press ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Smith Machine Decline Press ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Smith Machine Incline Bench Press ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Staggered Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Standing Cable Chest Press ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Straight-Arm Dumbbell Pullover ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Superman Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Suspended Chest Fly ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Suspended Push-Up ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Suspended Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Svend Press ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Tiger-Bend Push-Up ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Triple Clap Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Typewriter Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Weighted Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Weighted Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Wide-Grip Barbell Bench Press ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Wide-Grip Decline Barbell Bench Press ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Wide-Grip Decline Barbell Pullover ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Wide-Hands Push-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Chest "
+      },
+      {
+         "exercise_name":" Bottoms-Up Clean From The Hang Position ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Cable Wrist Curl ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Dumbbell Lying Pronation ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Dumbbell Lying Supination ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Farmer's Walk ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Finger Curls ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Kneeling Forearm Stretch ",
+         "exercise_rating":"5.2",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Palms-Down Dumbbell Wrist Curl Over A Bench ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Palms-Down Wrist Curl Over A Bench ",
+         "exercise_rating":"9.5",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Palms-Up Barbell Wrist Curl Over A Bench ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Palms-Up Dumbbell Wrist Curl Over A Bench ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Partner Farmer's Walk Competition ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Partner Suitcase Carry Competition ",
+         "exercise_rating":null,
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Plate Pinch ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Rickshaw Carry ",
+         "exercise_rating":"9.6",
+         "target_muscle":" Forearms "
+      },
+      {
+         "exercise_name":" Ankle On The Knee ",
+         "exercise_rating":"4.8",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Neck Bridge Supine ",
+         "exercise_rating":null,
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Barbell Glute Bridge ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Barbell Hip Thrust ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" One Knee To Chest ",
+         "exercise_rating":"2.7",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" One-Legged Cable Kickback ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Butt Lift (Bridge) ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Downward Facing Balance ",
+         "exercise_rating":"4.0",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Physioball Hip Bridge ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Piriformis-SMR ",
+         "exercise_rating":"6.6",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Flutter Kicks ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Pull Through ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Seated Glute ",
+         "exercise_rating":"3.1",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Seated Glute Stretch ",
+         "exercise_rating":null,
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Glute Bridge Hamstring Walkout ",
+         "exercise_rating":null,
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Single Leg Glute Bridge  ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Step-up with Knee Raise ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Glute Kickback ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Hip Extension with Bands ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Suspended Hip Thrust ",
+         "exercise_rating":null,
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Hip Lift with Band ",
+         "exercise_rating":"6.0",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Knee Across The Body ",
+         "exercise_rating":"3.5",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Kneeling Jump Squat ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Kneeling Squat ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Leg Lift ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Lying Glute ",
+         "exercise_rating":"3.0",
+         "target_muscle":" Glutes "
+      },
+      {
+         "exercise_name":" Around The World Pull-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Assisted Chin-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Band Assisted Pull-Up ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Bent-Arm Barbell Pullover ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Burpee Pull-Up ",
+         "exercise_rating":null,
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Cable Incline Pushdown ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Catch and Overhead Throw ",
+         "exercise_rating":"5.8",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Chair Lower Back Stretch ",
+         "exercise_rating":"3.2",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Chin-Up ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Close-Grip Front Lat Pulldown ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Dynamic Back Stretch ",
+         "exercise_rating":"4.8",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Elevated Cable Rows ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Full Range-Of-Motion Lat Pulldown ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Gironda Sternum Chins ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Kipping Muscle Up ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Lats "
+      },
+      {
+         "exercise_name":" Atlas Stone Trainer ",
+         "exercise_rating":"6.4",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Lower Back-SMR ",
+         "exercise_rating":"4.5",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Atlas Stones ",
+         "exercise_rating":"9.5",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Partner Flat-Bench Back Extension ",
+         "exercise_rating":null,
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Partner Flat-Bench Back Extension With Hold ",
+         "exercise_rating":null,
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Axle Deadlift ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Partner Supermans With Alternating High-Five ",
+         "exercise_rating":null,
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Pelvic Tilt Into Bridge ",
+         "exercise_rating":"5.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Cat Stretch ",
+         "exercise_rating":"4.9",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Pyramid ",
+         "exercise_rating":"1.0",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Rack Pull with Bands ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Child's Pose ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Rack Pulls ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Crossover Reverse Lunge ",
+         "exercise_rating":"3.9",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Dancer's Stretch ",
+         "exercise_rating":"5.4",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Reverse Band Deadlift ",
+         "exercise_rating":null,
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Seated Back Extension ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Deadlift with Bands ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Deadlift with Chains ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Seated Good Mornings ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Deficit Deadlift ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Standing Pelvic Tilt ",
+         "exercise_rating":"3.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Stiff Leg Barbell Good Morning ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Hug A Ball ",
+         "exercise_rating":"5.4",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Superman ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Weighted Ball Hyperextension ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Hug Knees To Chest ",
+         "exercise_rating":"4.4",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Hyperextensions (Back Extensions) ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Hyperextensions With No Hyperextension Bench ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Keg Load ",
+         "exercise_rating":null,
+         "target_muscle":" Lower Back "
+      },
+      {
+         "exercise_name":" Alternating Kettlebell Row ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Lying T-Bar Row ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Rhomboids-SMR ",
+         "exercise_rating":"5.7",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Alternating Renegade Row ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Man Maker ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Seated Cable Rows ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Seated One-arm Cable Pulley Rows ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Barbell Deadlift Bent Row Complex ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bent Over Barbell Row ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Middle Back Shrug ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Middle Back Stretch ",
+         "exercise_rating":"3.8",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Mixed Grip Chin ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Single-Arm Landmine Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Sled Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bent Over One-Arm Long Bar Row ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bent Over Two-Arm Long Bar Row ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bent Over Two-Dumbbell Row ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" One Arm Chin-Up ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Smith Machine Bent Over Row ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Spinal Stretch ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bent Over Two-Dumbbell Row With Palms In ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Bodyweight Mid Row ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" One-Arm Dumbbell Row ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Straight Bar Bench Mid Rows ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Suspended Row ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Dumbbell Incline Row ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" One-Arm Kettlebell Row ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" One-Arm Long Bar Row ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" T-Bar Row ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" T-Bar Row with Handle ",
+         "exercise_rating":"9.5",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Incline Bench Pull ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Inverted Row ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Partner Facing Feet-Elevated Side Plank With Band Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Partner Facing Plank With Band Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Two-Arm Kettlebell Row ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Inverted Row with Straps ",
+         "exercise_rating":"6.4",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Leverage High Row ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Partner Facing Side Plank With Band Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Pendlay Rown ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Upper Back Stretch ",
+         "exercise_rating":"4.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Yates Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Lying Cambered Barbell Row ",
+         "exercise_rating":"6.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Plate Row ",
+         "exercise_rating":null,
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Reverse Grip Bent-Over Rows ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" Yates Row Reverse Grip ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Middle Back "
+      },
+      {
+         "exercise_name":" 90-Degree Jump Squat Twist ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Alien Squat ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" All Fours Quad Stretch ",
+         "exercise_rating":"5.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Thruster ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Alternate Leg Diagonal Bound ",
+         "exercise_rating":"6.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Backward Drag ",
+         "exercise_rating":"6.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Walking Lunge ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bear Crawl Sled Drags  ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bench Jump ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Front-To-Back Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Burpee ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bench Sprint ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bicycling ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Full Squat ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Hack Squat ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Burpee Box Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Burpee Over Barbell ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Burpee Tuck Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bicycling, Stationary ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bodyweight Lunge ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Lunge ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Reverse Lunge ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Depth Jump Leap ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Burppe Box Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Butt Kicks ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Squat To A Bench ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bodyweight Reverse Lunge ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Side Split Squat ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Squat ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Double Leg Butt Kick ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Double Under ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Cable Deadlifts ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Step Ups ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Walking Lunge ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Elevated Back Lunge ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bodyweight Squat ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Cone Hops (or hurdle hops) ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Squat To A Bench ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Squat To A Box ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Barbell Step Ups ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Alternating Lunge ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Front Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Intermediate Hip Flexor and Quad Stretch ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Cable Hip Adduction ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Squat Clean ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Elliptical Trainer ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Fast Kick With Arm Circles ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bodyweight Walking Lunge ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Bosu Ball Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lying Prone Quadriceps ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Squat (Bodybuilder) ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Squat (Clean Grip) ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Pistol Squat ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Goblet Squat ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Iron Crosses (stretch) ",
+         "exercise_rating":"5.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jefferson Squats ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Car Deadlift ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Chair Squat ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Rope Jumping ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Sumo Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Fast Skipping ",
+         "exercise_rating":"5.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Feet Jack ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Box Squat ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Box Squat with Bands ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Machine Squat ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Squat Push Press ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Squats With Two Kettlebells ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Plie Dumbbell Squat ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Pop Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Jump Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jerk Dip Squat ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jog In Place ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jogging-Treadmill ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Clean from Blocks ",
+         "exercise_rating":"9.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Clean Pull  ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Close-Stance Dumbbell Front Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Rowing, Stationary ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Thruster Progression ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kneeling Hip Flexor ",
+         "exercise_rating":"5.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Football Up-Down ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Forward Band Walk ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Box Squat with Chains ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Arm Dumbbell Overhead Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Medicine Ball Ninja ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Mountain Climbers ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front-To-Back Squat With Belt ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Power Jerk  ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Power Snatch from Blocks ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Quad Stretch ",
+         "exercise_rating":"4.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Quadriceps-SMR ",
+         "exercise_rating":"5.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Lunge and Curl ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Lunges ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Overhead Squat  ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jump Lunge To Feet Jack ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jump Squat ",
+         "exercise_rating":"7.6",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Conan's Wheel ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Defensive Slide ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Slide Jump Shot ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Running Lunge ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Running, Treadmill ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Sandbag Load ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lateral Hop 4 Times To Sprint ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lateral Hop Holding Dumbbells ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Frankenstein Squat ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Freehand Jump Squat ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Cone Sprint Drill ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Box Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Narrow Stance Hack Squats ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Narrow Stance Leg Press ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Goblet Squat ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Gorilla Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Hack Squat ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Quick Leap ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Rear Leg Raises ",
+         "exercise_rating":"3.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Recumbent Bike ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Pistol Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jumping Jack ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Slow Jog ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Scissors Jump ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Seated Leg Press ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lateral Speed Step ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Leg Extensions ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Frog Hops ",
+         "exercise_rating":"3.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Barbell Squat ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg High Box Squat ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Narrow Stance Squats ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Hang Clean ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Hang Clean - Below the Knees ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Reverse Band Box Squat ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Rear Lunge ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Seated Box Jump ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Squat ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jumping Jacks ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Smith Machine Leg Press ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Smith Machine Pistol Squat ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Side Hop-Sprint ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Leg Press ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Leverage Deadlift ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Front Barbell Squat To A Bench ",
+         "exercise_rating":"5.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Split Squat with Dumbbells ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Hop Progression ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Olympic Squat  ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" On Your Side Quad Stretch ",
+         "exercise_rating":"3.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Heaving Snatch Balance ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" High Knee Jog ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Hip Flexion with Band ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Ice Skater ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Reverse Band Power Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Reverse Burpee ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Dumbbell Squat Snatch ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Stride Jump Crossover ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Jumping Knee Up Down ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Curtsy Lunge ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Smith Machine Squat ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Side Lunge ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Side Lunge Touching Heel ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Side Standing Long Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Side to Side Box Shuffle ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Linear Depth Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Split Squat With Kettlebells ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Sprawl Frog Kick ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Square Hop ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Lateral Hop ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Leg Extension ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" On-Your-Back Quad Stretch ",
+         "exercise_rating":"3.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" One Half Locust ",
+         "exercise_rating":"4.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Weighted Sissy Squat ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Rickshaw Deadlift  ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Rocket Jump ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Suspended Split Squat ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Thigh Killa ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Fire Feet ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Pistol Squat ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Kettlebell Side Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Smith Single-Leg Split Squat ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single Arm Overhead Kettlebell Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single Leg Butt Kick ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Looking At Ceiling ",
+         "exercise_rating":"4.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Squat Jerk ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Squat with Bands ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Press ",
+         "exercise_rating":"9.6",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" One Leg Barbell Squat ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" One-Arm Overhead Kettlebell Squats ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Weighted Squat ",
+         "exercise_rating":"7.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Tire Flip ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Trail Running/Walking ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Snatch ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Snatch Balance  ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single Leg Push-off ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lunge Heel Kick ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lunge Sprint ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Lying Machine Squat ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Squat with Chains ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Squat with Plate Movers ",
+         "exercise_rating":"6.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Skater Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Squat To Box ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" One-Arm Side Deadlift ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Overhead Squat ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wide-Stance Barbell Squat ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wide-Stance Jump Squat To Close-Stance ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wide-Stance Leg Press ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Trap Bar Deadlift ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Trap Bar Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Vertical Mountain Climber ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Walking High Knees ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Snatch from Blocks ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Southpaw Sprawl ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Speed Box Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Speed Squats ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Squats - With Bands ",
+         "exercise_rating":"5.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Stairmaster ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Standing Elevated Quad Stretch ",
+         "exercise_rating":"2.7",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Single-Leg Stride Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Sit Squats ",
+         "exercise_rating":"6.1",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Yoke Walk ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Zercher Squats ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Walking Lunge With Overhead Weight ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Walking, Treadmill ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wall Ball Squat ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Split Clean ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Split Jerk ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Split Jump ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Standing Hip Flexors ",
+         "exercise_rating":"4.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Standing Long Jump ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Skating ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Sled Drag - Harness ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wall Sprawl ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Wall Squat ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Weighted Jump Squat  ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Star Jump ",
+         "exercise_rating":null,
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Step Mill ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Sled Push ",
+         "exercise_rating":"6.8",
+         "target_muscle":" Quadriceps "
+      },
+      {
+         "exercise_name":" Alternating Cable Shoulder Press ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Bear Crawl Fire Feet ",
+         "exercise_rating":null,
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Alternating Deltoid Raise ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Bear Crawl Shoulder Tap ",
+         "exercise_rating":null,
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Bent Over Dumbbell Rear Delt Raise With Head On Bench ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Alternating Kettlebell Press ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Anti-Gravity Press ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Bent Over Low-Pulley Side Lateral ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Arm Circles ",
+         "exercise_rating":"5.1",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Arnold Dumbbell Press ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Bradford/Rocky Presses ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Cable Internal Rotation ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Axle Clean And Press ",
+         "exercise_rating":null,
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Back Flyes - With Bands ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Cable Rear Delt Fly ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Cable Rope Rear-Delt Rows ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Backward Medicine Ball Throw ",
+         "exercise_rating":"6.8",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Cable Seated Lateral Raise ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Cable Shoulder Press ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Band Pull Apart ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Car Drivers ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Chair Upper Body Stretch ",
+         "exercise_rating":"4.1",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Circus Bell ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Barbell Front Raise ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Clean and Jerk ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Barbell Incline Shoulder Raise ",
+         "exercise_rating":"6.5",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Clean and Press ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Barbell Rear Delt Row ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Barbell Shoulder Press ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Battling Ropes ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Shoulders "
+      },
+      {
+         "exercise_name":" Barbell Shrug ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Barbell Shrug Behind The Back ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Cable Shrugs ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Calf-Machine Shoulder Shrug ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Clean Shrug ",
+         "exercise_rating":"6.8",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Dumbbell Shrug ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Kettlebell Sumo High Pull ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Leverage Shrug ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Scapular Pull-Up ",
+         "exercise_rating":"6.6",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Smith Machine Behind the Back Shrug ",
+         "exercise_rating":"7.8",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Smith Machine Shrug ",
+         "exercise_rating":"9.2",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Smith Machine Upright Row ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Snatch Shrug ",
+         "exercise_rating":"6.2",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Standing Dumbbell Upright Row ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Upright Cable Row ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Traps "
+      },
+      {
+         "exercise_name":" Band Skull Crusher ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Bench Dips ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Bench Press - Powerlifting ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Bench Press with Chains ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Close-Grip EZ-Bar Press ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Incline Push-Up Close-Grip ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Parallel Bar Dip ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Board Press ",
+         "exercise_rating":"7.7",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Body Tricep Press ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Close-Grip Push-Up off of a Dumbbell ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Cobra Triceps Extension ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" JM Press ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Pin Presses ",
+         "exercise_rating":"7.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Push-Ups - Close Triceps Position ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Reverse Band Bench Press ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Body Triceps Press Using Flat Bench ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Body-Up ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Decline Close-Grip Bench To Skull Crusher ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Decline Dumbbell Triceps Extension ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" JM Press ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Reverse Grip Triceps Pushdown ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Cable Incline Triceps Extension ",
+         "exercise_rating":"7.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Cable Lying Triceps Extension ",
+         "exercise_rating":"8.6",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Decline EZ Bar Triceps Extension ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" JM Press With Bands ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Kneeling Cable Triceps Extension ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Reverse Triceps Bench Press ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Ring Dips ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Cable One Arm Tricep Extension ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Dip Machine ",
+         "exercise_rating":"8.8",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Dips - Triceps Version ",
+         "exercise_rating":"9.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Low Cable Triceps Extension ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Lying Close-Grip Barbell Triceps Extension Behind The Head ",
+         "exercise_rating":"8.7",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Russian Bar Dip ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Seated Bent-Over One-Arm Dumbbell Triceps Extension ",
+         "exercise_rating":"7.5",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Cable Rope Overhead Triceps Extension ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Chain Handle Extension ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Dumbbell Floor Press ",
+         "exercise_rating":"9.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Dumbbell One-Arm Triceps Extension ",
+         "exercise_rating":"8.5",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Lying Close-Grip Barbell Triceps Press To Chin ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Seated Bent-Over Two-Arm Dumbbell Triceps Extension ",
+         "exercise_rating":"8.2",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Close-Grip Barbell Bench Press ",
+         "exercise_rating":"9.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Close-Grip Dumbbell Press ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Dumbbell Tricep Extension -Pronated Grip ",
+         "exercise_rating":"6.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" EZ-Bar Skullcrusher ",
+         "exercise_rating":"9.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Lying Dumbbell Tricep Extension ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Lying Triceps Press ",
+         "exercise_rating":"8.1",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Seated Triceps Press ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Sled Overhead Triceps Extension ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Floor Press ",
+         "exercise_rating":"8.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Floor Press with Chains ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Machine Triceps Extension ",
+         "exercise_rating":"7.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" One Arm Floor Press ",
+         "exercise_rating":"7.3",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Smith Machine Close-Grip Bench Press ",
+         "exercise_rating":"8.0",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Speed Band Overhead Triceps ",
+         "exercise_rating":null,
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Incline Barbell Triceps Extension ",
+         "exercise_rating":"8.9",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" One Arm Pronated Dumbbell Triceps Extension ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" One Arm Supinated Dumbbell Triceps Extension ",
+         "exercise_rating":"8.4",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Standing Bent-Over One-Arm Dumbbell Triceps Extension ",
+         "exercise_rating":"7.9",
+         "target_muscle":" Triceps "
+      },
+      {
+         "exercise_name":" Overhead Triceps ",
+         "exercise_rating":"3.3",
+         "target_muscle":" Triceps "
+      }
+   ]
+}

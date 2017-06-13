@@ -1,0 +1,216 @@
+body {
+    background: url("../img/weight-lift-3.png") no-repeat right bottom;
+    background-attachment: fixed;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: "Roboto", "Lucida Grande", Verdana, Arial, sans-serif;
+}
+
+.container-custom {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.grid-block {
+    display: flex;
+    height: auto;
+    position: relative;
+}
+
+.side-nav-list {
+    list-style: none outside;
+    font-size: 1rem;
+    line-height: 1.6;
+    margin-bottom: 1.25rem;
+    font-family: inherit;
+}
+
+.side-nav-list > li > a {
+    display: none;
+    overflow: hidden;
+    padding: 0 0.5em 0 0.5em;
+    font-size: 0.8em;
+    color: #000022;
+    font-weight: 600;
+}
+
+.side-nav {
+    position: fixed;
+    top: 30%;
+    float: left;
+    box-shadow: 0.1em 0.1em 0.2em #000022;
+    width: 3em;
+    display: inline;
+    z-index: 3000;
+    padding: 0;
+    /*min-height: 35%;*/
+    min-width: 3em;
+    overflow: hidden;
+    transition: width 0.5s;
+    transition-timing-function: ease;
+}
+
+.side-nav:hover {
+    width: 12%;
+}
+
+.side-nav-list > li {
+    padding: 1em 0.1em 0.1em 0;
+}
+
+.side-nav-list {
+    padding-left: 0.1em;
+}
+
+.side-list-li:hover {
+    background-color: #B0BEC5;
+}
+
+.top-nav {
+    width: 100%;
+    box-shadow: 0 0.2em 0.5em rgba(0, 0, 0, .26);
+    top: 0;
+    left: 0;
+    right: 0;
+    background-color: #90A4AE;
+    position: relative;
+    height: 8em;
+
+}
+
+.custom {
+    margin: 7%;
+}
+
+.logo-custom {
+    position: relative;
+    width: 20%;
+    height: inherit;
+}
+
+.account {
+    width: 50px;
+    height: 50px;
+}
+
+.drop-icon {
+    height: 10px;
+    width: 10px;
+    position: absolute;
+    right: 9em;
+    top: -3em;
+}
+
+#exercise-form {
+    display: none;
+}
+
+/*.drop-down-content {*/
+    /*display: none;*/
+    /*position: absolute;*/
+    /*left: 70%;*/
+    /*right: 0;*/
+    /*background-color: #f9f9f9;*/
+    /*min-width: 160px;*/
+    /*box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);*/
+    /*z-index: 1;*/
+/*}*/
+
+/*.dropdown:hover .drop-down-content {*/
+    /*display: block;*/
+/*}*/
+
+.dropdown {
+    left: -10%;
+    float: right;
+    top: -6em;
+}
+
+.caret {
+    margin-top: 2em;
+}
+
+.card-divider > h3 {
+    margin: 0;
+    color: #040f16;
+}
+
+.custom-card {
+    margin-top: 10em;
+    margin-left: 5em;
+}
+
+.row-margin-top {
+    margin-top: 2em;
+    margin-left: 6em;
+}
+
+.align-center {
+    text-align: center;
+}
+
+div > h4 {
+    display: inherit;
+}
+
+.card-inline {
+    display: inline-block;
+}
+
+.lmargin {
+    margin-left: 10%;
+}
+
+#user-weight {
+    width: 40%;
+}
+
+#profile-card {
+    width: 95%;
+}
+
+.display-inline {
+    display: inline-block;
+}
+
+.workout-text {
+    font-weight: 600;
+    color: #014c8c;
+    text-transform: uppercase;
+    float: left;
+    letter-spacing: 0.2em;
+    font-size: 0.9em
+}
+
+.workout-text + p {
+
+    padding-left: 0.5em;
+    text-transform: uppercase;
+    float: left;
+    font-size: 0.9em
+}
+
+.clear {
+    clear: both;
+}
+
+.image {
+    position: relative;
+}
+
+.img-overlay {
+    position: absolute;
+    bottom: -5%;
+    background-color: #040f16;
+    color: white;
+    padding: 0.5em;
+}
+
+th {
+    text-align: center;
+}
+
+p {
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans", Verdana, Arial, sans-serif; !important;
+}
