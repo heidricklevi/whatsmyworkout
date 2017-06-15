@@ -1,20 +1,19 @@
-from django.conf.urls import url
-from . import views
-from rest_framework.urlpatterns import format_suffix_patterns
 from django.conf.urls import include
-
-from django.contrib.auth.views import login
+from django.conf.urls import url
 from django.contrib.auth.views import logout
 from django.contrib.auth.views import logout_then_login
 from django.contrib.auth.views import password_change
 from django.contrib.auth.views import password_change_done
 from django.contrib.auth.views import password_reset
 from django.contrib.auth.views import password_reset_complete
-from django.contrib.auth.views import password_reset_done
 from django.contrib.auth.views import password_reset_confirm
+from django.contrib.auth.views import password_reset_done
 from rest_framework import routers
-from .views import *
+from rest_framework.urlpatterns import format_suffix_patterns
 from rest_framework_jwt.views import obtain_jwt_token
+
+from . import views
+from .views import *
 
 router = routers.SimpleRouter()
 router.register(r'users', UserViewSet)
