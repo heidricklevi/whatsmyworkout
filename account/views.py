@@ -169,6 +169,9 @@ def profile(request):
     return render(request, 'registration/profile.html', {'form': form})
 
 
+def vuetest(request):
+    return render(request, "../templates/vue-test.html")
+
 
 @login_required
 def dashboard(request):
