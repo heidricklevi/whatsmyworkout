@@ -5,15 +5,21 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import App from '../App.vue'
+import CreateWorkout from '../components/create-workout.vue'
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
     {
-      path: '/',
+      path: '/dashboard/',
       name: 'Hello',
       component: App
+    },
+    {
+      path: '/create-workout/',
+      name: 'create-workout',
+      component: CreateWorkout
     }
   ]
 })

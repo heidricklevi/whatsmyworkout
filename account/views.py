@@ -7,6 +7,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.utils.decorators import method_decorator
 from django.views.decorators.http import require_POST
 from .forms import UserAccountForm, LoginForm, ProfileForm, UserEditForm, WorkoutForm, ExerciseForm
 from django.contrib import messages
@@ -27,6 +28,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 import time
 from rest_framework import pagination
 from rest_framework import generics
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.middleware.csrf import get_token
 
 
 import json
@@ -82,7 +85,6 @@ class WorkoutList(APIView):
 
 
 class WorkoutViewSet(viewsets.ModelViewSet):
-
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
@@ -121,7 +123,8 @@ class UserLogin(APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+
     lookup_field = 'username'
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -170,7 +173,7 @@ def profile(request):
 
 
 def vuetest(request):
-    return render(request, "../templates/vue-test.html")
+    return render(request, "../../whatsmyworkout-vue/index.html")
 
 
 @login_required

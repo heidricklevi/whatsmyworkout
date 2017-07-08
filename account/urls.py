@@ -10,13 +10,13 @@ from django.contrib.auth.views import password_reset_confirm
 from django.contrib.auth.views import password_reset_done
 from rest_framework import routers
 from rest_framework.urlpatterns import format_suffix_patterns
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, verify_jwt_token, refresh_jwt_token
 
 from . import views
 from .views import *
 
 router = routers.SimpleRouter()
-router.register(r'users', UserViewSet)
+router.register(r'users', UserViewSet, base_name='users')
 router.register(r'workouts', WorkoutViewSet, base_name='user-workouts')
 router.register(r'exercise', ExerciseViewSet, base_name='user-exercise')
 router.register(r'exercises', ExercisesViewSet, base_name='exercises-list')
@@ -38,6 +38,7 @@ urlpatterns = [
 
 
 
+
     url(r'^dashboard/edit/$', views.complete_profile, name='complete_profile'),
     url(r'^dashboard/create-workout/$', views.create_workout, name='create_workout'),
     url(r'^dashboard/profile/$', views.profile, name='profile'),
@@ -49,7 +50,10 @@ urlpatterns = [
     url(r'^v1/user/login/$', views.UserLogin.as_view()),
     url(r'^api/exercises/$', views.ExercisesList.as_view()),
     url(r'^api/workouts/$', views.WorkoutList.as_view()),
-    url(r'^api-token-auth/', obtain_jwt_token),
+
+    url(r'^v1/login/', obtain_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
 
 
     url(r'^$', views.index, name='index'),

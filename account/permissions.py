@@ -4,7 +4,7 @@ from rest_framework import permissions
 class IsAccountOwner(permissions.BasePermission):
     def has_object_permission(self, request, view, obj, account):
         if request.user:
-            return account ==request.user
+            return account == request.user
         return False
 
 
@@ -17,6 +17,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 
 
 class IsAdminOrAccountOwner(permissions.BasePermission):
+
     def has_object_permission(self, request, view, obj):
         return obj.id == request.user.id or request.user.is_superuser
 

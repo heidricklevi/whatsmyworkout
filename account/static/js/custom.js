@@ -94,10 +94,11 @@ $.ajaxSetup({
     $('#workout-form').submit(function (e) {
         e.preventDefault();
         var form = new FormData($('#workout-form').get(0));
+        var baseURL = "http://127.0.0.1:8000/";
 
         $.ajax({
             type: 'POST',
-            url: "/v1/workouts/",
+            url: baseURL + "v1/workouts/",
             data: form,
             cache: false,
             processData: false,
@@ -127,7 +128,7 @@ $.ajaxSetup({
 
     });
 
-    // Consume REST api for asynchronous logging into application for user
+    // Consume REST api for asynchronous login
 
     $('#login-form').submit(function (e) {
         e.preventDefault();

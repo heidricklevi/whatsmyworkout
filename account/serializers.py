@@ -9,7 +9,7 @@ from rest_framework import pagination
 from rest_framework.response import Response
 
 
-class UserSerializer(serializers.HyperlinkedModelSerializer):
+class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     avatar = serializers.ImageField(source='profile.avatar', default='/media/levi_heidrick.jpg')
     gender = serializers.CharField(source='profile.gender', default='Male')
@@ -101,12 +101,14 @@ class ExerciseSerializer(serializers.ModelSerializer):
 class WorkoutSerializer(serializers.ModelSerializer):
     exercises = ExerciseSerializer(many=True)
 
+
     class Meta:
         model = Workout
-        fields = '__all__'
+        fields = ('user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type')
 
     def create(self, validated_data):
         self.create_or_update(validated_data)
+        print(validated_data)
         return super(WorkoutSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
@@ -114,6 +116,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         return super(WorkoutSerializer, self).update(instance, validated_data)
 
     def create_or_update(self, validated_data):
+
         exercises = validated_data.pop('exercises')
         print(exercises)
 

@@ -347,6 +347,7 @@ div > ul.dropdown-header-settings {
 .row-margin-top {
     margin-top: 2em;
     margin-left: 6em;
+    width: 100%;
 }
 
 .align-center {
@@ -435,7 +436,15 @@ p {
     display: none;
 }
 
+
+
 @media only screen and (max-width: 768px) {
+
+    div > div.row-margin-top {
+        margin: 0;
+    }
+
+
     
     .side-nav-main {
         display: none;

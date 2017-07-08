@@ -66,26 +66,61 @@ $(function () {
 
 
 
-var csrftoken = $.cookie('csrftoken');
+// var csrftoken = $.cookie('csrftoken');
+//
+// function csrfSafeMethod(method) {
+//
+//
+//
+//     return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+//
+// }
+// $.ajaxSetup({
+//     beforeSend: function(xhr, settings) {
+//         if (!csrfSafeMethod(settings.type)) {
+//             xhr.setRequestHeader("X-CSRFToken", csrftoken);
+//             console.log($.cookie());
+//         }
+//     }
+// });
+// $.ajaxSetup({
+//     beforeSend: function(xhr, settings) {
+//         console.log(document.cookie);
+//         if (settings.type == 'POST' || settings.type == 'PUT' || settings.type == 'DELETE') {
+//             function getCookie(name) {
+//                 var cookieValue = null;
+//                 if (document.cookie && document.cookie != '') {
+//                     var cookies = document.cookie.split(';');
+//                     for (var i = 0; i < cookies.length; i++) {
+//                         var cookie = jQuery.trim(cookies[i]);
+//                         // Does this cookie string begin with the name we want?
+//                         if (cookie.substring(0, name.length + 1) == (name + '=')) {
+//                             cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+//                             break;
+//                         }
+//                     }
+//                 }
+//                 return cookieValue;
+//             }
+//
+//                 // Only send the token to relative URLs i.e. locally.
+//             xhr.setRequestHeader("X-CSRFToken", getCookie('csrftoken'));
+//
+//         }
+//     }
+// });
 
-function csrfSafeMethod(method) {
-
-// these HTTP methods do not require CSRF protection
-
-return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-
-}
-$.ajaxSetup({
-    beforeSend: function(xhr, settings) {
-        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
-            xhr.setRequestHeader("X-CSRFToken", csrftoken);
-        }
-    }
-});
  $(document).ready(function()
  {
 
-
+//     $.ajax({
+//     url: 'http://127.0.0.1:8000/get-token/',
+//     type: 'GET',
+//     dataType: 'json',
+//     success: function(data) {
+//        $.cookie('csrftoken', data.token); // set the csrftoken cookie
+//     }
+// });
 
 
 
@@ -94,10 +129,11 @@ $.ajaxSetup({
     $('#workout-form').submit(function (e) {
         e.preventDefault();
         var form = new FormData($('#workout-form').get(0));
+        var baseURL = "http://127.0.0.1:8000/";
 
         $.ajax({
             type: 'POST',
-            url: "/v1/workouts/",
+            url: baseURL + "v1/workouts/",
             data: form,
             cache: false,
             processData: false,

@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 
 import os
 from .config import *
+import datetime
 
 
 
@@ -75,19 +76,50 @@ INSTALLED_APPS = [
     # 'allauth',
     # 'rest_auth.registration',
     'rest_auth',
+    'corsheaders',
 ]
 
+CORS_ORIGIN_ALLOW_ALL = True
 REST_USE_JWT = True
+
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7)
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+
+    'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = (
+    '127.0.0.1:8000',
+    '127.0.0.1:8081',
+)
+
+CORS_ORIGIN_WHITELIST = (
+
+    'http://127.0.0.1:8081',
+    'localhost:8081/',
+    'http://127.0.0.1:8081/'
+)
+
+CORS_ALLOW_HEADERS = (
+    'x-requested-with',
+
+    'content-type',
+    'accept',
+    'origin',
+    'Authorization',
+    'X-CSRFToken',
+)
 
 ROOT_URLCONF = 'whatsmyworkout.urls'
 
