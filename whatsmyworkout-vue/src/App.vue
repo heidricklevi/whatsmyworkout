@@ -1,5 +1,5 @@
-<template>
- <div>
+<template >
+ <div v-if="isAuthenticated">
     <div class="sidenav">
         <div class="close-button"><a href="#"><i class="fa fa-times fa-close"></i></a></div>
         <ul class="side-nav-list">
@@ -54,16 +54,79 @@
         </div>
     </div>
 </div>
+<div class="container-fluid" v-else="isAuthenticated">
+    <div class="row">
+        <div class="col-sm-12 col-md-8 push-md-2">
+            <div class="card text-center">
+              <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs">
+                  <li class="nav-item">
+                    <a class="nav-link active" href="#">Active</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link disabled" href="#">Disabled</a>
+                  </li>
+                </ul>
+              </div>
+              <div class="card-block">
+                <h4 class="card-title">Special title treatment</h4>
+                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                  <form v-on:submit.prevent="userLogin" id="loginform" method="post">
+                    <div class="form-group row">
+                      <label for="username" class="col-2 col-form-label">Username</label>
+                      <div class="col-10">
+                        <input v-model="username" class="form-control" type="text" id="username">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <label for="password" class="col-2 col-form-label">Password</label>
+                      <div class="col-10">
+                        <input v-model="password" class="form-control" type="password" id="password">
+                      </div>
+                    </div>
+                    <div class="form-group row">
+                      <div class="col-10">
+                        <input class="btn btn-primary" type="submit" value="Login">
+                      </div>
+                    </div>
+                  </form>
+              </div>
+            </div>
+         </div>
+    </div>
+</div>
 </template>
 
 <script>
+
+import { userAuth, login, authenticationStatus } from '../src/auth/auth'
+import router from '../src/router/index'
+
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      msg: 'Welcome to Your Vue.js App',
+      isAuthenticated: authenticationStatus(),
+      username: '',
+      password: '',
     }
-  }
+  },
+    watch: {
+      isAuthenticated: function (val) {
+          router.go('/');
+      }
+    },
+    methods: {
+      userLogin: function () {
+          login(this.username, this.password);
+          console.log(userAuth);
+      },
+        
+    }
 }
 </script>
 

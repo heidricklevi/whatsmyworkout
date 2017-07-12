@@ -2,18 +2,28 @@
  * Created by LeviJamesH on 7/8/2017.
  */
 
-import Router from 'vue-router'
+import router from '../router/index'
 import axios from 'axios'
+import jwt_decoded from 'jwt-decode'
 
-var baseURL = "http://127.0.0.1:8000/";
-axios.defaults.headers.common['Authorization'] = getJWT();
+let baseURL = "http://127.0.0.1:8000/";
 
+export var userAuth = {
+    isAuthenticated: authenticationStatus(),
+    user: {
+        firstName: '',
+        lastName: '',
+        username: '',
+        id: 0,
+        email: '',
+        avatar: '',
 
-var userAuth = {};
+    }
+};
 
 export function login(username, pass) {
 
-    var credentials = {
+    let credentials = {
         username: username,
         password: pass,
     };
@@ -22,24 +32,22 @@ export function login(username, pass) {
     ).then(function (response) {
 
         var JWT = response.data.token;
-        var expiryDate = new Date();
-        var newDate = expiryDate.getDate() + 7;
 
-        expiryDate.setDate(newDate);
         localStorage.setItem("JWT", JWT);
-        localStorage.setItem("Expiry", expiryDate);
 
+        axios.defaults.headers.common['Authorization'] = getJWTHeader();
 
+        userAuth.isAuthenticated = true;
+        setUserAuth(response.data);
 
-        console.log(response);
-
+        router.go('/')
     }).catch(function (errors) {
 
         console.log(errors);
     })
 }
 
-function getJWT() {
+function getJWTHeader() {
     return "JWT " + localStorage.getItem("JWT");
 }
 
@@ -47,4 +55,48 @@ function getUserAccount(username) {
 
     return axios.get(baseURL + "v1/users/" + username);
 }
+
+export function setUserAuth(data) {
+
+    
+    userAuth.user.username = data.user.username;
+    userAuth.user.email = data.user.email;
+    userAuth.user.firstName = data.user.first_name;
+    userAuth.user.lastName = data.user.last_name;
+    userAuth.user.avatar = data.user.avatar;
+    userAuth.user.id = data.user.id;
+
+    setUID(userAuth.user.id);
+
+    return userAuth;
+}
+
+export function setUID(id) {
+    localStorage.setItem("UID", id);
+}
+
+export function authenticationStatus() {
+    var JWT = localStorage.getItem('JWT');
+    var decoded = jwt_decoded(JWT);
+
+    return decoded.exp > Date.now() / 1000;
+
+}
+
+function verifyJWT(JWT) {
+
+    axios.post(baseURL + 'api-token-verify/', { token: JWT})
+        .then(function (response) {
+            sessionStorage.setItem("auth", true);
+            userAuth.isAuthenticated = true;
+            var data = {user: response.user};
+            setUserAuth(data);
+
+
+        }).catch(function (err) {
+            sessionStorage.setItem("auth", false);
+    });
+}
+
+
 

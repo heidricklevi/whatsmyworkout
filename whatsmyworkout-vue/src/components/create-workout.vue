@@ -55,7 +55,7 @@
                     </div>
 
                 </form>
-                <form v-on:submit.prevent="user" id="loginform" method="post">
+                <form v-on:submit.prevent="userLogin" id="loginform" method="post">
                     <input v-model="username" type="text" id="id_username">
                     <input v-model="password" type="password" id="id_password">
                     <input type="submit" class="btn btn-primary" value="Login">
@@ -69,7 +69,7 @@
 <script>
  import myDatepicker from 'vue-datepicker'
  import axios from 'axios'
- import { login } from '../auth/auth'
+ import { login, userAuth } from '../auth/auth'
 
 
 
@@ -116,9 +116,6 @@
         }
       },
       methods: {
-        user: function () {
-          console.log(axios.get('http://127.0.0.1:8000/v1/users/ljheidrick/'))
-        },
         userLogin: function () {
           login(this.username, this.password);
         },

@@ -83,7 +83,8 @@ CORS_ORIGIN_ALLOW_ALL = True
 REST_USE_JWT = True
 
 JWT_AUTH = {
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7)
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'account.helper.jwt_response_payload_handler',
 }
 
 MIDDLEWARE = [
