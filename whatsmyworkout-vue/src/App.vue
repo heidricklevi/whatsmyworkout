@@ -1,131 +1,108 @@
 <template >
  <div v-if="isAuthenticated">
-    <div class="sidenav">
-        <div class="close-button"><a href="#"><i class="fa fa-times fa-close"></i></a></div>
-        <ul class="side-nav-list">
-                <li><router-link to="/" ><img class="side-nav-img" src="../src/assets/img/dashboard.svg">Dashboard</router-link></li>
-                <li><router-link to="/create-workout/"><img class="side-nav-img" src="../src/assets/img/clipboard.svg">Create Workouts</router-link></li>
-                <li><a href="#"><img class="side-nav-img" src="../src/assets/img/calendar.svg">Schedule</a></li>
-                <li><a href="#"><img class="side-nav-img" src="../src/assets/img/envelope.svg">Share</a></li>
-                <li><a href="#"><img class="side-nav-img" src="../src/assets/img/archive.svg">Archives</a></li>
-        </ul>
-
-    </div>
-     <div id="side-nav" class="side-nav-main">
-        <ul class="side-nav-list-main">
-                    <li class="side-nav-dashboard-li"><a class="dashboard-workout-text" href="#"><img class="side-nav-img" src="../src/assets/img/dashboard.svg"></a></li>
-                    <li><router-link class="create-workout-text" to="/create-workout/" ><img class="side-nav-img" src="../src/assets/img/clipboard.svg"></router-link></li>
-                    <li class="side-nav-li"><a class="calendar-workout-text" href="#"><img class="side-nav-img" src="../src/assets/img/calendar.svg"></a></li>
-                    <li class="side-nav-li"><a class="share-workout-text" href="#"><img class="side-nav-img" src="../src/assets/img/envelope.svg"></a></li>
-                    <li class="side-nav-li"><a class="archive-workout-text" href="#"><img class="side-nav-img" src="../src/assets/img/archive.svg"></a></li>
-        </ul>
-    </div>
-    <div id="main" class="main">
-        <nav class="header">
-            <div class="header-logo">
-                <div class="header-toggle">
-                    <i class="fa fa-bars ham-menu" aria-hidden="true"></i>
-                    <a class="navbar-brand" href="#"><img src="../src/assets/img/logo.png" class="rounded-circle size-for-mobile"></a>
-                </div>
-            </div>
-            <div class="header-nav">
-                <div class="header-nav-item logout"><a class="header-nav-link" href="{% url 'logout' %}">
-                    <img src="../src/assets/img/logout.svg"> </a></div>
-                <div class="header-nav-item settings " > <div class="header-nav-link" >
-                    <img src="../src/assets/img/settings.svg">
-                    </div>
-                </div>
-                <div class="header-nav-item user-avatar">
-                    <div class="header-nav-link" id="dd">
-                        <img  data-toggle="dropdown" src="../src/assets/img/levi_heidrick.jpg"
-                                                  class="avatar cursor-point">
-                        <ul class="dropdown-header-settings dropdown-menu">
-                            <li><div><img src="../src/assets/img/settings.svg"> <a href="#">Account Settings</a></div></li>
-                            <li><div><img src="../src/assets/img/Name_24.png"><a href="#">Profile Settings</a></div></li>
-                            <div class="dropdown-divider"></div>
-                            <li><div><img src="../src/assets/img/logout.svg"><a href="#">Logout</a></div></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="container-fluid">
-            <router-view></router-view>
-        </div>
-    </div>
+    <dashboard></dashboard>
 </div>
-<div class="container-fluid" v-else="isAuthenticated">
-    <div class="row">
-        <div class="col-sm-12 col-md-8 push-md-2">
-            <div class="card text-center">
-              <div class="card-header">
-                <ul class="nav nav-tabs card-header-tabs">
-                  <li class="nav-item">
-                    <a class="nav-link active" href="#">Active</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Disabled</a>
-                  </li>
-                </ul>
-              </div>
-              <div class="card-block">
-                <h4 class="card-title">Special title treatment</h4>
-                <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                  <form v-on:submit.prevent="userLogin" id="loginform" method="post">
-                    <div class="form-group row">
-                      <label for="username" class="col-2 col-form-label">Username</label>
-                      <div class="col-10">
-                        <input v-model="username" class="form-control" type="text" id="username">
-                      </div>
+    <v-app v-else="isAuthenticated" standalone>
+        <div>
+            <v-toolbar fixed class="transparent theme--dark"  dark>
+              <v-toolbar-title><img src="../src/assets/img/logo.png" class="rounded-circle size-for-mobile"></v-toolbar-title>
+              <v-spacer></v-spacer>
+              <v-toolbar-items>
+                  <a class="btn btn--flat grey--text text--darken-4 title" >Sign up</a>
+                  <router-link to="/login/" class="btn btn--flat grey--text text--darken-4 title">Login</router-link>
+              </v-toolbar-items>
+
+            </v-toolbar>
+            <section v-show="hero" id="hero" class="elevation-12">
+                <div class="parallax" style="height: 400px;">
+                    <div class="parallax_image-container">
+                        <img src="../src/assets/img/gym.jpg" class="parallax__image" style="height: 400px; width: 199px; display: block; opacity: .6">
                     </div>
-                    <div class="form-group row">
-                      <label for="password" class="col-2 col-form-label">Password</label>
-                      <div class="col-10">
-                        <input v-model="password" class="form-control" type="password" id="password">
-                      </div>
+                    <div class="parallax__content">
+                        <div class="layout row align-vert-center align-horiz-center">
+                            <div class="flex text-xs-center xs12">
+                                <h1 class="text--blue-grey darken-4  display-2">What's My Workout?</h1>
+                            </div>
+                        </div>
                     </div>
-                    <div class="form-group row">
-                      <div class="col-10">
-                        <input class="btn btn-primary" type="submit" value="Login">
-                      </div>
-                    </div>
-                  </form>
-              </div>
-            </div>
-         </div>
-    </div>
+                </div>
+            </section>
+            <main>
+                <v-container fluid>
+                    <router-view></router-view>
+              </v-container>
+            </main>
+
+        </div>
+        <v-footer style="position: absolute; width: 100%; bottom: 0; height: 100px">
+                <v-spacer></v-spacer>
+                <div>copy Levi Heidrick</div>
+        </v-footer>
+  </v-app>
 </div>
 </template>
 
 <script>
 
-import { userAuth, login, authenticationStatus } from '../src/auth/auth'
+import { userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../src/auth/auth'
 import router from '../src/router/index'
+import jwt_decode from 'jwt-decode'
+import axios from 'axios'
+import dashboard from '../src/components/dashboard.vue'
 
 export default {
   name: 'app',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
+      drawer: true,
+      items: [
+          { title: 'Home', icon: 'dashboard' },
+          { title: 'About', icon: 'question_answer' }
+          ],
+       cItems: [
+           { src: "http://lorempixel.com/400/200/"},
+           { src: "http://lorempixel.com/400/200/"},
+           { src: "http://lorempixel.com/400/200/"},
+           { src: "http://lorempixel.com/400/200/"}
+       ],
+      mini: false,
+      right: null,
       isAuthenticated: authenticationStatus(),
       username: '',
       password: '',
+      userAuth: userAuth,
+      hero: true,
     }
   },
     watch: {
-      isAuthenticated: function (val) {
+      isAuthenticated: function () {
           router.go('/');
       }
     },
     methods: {
-      userLogin: function () {
-          login(this.username, this.password);
-          console.log(userAuth);
-      },
-        
+      logout: function (){
+          logout();
+          router.go('/')
+      }
+
+    },
+    components: {
+      'dashboard': dashboard
+    },
+    created: function () {
+        if (this.isAuthenticated) {
+            var JWT = localStorage.getItem("JWT");
+            axios.defaults.headers.common['Authorization'] = getJWTHeader();
+            var decoded = jwt_decode(JWT);
+            axios.get("http://127.0.0.1:8000/" + "v1/users/" + decoded.username +'/')
+                .then(function (response) {
+                    userAuth.user = response.data;
+
+                }).catch(function (err) {
+                    console.log(err)
+            });
+            console.log(userAuth);
+        }
     }
 }
 </script>

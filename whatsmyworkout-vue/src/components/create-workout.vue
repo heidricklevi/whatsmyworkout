@@ -1,10 +1,10 @@
 <template>
     <div>
        <div class="row row-margin-top">
-           <h3>Create Workouts</h3>
+           <h3>Create | Edit | Manage Your Workouts</h3>
          <div class="row">
              <div class="col-md-4 small-12">
-                <form v-on:submit.prevent="onSubmit" id="workoutform" method="post" enctype="multipart/form-data">
+                <form v-on:submit.prevent="onSubmit" id="workoutform" method="post">
                      <div class="form-group row">
                          <div class="col-8">
                              <input v-model="title" id="id-title" type="text" name="title" placeholder="Give this workout a name">
@@ -44,7 +44,7 @@
                     </div>
                     <div class="form-group row">
                         <div class="col-8">
-                            <input id="id_user" name="user" value="3">
+                            <input id="id_user" name="user" :value="userAuth.user.id" hidden>
                         </div>
                     </div>
 
@@ -55,12 +55,6 @@
                     </div>
 
                 </form>
-                <form v-on:submit.prevent="userLogin" id="loginform" method="post">
-                    <input v-model="username" type="text" id="id_username">
-                    <input v-model="password" type="password" id="id_password">
-                    <input type="submit" class="btn btn-primary" value="Login">
-                </form>
-
          </div>
          </div>
        </div>
@@ -68,6 +62,7 @@
 </template>
 <script>
  import myDatepicker from 'vue-datepicker'
+
  import axios from 'axios'
  import { login, userAuth } from '../auth/auth'
 
@@ -80,11 +75,10 @@
       date: {
           time: ''
       },
-      username: '',
-      password: '',
       title: '',
       target_muscle: '',
       training_type: '',
+      userAuth: userAuth,
       target_muscles: [
           { text: 'Traps', value: 'Traps'},
           { text: 'Neck', value: "Neck"},
@@ -112,74 +106,34 @@
             var date;
             if (!this.date.time){ date = Date.now(); }
             else { date = this.date.time; }
+            this.title = this.title.replace(/ /g, '-');
             return this.title + '-' + date + '-' + this.target_muscle;
         }
       },
       methods: {
-        userLogin: function () {
-          login(this.username, this.password);
-        },
         onSubmit: function (event) {
-
-            var form = new FormData($('#workoutform').get(0));
-            var baseURL = "http://127.0.0.1:8000/";
-            var serverURL = "dev.whatsmyworkout.co/";
-
-            $.ajax({
-                type: 'POST',
-                url: baseURL + "v1/workouts/",
-                xhrFields: { withCredentials: true },
-                data: form,
-                mimeType: "multipart/form-data",
-                cache: false,
-                processData: false,
-                contentType: false,
-                success: function () {
-                    $('#workoutform').before('<div class="alert alert-success alert-dismissable fade show"' +
-                        ' role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close">' +
-                        '<span aria-hidden="true"></span></button> Successfully created workout </div>');
-
-                    $('.alert').fadeTo(2000, 500).slideUp(500, function () { //auto disappear after 2 seconds
-                       $('.alert').slideUp(500);
-                    });
-
-                    $('#workout-form').hide();
-
-                }
-            });
-            return false;
-
-        },
-          login: function () {
-
-            var username = $('#id_username').val();
-            var password = $('#id_password').val();
             var baseURL = "http://127.0.0.1:8000/";
 
-            let data = {
-                username: username,
-                password: password
+            var data = {
+                title: this.title,
+                date_for_completion: this.date.time,
+                target_muscle: this.target_muscle,
+                training_type: this.training_type,
+                slug: this.slug,
+                user: this.userAuth.user.id,
+                exercises: [],
             };
 
-            $.ajax({
-                type: 'POST',
-                url: baseURL + 'v1/login/',
-                contentType: 'application/json; charset=utf-8',
-                xhrFields: { withCredentials: true },
-                crossDomain: true,
-                data: JSON.stringify(data),
-                dataType: 'json',
-                success: function (data) {
-                    console.log("Successful Login");
-                    localStorage.setItem('JWT', data.token);
-                    $.cookie('token', data.token);
-                }
 
-            });
+            axios.post(baseURL + 'v1/workouts/', data)
+                .then(function (response) {
+                    console.log('success')
+                })
 
-            return false;
 
-        }
+
+
+        },
       },
       components: {
           'date-picker': myDatepicker

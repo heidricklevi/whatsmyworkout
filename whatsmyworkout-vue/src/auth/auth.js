@@ -32,28 +32,31 @@ export function login(username, pass) {
     ).then(function (response) {
 
         var JWT = response.data.token;
-
         localStorage.setItem("JWT", JWT);
-
         axios.defaults.headers.common['Authorization'] = getJWTHeader();
 
         userAuth.isAuthenticated = true;
         setUserAuth(response.data);
 
-        router.go('/')
+        router.go(-2);
     }).catch(function (errors) {
 
         console.log(errors);
     })
 }
 
-function getJWTHeader() {
+export function getJWTHeader() {
     return "JWT " + localStorage.getItem("JWT");
 }
 
-function getUserAccount(username) {
+export function getUserAccount(username) {
 
-    return axios.get(baseURL + "v1/users/" + username);
+     axios.get(baseURL + "v1/users/" + username)
+         .then(function (response) {
+             return response;
+         }).catch(function (err) {
+             return err;
+     })
 }
 
 export function setUserAuth(data) {
@@ -66,36 +69,24 @@ export function setUserAuth(data) {
     userAuth.user.avatar = data.user.avatar;
     userAuth.user.id = data.user.id;
 
-    setUID(userAuth.user.id);
-
     return userAuth;
 }
 
-export function setUID(id) {
-    localStorage.setItem("UID", id);
+
+export function logout() {
+    localStorage.removeItem("JWT");
+    authenticationStatus();
 }
 
 export function authenticationStatus() {
     var JWT = localStorage.getItem('JWT');
-    var decoded = jwt_decoded(JWT);
+    var decoded = {};
 
+    if (!JWT) { return false; }
+
+    decoded = jwt_decoded(JWT);
     return decoded.exp > Date.now() / 1000;
 
-}
-
-function verifyJWT(JWT) {
-
-    axios.post(baseURL + 'api-token-verify/', { token: JWT})
-        .then(function (response) {
-            sessionStorage.setItem("auth", true);
-            userAuth.isAuthenticated = true;
-            var data = {user: response.user};
-            setUserAuth(data);
-
-
-        }).catch(function (err) {
-            sessionStorage.setItem("auth", false);
-    });
 }
 
 

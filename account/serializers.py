@@ -99,7 +99,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
 
 class WorkoutSerializer(serializers.ModelSerializer):
-    exercises = ExerciseSerializer(many=True)
+    exercises = ExerciseSerializer(many=True, allow_null=True, required=False)
 
 
     class Meta:
