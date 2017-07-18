@@ -1,59 +1,74 @@
 <template >
- <div>
-    <div class="sidenav">
-        <div class="close-button"><a href="#"><i class="fa fa-times fa-close"></i></a></div>
-        <ul class="side-nav-list">
-                <li><router-link to="/" ><img class="side-nav-img" src="../assets/img/dashboard.svg">Dashboard</router-link></li>
-                <li><router-link to="/create-workout/"><img class="side-nav-img" src="../assets/img/clipboard.svg">Create Workouts</router-link></li>
-                <li><a href="#"><img class="side-nav-img" src="../assets/img/calendar.svg">Schedule</a></li>
-                <li><a href="#"><img class="side-nav-img" src="../assets/img/envelope.svg">Share</a></li>
-                <li><a href="#"><img class="side-nav-img" src="../assets/img/archive.svg">Archives</a></li>
-        </ul>
+ <v-app id="dashboard">
+    <v-navigation-drawer persistent light :mini-variant.sync="mini" v-model="drawer" overflow>
+      <v-toolbar flat class="transparent">
+        <v-list class="pa-0">
+          <v-list-tile avatar tag="div">
+            <v-list-tile-avatar>
+              <img :src="userAuth.user.avatar" />
+            </v-list-tile-avatar>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ fullName }}</v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action>
+              <v-btn icon @click.native.stop="mini = !mini">
+                <v-icon>chevron_left</v-icon>
+              </v-btn>
+            </v-list-tile-action>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+        <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+    <v-toolbar fixed class="indigo darken-4" dark>
+      <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+      <v-toolbar-items>
+          <img src="../assets/img/logo.png" style="width: 100px;">
+      </v-toolbar-items>
+      <v-container fluid>
+          <v-spacer></v-spacer>
+          <v-layout row>
+              <v-flex offset-xs10 offset-md11 style="text-align: center">
+                <v-btn icon style="margin-bottom: 10%">
+                  <v-menu left>
+                      <v-icon slot="activator" fa class="fa fa-2x">cogs</v-icon>
+                      <v-list>
+                          <v-list-tile>
+                              <v-icon>settings</v-icon>
+                              <v-list-tile-title style="margin: 24px">Account Settings</v-list-tile-title>
+                          </v-list-tile>
+                          <v-list-tile>
+                              <v-icon>perm_identity</v-icon>
+                              <v-list-tile-title style="margin: 24px">Profile Settings</v-list-tile-title>
+                          </v-list-tile>
+                          <v-list-tile >
+                              <v-icon v-on:click="logout">power_settings_new</v-icon>
+                              <v-list-tile-title style="margin: 24px">Log Off</v-list-tile-title>
+                          </v-list-tile>
+                      </v-list>
+                  </v-menu>
+                </v-btn>
+              </v-flex>
+          </v-layout>
 
-    </div>
-     <div id="side-nav" class="side-nav-main">
-        <ul class="side-nav-list-main">
-                    <li class="side-nav-dashboard-li"><router-link to="/" class="dashboard-workout-text"><img class="side-nav-img" src="../assets/img/dashboard.svg"></router-link></li>
-                    <li><router-link class="create-workout-text" to="/create-workout/" ><img class="side-nav-img" src="../assets/img/clipboard.svg"></router-link></li>
-                    <li class="side-nav-li"><a class="calendar-workout-text" href="#"><img class="side-nav-img" src="../assets/img/calendar.svg"></a></li>
-                    <li class="side-nav-li"><a class="share-workout-text" href="#"><img class="side-nav-img" src="../assets/img/envelope.svg"></a></li>
-                    <li class="side-nav-li"><a class="archive-workout-text" href="#"><img class="side-nav-img" src="../assets/img/archive.svg"></a></li>
-        </ul>
-    </div>
-    <div id="main" class="main">
-        <nav class="header">
-            <div class="header-logo">
-                <div class="header-toggle">
-                    <i class="fa fa-bars ham-menu" aria-hidden="true"></i>
-                    <a class="navbar-brand" href="#"><img src="../assets/img/logo.png" class="rounded-circle size-for-mobile"></a>
-                </div>
-            </div>
-            <div class="header-nav">
-                <div class="header-nav-item logout"><router-link to="/" class="header-nav-link" >
-                    <img src="../assets/img/logout.svg"> </router-link></div>
-                <div class="header-nav-item settings " > <div class="header-nav-link" >
-                    <img src="../assets/img/settings.svg">
-                    </div>
-                </div>
-                <div class="header-nav-item user-avatar">
-                    <div class="header-nav-link" id="dd">
-                        <img  data-toggle="dropdown" :src="userAuth.user.avatar"
-                                                  class="avatar cursor-point">
-                        <ul class="dropdown-header-settings dropdown-menu">
-                            <li><div><img src="../assets/img/settings.svg"> <a href="#">Account Settings</a></div></li>
-                            <li><div><img src="../assets/img/Name_24.png"><a href="#">Profile Settings</a></div></li>
-                            <div class="dropdown-divider"></div>
-                            <li><div><img src="../assets/img/logout.svg"><a @click="logout" href="">Logout</a></div></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </nav>
-        <div class="container-fluid">
-            <router-view></router-view>
-        </div>
-    </div>
-</div>
+      </v-container>
+    </v-toolbar>
+    <main>
+      <v-container fluid>
+        <router-view></router-view>
+      </v-container>
+    </main>
+  </v-app>
 </template>
 
 <script>
@@ -67,13 +82,28 @@ export default {
     name: 'dashboard',
     data () {
         return {
+            drawer: true,
+            mini: false,
+            right: null,
             userAuth: userAuth,
+            items: [
+                { title: 'Dashboard', icon: 'dashboard', link: '/'},
+                { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
+                { title: 'Manage Workouts', icon: 'schedule', link: '/'},
+                { title: 'Share Workouts', icon: 'share', link: '/'},
+                { title: 'Archive Workouts', icon: 'archive', link: '/'}
+            ]
+        }
+    },
+    computed: {
+        fullName: function (event) {
+            return this.userAuth.user.first_name + ' ' + this.userAuth.user.last_name;
         }
     },
     methods: {
       logout: function (){
           logout();
-          router.go('/')
+          window.location.href = '/';
       },
 
     },

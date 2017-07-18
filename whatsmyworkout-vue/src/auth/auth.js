@@ -38,7 +38,8 @@ export function login(username, pass) {
         userAuth.isAuthenticated = true;
         setUserAuth(response.data);
 
-        router.go(-2);
+        window.location.href = '/';
+
     }).catch(function (errors) {
 
         console.log(errors);
