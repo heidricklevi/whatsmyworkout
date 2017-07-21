@@ -8,6 +8,7 @@ import App from '../App.vue'
 import CreateWorkout from '../components/create-workout.vue'
 import Login from '../components/login.vue'
 import Dashboard from '../components/dashboard.vue'
+import AccountSettings from '../components/account-settings.vue'
 import { userAuth, } from '../auth/auth'
 import Vuetify from 'vuetify'
 Vue.use(Router);
@@ -33,6 +34,12 @@ export default new Router({
       path: '/login/',
       name: 'login',
       component: Login
+    },
+    {
+      path: '/account-settings/',
+      name: 'account-settings',
+      component: AccountSettings,
+
     }
   ],
 
