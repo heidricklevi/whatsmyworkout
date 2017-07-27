@@ -68,42 +68,56 @@
                         <v-flex xs12 md6>
                             <v-card style="width: 100%">
                                 <v-toolbar dark class="primary">
+
                                     <v-btn icon @click.native="dialog = false" dark>
                                         <v-icon>close</v-icon>
                                     </v-btn>
                                     <v-toolbar-title>{{ userAuth.user.username }}'s Profile</v-toolbar-title>
                                     <v-spacer></v-spacer>
                                     <v-toolbar-items>
-                                        <v-btn dark flat @click.native="dialog = false">Save</v-btn>
+                                        <v-btn dark flat @click.native="updateProfile">Save</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>
+                                <form id="profile-form" enctype="multipart/form-data" method="post" @submit.prevent="updateProfile">
                                 <v-card-media :src="userAuth.user.avatar" style="height: 250px">
-                                    <v-btn :loading="loading3" @click.native="loader = 'loading3'" :disabled="loading3" class="blue-grey white--text" style="position: absolute; bottom: 0; right: 0">
 
+                                    <v-btn class="blue-grey white--text" @click.native="onFocus" style="position: absolute; bottom: 0; right: 0">
                                         Change
                                         <v-icon right dark>cloud_upload</v-icon>
+                                        <input  id="image" type="file" ref="fileInput" @change="onFileChange">
+                                        <span v-model="filename"></span>
                                     </v-btn>
                                 </v-card-media>
                                 <v-list three-line subheader>
                                     <v-subheader>Profile Settings</v-subheader>
-                                    <v-list-tile>
-                                        <v-flex xs12 sm12 md4 offset-md2>
-                                            <v-list-tile-title>Username</v-list-tile-title>
-                                        </v-flex>
+                                    <li class="ma-3">
+                                        <v-layout>
+                                            <v-flex xs12 sm12 md4 offset-md2>
+                                                <v-list-tile-title>Username</v-list-tile-title>
+                                            </v-flex>
 
-                                        <v-flex xs12 sm12 md6>
-                                            <v-text-field name="username" :label="userAuth.user.username" prepend-icon="perm_identity" single-line></v-text-field>
-                                        </v-flex>
-                                    </v-list-tile>
-                                    <v-list-tile>
-                                        <v-flex xs12 sm12 md4 offset-md2>
-                                            <v-list-tile-title>Gender</v-list-tile-title>
-                                        </v-flex>
-                                        <v-flex xs12 sm12 md6>
-                                            <v-select v-bind:items="genderOpts" v-model="genderSelect" :label="userAuth.user.gender"></v-select>
-                                        </v-flex>
-                                    </v-list-tile>
-                                    <li>
+                                            <v-flex xs12 sm12 md6>
+                                                <v-text-field v-model="username"
+                                                              name="username"
+                                                              :label="userAuth.user.username"
+                                                              prepend-icon="perm_identity"
+                                                              single-line></v-text-field>
+                                            </v-flex>
+                                        </v-layout>
+                                    </li>
+                                    <li class="ma-3">
+                                        <v-layout>
+                                            <v-flex xs12 sm12 md4 offset-md2>
+                                                <v-list-tile-title>Gender</v-list-tile-title>
+                                            </v-flex>
+                                            <v-flex xs12 sm12 md6>
+                                                <v-select v-bind:items="genderOpts"
+                                                          v-model="genderSelect"
+                                                          :label="userAuth.user.gender"></v-select>
+                                            </v-flex>
+                                        </v-layout>
+                                    </li>
+                                    <li class="ma-3">
                                         <v-layout row>
                                             <v-flex xs11 offset-xs1 sm12 md4 offset-md2>
                                                 <v-list-tile-title>Body Fat <em>(percentage)</em>
@@ -113,12 +127,51 @@
                                                 <v-slider v-bind:max="75" v-model="bf"></v-slider>
                                             </v-flex>
                                             <v-flex xs2 md1>
-                                                <input v-model="bf" type="number" :value="userAuth.user.body_fat" style="width: 100%">
+                                                <input v-model="bf" style="width: 100%">
+                                            </v-flex>
+                                        </v-layout>
+                                    </li>
+                                    <li class="ma-3">
+                                        <v-layout row>
+                                            <v-flex xs11 offset-xs1 sm12 md4 offset-md2>
+                                                <v-list-tile-title>Weight (lbs)</v-list-tile-title>
+                                            </v-flex>
+                                            <v-flex xs9 offset-xs1 md4>
+                                                <v-slider v-bind:max="500" v-model="wt"></v-slider>
+                                            </v-flex>
+                                            <v-flex xs2 md1>
+                                                <input v-model="wt" style="width: 100%">
+                                            </v-flex>
+                                        </v-layout>
+                                    </li>
+                                    <li class="ma-3">
+                                        <v-layout row>
+                                            <v-flex xs11 offset-xs1 offset-md2>
+                                                <v-divider></v-divider>
+                                                <v-text-field
+                                                    label="write something about yourself (e.g. goals in the gym, hobbies etc)"
+                                                    v-model="about"
+                                                    counter
+                                                    max="500"
+                                                    multi-line
+                                                    single-line
+                                                    >
+                                                </v-text-field>
                                             </v-flex>
                                         </v-layout>
                                     </li>
                                 </v-list>
+                                    </form>
                             </v-card>
+
+                            <v-snackbar
+                            :top="y === 'top'"
+                            v-model="snackbar"
+                            :success="context === 'success'"
+                            :error="context === 'error'">
+                                {{ snackbarMessage }}
+                                <v-btn flat class="red--text" @click.native="snackbar = false">Close</v-btn>
+                            </v-snackbar>
                         </v-flex>
                     </v-layout>
                 </v-dialog>
@@ -144,13 +197,21 @@ export default {
     name: 'dashboard',
     data () {
         return {
+            snackbarMessage: 'Status will appear here',
+            context: '',
+            y: 'top',
+            snackbar: false,
+            userAuth: userAuth,
+            filename: '',
+            username: userAuth.user.username,
+            about: userAuth.user.about,
+            wt: userAuth.user.weight,
             bf: userAuth.user.body_fat,
             genderSelect: null,
             dialog: false,
             drawer: true,
             mini: false,
             right: null,
-            userAuth: userAuth,
             items: [
                 { title: 'Dashboard', icon: 'dashboard', link: '/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
@@ -159,21 +220,91 @@ export default {
                 { title: 'Archive Workouts', icon: 'archive', link: '/'}
             ],
             genderOpts: [
-                { text: 'Male' },
                 { text: 'Female' },
+                { text: 'Male' },
             ]
         }
+    },
+    watch: {
+      userAuth: function () {
+          this.wt = userAuth.user.weight
+      }
     },
     computed: {
         fullName: function (event) {
             return this.userAuth.user.first_name + ' ' + this.userAuth.user.last_name;
         }
     },
+
     methods: {
       logout: function (){
           logout();
           window.location.href = '/';
       },
+      getFormData (files) {
+          const forms = []
+          for (const file of files) {
+              const form = new FormData()
+              form.append('data', file, file.name)
+              forms.push(form)
+          }
+          return forms
+      },
+      onFocus: function () {
+          this.$refs.fileInput.click();
+      },
+      updateProfile: function (e) {
+          var baseURL = "http://127.0.0.1:8000/";
+          var formData = new FormData();
+          var imageElement = document.getElementById('image');
+          var self = this;
+
+          formData.append('username', this.username);
+          formData.append('gender', this.genderSelect);
+          formData.append('weight', this.wt);
+          formData.append('body_fat', this.bf);
+          formData.append('about', this.about);
+
+
+          if (imageElement.files.length !== 0){
+              formData.append('avatar', imageElement.files[0] );
+          }
+
+
+
+
+
+          axios.put(baseURL + 'v1/users/'+userAuth.user.username +'/', formData)
+              .then(function (response) {
+                  self.snackbarMessage = "Successfully updated your profile";
+                  self.context = 'success';
+                  self.snackbar = true;
+                  console.log(response);
+
+
+                  userAuth.user = response.data;
+
+
+              }).catch(function (err) {
+                  console.log(err)
+          });
+      },
+      onFileChange ($event) {
+        const files = $event.target.files || $event.dataTransfer.files
+        const form = this.getFormData(files);
+        console.log(form);
+        if (files) {
+          if (files.length > 0) {
+            this.filename = [...files].map(file => file.name).join(', ')
+          } else {
+            this.filename = null
+          }
+        } else {
+          this.filename = $event.target.value.split('\\').pop()
+        }
+        this.$emit('input', this.filename);
+        this.$emit('formData', form);
+      }
 
     },
     components: {
@@ -184,6 +315,11 @@ export default {
 </script>
 
 <style>
+
+    input[type=file] {
+    position: absolute;
+    left: -99999px;
+  }
 
     .profile-card {
         margin: 0 25% 0 35%;

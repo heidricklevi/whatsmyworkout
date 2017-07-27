@@ -98,6 +98,7 @@ export default {
                 .then(function (response) {
                     userAuth.user = response.data;
 
+
                 }).catch(function (err) {
                     console.log(err)
             });
