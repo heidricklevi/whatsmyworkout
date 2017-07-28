@@ -141,6 +141,7 @@
                                             </v-flex>
                                             <v-flex xs2 md1>
                                                 <input v-model="wt" style="width: 100%">
+                                                <input :value="userAuth.user.weight" v-model="weight">
                                             </v-flex>
                                         </v-layout>
                                     </li>
@@ -192,6 +193,8 @@ import router from '../router/index'
 import jwt_decode from 'jwt-decode'
 import AccountSettings from '../components/account-settings.vue'
 import axios from 'axios'
+
+
 
 export default {
     name: 'dashboard',
@@ -270,23 +273,46 @@ export default {
               formData.append('avatar', imageElement.files[0] );
           }
 
-
-
-
-
           axios.put(baseURL + 'v1/users/'+userAuth.user.username +'/', formData)
               .then(function (response) {
                   self.snackbarMessage = "Successfully updated your profile";
                   self.context = 'success';
                   self.snackbar = true;
-                  console.log(response);
-
 
                   userAuth.user = response.data;
 
+              }).catch(function (error) {
+                  if (error.response) {
+                  // The request was made and the server responded with a status code
+                  // that falls out of the range of 2xx
 
-              }).catch(function (err) {
-                  console.log(err)
+                      self.snackbarMessage = "There was an error updating your profile: \n"+ 'Status' +'\n'+ error.response.status;
+                      self.context = 'error';
+                      self.snackbar = true;
+
+
+                      console.log(error.response.data);
+                      console.log(error.response.status);
+                      console.log(error.response.headers);
+                } else if (error.request) {
+                  // The request was made but no response was received
+                  // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                  // http.ClientRequest in node.js
+
+                      self.snackbarMessage = "There was an error generating a response from the server: \n"+error.request;
+                      self.context = 'error';
+                      self.snackbar = true;
+                      console.log(error.request);
+                } else {
+                  // Something happened in setting up the request that triggered an Error
+
+                      self.snackbarMessage = "There was an error in the request: "+error.message;
+                      self.context = 'error';
+                      self.snackbar = true;
+                      console.log('Error', error.message);
+                }
+
+                console.log(error.config);
           });
       },
       onFileChange ($event) {

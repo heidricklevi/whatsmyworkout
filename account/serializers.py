@@ -11,7 +11,7 @@ from rest_framework.response import Response
 
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
-    avatar = serializers.ImageField(source='profile.avatar', default='/media/levi_heidrick.jpg')
+    avatar = serializers.ImageField(source='profile.avatar', required=False)
     gender = serializers.CharField(source='profile.gender', default='Male')
     body_fat = serializers.IntegerField(source='profile.body_fat', default=12)
     about = serializers.CharField(source='profile.about', default='This is my About')
@@ -32,16 +32,19 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
     def update(self, instance, validated_data):
-        instance.profile.avatar = validated_data.get('avatar', validated_data['profile']['avatar'])
-        instance.profile.body_fat = validated_data.get('body_fat', validated_data['profile']['body_fat'])
-        instance.profile.about = validated_data.get('about', validated_data['profile']['about'])
-        instance.profile.weight = validated_data.get('weight', validated_data['profile']['weight'])
+        profile_data = validated_data.pop('profile', None)
+        avatar = profile_data.get('avatar', None)
+
+        if avatar is not None:
+            instance.profile.avatar = profile_data.get('avatar', None)
+
+        instance.profile.body_fat = profile_data.get('body_fat', None)
+        instance.profile.about = profile_data.get('about', None)
+        instance.profile.weight = profile_data.get('weight', None)
 
         instance.save()
 
         password = validated_data.get('password', None)
-
-        profile_data = validated_data.pop('profile', None)
 
         if password:
             instance.set_password(password)
