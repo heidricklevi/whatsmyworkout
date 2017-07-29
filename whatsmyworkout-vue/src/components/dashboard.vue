@@ -141,7 +141,6 @@
                                             </v-flex>
                                             <v-flex xs2 md1>
                                                 <input v-model="wt" style="width: 100%">
-                                                <input :value="userAuth.user.weight" v-model="weight">
                                             </v-flex>
                                         </v-layout>
                                     </li>
@@ -201,6 +200,7 @@ export default {
     data () {
         return {
             snackbarMessage: 'Status will appear here',
+            weight: '',
             context: '',
             y: 'top',
             snackbar: false,
@@ -228,11 +228,7 @@ export default {
             ]
         }
     },
-    watch: {
-      userAuth: function () {
-          this.wt = userAuth.user.weight
-      }
-    },
+    props: ['computedAuth'],
     computed: {
         fullName: function (event) {
             return this.userAuth.user.first_name + ' ' + this.userAuth.user.last_name;

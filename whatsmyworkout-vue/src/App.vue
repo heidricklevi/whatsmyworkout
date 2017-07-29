@@ -1,6 +1,8 @@
 <template >
  <div v-if="isAuthenticated">
-    <dashboard></dashboard>
+     <div v-if="computedAuth">
+    <dashboard :computed-auth="computedAuth"></dashboard>
+     </div>
 </div>
     <v-app v-else="isAuthenticated" standalone>
         <div>
@@ -79,6 +81,12 @@ export default {
           router.go('/');
       }
     },
+    computed: {
+      computedAuth: function () {
+          if (!this.userAuth) return null;
+          return this.userAuth;
+      }
+    },
     methods: {
       logout: function (){
           logout();
@@ -89,7 +97,8 @@ export default {
     components: {
       'dashboard': dashboard
     },
-    created: function () {
+    mounted: function () {
+        var self = this;
         if (this.isAuthenticated) {
             var JWT = localStorage.getItem("JWT");
             axios.defaults.headers.common['Authorization'] = getJWTHeader();
@@ -97,6 +106,7 @@ export default {
             axios.get("http://127.0.0.1:8000/" + "v1/users/" + decoded.username +'/')
                 .then(function (response) {
                     userAuth.user = response.data;
+
 
 
                 }).catch(function (err) {
