@@ -83,8 +83,8 @@ export default {
     },
     computed: {
       computedAuth: function () {
-          if (!this.userAuth) return null;
-          return this.userAuth;
+          if (!this.userAuth.user) return null;
+          return this.userAuth.user;
       }
     },
     methods: {
@@ -106,8 +106,6 @@ export default {
             axios.get("http://127.0.0.1:8000/" + "v1/users/" + decoded.username +'/')
                 .then(function (response) {
                     userAuth.user = response.data;
-
-
 
                 }).catch(function (err) {
                     console.log(err)

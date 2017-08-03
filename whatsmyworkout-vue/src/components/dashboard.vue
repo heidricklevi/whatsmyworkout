@@ -63,7 +63,7 @@
                         </v-btn>
                     </v-flex>
                 </v-layout>
-                <v-dialog v-model="dialog" fullscreen transition="dialog-bottom-transition" :overlay=false>
+                <v-dialog :computed-auth="computedAuth" v-model="dialog" fullscreen transition="dialog-bottom-transition" :overlay=false>
                     <v-layout row justify-center wrap>
                         <v-flex xs12 md6>
                             <v-card style="width: 100%">
@@ -120,28 +120,41 @@
                                     <li class="ma-3">
                                         <v-layout row>
                                             <v-flex xs11 offset-xs1 sm12 md4 offset-md2>
-                                                <v-list-tile-title>Body Fat <em>(percentage)</em>
-                                                </v-list-tile-title>
+                                                <v-list-tile-title>Weight, Body Fat</v-list-tile-title>
                                             </v-flex>
-                                            <v-flex xs9 offset-xs1 md4>
-                                                <v-slider v-bind:max="75" v-model="bf"></v-slider>
+                                            <v-flex xs3 md2 v-show="weightEdit" id="weight-edit">
+                                                    <v-text-field v-model="wt" type="number" ref="wtInput" suffix="lbs."></v-text-field>
                                             </v-flex>
-                                            <v-flex xs2 md1>
-                                                <input v-model="bf" style="width: 100%">
+                                            <v-flex xs6 md2 v-show="weightEdit">
+                                                     <v-btn  @click.native="saveWt" icon class="blue-grey--text" style="margin-top: -5%; margin-left: -5%">
+                                                    <v-icon style="font-size: 16px">check_circle</v-icon></v-btn>
+                                                <v-btn  @click.native="editWeight" icon class="red--text" style="margin-top: -5%; margin-left: -5%">
+                                                    <v-icon style="font-size: 16px">cancel</v-icon></v-btn>
                                             </v-flex>
-                                        </v-layout>
-                                    </li>
-                                    <li class="ma-3">
-                                        <v-layout row>
-                                            <v-flex xs11 offset-xs1 sm12 md4 offset-md2>
-                                                <v-list-tile-title>Weight (lbs)</v-list-tile-title>
+                                            <v-flex xs3 md2 class="" v-show="!weightEdit">
+                                                <v-chip>
+                                                    <div><span>{{ computedAuth.weight }} lbs.</span></div>
+                                                </v-chip>
+                                                <v-btn icon @click.native="editWeight" class="blue-grey--text" style="margin-top: -20%; margin-left: -23%">
+                                                    <v-icon style="font-size: 16px">edit</v-icon></v-btn>
                                             </v-flex>
-                                            <v-flex xs9 offset-xs1 md4>
-                                                <v-slider v-bind:max="500" v-model="wt"></v-slider>
+                                            <v-flex xs3 md1 v-show="bodyFatEdit" id="body-fat-edit">
+                                                    <v-text-field v-model="bf" type="number" ref="bfinput" suffix="%"></v-text-field>
                                             </v-flex>
-                                            <v-flex xs2 md1>
-                                                <input v-model="wt" style="width: 100%">
+                                            <v-flex xs6 md2 v-show="bodyFatEdit">
+                                                     <v-btn  @click.native="saveBF" icon class="blue-grey--text" style="margin-top: -5%; margin-left: -5%">
+                                                    <v-icon style="font-size: 16px">check_circle</v-icon></v-btn>
+                                                <v-btn  @click.native="editBodyFat" icon class="red--text" style="margin-top: -5%; margin-left: -5%">
+                                                    <v-icon style="font-size: 16px">cancel</v-icon></v-btn>
                                             </v-flex>
+                                            <v-flex xs3 md2 v-show="!bodyFatEdit">
+                                                <v-chip>
+                                                    <div v-model="bf"><span>{{ computedAuth.body_fat }} %</span></div>
+                                                </v-chip>
+                                                <v-btn icon @click.native="editBodyFat" class="blue-grey--text" style="margin-top: -20%; margin-left: -20%">
+                                                    <v-icon style="font-size: 16px">edit</v-icon></v-btn>
+                                            </v-flex>
+
                                         </v-layout>
                                     </li>
                                     <li class="ma-3">
@@ -156,6 +169,7 @@
                                                     multi-line
                                                     single-line
                                                     >
+                                                    {{ computedAuth.about }}
                                                 </v-text-field>
                                             </v-flex>
                                         </v-layout>
@@ -200,7 +214,6 @@ export default {
     data () {
         return {
             snackbarMessage: 'Status will appear here',
-            weight: '',
             context: '',
             y: 'top',
             snackbar: false,
@@ -208,9 +221,11 @@ export default {
             filename: '',
             username: userAuth.user.username,
             about: userAuth.user.about,
-            wt: userAuth.user.weight,
-            bf: userAuth.user.body_fat,
+            wt: this.computedAuth.weight,
+            bf: this.computedAuth.body_fat,
             genderSelect: null,
+            bodyFatEdit: false,
+            weightEdit: false,
             dialog: false,
             drawer: true,
             mini: false,
@@ -236,6 +251,17 @@ export default {
     },
 
     methods: {
+      saveBF: function (event) {
+          this.bodyFatEdit = false;
+          console.log(this.bf);
+          this.bf = this.$refs.bfinput.value;
+          this.computedAuth.body_fat = this.$refs.bfinput.value;
+      },
+      saveWt: function (event) {
+          this.weightEdit = false;
+          this.wt = this.$refs.wtInput.value;
+          this.computedAuth.weight = this.$refs.wtInput.value;
+      },
       logout: function (){
           logout();
           window.location.href = '/';
@@ -249,6 +275,14 @@ export default {
           }
           return forms
       },
+      editBodyFat: function () {
+          this.bodyFatEdit = !this.bodyFatEdit;
+
+      },
+      editWeight: function () {
+          this.weightEdit = !this.weightEdit;
+
+      },
       onFocus: function () {
           this.$refs.fileInput.click();
       },
@@ -257,11 +291,14 @@ export default {
           var formData = new FormData();
           var imageElement = document.getElementById('image');
           var self = this;
+          var username = this.username || this.computedAuth.username;
+          var body_fat = this.bf || this.computedAuth.body_fat;
+          var weight = this.wt || this.computedAuth.weight;
 
-          formData.append('username', this.username);
+          formData.append('username', username);
           formData.append('gender', this.genderSelect);
-          formData.append('weight', this.wt);
-          formData.append('body_fat', this.bf);
+          formData.append('weight', weight);
+          formData.append('body_fat', body_fat);
           formData.append('about', this.about);
 
 
@@ -337,6 +374,12 @@ export default {
 </script>
 
 <style>
+
+    #body-fat-edit > span > div > div > input {
+        width: 25%;
+        padding: 2px;
+        font-size: 12px;
+    }
 
     input[type=file] {
     position: absolute;
