@@ -1,41 +1,65 @@
 <template>
-    <v-container fluid>
+    <div>
         <h3 class="hidden-sm-and-down">Create Your Workouts</h3>
-        <v-layout row v-show="createWorkout">
-            <v-flex md4 sm12>
-                <form v-on:submit.prevent="onSubmit" id="workoutform" method="post">
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <input v-model="title" id="id-title" type="text" name="title" placeholder="Give this workout a name">
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <date-picker id="id_date_for_completion" name="date_for_completion" :date="date"></date-picker>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <select title="Target Muscle" id="id_target_muscle" name="target_muscle" v-model="target_muscle">
-                                <option disabled value="">Target Muscle</option>
 
-                                <option v-for="target_muscle in target_muscles" v-bind:value="target_muscle.value">
-                                    {{ target_muscle.text }}
-                                </option>
-                            </select>
+        <v-layout row v-show="createWorkout">
+            <v-flex md6 sm12 xs12>
+                <v-stepper v-model="e6" vertical>
+                    <v-stepper-step step="1" v-bind:complete="e6 > 1">
+                      Create Your Workout
+                    </v-stepper-step>
+                    <v-stepper-content step="1">
+                           <form v-on:submit.prevent="onSubmit" id="workoutform" method="post">
+                    <v-flex md8 offset-md1 xs12 >
+                            <v-text-field v-model="title" id="id-title" type="text"
+                                          name="title" label="Workout Name"
+                                          counter max="99"
+                            ></v-text-field>
+                    </v-flex>
+                               <v-flex xs12 md8 offset-md1>
+                                    <v-menu
+                                      lazy
+                                      :close-on-content-click="false"
+                                      v-model="dateMenu"
+                                      transition="scale-transition"
+                                      offset-y
+                                      full-width
+                                      :nudge-left="40"
+                                      max-width="290px"
+                                    >
+                                      <v-text-field
+                                        slot="activator"
+                                        label="Completion Date"
+                                        v-model="completionDate"
+                                        prepend-icon="event"
+                                        readonly
+                                      ></v-text-field>
+                                      <v-date-picker v-model="completionDate" no-title scrollable actions>
+                                        <template scope="{ save, cancel }">
+                                          <v-card-actions>
+                                            <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
+                                            <v-btn flat primary @click.native="save()">Save</v-btn>
+                                          </v-card-actions>
+                                        </template>
+                                      </v-date-picker>
+                                    </v-menu>
+                                  </v-flex>
+                    <v-flex md8 xs12 offset-md1>
+                        <div class="py-2">
+                            <v-select title="Target Muscle" id="id_target_muscle" name="target_muscle"
+                                      v-model="target_muscle" :items="target_muscles"
+                                      label="Target Muscles" segmented></v-select>
                         </div>
-                    </div>
-                    <div class="form-group row">
-                        <div class="col-8">
-                            <select title="Training Type" id="id_training_type" name="training_type" v-model="training_type" required="">
-                                <option disabled value="">Training Type</option>
-                                <option value="Endurance">Endurance</option>
-                                <option value="Strength Training">Strength Training</option>
-                                <option value="Balance Focused">Balance Focused</option>
-                                <option value="Flexibility Focused">Flexibility Focused</option>
-                            </select>
+                    </v-flex>
+                    <v-flex md8 xs12 offset-md1>
+                        <div class="py-2">
+                            <v-select title="Training Type" id="id_training_type"
+                                    name="training_type" v-model="training_type"
+                                    label="Training Type" :items="training_types"
+                                    required="" segmented>
+                            </v-select>
                         </div>
-                    </div>
+                    </v-flex>
                     <div class="form-group row">
                         <div class="col-8">
                             <input id="id_slug" name="slug" :value="slug" hidden>
@@ -49,11 +73,67 @@
 
                     <div class="form-group row">
                         <div class="col-8">
-                            <input class="btn btn-primary" type="submit" value="add exercises">
+                            <v-btn primary @click.native="onFocus">
+                                <input type="submit" ref="workoutSubmit" value="Continue">
+                            </v-btn>
                         </div>
                     </div>
 
                 </form>
+                    </v-stepper-content>
+                    <v-stepper-step step="2" v-bind:complete="e6 > 2">Add Exercises </v-stepper-step>
+                    <v-stepper-content step="2">
+                        <form v-on:submit.prevent="onSubmitExercise" id="exerciseform" method="post">
+                    <v-flex md8 offset-md1 xs12 >
+                            <v-text-field v-model="exercise_title" id="id-exercise-title" type="text"
+                                          name="exercise-title" label="Exercise Name"
+                                          counter max="99"
+                            ></v-text-field>
+                    </v-flex>
+                    <v-flex md8 xs12 offset-md1>
+                        <div class="py-2">
+                            <v-text-field title="Sets" label="Sets" type="number" v-model="sets"></v-text-field>
+                        </div>
+                    </v-flex>
+                    <v-flex md8 xs12 offset-md1>
+                        <div class="py-2">
+                            <v-text-field title="Reps" label="Reps" v-model="reps">
+                            </v-text-field>
+                        </div>
+                    </v-flex>
+                    <v-flex md8 xs12 offset-md1>
+                        <v-text-field title="exercise_notes" label="Notes about this exercise" v-model="exercise_notes" multi-line counter max="255"></v-text-field>
+                    </v-flex>
+                    <div class="form-group row">
+                        <div class="col-8">
+                            <input id="id_user" name="user" :value="userAuth.user.id" hidden>
+                        </div>
+                    </div>
+
+                    <v-flex md8 offset-md1 xs12>
+                            <v-btn primary @click.native="onFocusExercise">
+                                <input type="submit" ref="exerciseSubmit" value="Continue">
+                            </v-btn>
+                            <v-btn secondary @click.native="e6 = 1">Back</v-btn>
+                    </v-flex>
+
+                </form>
+
+                    </v-stepper-content>
+                    <v-stepper-step step="3" v-bind:complete="e6 > 3">Select an ad format and name ad unit</v-stepper-step>
+                    <v-stepper-content step="3">
+                      <v-card class="grey lighten-1 z-depth-1 mb-5" height="200px"></v-card>
+                      <v-btn primary @click.native="e6 = 4">Continue</v-btn>
+                      <v-btn flat>Cancel</v-btn>
+                    </v-stepper-content>
+                    <v-stepper-step step="4">View setup instructions</v-stepper-step>
+                    <v-stepper-content step="4">
+                      <v-card class="grey lighten-1 z-depth-1 mb-5" height="200px"></v-card>
+                      <v-btn primary @click.native="e6 = 1">Continue</v-btn>
+                      <v-btn flat>Cancel</v-btn>
+                    </v-stepper-content>
+                  </v-stepper>
+
                 <v-snackbar :top="y === 'top'" v-model="snackbar" :success="context === 'success'" :error="context === 'error'">
                     {{ snackbarMessage }}
                     <v-btn flat class="red--text" @click.native="snackbar = false">Close</v-btn>
@@ -69,7 +149,7 @@
                 <v-icon>cancel</v-icon>
             </v-btn>
         </v-speed-dial>
-    </v-container>
+        </div>
 </template>
 <script>
  import myDatepicker from 'vue-datepicker'
@@ -83,9 +163,9 @@
     name: 'create-workout',
     data () {
       return {
-      date: {
-          time: ''
-      },
+      completionDate: null,
+      dateMenu: false,
+      e6:1,
       direction: "top",
       fab: false,
       fling: false,
@@ -102,9 +182,22 @@
       y: 'top',
       context: '',
       title: '',
+      exercise_title: '',
+      sets: '',
+      reps: '',
+      exercise_notes: '',
       target_muscle: '',
       training_type: '',
+      workout_id: '',
+      submittedWorkout: {},
       userAuth: userAuth,
+      training_types: [
+          { text: 'Strength Training', value: 'Strength Training'},
+          { text: 'Flexibility Focused', value: 'Flexibility Focused'},
+          { text: 'Endurance', value: 'Endurance'},
+          { text: 'Balance Focused', value: 'Balance Focused'}
+
+      ],
       target_muscles: [
           { text: 'Traps', value: 'Traps'},
           { text: 'Neck', value: "Neck"},
@@ -130,8 +223,8 @@
       computed: {
         slug: function getSlug(e) {
             var date;
-            if (!this.date.time){ date = Date.now(); }
-            else { date = this.date.time; }
+            if (!this.completionDate){ date = Date.now(); }
+            else { date = this.completionDate; }
             this.title = this.title.replace(/ /g, '-');
             return this.title + '-' + date + '-' + this.target_muscle;
         },
@@ -146,6 +239,13 @@
 
       },
       methods: {
+        onFocus: function () {
+            this.$refs.workoutSubmit.click();
+
+        },
+        onFocusExercise: function () {
+            this.$refs.exerciseSubmit.click();
+        },
         addWorkoutClick: function () {
             this.createWorkout = !this.createWorkout;
         },
@@ -155,13 +255,23 @@
 
             var data = {
                 title: this.title,
-                date_for_completion: this.date.time,
+                date_for_completion: this.completionDate,
                 target_muscle: this.target_muscle,
                 training_type: this.training_type,
                 slug: this.slug,
                 user: this.userAuth.user.id,
                 exercises: [],
             };
+            console.log(data);
+            console.log(this.submittedWorkout);
+            console.log(JSON.stringify(data) === JSON.stringify(this.submittedWorkout));
+
+            // No changes to sync
+            if (JSON.stringify(data) === JSON.stringify(this.submittedWorkout)) {
+
+                this.e6 = 2;
+                return 
+            }
 
 
             axios.post(baseURL + 'v1/workouts/', data)
@@ -169,6 +279,9 @@
                     self.snackbarMessage = "Successfully created your workout";
                     self.context = 'success';
                     self.snackbar = true;
+                    self.e6 = 2;
+                    self.workout_id = response.data.id;
+                    self.submittedWorkout = data;
 
                 }).catch(function (error) {
                 if (error.response) {
@@ -204,10 +317,69 @@
                 console.log(error.config);
             });
         },
+        onSubmitExercise: function (event) {
+              var self = this;
+              var baseURL = "http://127.0.0.1:8000/";
+              var exercises = null;
+              if (!exercises){
+                  exercises = {};
+                  exercises.exercise_name = this.exercise_title;
+                  exercises.target_muscle = this.target_muscle;
+              }
+
+              var data = {
+                  exercise_name: this.exercise_title,
+                  sets: this.sets,
+                  reps: this.reps,
+                  notes: this.exercise_notes,
+                  user: this.userAuth.user.id,
+                  exercises: exercises,
+                  workout_id: this.workout_id,
+              };
+
+
+              axios.post(baseURL + 'v1/exercise/', data)
+                  .then(function (response) {
+                      self.snackbarMessage = "Successfully added exercise " +self.exercise_title;
+                      self.context = 'success';
+                      self.snackbar = true;
+                      self.e6 = 2;
+
+                  }).catch(function (error) {
+                  if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+
+                      self.snackbarMessage = "There was an error creating workouts: \n" + 'Status' + '\n' + error.response.status;
+                      self.context = 'error';
+                      self.snackbar = true;
+
+
+                      console.log(error.response.data);
+                      console.log(error.response.status);
+                      console.log(error.response.headers);
+                  } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+
+                      self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
+                      self.context = 'error';
+                      self.snackbar = true;
+                      console.log(error.request);
+                  } else {
+                      // Something happened in setting up the request that triggered an Error
+
+                      self.snackbarMessage = "There was an error in the request: " + error.message;
+                      self.context = 'error';
+                      self.snackbar = true;
+                      console.log('Error', error.message);
+                  }
+
+                  console.log(error.config);
+              });
+          },
       },
-      components: {
-          'date-picker': myDatepicker
-        }
 }
 </script>
 
@@ -217,19 +389,12 @@
         div > div.row-margin-top {
             margin: 0;
         }
+        div.stepper > div.stepper__content {
+            padding: 16px 30px 16px 23px;
+        }
 
     }
 
-    input, select {
-        display: inline-block;
-        padding: 6px;
-        line-height: 22px;
-        font-size: 16px;
-        border: 2px solid rgb(255, 255, 255);
-        box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px 0px;
-        border-radius: 2px;
-        color: rgb(95, 95, 95);
-    }
 
     div > div.row-margin-top {
         display: inline-block;

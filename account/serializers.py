@@ -69,16 +69,16 @@ class ExercisesSerializer(serializers.ModelSerializer):
 
 class ExerciseSerializer(serializers.ModelSerializer):
     exercises = ExercisesSerializer(allow_null=True)
-    workout_name = serializers.CharField(max_length=255, write_only=True)  # not a field of the model
+    workout_id = serializers.CharField(max_length=255, write_only=True)  # not a field of the model
 
     class Meta:
         model = Exercise
-        fields = ('id', 'exercise_name', 'sets', 'reps', 'notes', 'user', 'exercises', 'workout_name')
+        fields = ('id', 'exercise_name', 'sets', 'reps', 'notes', 'user', 'exercises', 'workout_id')
 
     def create(self, validated_data):
         self.associate_exercises(validated_data)
-        workout_name = validated_data.pop('workout_name')
-        workout = Workout.objects.get(title=workout_name)
+        workout_id = validated_data.pop('workout_id')
+        workout = Workout.objects.get(id=workout_id)
 
         exercise = super(ExerciseSerializer, self).create(validated_data)
 
@@ -107,7 +107,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Workout
-        fields = ('user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type')
+        fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type')
 
     def create(self, validated_data):
         self.create_or_update(validated_data)
