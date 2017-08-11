@@ -1,15 +1,16 @@
 <template>
     <div>
-        <h3 class="hidden-sm-and-down">Create Your Workouts</h3>
-
-        <v-layout row v-show="createWorkout">
-            <v-flex md6 sm12 xs12>
+        <div style="width: 103%; position: relative; left: -26px; right: -26px; top: -15px; text-align: center">
+            <h4 class="hidden-sm-and-down">Create | Edit | View | Your Workouts</h4>
+        </div>
+        <v-layout row >
+            <v-flex md6 sm12 xs12 v-show="createWorkout">
                 <v-stepper v-model="e6" vertical>
                     <v-stepper-step step="1" v-bind:complete="e6 > 1">
                       Create Your Workout
                     </v-stepper-step>
                     <v-stepper-content step="1">
-                           <form v-on:submit.prevent="onSubmit" id="workoutform" method="post">
+                           <form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm">
                     <v-flex md8 offset-md1 xs12 >
                             <v-text-field v-model="title" id="id-title" type="text"
                                           name="title" label="Workout Name"
@@ -110,26 +111,19 @@
                         </div>
                     </div>
 
-                    <v-flex md8 offset-md1 xs12>
+                    <v-flex md9 offset-md1 xs12>
                             <v-btn primary @click.native="onFocusExercise">
-                                <input type="submit" ref="exerciseSubmit" value="Continue">
+                                <input type="submit" ref="exerciseSubmit" value="Save & Add">
                             </v-btn>
-                            <v-btn secondary @click.native="e6 = 1">Back</v-btn>
+                            <v-btn secondary  @click.native="e6 = 1">Back</v-btn>
+                            <v-btn class="blue-grey white--text"  @click.native="e6 = 3">Continue</v-btn>
                     </v-flex>
 
                 </form>
-
                     </v-stepper-content>
-                    <v-stepper-step step="3" v-bind:complete="e6 > 3">Select an ad format and name ad unit</v-stepper-step>
+                    <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
                     <v-stepper-content step="3">
-                      <v-card class="grey lighten-1 z-depth-1 mb-5" height="200px"></v-card>
-                      <v-btn primary @click.native="e6 = 4">Continue</v-btn>
-                      <v-btn flat>Cancel</v-btn>
-                    </v-stepper-content>
-                    <v-stepper-step step="4">View setup instructions</v-stepper-step>
-                    <v-stepper-content step="4">
-                      <v-card class="grey lighten-1 z-depth-1 mb-5" height="200px"></v-card>
-                      <v-btn primary @click.native="e6 = 1">Continue</v-btn>
+                      <v-btn primary @click.native="createMore">Create More</v-btn>
                       <v-btn flat>Cancel</v-btn>
                     </v-stepper-content>
                   </v-stepper>
@@ -138,17 +132,35 @@
                     {{ snackbarMessage }}
                     <v-btn flat class="red--text" @click.native="snackbar = false">Close</v-btn>
                 </v-snackbar>
+
             </v-flex>
+
+            <v-flex md6 xs12>
+                <div style="text-align: center" class="pt-5">
+                    <v-icon large>history</v-icon>
+                    <span>Recently Created Workouts</span>
+                </div>
+                <div class="pa-4">
+                <v-expansion-panel>
+                    <v-expansion-panel-content v-model="recentWorkouts" v-for="recentWorkout in recentWorkouts">
+                      <div slot="header">
+                          {{ recentWorkout.date_for_completion | moment }}
+                      </div>
+                      <v-card>
+                        <v-card-text class="grey lighten-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
+                      </v-card>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                    </div>
+            </v-flex>
+
         </v-layout>
-        <v-speed-dial v-model="fab" fixed bottom right :direction="direction" :hover="hover" :transition="transition">
-            <v-btn :class="activeFab.class" slot="activator" fab dark hover v-model="fab" @click.native="addWorkoutClick">
-                <v-icon>add</v-icon>
-                <v-icon>check_circle</v-icon>
+        <v-fab-transition>
+            <v-btn :class="activeFab.class" :key="activeFab.icon" v-model="fab" @click.native="addWorkoutClick"
+                    fab fixed bottom right>
+                <v-icon>{{ activeFab.icon }}</v-icon>
             </v-btn>
-            <v-btn fab dark small class="red" @click.native="addWorkoutClick">
-                <v-icon>cancel</v-icon>
-            </v-btn>
-        </v-speed-dial>
+        </v-fab-transition>
         </div>
 </template>
 <script>
@@ -189,6 +201,7 @@
       target_muscle: '',
       training_type: '',
       workout_id: '',
+      recentWorkouts: {},
       submittedWorkout: {},
       userAuth: userAuth,
       training_types: [
@@ -220,6 +233,11 @@
     }
 
   },
+      filters: {
+        moment: function (date) {
+            return moment(date).format("dddd, MMMM Do YYYY");
+        }
+      },
       computed: {
         slug: function getSlug(e) {
             var date;
@@ -230,10 +248,10 @@
         },
         activeFab: function (e) {
             if (this.createWorkout) {
-                return {'class': 'green'}
+                return {'class': 'red', icon: 'cancel'}
             }
             else {
-                return {'class': 'blue-grey'}
+                return {'class': 'blue-grey', icon: 'add'}
             }
         },
 
@@ -262,9 +280,6 @@
                 user: this.userAuth.user.id,
                 exercises: [],
             };
-            console.log(data);
-            console.log(this.submittedWorkout);
-            console.log(JSON.stringify(data) === JSON.stringify(this.submittedWorkout));
 
             // No changes to sync
             if (JSON.stringify(data) === JSON.stringify(this.submittedWorkout)) {
@@ -273,6 +288,52 @@
                 return 
             }
 
+            if (this.workout_id && JSON.stringify(data) !== JSON.stringify(this.submittedWorkout)) {
+                axios.put(baseURL + 'v1/workouts/'+this.workout_id + '/', data)
+                .then(function (response) {
+                    self.snackbarMessage = "Successfully updated your workout";
+                    self.context = 'success';
+                    self.snackbar = true;
+                    self.e6 = 2;
+                    self.workout_id = response.data.id;
+                    self.submittedWorkout = data;
+
+                }).catch(function (error) {
+                if (error.response) {
+                    // The request was made and the server responded with a status code
+                    // that falls out of the range of 2xx
+
+                    self.snackbarMessage = "There was an error updating workouts: \n" + 'Status' + '\n' + error.response.status;
+                    self.context = 'error';
+                    self.snackbar = true;
+
+
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    // The request was made but no response was received
+                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                    // http.ClientRequest in node.js
+
+                    self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
+                    self.context = 'error';
+                    self.snackbar = true;
+                    console.log(error.request);
+                } else {
+                    // Something happened in setting up the request that triggered an Error
+
+                    self.snackbarMessage = "There was an error in the request: " + error.message;
+                    self.context = 'error';
+                    self.snackbar = true;
+                    console.log('Error', error.message);
+                }
+
+                console.log(error.config);
+            });
+
+                return
+            }
 
             axios.post(baseURL + 'v1/workouts/', data)
                 .then(function (response) {
@@ -316,6 +377,11 @@
 
                 console.log(error.config);
             });
+        },
+        createMore: function () {
+            this.workout_id = '';
+            this.e6 = 1;
+            this.$refs.workoutForm.reset();
         },
         onSubmitExercise: function (event) {
               var self = this;
@@ -380,10 +446,23 @@
               });
           },
       },
+      mounted: function () {
+            var self = this;
+            var baseURL = 'http://127.0.0.1:8000/v1/workouts/';
+            axios.get(baseURL).then(function (response) {
+                self.recentWorkouts = response.data.results;
+                console.log(self.recentWorkouts);
+            }).catch(function (e) {
+                console.log('There was an error loading recent workouts');
+            })
+      },
 }
 </script>
 
 <style>
+
+    
+
     @media only screen and (max-width: 768px) {
 
         div > div.row-margin-top {

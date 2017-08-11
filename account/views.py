@@ -78,7 +78,7 @@ class WorkoutList(APIView):
         if not request.user.id:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            queryset = Workout.objects.all().filter(user=request.user)
+            queryset = Workout.objects.all().filter(user=request.user).order_by('date_for_completion')
 
         serializer = WorkoutSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
@@ -88,7 +88,7 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
-        return Workout.objects.all().filter(user=self.request.user)
+        return Workout.objects.all().filter(user=self.request.user).order_by('-date_for_completion')
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):

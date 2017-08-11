@@ -220,7 +220,7 @@ export default {
             userAuth: userAuth,
             filename: '',
             username: userAuth.user.username,
-            about: userAuth.user.about,
+            about: this.computedAuth.about,
             wt: this.computedAuth.weight,
             bf: this.computedAuth.body_fat,
             genderSelect: null,
