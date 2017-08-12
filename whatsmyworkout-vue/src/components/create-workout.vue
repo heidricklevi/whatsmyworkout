@@ -142,18 +142,82 @@
                 </div>
                 <div class="pa-4">
                 <v-expansion-panel>
-                    <v-expansion-panel-content v-model="recentWorkouts" v-for="recentWorkout in recentWorkouts">
+                    <v-expansion-panel-content  v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                       <div slot="header">
+                          <span class="pr-2"><img src="../assets/img/weights.png"> </span>
                           {{ recentWorkout.date_for_completion | moment }}
                       </div>
+                        <v-layout row>
+                            <v-flex xs12>
                       <v-card>
-                        <v-card-text class="grey lighten-3">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</v-card-text>
-                      </v-card>
+                          <v-card-title>
+                              <div class="title" style="margin: 0 15% 0 15%">{{ recentWorkout.title }}</div>
+                          </v-card-title>
+                          <v-card-media src="src/assets/img/chest-muscle.jpg" height="250px" contain>
+
+                        </v-card-media>
+                        <v-card-title class="hidden-md-up">
+                            <div>
+                                <v-icon>account_circle</v-icon><span class="pl-2 text-xs">{{ userAuth.user.username }}</span>
+                                <div class="pb-3"></div>
+                                <v-icon>schedule</v-icon><span class="pl-2">{{ recentWorkout.date_for_completion | moment}}</span>
+                                <div class="pb-3"></div>
+                                <img src="../assets/img/muscle.png">
+                                <span class="pl-2 grey--text text--darken-3">{{ recentWorkout.target_muscle }}</span>
+                            </div>
+                        </v-card-title>
+                          <v-card-title class="hidden-sm-down">
+                              <v-flex md3>
+                                <v-icon>account_circle</v-icon><span class="pl-2 text-xs">{{ userAuth.user.username }}</span>
+</v-flex>
+                                <v-flex md5><v-icon>schedule</v-icon><span class="pl-2">{{ recentWorkout.date_for_completion | moment}}</span></v-flex>
+
+                                <v-flex offset-md-1 md3><img src="../assets/img/muscle.png">
+                                <span class="pl-2 grey--text text--darken-3">{{ recentWorkout.target_muscle }}</span></v-flex>
+                        </v-card-title>
+                          <v-divider></v-divider>
+                        <v-card-actions>
+                           <v-btn flat class="blue--text text--darken-4 pl-0 pt-0" @click.native="showExercises = !showExercises">View Exercises</v-btn>
+                            <v-spacer></v-spacer>
+                          <v-btn class="pt-0" icon @click.native="showExercises = !showExercises" ref="clickShowExercises">
+                            <v-icon>{{ showExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                          </v-btn>
+                        </v-card-actions>
+                        <v-slide-y-transition>
+                          <v-card-text v-show="showExercises">
+                           <v-list two-line subheader>
+                               <div class="hidden-sm-down" style="display: inline-flex">
+                                   <v-subheader style="margin: 0 0 0 25%">Exercise</v-subheader>
+                                   <v-subheader style="position: absolute; right: 23%">sets/reps</v-subheader>
+                               </div>
+
+                            <template v-for="(exercise, i) in recentWorkout.exercises" >
+
+                               <v-list-tile>
+                                   <v-divider></v-divider>
+                                   <v-list-tile-content>
+                                      <v-list-tile-title :key="exercise.exercise_name">
+                                          <span class="mr-4 text-grey text--darken-2" style="font-size: smaller">#{{ i }}</span>
+                                          {{ exercise.exercise_name }}
+                                          <span style="position: absolute; right: 25%;">{{ exercise.sets }}/{{ exercise.reps }}</span>
+                                      </v-list-tile-title>
+                                       <v-list-tile-sub-title>
+                                           <span class="ml-5">{{ exercise.notes }}</span>
+                                       </v-list-tile-sub-title>
+                                   </v-list-tile-content>
+
+                               </v-list-tile>
+                                <v-divider></v-divider>
+                            </template>
+                           </v-list>
+                          </v-card-text>
+                        </v-slide-y-transition>
+                      </v-card></v-flex>
+                            </v-layout>
                     </v-expansion-panel-content>
                   </v-expansion-panel>
                     </div>
             </v-flex>
-
         </v-layout>
         <v-fab-transition>
             <v-btn :class="activeFab.class" :key="activeFab.icon" v-model="fab" @click.native="addWorkoutClick"
@@ -165,13 +229,14 @@
 </template>
 <script>
  import myDatepicker from 'vue-datepicker'
-
+ import moment from 'moment'
  import axios from 'axios'
  import { login, userAuth } from '../auth/auth'
 
 
 
   export default {
+
     name: 'create-workout',
     data () {
       return {
@@ -183,6 +248,7 @@
       fling: false,
       hover: false,
       top: false,
+      showExercises: false,
       right: true,
       bottom: true,
       left: false,
@@ -241,10 +307,11 @@
       computed: {
         slug: function getSlug(e) {
             var date;
+            var title = this.title;
             if (!this.completionDate){ date = Date.now(); }
             else { date = this.completionDate; }
-            this.title = this.title.replace(/ /g, '-');
-            return this.title + '-' + date + '-' + this.target_muscle;
+            title = title.replace(/ /g, '-');
+            return title + '-' + date + '-' + this.target_muscle;
         },
         activeFab: function (e) {
             if (this.createWorkout) {
