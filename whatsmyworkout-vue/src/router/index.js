@@ -4,15 +4,14 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
-import App from '../App.vue'
 import CreateWorkout from '../components/create-workout.vue'
 import Login from '../components/login.vue'
 import Dashboard from '../components/dashboard.vue'
 import AccountSettings from '../components/account-settings.vue'
-import { userAuth, } from '../auth/auth'
-import Vuetify from 'vuetify'
+import userDashboard from '../components/user-dashboard.vue'
+
 Vue.use(Router);
-Vue.use(Vuetify);
+
 var JWT = localStorage.getItem('JWT');
 
 
@@ -20,6 +19,11 @@ export default new Router({
   base: '/',
   mode: 'hash',
   routes: [
+    {
+      path: '/user/dashboard/',
+      name: 'user-dashboard',
+      component: userDashboard
+    },
     {
       path: '/dashboard/',
       name: 'dashboard',

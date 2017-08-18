@@ -31,7 +31,7 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar fixed class="indigo darken-4" dark>
-            <v-toolbar-side-icon @click.native.stop="drawer = !drawer"></v-toolbar-side-icon>
+            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-items>
                 <img src="../assets/img/logo.png" style="width: 100px;">
             </v-toolbar-items>
@@ -193,9 +193,13 @@
         </v-toolbar>
         <main>
             <v-container fluid>
-                <router-view></router-view>
+                <router-view :computed-auth="computedAuth"></router-view>
             </v-container>
         </main>
+        <v-footer class="pa-3">
+    <v-spacer></v-spacer>
+    <div>© {{ new Date().getFullYear() }}</div>
+  </v-footer>
     </v-app>
 </template>
 
@@ -227,11 +231,11 @@ export default {
             bodyFatEdit: false,
             weightEdit: false,
             dialog: false,
-            drawer: true,
+            drawer: false,
             mini: false,
             right: null,
             items: [
-                { title: 'Dashboard', icon: 'dashboard', link: '/'},
+                { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
                 { title: 'Manage Workouts', icon: 'schedule', link: '/'},
                 { title: 'Share Workouts', icon: 'share', link: '/'},

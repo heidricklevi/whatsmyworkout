@@ -1,9 +1,9 @@
 <template >
- <div v-if="isAuthenticated">
+ <v-app v-if="isAuthenticated">
      <div v-if="computedAuth">
     <dashboard :computed-auth="computedAuth"></dashboard>
      </div>
-</div>
+</v-app>
     <v-app v-else="isAuthenticated" standalone>
         <div>
             <v-toolbar fixed class="transparent theme--dark"  dark>

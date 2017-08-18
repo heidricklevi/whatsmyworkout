@@ -115,6 +115,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         return super(WorkoutSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
+
         self.create_or_update(validated_data)
         return super(WorkoutSerializer, self).update(instance, validated_data)
 

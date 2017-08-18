@@ -13,26 +13,16 @@
                                 <form v-on:submit.prevent="userLogin" method="post">
                                     <v-layout row>
                                         <v-flex xs12 sm12 md8>
-                                            <v-text-field
-                                                    v-model="username"
-                                                    name="username"
-                                                    label="Username"
-                                                    id="id_username"
-                                                    prepend-icon="account_circle">
-
-                                            </v-text-field>
+                                            <v-text-field v-model="username"
+                                                          label="username"
+                                                          prepend-icon="account_circle"
+                                            ></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                       <v-layout row>
                                         <v-flex xs12 sm12 md8>
-                                            <v-text-field
-                                                    v-model="password"
-                                                    name="password"
-                                                    label="password"
-                                                    id="id_password"
-                                                    type="password"
-                                                    prepend-icon="visibility_off">
-                                            </v-text-field>
+                                            <v-text-field v-model="password" label="password"
+                                                            prepend-icon="visibility_off"></v-text-field>
                                         </v-flex>
                                     </v-layout>
                                     <v-layout row>
@@ -53,7 +43,10 @@
 <script>
     import { login } from '../auth/auth'
 
+
+
     export default {
+
         name: 'login',
         data () {
             return {
@@ -66,7 +59,7 @@
             userLogin: function () {
                 login(this.username, this.password);
             }
-        }
+        },
     }
 
 </script>
