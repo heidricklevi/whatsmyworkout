@@ -1,7 +1,7 @@
 <template>
     <div>
         <div style="width: 103%; position: relative; left: -26px; right: -26px; top: -15px; text-align: center">
-            <h4 class="hidden-sm-and-down">Create | Edit | View | Your Workouts</h4>
+            <h4 class="hidden-md-and-down"></h4>
         </div>
         <v-layout row>
             <v-flex md6 sm12 xs12 v-show="createWorkout">

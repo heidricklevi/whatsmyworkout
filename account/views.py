@@ -130,6 +130,19 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 
+class CreateUser(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request):
+        user_data = json.loads(str(request.body.decode('utf-8')))
+        serialized = UserSerializer(data=user_data)
+        if serialized.is_valid():
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 def create_account(request):
     return render(request, 'accounts/signup.html', {'form': UserAccountForm()})
 

@@ -1,0 +1,68 @@
+#footer {
+  position: relative;
+  background: white;
+
+  @media (max-width: 991px) {
+    text-align: center;
+  }
+
+  img {
+    max-height: 36px;
+  }
+
+  p {
+    color: #c4c5cf;
+    font-size: 13px;
+  }
+
+  span {
+    color: #c4c5cf;
+    font-size: 13px;
+  }
+
+  ul {
+
+    &.social {
+
+      li {
+
+        a {
+          width: 32px;
+          height: 32px;
+          border: 1px solid #e0e0e0;
+          display: inline-block;
+          text-align: center;
+          line-height: 30px;
+
+          i {
+            font-size: 15px;
+          }
+        }
+      }
+    }
+
+    li {
+
+      a {
+        color: #3e396b;
+        font-size: 13px;
+        text-decoration: none;
+
+        i {
+
+          &.ion-social-facebook {
+            color: #3b5999;
+          }
+
+          &.ion-social-youtube {
+            color: #cd201f;
+          }
+
+          &.ion-social-github {
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+}

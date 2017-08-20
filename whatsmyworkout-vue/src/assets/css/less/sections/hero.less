@@ -1,0 +1,70 @@
+.hero {
+  position: relative;
+  padding: 300px 0 120px 0;
+  margin-top: -100px;
+  transform: skewY(-5deg);
+  transform-origin: center;
+
+  @media (max-width: 991px) {
+    padding: 220px 0 80px 0;
+  }
+
+  @media (max-width: 767px) {
+    padding: 200px 0 60px 0;
+  }
+
+  &.hero-1 {
+    background-image: linear-gradient(-152deg, #6937EA 0%, #377FEA 65%);
+  }
+
+  .row {
+    transform: skewY(5deg);
+
+    .title {
+      color: white;
+      font-size: 3rem;
+      letter-spacing: 0.02em;
+    }
+
+    .lead {
+      color: white;
+      opacity: .75;
+    }
+
+    .btn {
+      padding: 16px 32px;
+      background: #3ECF8E;
+      color: white;
+      border-radius: 28px;
+
+      &:hover {
+        background: saturate(#3ECF8E, 10%);
+      }
+    }
+
+    .mockup {
+      position: absolute;
+      margin-top: -70px;
+      right: -70px;
+      height: 600px;
+
+      @media (max-width: 1280px) {
+        margin-top: -80px;
+        height: 550px;
+        right: -20px;
+      }
+
+      @media (max-width: 1200px) {
+        margin-top: -80px;
+        height: auto;
+        right: -80px;
+      }
+
+      @media (max-width: 1120px) {
+        margin-top: -40px;
+        height: 450px;
+        right: 0;
+      }
+    }
+  }
+}

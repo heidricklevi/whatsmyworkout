@@ -33,10 +33,6 @@
                 <v-slide-y-transition>
                     <v-card-text v-if="viewExercises">
                         <v-list three-line subheader>
-                            <div class="hidden-sm-down" style="display: inline-flex">
-                                <v-subheader style="margin: 0 0 0 25%">Exercise</v-subheader>
-                                <v-subheader style="position: absolute; right: 23%">sets/reps</v-subheader>
-                            </div>
                             <v-layout row justify-center>
                                 <v-flex xs6>
                                     <v-subheader>Exercise</v-subheader>
