@@ -86,6 +86,8 @@ class Workout(models.Model):
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
 
+
+
     def __str__(self):
         return self.title
 

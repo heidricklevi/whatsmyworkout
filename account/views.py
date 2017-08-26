@@ -30,7 +30,9 @@ from rest_framework import pagination
 from rest_framework import generics
 from django.views.decorators.csrf import ensure_csrf_cookie
 from django.middleware.csrf import get_token
-
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from anymail.message import attach_inline_image_file
 
 import json
 
@@ -51,6 +53,9 @@ import json
 #         exercise.save()
 #         # time.sleep(3)
 #         print('Just Inserted', exercise.target_muscle + '\n' + str(exercise.exercise_rating) + '\n' + exercise.exercise_name)
+
+
+
 
 
 class ExercisesList(generics.ListAPIView):
@@ -141,6 +146,24 @@ class CreateUser(APIView):
             return Response(serialized.data, status=status.HTTP_201_CREATED)
         else:
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SendWorkoutEmail(APIView):
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+
+    def post(self, request):
+
+        serialized = WorkoutSerializer(data=request.data)
+
+        if serialized.is_valid():
+            print(serialized.data)
+            send_mail('Workout for the day', serialized.data['date_for_completion'], 'admin@whatsmyworkout.co', ["ljheidrick@gmail.com"])
+            return Response(serialized.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
+        # send_mail("IT WORKS!!!!!", "THIS WILL get sent through mailgun", "Anymail sender <admin@whatsmyworkout.co>", ["ljheidrick@gmail.com"])
+
+
 
 
 def create_account(request):

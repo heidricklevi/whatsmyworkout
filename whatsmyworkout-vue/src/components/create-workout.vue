@@ -133,7 +133,7 @@
                                         <v-card-title>
                                             <div class="title" style="margin: 0 15% 0 15%">{{ recentWorkout.title }}</div>
                                         </v-card-title>
-                                        <v-card-media src="src/assets/img/chest-muscle.jpg" height="250px" contain>
+                                        <v-card-media :src="recentWorkout.workout_image" height="250px" contain>
 
                                         </v-card-media>
                                         <v-card-title class="hidden-md-up">

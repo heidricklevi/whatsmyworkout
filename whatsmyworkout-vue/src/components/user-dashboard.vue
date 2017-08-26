@@ -1,24 +1,51 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 offset-md1 md4>
-            <v-card>
+            <v-card v-if="recentWorkouts">
                 <v-flex xs12>
                     <div class="pt-1 pl-1" style="display: inline-flex">
                         <v-avatar>
                             <img :src="computedAuth.avatar">
                         </v-avatar>
                         <span class="title pl-2 pt-2 card-title grey--text">Next Workout </span>
+                        <span style="position: absolute; right: 0; top: 0;">
+                            <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout">
+                                <v-icon v-if="!isEmailWorkout">email</v-icon>
+                                <v-icon class="red--text" v-if="isEmailWorkout">cancel</v-icon>
+                            </v-btn>
+                        </span>
                     </div>
+
                     <div style="margin-left: 15%; position:relative; top: -15px;">
                         <v-icon class="mr-1">event</v-icon>
                         <span class="caption">{{ recentWorkouts.date_for_completion | moment }}</span>
                     </div>
                 </v-flex>
+
+                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px">
+                        <form method="post" v-on:submit.prevent="sendWorkout">
+                            <v-card-title>
+                                Send this workout to someone else via email
+                            </v-card-title>
+                        <v-layout row>
+                            <v-flex xs8 offset-xs2 md6 offset-md3>
+                                <v-text-field label="@" placehold="Recipients email address" type="email" required></v-text-field>
+                            </v-flex>
+                            <v-flex md6 offset-md3>
+                                <v-btn primary type="submit">
+                                    Send
+                                </v-btn>
+                            </v-flex>
+                        </v-layout>
+
+
+                        </form>
+                        </v-card>
                 <v-divider></v-divider>
                 <v-card-title>
                     <h3 class="headline">{{ recentWorkouts.title }}</h3>
                 </v-card-title>
-                <v-card-media src="src/assets/img/chest-muscle.jpg" height="200px" contain>
+                <v-card-media id="workout-image" :src="recentWorkouts.workout_image" height="200px" contain>
 
                 </v-card-media>
                 <v-divider></v-divider>
@@ -75,6 +102,11 @@
                     </v-card-text>
                 </v-slide-y-transition>
             </v-card>
+         <v-card v-else="recentWorkouts">
+                <v-card-text>
+                    No workouts have been created. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the recently scheduled one show up here
+                </v-card-text>
+            </v-card>
         </v-flex>
     </v-layout>
 </template>
@@ -91,6 +123,7 @@ export default {
       recentWorkouts: {},
       viewExercises: false,
       drawer: true,
+      isEmailWorkout: false,
     }
   },
     filters: {
@@ -100,7 +133,37 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+        sendWorkout: function () {
+            var baseURL = 'http://127.0.0.1:8000/';
+            var payload = this.recentWorkouts;
+            var formData = new FormData();
+            payload.exercises[0].workout_id = this.recentWorkouts.id;
 
+            var workoutImage = document.createElement('input');
+            workoutImage.setAttribute('type', 'file');
+            console.log(workoutImage);
+
+            formData.append('date_for_completion', payload.date_for_completion);
+            formData.append('exercises', payload.exercises);
+            formData.append('id', payload.id);
+            formData.append('slug', payload.slug);
+            formData.append('target_muscle', payload.target_muscle);
+            formData.append('title', payload.title);
+            formData.append('training_type', payload.training_type);
+            formData.append('user', payload.user);
+
+
+
+
+            console.log(payload);
+
+            axios.post(baseURL + 'v1/workout/send/', formData)
+                .then(function () {
+                    console.log('Success')
+            }).catch(function (err) {
+                console.log(err)
+            })
+        }
     },
     mounted: function () {
             var self = this;

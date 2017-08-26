@@ -104,7 +104,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
 class WorkoutSerializer(serializers.ModelSerializer):
     exercises = ExerciseSerializer(many=True, allow_null=True, required=False)
-
+    workout_image = serializers.ImageField(required=False, allow_null=True)
 
     class Meta:
         model = Workout
@@ -113,6 +113,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         self.create_or_update(validated_data)
         print(validated_data)
+        self.set_workout_image(validated_data['target_muscle'], validated_data)
         return super(WorkoutSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
@@ -128,7 +129,26 @@ class WorkoutSerializer(serializers.ModelSerializer):
         for exercise in exercises:
             Exercise.objects.create(**exercise)
 
+    def set_workout_image(self, target_muscle, validated_data):
 
+        if target_muscle == 'Chest':
+            validated_data['workout_image'] = '../static/img/chest-muscle.jpg'
+        elif target_muscle == 'Biceps':
+            validated_data['workout_image'] = '../static/img/biceps.jpg'
+        elif target_muscle == 'Triceps':
+            validated_data['workout_image'] = '../static/img/triceps.jpg'
+        elif target_muscle == 'Quads':
+            validated_data['workout_image'] = '../static/img/quads.jpg'
+        elif target_muscle == 'Traps':
+            validated_data['workout_image'] = '../static/img/traps.jpg'
+        elif target_muscle == 'Lats':
+            validated_data['workout_image'] = '../static/img/lats.jpg'
+        elif target_muscle == 'Forearm':
+            validated_data['workout_image'] = '../static/img/forearm.jpg'
+        elif target_muscle == 'Calves':
+            validated_data['workout_image'] = '../static/img/calf.jpg'
+        elif target_muscle == 'Abdominal':
+            validated_data['workout_image'] = '../static/img/abs.jpg'
 
 
 

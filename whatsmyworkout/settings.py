@@ -72,12 +72,22 @@ INSTALLED_APPS = [
     'widget_tweaks',
     'rest_framework.authtoken',
     'rest_framework',
+    'anymail',
     # 'django.contrib.sites',
     # 'allauth',
     # 'rest_auth.registration',
     'rest_auth',
     'corsheaders',
 ]
+
+EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+
+ANYMAIL = {
+    # (exact settings here depend on your ESP...)
+    "MAILGUN_API_KEY": email_config['MAIL_GUN_API_KEY'],
+    "MAILGUN_SENDER_DOMAIN": email_config['MAIL_GUN_SENDER_DOMAIN'],  # your Mailgun domain, if needed
+}
+
 
 CORS_ORIGIN_ALLOW_ALL = True
 REST_USE_JWT = True
