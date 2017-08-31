@@ -1,0 +1,16 @@
+On behalf of {{ username }}, here is your workout for {{ payload.date_for_completion }}.
+
+Date to be completed: {{ payload.date_for_completion }}
+Training Type: {{ payload.training_type }}
+Primary Muscle Targeted: {{ payload.target_muscle }}
+
+{% for exercise in payload.exercises %}
+
+{{ exercise.exercise_name }}  {{ exercise.sets }}x{{ exercise.reps }}
+Notes: {{ exercise.notes }}
+
+
+- - - - - - - - - -
+
+
+{% endfor %}

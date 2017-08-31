@@ -33,7 +33,8 @@ from django.middleware.csrf import get_token
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from anymail.message import attach_inline_image_file
-
+from django.template.loader import get_template
+from django.template import Context
 import json
 
 #
@@ -93,7 +94,7 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
-        return Workout.objects.all().filter(user=self.request.user).order_by('-date_for_completion')
+        return Workout.objects.all().filter(user=self.request.user).order_by('-date_for_completion')[:5]
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):
@@ -152,12 +153,30 @@ class SendWorkoutEmail(APIView):
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     def post(self, request):
-
+        to_email = request.data.pop('to')
         serialized = WorkoutSerializer(data=request.data)
 
+        exercises = {}
+
         if serialized.is_valid():
-            print(serialized.data)
-            send_mail('Workout for the day', serialized.data['date_for_completion'], 'admin@whatsmyworkout.co', ["ljheidrick@gmail.com"])
+            payload = {
+                'date_for_completion': serialized.data['date_for_completion'],
+                'target_muscle': serialized.data['target_muscle'],
+                'title': serialized.data['title'],
+                'training_type': serialized.data['training_type'],
+                'exercises': serialized.data['exercises']
+            }
+
+            text_email = get_template('workoutemail.txt')
+            d = Context({'payload': payload, 'username': request.user})
+            print(exercises)
+            text_content = text_email.render(d)
+            message = EmailMultiAlternatives("Workout For The Day", text_content,
+                                             from_email='admin@whatsmyworkout.co', to=[to_email])
+
+            message.send()
+
+            # send_mail('Workout for the day', serialized.data['date_for_completion'], 'admin@whatsmyworkout.co', ["ljheidrick@gmail.com"])
             return Response(serialized.data, status=status.HTTP_200_OK)
         else:
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)

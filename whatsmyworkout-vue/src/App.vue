@@ -24,6 +24,9 @@
                     </a>
                     <div class="collapse navbar-collapse align-items-center">
                         <ul class="navbar-nav mr-auto ">
+                            <li v-if="isAuthenticated" class="nav-item mr-3">
+                                <router-link class="nav-link white--text title" to="/user/dashboard/">Dashboard</router-link>
+                            </li>
                             <li class="nav-item active mr-3">
                                 <a class="nav-link white--text title" href="#header">Home <span class="sr-only">(current)</span></a>
                             </li>

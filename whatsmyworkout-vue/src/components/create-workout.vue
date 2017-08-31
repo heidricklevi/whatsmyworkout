@@ -115,14 +115,13 @@
                 </v-snackbar>
 
             </v-flex>
-
             <v-flex md6 xs12>
                 <div style="text-align: center" class="pt-5 pb-3">
                     <v-icon large>history</v-icon>
                     <span>Recently Created Workouts</span>
                 </div>
-                <div>
-                    <v-expansion-panel>
+                <template >
+                    <v-expansion-panel  >
                         <v-expansion-panel-content v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                             <div slot="header">
                                 <span class="pr-2"><img src="../assets/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
@@ -136,7 +135,7 @@
                                         <v-card-media :src="recentWorkout.workout_image" height="250px" contain>
 
                                         </v-card-media>
-                                        <v-card-title class="hidden-md-up">
+                                        <v-card-title class="hidden-md-and-up">
                                             <div>
                                                 <v-icon>account_circle</v-icon><span class="pl-2 text-xs">{{ userAuth.user.username }}</span>
                                                 <div class="pb-3"></div>
@@ -146,7 +145,7 @@
                                                 <span class="pl-2 grey--text text--darken-3">{{ recentWorkout.target_muscle }}</span>
                                             </div>
                                         </v-card-title>
-                                        <v-card-title class="hidden-sm-down">
+                                        <v-card-title class="hidden-sm-and-down">
                                             <v-flex md3>
                                                 <v-icon>account_circle</v-icon><span class="pl-2 text-xs">{{ userAuth.user.username }}</span>
                                             </v-flex>
@@ -214,7 +213,7 @@
                             </v-layout>
                         </v-expansion-panel-content>
                     </v-expansion-panel>
-                </div>
+                </template>
             </v-flex>
         </v-layout>
         <v-fab-transition>

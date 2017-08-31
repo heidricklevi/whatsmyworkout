@@ -8,12 +8,18 @@
                             <img :src="computedAuth.avatar">
                         </v-avatar>
                         <span class="title pl-2 pt-2 card-title grey--text">Next Workout </span>
-                        <span style="position: absolute; right: 0; top: 0;">
-                            <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout">
+                        <div style="position: absolute; right: 0; top: 0;">
+                            <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout" style="margin-right: 0">
                                 <v-icon v-if="!isEmailWorkout">email</v-icon>
                                 <v-icon class="red--text" v-if="isEmailWorkout">cancel</v-icon>
                             </v-btn>
-                        </span>
+                            <v-btn icon @click.native="isArchiveWorkout = !isArchiveWorkout" style="margin-right: 0">
+                                <v-icon v-if="!isArchiveWorkout">archive</v-icon>
+                            </v-btn>
+                            <v-btn icon @click.native="nextWorkout = !nextWorkout" style="margin-left: 0">
+                                <v-icon v-if="!nextWorkout">forward</v-icon>
+                            </v-btn>
+                        </div>
                     </div>
 
                     <div style="margin-left: 15%; position:relative; top: -15px;">
@@ -29,7 +35,7 @@
                             </v-card-title>
                         <v-layout row>
                             <v-flex xs8 offset-xs2 md6 offset-md3>
-                                <v-text-field label="@" placehold="Recipients email address" type="email" required></v-text-field>
+                            <v-text-field v-model="shareEmail" label="@" type="email" :value="shareEmail" required></v-text-field>
                             </v-flex>
                             <v-flex md6 offset-md3>
                                 <v-btn primary type="submit">
@@ -124,6 +130,10 @@ export default {
       viewExercises: false,
       drawer: true,
       isEmailWorkout: false,
+      isArchiveWorkout: false,
+      nextWorkout: false,
+      shareEmail: '',
+
     }
   },
     filters: {
@@ -136,28 +146,20 @@ export default {
         sendWorkout: function () {
             var baseURL = 'http://127.0.0.1:8000/';
             var payload = this.recentWorkouts;
-            var formData = new FormData();
-            payload.exercises[0].workout_id = this.recentWorkouts.id;
 
-            var workoutImage = document.createElement('input');
-            workoutImage.setAttribute('type', 'file');
-            console.log(workoutImage);
+            for (var i =0; i < payload.exercises.length; i++) {
+                payload.exercises[i].workout_id = this.recentWorkouts.id;
+            }
+            payload.workout_image = null;
+            payload.to = this.shareEmail;
 
-            formData.append('date_for_completion', payload.date_for_completion);
-            formData.append('exercises', payload.exercises);
-            formData.append('id', payload.id);
-            formData.append('slug', payload.slug);
-            formData.append('target_muscle', payload.target_muscle);
-            formData.append('title', payload.title);
-            formData.append('training_type', payload.training_type);
-            formData.append('user', payload.user);
 
 
 
 
             console.log(payload);
 
-            axios.post(baseURL + 'v1/workout/send/', formData)
+            axios.post(baseURL + 'v1/workout/send/', payload)
                 .then(function () {
                     console.log('Success')
             }).catch(function (err) {
