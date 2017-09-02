@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+</head>
+<body>
+<style>
+    li {
+        list-style: none;
+    }
+</style>
+
+<span>{{ username }} sent you a workout: </span>
+
+<div style="width: 100%; text-align: center">
+    <div style="box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); border: 1px solid #cccccc;  transition: 0.3s;">
+        <div>
+            <h3>{{ payload.title }}</h3>
+            <span>{{ payload.date_for_completion }}</span>
+        </div>
+        <img src="cid:{{ cid }}" height="200px" width="200px">
+        <div style="width: 100%">
+            <h3>Exercises</h3>
+            <ul style="text-align: left; list-style-type: none">
+            {% for exercise in payload.exercises %}
+                <li style="margin-right: 5px; margin-bottom: 7px">{{ exercise.exercise_name }}
+                    <span style="padding-left: 5px">{{ exercise.sets }}x{{ exercise.reps }}</span>
+                    <div style="font-size: small; font-style: italic"><span style="padding-right: 5px; font-size: x-small">Notes: </span>{{ exercise.notes }}</div>
+                </li>
+             {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+</body>
+</html>

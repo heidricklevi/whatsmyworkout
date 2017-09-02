@@ -33,9 +33,10 @@ from django.middleware.csrf import get_token
 from django.core.mail import send_mail
 from django.core.mail import EmailMultiAlternatives
 from anymail.message import attach_inline_image_file
-from django.template.loader import get_template
+from django.template.loader import get_template, render_to_string
 from django.template import Context
 import json
+
 
 #
 # with open('..\\..\\Downloads\\bbsorted-beautified.json') as data:
@@ -168,11 +169,18 @@ class SendWorkoutEmail(APIView):
             }
 
             text_email = get_template('workoutemail.txt')
+
             d = Context({'payload': payload, 'username': request.user})
             print(exercises)
             text_content = text_email.render(d)
+
             message = EmailMultiAlternatives("Workout For The Day", text_content,
-                                             from_email='admin@whatsmyworkout.co', to=[to_email])
+                                             from_email='noreply@whatsmyworkout.co', to=[to_email])
+            workout_image = self.set_image(payload['target_muscle'])
+            cid = attach_inline_image_file(message, workout_image)
+            html_email = render_to_string("workoutemail.html", {'payload': payload, 'username': request.user, 'cid': cid})
+
+            message.attach_alternative(html_email, 'text/html')
 
             message.send()
 
@@ -180,7 +188,33 @@ class SendWorkoutEmail(APIView):
             return Response(serialized.data, status=status.HTTP_200_OK)
         else:
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
-        # send_mail("IT WORKS!!!!!", "THIS WILL get sent through mailgun", "Anymail sender <admin@whatsmyworkout.co>", ["ljheidrick@gmail.com"])
+
+    def set_image(self, target_muscle):
+        workout_image = None
+
+        if target_muscle == 'Chest':
+            workout_image = 'account/static/img/chest-muscle.jpg'
+        elif target_muscle == 'Biceps':
+            workout_image = 'account/static/img/biceps.jpg'
+        elif target_muscle == 'Triceps':
+            workout_image = 'account/static/img/triceps.jpg'
+        elif target_muscle == 'Quads':
+            workout_image = 'account/static/img/quads.jpg'
+        elif target_muscle == 'Traps':
+            workout_image = 'account/static/img/traps.jpg'
+        elif target_muscle == 'Lats':
+            workout_image = 'account/static/img/lats.jpg'
+        elif target_muscle == 'Forearm':
+            workout_image = 'account/static/img/forearm.jpg'
+        elif target_muscle == 'Calves':
+            workout_image = 'account/static/img/calf.jpg'
+        elif target_muscle == 'Abdominal':
+            workout_image = 'account/static/img/abs.jpg'
+
+        return workout_image
+
+
+
 
 
 
