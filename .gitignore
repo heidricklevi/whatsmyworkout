@@ -5,3 +5,4 @@ media/
 *dist/
 *build.js
 img/
+migrations/
