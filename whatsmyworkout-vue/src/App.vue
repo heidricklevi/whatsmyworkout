@@ -24,9 +24,6 @@
                     </a>
                     <div class="collapse navbar-collapse align-items-center">
                         <ul class="navbar-nav mr-auto ">
-                            <li v-if="isAuthenticated" class="nav-item mr-3">
-                                <router-link class="nav-link white--text title" to="/user/dashboard/">Dashboard</router-link>
-                            </li>
                             <li class="nav-item active mr-3">
                                 <a class="nav-link white--text title" href="#header">Home <span class="sr-only">(current)</span></a>
                             </li>
@@ -41,7 +38,7 @@
                             </li>
                         </ul>
                         <span class="navbar-text">
-                            <a href="signup.html" class="font-weight-bold">Sign Up!</a>
+                            <a href="#signup" class="font-weight-bold">Sign Up!</a>
                         </span>
                         <span class="navbar-text">
                             <a href="#login" class="font-weight-bold">Sign In</a>
@@ -115,9 +112,9 @@
                     Dedicated simple creation of your workouts including the ability to assign the date you will complete the workout.
                     Then see that workout front and center in your dashboard.
                 </p>
-                <a href="signup.html" class="btn text-md-center blue--text font-weight-bold text-uppercase">Checkout Whats My Workout Now!</a>
+                <a href="#signup" class="btn text-md-center blue--text font-weight-bold text-uppercase">Checkout Whats My Workout Now!</a>
             </div>
-            <div class="col-lg-6 text-right d-none d-lg-block">
+            <div class="col-lg-6 text-right d-lg-block">
                 <img id="mockup" style="top: -90px;" src="../src/assets/img/Untitled.png" alt="" class="mockup">
             </div>
         </div>
@@ -206,8 +203,9 @@
     </div>
 </section>
 
-<section id="features-tabs" class="features-tabs pt-5 pb-3">
+<section id="signup" class="features-tabs pt-5 pb-3">
   <div class="container">
+
       <div class="row">
           <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 text-center mt-4 preamble">
               <h4 class="title mt-0 mb-3">Sign up to start creating & tracking your workouts today!</h4>
@@ -216,6 +214,7 @@
               <!-- Tab panes -->
               <div class="tab-content">
          <v-card >
+                <v-alert error v-model="signUpErrorAlert" transition="scale-transition">{{ signUpAlertMessage }}</v-alert>
                         <v-card-text>
                                 <v-layout row wrap>
                                     <v-flex xs12 md12>
@@ -347,12 +346,15 @@ import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import dashboard from '../src/components/dashboard.vue'
 
+
 export default {
   name: 'app',
   data () {
     return {
       drawer: true,
       alert: true,
+      signUpErrorAlert: false,
+      signUpAlertMessage: ' ',
        hide: true,
       items: [
           { title: 'Home', icon: 'dashboard' },
@@ -374,6 +376,11 @@ export default {
       confirmPass: '',
       userAuth: userAuth,
       hero: true,
+      snackbar: true,
+      mode: ' ',
+      y: 'top',
+      snackbarText: 'gafsgfsagsgfsdgffdg',
+      context: ' '
     }
   },
     watch: {
@@ -427,8 +434,15 @@ export default {
         axios.post(baseURL + endURL, payload
             ).then(function (response) {
                 console.log("Success")
+                self.signUpErrorAlert = true;
+                self.signUpAlertMessage = "You have successfully created your account.";
+                self.context = 'success';
 
             }).catch(function (errors) {
+
+                self.signUpErrorAlert = true;
+                self.signUpAlertMessage = "Sign ups have been limited during the early development stages. Please submit a request for an account via the feedback area."
+
 
                 console.log(errors);
         })
@@ -436,7 +450,7 @@ export default {
 
     },
     components: {
-      'dashboard': dashboard
+        'dashboard': dashboard
     },
     mounted: function () {
         var self = this;

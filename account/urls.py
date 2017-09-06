@@ -22,8 +22,7 @@ router.register(r'exercise', ExerciseViewSet, base_name='user-exercise')
 router.register(r'exercises', ExercisesViewSet, base_name='exercises-list')
 
 urlpatterns = [
-    url(r'^signup/$', views.create_account, name='create_account'),
-    # url(r'^login/$', login, name='login'),
+
     url(r'^logout/$', logout, {'template_name': 'accounts/signout.html'}, name='logout'),
     url(r'^logout-then-login/$', logout_then_login, name='logout_then_login'),
     url(r'^password-change/$', password_change, name='password_change'),
@@ -32,17 +31,6 @@ urlpatterns = [
     url(r'^password-reset/done/$', password_reset_done, name='password_reset_done'),
     url(r'^password-reset/confirm/(?P<uidb64>[-\w]+)/(?P<token>[-\w]+)/$', password_reset_confirm, name='password_reset_confirm'),
     url(r'^password-reset/complete/$', password_reset_complete, name='password_reset_complete'),
-    url(r'^vue-test/$', views.vuetest, name='vuetest'),
-
-    url(r'^signin/$', views.signin, name='signin'),
-
-
-
-
-    url(r'^dashboard/edit/$', views.complete_profile, name='complete_profile'),
-    url(r'^dashboard/create-workout/$', views.create_workout, name='create_workout'),
-    url(r'^dashboard/profile/$', views.profile, name='profile'),
-    url(r'^dashboard/$', views.dashboard, name='dashboard'),
 
 
 

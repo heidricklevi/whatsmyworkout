@@ -29,7 +29,7 @@ SECRET_KEY = '$d9y415c(s)q%-5^*8d3y^x*x(902t_ui-86k*33g-)kb%imqi'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['dev.whatsmyworkout.co', 'localhost', '127.0.0.1', 'ubuntu-dev-512.localdomain']
+ALLOWED_HOSTS = CONFIG_ALLOW_HOSTS
 
 # Email settings
 EMAIL_HOST = email_config['EMAIL_HOST']
