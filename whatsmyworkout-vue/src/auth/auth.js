@@ -6,7 +6,8 @@ import router from '../router/index'
 import axios from 'axios'
 import jwt_decoded from 'jwt-decode'
 
-let baseURL = "http://127.0.0.1:8000/";
+export var baseURLLocal = "http://127.0.0.1:8000/";
+export var devServer = 'dev.whatsmyworkout.co/';
 
 export var userAuth = {
     isAuthenticated: authenticationStatus(),
@@ -28,7 +29,7 @@ export function login(username, pass) {
         password: pass,
     };
 
-    axios.post(baseURL + 'v1/login/', credentials
+    axios.post(baseURLLocal+'v1/login/', credentials
     ).then(function (response) {
 
         var JWT = response.data.token;
@@ -52,7 +53,7 @@ export function getJWTHeader() {
 
 export function getUserAccount(username) {
 
-     axios.get(baseURL + "v1/users/" + username)
+     axios.get(baseURLLocal+"v1/users/" + username)
          .then(function (response) {
              return response;
          }).catch(function (err) {
@@ -83,12 +84,11 @@ export function authenticationStatus() {
     var JWT = localStorage.getItem('JWT');
     var decoded = {};
 
-    if (!JWT) { return false; }
+    if (!JWT) {
+        return false;
+    }
 
     decoded = jwt_decoded(JWT);
     return decoded.exp > Date.now() / 1000;
 
 }
-
-
-

@@ -227,7 +227,7 @@
  import myDatepicker from 'vue-datepicker'
  import moment from 'moment'
  import axios from 'axios'
- import { login, userAuth } from '../auth/auth'
+ import { devServer, baseURLLocal, login, userAuth } from '../auth/auth'
 
 
 
@@ -332,7 +332,7 @@
         },
         onSubmit: function (event) {
             var self = this;
-            var baseURL = "http://127.0.0.1:8000/";
+
 
             var data = {
                 title: this.title,
@@ -352,7 +352,7 @@
             }
 
             if (this.workout_id && JSON.stringify(data) !== JSON.stringify(this.submittedWorkout)) {
-                axios.put(baseURL + 'v1/workouts/'+this.workout_id + '/', data)
+                axios.put(baseURLLocal+'v1/workouts/'+this.workout_id + '/', data)
                 .then(function (response) {
                     self.snackbarMessage = "Successfully updated your workout";
                     self.context = 'success';
@@ -398,7 +398,7 @@
                 return
             }
 
-            axios.post(baseURL + 'v1/workouts/', data)
+            axios.post(baseURLLocal+'v1/workouts/', data)
                 .then(function (response) {
                     self.snackbarMessage = "Successfully created your workout";
                     self.context = 'success';
@@ -467,7 +467,7 @@
               };
 
 
-              axios.post(baseURL + 'v1/exercise/', data)
+              axios.post(baseURLLocal+'v1/exercise/', data)
                   .then(function (response) {
                       self.snackbarMessage = "Successfully added exercise " +self.exercise_title;
                       self.context = 'success';
@@ -511,8 +511,8 @@
       },
       mounted: function () {
             var self = this;
-            var baseURL = 'http://127.0.0.1:8000/v1/workouts/';
-            axios.get(baseURL).then(function (response) {
+
+            axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
                 self.recentWorkouts = response.data.results;
                 console.log(self.recentWorkouts);
             }).catch(function (e) {

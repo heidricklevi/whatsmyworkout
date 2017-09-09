@@ -205,7 +205,7 @@
 
 <script>
 
-import { userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../auth/auth'
+import { devServer, baseURLLocal, userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../auth/auth'
 import router from '../router/index'
 import jwt_decode from 'jwt-decode'
 import AccountSettings from '../components/account-settings.vue'
@@ -237,7 +237,7 @@ export default {
             items: [
                 { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
-                { title: 'Manage Workouts', icon: 'schedule', link: '/'},
+                { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
                 { title: 'Share Workouts', icon: 'share', link: '/'},
                 { title: 'Archive Workouts', icon: 'archive', link: '/'}
             ],
@@ -291,7 +291,6 @@ export default {
           this.$refs.fileInput.click();
       },
       updateProfile: function (e) {
-          var baseURL = "http://127.0.0.1:8000/";
           var formData = new FormData();
           var imageElement = document.getElementById('image');
           var self = this;
@@ -310,7 +309,7 @@ export default {
               formData.append('avatar', imageElement.files[0] );
           }
 
-          axios.put(baseURL + 'v1/users/'+userAuth.user.username +'/', formData)
+          axios.put(baseURLLocal + 'v1/users/'+userAuth.user.username +'/', formData)
               .then(function (response) {
                   self.snackbarMessage = "Successfully updated your profile";
                   self.context = 'success';

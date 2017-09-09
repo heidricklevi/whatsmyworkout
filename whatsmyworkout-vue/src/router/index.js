@@ -9,6 +9,7 @@ import Login from '../components/login.vue'
 import Dashboard from '../components/dashboard.vue'
 import AccountSettings from '../components/account-settings.vue'
 import userDashboard from '../components/user-dashboard.vue'
+import ManageWorkouts from '../components/manage-workouts.vue'
 
 Vue.use(Router);
 
@@ -28,6 +29,12 @@ export default new Router({
       path: '/dashboard/',
       name: 'dashboard',
       component: Dashboard
+    },
+    {
+      path: '/manage/workouts/',
+      name: 'manage-workouts',
+      component: ManageWorkouts
+
     },
     {
       path: '/create-workout/',

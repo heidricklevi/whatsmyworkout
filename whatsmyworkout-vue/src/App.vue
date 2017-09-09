@@ -340,7 +340,7 @@
 
 <script>
 
-import { userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../src/auth/auth'
+import { baseURLLocal, devServer, userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../src/auth/auth'
 import router from '../src/router/index'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
@@ -414,7 +414,7 @@ export default {
 
 
         var endURL = "v1/user/create/";
-        var baseURL = "http://127.0.0.1:8000/";
+
 
         let payload = {
 
@@ -431,7 +431,7 @@ export default {
                 about: 'Default About',
             }
         };
-        axios.post(baseURL + endURL, payload
+        axios.post(baseURLLocal+endURL, payload
             ).then(function (response) {
                 console.log("Success")
                 self.signUpErrorAlert = true;
@@ -458,7 +458,7 @@ export default {
             var JWT = localStorage.getItem("JWT");
             axios.defaults.headers.common['Authorization'] = getJWTHeader();
             var decoded = jwt_decode(JWT);
-            axios.get("http://127.0.0.1:8000/" + "v1/users/" + decoded.username +'/')
+            axios.get(baseURLLocal+"v1/users/" + decoded.username +'/')
                 .then(function (response) {
                     userAuth.user = response.data;
 

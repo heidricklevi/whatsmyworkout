@@ -119,6 +119,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
+import { devServer, baseURLLocal} from '../auth/auth'
 
 export default {
 
@@ -144,7 +145,6 @@ export default {
     props: ["computedAuth"],
     methods: {
         sendWorkout: function () {
-            var baseURL = 'http://127.0.0.1:8000/';
             var payload = this.recentWorkouts;
 
             for (var i =0; i < payload.exercises.length; i++) {
@@ -159,7 +159,7 @@ export default {
 
             console.log(payload);
 
-            axios.post(baseURL + 'v1/workout/send/', payload)
+            axios.post(baseURLLocal+'v1/workout/send/', payload)
                 .then(function () {
                     console.log('Success')
             }).catch(function (err) {
@@ -169,8 +169,8 @@ export default {
     },
     mounted: function () {
             var self = this;
-            var baseURL = 'http://127.0.0.1:8000/v1/workouts/';
-            axios.get(baseURL).then(function (response) {
+
+            axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
                 self.recentWorkouts = response.data.results[0];
                 console.log(self.recentWorkouts);
             }).catch(function (e) {
