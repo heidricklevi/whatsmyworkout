@@ -44,6 +44,7 @@
                 <v-flex md4 class="pl-0 pr-0">
                     <div  style="height: 100px; border-bottom: 1px solid black;">
                         <span style="display: inline-block" class="pa-2">9</span>
+                        {{ currentWeek }}
                     </div>
                 </v-flex>
                     </v-layout>
@@ -60,7 +61,8 @@
 </template>
 
 <script>
-
+import moment from 'moment'
+import calendar from 'calendar-js'
 
 
 
@@ -71,6 +73,22 @@
             return {
 
             }
+        },
+        computed: {
+          currentWeek: function () {
+              var cal = calendar().of(moment().weekYear(), moment().month());
+              var dayOfMonth = moment().date();
+
+              for (var i = 0; i < cal.calendar.length; i++) {
+                  for (var j = 0; j < cal.calendar[i].length; j++){
+                      if (dayOfMonth === cal.calendar[i][j]){
+                            return cal.calendar[i]
+                        }
+                  }
+
+              }
+          },
+
         },
         methods: {
 
