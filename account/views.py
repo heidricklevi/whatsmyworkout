@@ -49,7 +49,15 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
-        return Workout.objects.all().filter(user=self.request.user).order_by('-date_for_completion')[:5]
+        queryset = Workout.objects.all()
+        month = self.request.query_params.get('month', None)
+
+        if month is not None:
+            queryset = queryset.filter(date_for_completion__month=month)
+        else:
+            queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:5]
+
+        return queryset
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):
@@ -142,7 +150,6 @@ class SendWorkoutEmail(APIView):
 
             message.send()
 
-            # send_mail('Workout for the day', serialized.data['date_for_completion'], 'admin@whatsmyworkout.co', ["ljheidrick@gmail.com"])
             return Response(serialized.data, status=status.HTTP_200_OK)
         else:
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
