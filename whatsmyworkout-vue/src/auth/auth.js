@@ -6,8 +6,8 @@ import router from '../router/index'
 import axios from 'axios'
 import jwt_decoded from 'jwt-decode'
 
-export var baseURLLocal = "http://127.0.0.1:8000/";
-export var devServer = 'dev.whatsmyworkout.co/';
+
+export let baseURLLocal = "http://127.0.0.1:8000/";
 
 export var userAuth = {
     isAuthenticated: authenticationStatus(),
@@ -21,6 +21,9 @@ export var userAuth = {
 
     }
 };
+
+
+
 
 export function login(username, pass) {
 

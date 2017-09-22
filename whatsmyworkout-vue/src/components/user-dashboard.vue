@@ -153,12 +153,6 @@ export default {
             payload.workout_image = null;
             payload.to = this.shareEmail;
 
-
-
-
-
-            console.log(payload);
-
             axios.post(baseURLLocal+'v1/workout/send/', payload)
                 .then(function () {
                     console.log('Success')

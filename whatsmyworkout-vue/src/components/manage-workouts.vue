@@ -1,70 +1,27 @@
 <template>
-    <v-layout row>
-        <v-flex md6 xs12>
-            <v-card>
+    <div>
+
+
                 <v-alert error v-model="alertError">Could not load calendar error</v-alert>
-                <v-card-title primary-title>
-                    <div>
-                    <h3 class="headline">{{ currentCalendar.month }} {{ currentCalendar.year }}</h3>
-                   <h4 class="title">Week of {{ currentMonth }}/{{ currentWeek[0] }} - {{ currentMonth }}/{{ currentWeek[currentWeek.length - 1]  }}</h4></div>
+            <template>
+                <vue-event-calendar :events="scheduledEvents" @month-changed="changeMonth">
+                    <template scope="props">
+                        <div v-for="(event, index) in props.showEvents" class="event-item">
 
-                </v-card-title>
-                <v-divider></v-divider>
-                <v-layout class="ml-0 mr-0">
-                <v-flex md4 class="pl-0 pr-0">
-                    <div style="border-right: solid 1px black; border-bottom: 1px solid black; height: 100px;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[0] }}</span><span>{{currentCalendar.weekdaysAbbr[0]}}</span>
-                    </div>
-                </v-flex>
 
-                <v-flex md4 class="pl-0 pr-0">
-                    <div style="border-right: solid 1px black; border-bottom: 1px solid black; height: 100px;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[1] }}</span><span>{{currentCalendar.weekdaysAbbr[1]}}</span>
-                    </div>
-                </v-flex>
-                <v-flex md4 class="pl-0 pr-0">
-                    <div style="border-bottom: 1px solid black; height: 100px;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[2] }}</span><span>{{currentCalendar.weekdaysAbbr[2]}}</span>
-                    </div>
-                </v-flex>
-                    </v-layout>
-                            <v-layout class="ml-0 mr-0">
-                <v-flex md4 class="pl-0 pr-0">
-                    <div style="border-bottom: 1px solid black; border-right: solid 1px black; height: 100px;">
-                        <div>
-                            <span style="display: inline-block" class="pa-2">{{ currentWeek[3] }}</span><span>{{currentCalendar.weekdaysAbbr[3]}}</span>
+                            {{ event.desc }}
                         </div>
-                    </div>
-                </v-flex>
-
-                <v-flex md4 class="pl-0 pr-0">
-                    <div style="border-right: solid 1px black; border-bottom: 1px solid black; height: 100px;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[4] }}</span><span>{{currentCalendar.weekdaysAbbr[4]}}</span>
-                    </div>
-                </v-flex>
-                <v-flex md4 class="pl-0 pr-0">
-                    <div  style="height: 100px; border-bottom: 1px solid black;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[5] }}</span><span>{{currentCalendar.weekdaysAbbr[5]}}</span>
-                    </div>
-                </v-flex>
-                    </v-layout>
-                <v-layout class="ml-0 mr-0">
-                    <v-flex md4 xs4 class="pl-0 pr-0">
-                        <div  style="height: 100px;  border-right: 1px solid black;">
-                        <span style="display: inline-block" class="pa-2">{{ currentWeek[6] }}</span><span>{{currentCalendar.weekdaysAbbr[6]}}</span>
-                         {{ scheduledWorkout }}
-                    </div>
-                    </v-flex>
-                </v-layout>
-            </v-card>
-        </v-flex>
-    </v-layout>
+                    </template>
+                </vue-event-calendar>
+            </template>
+        </div>
 </template>
 
 <script>
 import moment from 'moment'
-import baseURLLocal from '../auth/auth'
+import {baseURLLocal} from '../auth/auth'
 import calendar from 'calendar-js'
+
 import axios from 'axios'
 
 
@@ -75,10 +32,16 @@ import axios from 'axios'
         name: 'manage-workouts',
         data () {
             return {
-                scheduledWorkouts: {},
+                scheduledEvents: [{
+                    title: 'dafsdf',
+                    date: '2017/09/23',
+                    desc: 'blah'
+                },],
+                scheduledWorkouts: [{}],
                 alertError: false,
                 currenCalWeek: [],
                 currentCalFullWeekDate: [],
+                currentWeekWorkouts: [],
             }
         },
         computed: {
@@ -110,7 +73,7 @@ import axios from 'axios'
               for (var i = 0; i < scheduledWorkouts.length; i++) {
                   for (var j = 0; j < newWeekArr.length; j++) {
                       if (scheduledWorkouts[i].date_for_completion === newWeekArr[j]) {
-                          console.log('They match! ' + scheduledWorkouts[i] + ' ' + newWeekArr[j]);
+                          this.currentWeekWorkouts.push(scheduledWorkouts[i])
                       }
                   }
 
@@ -134,6 +97,49 @@ import axios from 'axios'
                 }
                 this.currentCalFullWeekDate = fullWeekDate;
                 return fullWeekDate;
+            },
+            changeMonth: function (month) {
+                var self = this;
+                month = month.substring(0, 2);
+
+
+                axios.get(baseURLLocal + 'v1/workouts/?month=' + month)
+                .then(function (response) {
+                    self.scheduledWorkouts = response.data.results;
+                    for (var i = 0; i < self.scheduledWorkouts.length; i++) {
+                        if (!self.scheduledEvents[i]){self.scheduledEvents[i] = {}}
+                        self.scheduledEvents[i].id = self.scheduledWorkouts[i].id;
+                        self.scheduledEvents[i].desc = self.scheduledWorkouts[i].exercises;
+                        self.scheduledEvents[i].title = self.scheduledWorkouts[i].title;
+                        self.scheduledEvents[i].date = moment(self.scheduledWorkouts[i].date_for_completion).format('YYYY/MM/DD');
+                    }
+
+                    console.log(self.scheduledEvents);
+                    console.log(response.data)
+                }).catch(function (error) {
+                  if (error.response) {
+                      // The request was made and the server responded with a status code
+                      // that falls out of the range of 2xx
+
+                      self.alertError = true;
+                      console.log(error.response.data);
+                      console.log(error.response.status);
+                      console.log(error.response.headers);
+                  } else if (error.request) {
+                      // The request was made but no response was received
+                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
+                      // http.ClientRequest in node.js
+                      self.alertError = true;
+                      console.log(error.request);
+                  } else {
+                      // Something happened in setting up the request that triggered an Error
+
+                      self.alertError = true;
+                      console.log('Error', error.message);
+                  }
+
+                  console.log(error.config);
+              });
             }
 
         },
@@ -144,12 +150,25 @@ import axios from 'axios'
 
         mounted: function () {
             var month = moment().get('month') + 1;
-            var baseURL = 'http://127.0.0.1:8000/';
             var self = this;
 
-            axios.get(baseURL + 'v1/workouts/?month=' + month)
+            self.scheduledEvents = [{
+                title: ' ',
+                date: ' '
+            },];
+
+            axios.get(baseURLLocal + 'v1/workouts/?month=' + month)
                 .then(function (response) {
                     self.scheduledWorkouts = response.data.results;
+                    for (var i = 0; i < self.scheduledWorkouts.length; i++) {
+                        if (!self.scheduledEvents[i]){self.scheduledEvents[i] = {}}
+                        self.scheduledEvents[i].id = self.scheduledWorkouts[i].id;
+                        self.scheduledEvents[i].desc = self.scheduledWorkouts[i].exercises;
+                        self.scheduledEvents[i].title = self.scheduledWorkouts[i].title;
+                        self.scheduledEvents[i].date = moment(self.scheduledWorkouts[i].date_for_completion).format('YYYY/MM/DD');
+                    }
+
+                    console.log(self.scheduledEvents);
                     console.log(response.data)
                 }).catch(function (error) {
                   if (error.response) {

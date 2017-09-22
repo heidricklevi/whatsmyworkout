@@ -46,6 +46,7 @@ class WorkoutList(APIView):
 
 
 class WorkoutViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner, ]
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
@@ -53,7 +54,7 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         month = self.request.query_params.get('month', None)
 
         if month is not None:
-            queryset = queryset.filter(date_for_completion__month=month)
+            queryset = queryset.filter(user=self.request.user).filter(date_for_completion__month=month)
         else:
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:5]
 
@@ -156,25 +157,29 @@ class SendWorkoutEmail(APIView):
 
     def set_image(self, target_muscle):
         workout_image = None
+        dev_server = False
+        account = ''
+        if dev_server:
+            account = 'whatsmyworkout'
 
         if target_muscle == 'Chest':
-            workout_image = 'account/static/img/chest-muscle.jpg'
+            workout_image = account + 'account/static/img/chest-muscle.jpg'
         elif target_muscle == 'Biceps':
-            workout_image = 'account/static/img/biceps.jpg'
+            workout_image = account + 'account/static/img/biceps.jpg'
         elif target_muscle == 'Triceps':
-            workout_image = 'account/static/img/triceps.jpg'
+            workout_image = account + 'account/static/img/triceps.jpg'
         elif target_muscle == 'Quads':
-            workout_image = 'account/static/img/quads.jpg'
+            workout_image = account + 'account/static/img/quads.jpg'
         elif target_muscle == 'Traps':
-            workout_image = 'account/static/img/traps.jpg'
+            workout_image = account + 'account/static/img/traps.jpg'
         elif target_muscle == 'Lats':
-            workout_image = 'account/static/img/lats.jpg'
+            workout_image = account + 'account/static/img/lats.jpg'
         elif target_muscle == 'Forearm':
-            workout_image = 'account/static/img/forearm.jpg'
+            workout_image = account + 'account/static/img/forearm.jpg'
         elif target_muscle == 'Calves':
-            workout_image = 'account/static/img/calf.jpg'
+            workout_image = account + 'account/static/img/calf.jpg'
         elif target_muscle == 'Abdominal':
-            workout_image = 'account/static/img/abs.jpg'
+            workout_image = account + 'account/static/img/abs.jpg'
 
         return workout_image
 
