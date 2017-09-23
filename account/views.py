@@ -160,7 +160,7 @@ class SendWorkoutEmail(APIView):
         dev_server = False
         account = ''
         if dev_server:
-            account = 'whatsmyworkout'
+            account = 'whatsmyworkout/'
 
         if target_muscle == 'Chest':
             workout_image = account + 'account/static/img/chest-muscle.jpg'

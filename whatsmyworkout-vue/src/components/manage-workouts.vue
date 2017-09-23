@@ -7,9 +7,14 @@
                 <vue-event-calendar :events="scheduledEvents" @month-changed="changeMonth">
                     <template scope="props">
                         <div v-for="(event, index) in props.showEvents" class="event-item">
+                            <h5 class="mb-0">{{ event.title }}</h5>
+                            <div class="subheading mb-2">{{ event.date | moment }}</div>
+                            <div v-for="(exercise, index) in event.desc">
+                                #{{ index }} <span>{{ exercise.exercise_name }}</span><span style="margin-left: 4%">{{ exercise.sets }}x{{ exercise.reps }}</span>
+                                <div style="margin: 0 0 3% 0;"><span style="font-size: small; font-style: italic; color: #1d1e1f">Notes: </span>{{ exercise.notes }}</div>
 
-
-                            {{ event.desc }}
+                                <v-divider></v-divider>
+                            </div>
                         </div>
                     </template>
                 </vue-event-calendar>
@@ -42,6 +47,12 @@ import axios from 'axios'
                 currenCalWeek: [],
                 currentCalFullWeekDate: [],
                 currentWeekWorkouts: [],
+            }
+        },
+        filters: {
+            moment: function (date) {
+                date = date.replace(/\//g, '-');
+                return moment(date).format("dddd, MMMM Do YYYY");
             }
         },
         computed: {
