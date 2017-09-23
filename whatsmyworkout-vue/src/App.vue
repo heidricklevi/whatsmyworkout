@@ -19,9 +19,11 @@
                         <v-icon>menu</v-icon>
                     </button>
                     <a class="navbar-brand" href="#">
-                        <div class="text-center logo-heading">Whats My Workout?</div>
+                        <div class="text-center logo-heading hidden-sm-and-down">Whats My Workout?
+                        </div>
                         <img id="header-logo" src="../src/assets/img/logo.png" alt="" class="img-fluid mr-5">
                     </a>
+
                     <div class="collapse navbar-collapse align-items-center">
                         <ul class="navbar-nav mr-auto ">
                             <li class="nav-item active mr-3">
@@ -31,7 +33,7 @@
                                 <a class="nav-link white--text title" href="#features">Features</a>
                             </li>
                             <li class="nav-item mr-3">
-                                <a class="nav-link white--text title" href="#features-tabs">Contact</a>
+                                <a class="nav-link white--text title" href="#signup">Contact</a>
                             </li>
                             <li class="nav-item mr-3">
                                 <a class="nav-link white--text title" href="#feedback">Feedback</a>
@@ -66,7 +68,7 @@
                                         <a @click="hide = true" class="nav-link" href="#features">Features</a>
                                     </li>
                                     <li class="nav-item">
-                                        <a @click="hide = true" class="nav-link" href="#features-tabs">Contact</a>
+                                        <a @click="hide = true" class="nav-link" href="#signup">Contact</a>
                                     </li>
                                     <li class="nav-item">
                                         <a @click="hide = true" class="nav-link" href="#feedback">Feedback</a>
@@ -104,7 +106,10 @@
 </div>
 
 <section class="hero hero-1">
+    <div class="white--text text-center title hidden-md-and-up">What's My Workout?</div>
+    <div style="text-align: center" class="hidden-md-and-up"><img id="mockup" style="height: 60%; width: 60%;"  src="../src/assets/img/Untitled.png" alt="" class="mockup hidden-md-and-up"></div>
     <div class="container">
+
         <div class="row">
             <div class="col-lg-6">
                 <h5 class="title pt-4 mb-4">Easily Create your workouts!</h5>
@@ -112,10 +117,10 @@
                     Dedicated simple creation of your workouts including the ability to assign the date you will complete the workout.
                     Then see that workout front and center in your dashboard.
                 </p>
-                <a href="#signup" class="btn text-md-center blue--text font-weight-bold text-uppercase">Checkout Whats My Workout Now!</a>
+                <a href="#signup" style="padding-left: 5%" class="btn text-md-center blue--text font-weight-bold text-uppercase">Checkout Whats My Workout Now!</a>
             </div>
             <div class="col-lg-6 text-right d-lg-block">
-                <img id="mockup" style="top: -90px;" src="../src/assets/img/Untitled.png" alt="" class="mockup">
+                <img id="mockup" style="top: -90px;" src="../src/assets/img/Untitled.png" alt="" class="mockup hidden-sm-and-down">
             </div>
         </div>
     </div>
