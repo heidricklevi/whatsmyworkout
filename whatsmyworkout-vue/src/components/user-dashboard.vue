@@ -1,7 +1,11 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 offset-md1 md4>
+            <v-progress-circular v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
             <v-card v-if="recentWorkouts">
+                <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
+                    {{ snackbarText1 }}
+                </v-snackbar>
                 <v-flex xs12>
                     <div class="pt-1 pl-1" style="display: inline-flex">
                         <v-avatar>
@@ -13,12 +17,6 @@
                                 <v-icon v-if="!isEmailWorkout">email</v-icon>
                                 <v-icon class="red--text" v-if="isEmailWorkout">cancel</v-icon>
                             </v-btn>
-                            <v-btn icon @click.native="isArchiveWorkout = !isArchiveWorkout" style="margin-right: 0">
-                                <v-icon v-if="!isArchiveWorkout">archive</v-icon>
-                            </v-btn>
-                            <v-btn icon @click.native="nextWorkout = !nextWorkout" style="margin-left: 0">
-                                <v-icon v-if="!nextWorkout">forward</v-icon>
-                            </v-btn>
                         </div>
                     </div>
 
@@ -28,7 +26,11 @@
                     </div>
                 </v-flex>
 
-                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px">
+                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px;
+                                                            position: absolute; height: 200px; top: 50px; width: 100%; z-index: 2">
+                        <v-snackbar v-model="snackbar" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
+                            {{ snackbarText }}
+                        </v-snackbar>
                         <form method="post" v-on:submit.prevent="sendWorkout">
                             <v-card-title>
                                 Send this workout to someone else via email
@@ -38,8 +40,11 @@
                             <v-text-field v-model="shareEmail" label="@" type="email" :value="shareEmail" required></v-text-field>
                             </v-flex>
                             <v-flex md6 offset-md3>
-                                <v-btn primary type="submit">
+                                <v-btn primary :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
                                     Send
+                                    <span slot="loader" class="custom-loader">
+                                        <v-icon>cached</v-icon>
+                                    </span>
                                 </v-btn>
                             </v-flex>
                         </v-layout>
@@ -122,8 +127,7 @@ import moment from 'moment'
 import { devServer, baseURLLocal} from '../auth/auth'
 
 export default {
-
-  name: 'user-dashboard',
+    name: 'user-dashboard',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App',
@@ -134,6 +138,16 @@ export default {
       isArchiveWorkout: false,
       nextWorkout: false,
       shareEmail: '',
+      loader: null,
+      loading: false,
+      snackbar: false,
+      snackbarText: ' ',
+      y: 'top',
+      context: '',
+      context1: '',
+      loadingWorkout: false,
+      snackbar1: false,
+      snackbarText1: '',
 
     }
   },
@@ -145,6 +159,7 @@ export default {
     props: ["computedAuth"],
     methods: {
         sendWorkout: function () {
+            var self = this;
             var payload = this.recentWorkouts;
 
             for (var i =0; i < payload.exercises.length; i++) {
@@ -153,21 +168,41 @@ export default {
             payload.workout_image = null;
             payload.to = this.shareEmail;
 
+            this.loading = true;
             axios.post(baseURLLocal+'v1/workout/send/', payload)
                 .then(function () {
+                    self.context = 'success';
+                    self.snackbar = true;
+                    self.snackbarText = "Successfully sent workout to "+payload.to;
+
+                    self.loading = false;
                     console.log('Success')
             }).catch(function (err) {
-                console.log(err)
+                    self.context = 'error';
+                    self.snackbar = true;
+                    self.snackbarText = "Could not send workout to "+payload.to +"error " + err;
+
+                    self.loading = false;
+                    console.log(err)
             })
         }
     },
     mounted: function () {
             var self = this;
 
+
+            this.loadingWorkout = true;
             axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
                 self.recentWorkouts = response.data.results[0];
+                self.loadingWorkout = false;
+
+
                 console.log(self.recentWorkouts);
             }).catch(function (e) {
+                self.loadingWorkout = false;
+                self.context1 = 'error';
+                self.snackbar1 = true;
+                self.snackbarText1 = "error loading workout";
                 console.log('There was an error loading recent workouts');
             })
       },
@@ -175,7 +210,46 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style>
+
+    .custom-loader {
+        animation: loader 1s infinite;
+        display: flex;
+    }
+
+    @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
     .card > .card__title {
         display: block;
     }

@@ -56,8 +56,11 @@
 
                             <div class="form-group row">
                                 <div class="col-8">
-                                    <v-btn primary @click.native="onFocus">
+                                    <v-btn primary @click.native="onFocus" :loading="loading2" :disabled="loading2">
                                         <input type="submit" ref="workoutSubmit" value="Continue">
+                                        <span slot="loader" class="custom-loader">
+                                            <v-icon>cached</v-icon>
+                                        </span>
                                     </v-btn>
                                 </div>
                             </div>
@@ -93,8 +96,11 @@
                             </div>
 
                             <v-flex md9 offset-md1 xs12>
-                                <v-btn primary @click.native="onFocusExercise">
+                                <v-btn primary @click.native="onFocusExercise" :loading="loading1" :disabled="loading1">
                                     <input type="submit" ref="exerciseSubmit" value="Save & Add">
+                                    <span slot="loader" class="custom-loader">
+                                        <v-icon>cached</v-icon>
+                                    </span>
                                 </v-btn>
                                 <v-btn secondary @click.native="e6 = 1">Back</v-btn>
                                 <v-btn class="blue-grey white--text" @click.native="e6 = 3">Continue</v-btn>
@@ -121,7 +127,9 @@
                     <span>Recently Created Workouts</span>
                 </div>
                 <template >
-                    <v-expansion-panel  >
+                    <v-alert error :value="alert" transition="scale-transition">Error loading last 5 workouts</v-alert>
+                    <v-expansion-panel>
+                        <v-progress-circular v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                         <v-expansion-panel-content v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                             <div slot="header">
                                 <span class="pr-2"><img src="../assets/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
@@ -266,6 +274,12 @@
       recentWorkouts: {},
       submittedWorkout: {},
       userAuth: userAuth,
+      loading: false,
+      alert: false,
+      loading1: false,
+      loading2: false,
+      loader: null,
+
       training_types: [
           { text: 'Strength Training', value: 'Strength Training'},
           { text: 'Flexibility Focused', value: 'Flexibility Focused'},
@@ -322,10 +336,12 @@
       methods: {
         onFocus: function () {
             this.$refs.workoutSubmit.click();
+            this.loader = 'loading2';
 
         },
         onFocusExercise: function () {
             this.$refs.exerciseSubmit.click();
+            this.loader = 'loading1';
         },
         addWorkoutClick: function () {
             this.createWorkout = !this.createWorkout;
@@ -352,6 +368,8 @@
             }
 
             if (this.workout_id && JSON.stringify(data) !== JSON.stringify(this.submittedWorkout)) {
+                this.loading2 = true;
+
                 axios.put(baseURLLocal+'v1/workouts/'+this.workout_id + '/', data)
                 .then(function (response) {
                     self.snackbarMessage = "Successfully updated your workout";
@@ -362,6 +380,7 @@
                     self.submittedWorkout = data;
 
                 }).catch(function (error) {
+                    self.loading2 = false;
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
@@ -398,8 +417,10 @@
                 return
             }
 
+            this.loading2 = true;
             axios.post(baseURLLocal+'v1/workouts/', data)
                 .then(function (response) {
+                    self.loading2 = false;
                     self.snackbarMessage = "Successfully created your workout";
                     self.context = 'success';
                     self.snackbar = true;
@@ -408,6 +429,7 @@
                     self.submittedWorkout = data;
 
                 }).catch(function (error) {
+                    self.loading2 = false;
                 if (error.response) {
                     // The request was made and the server responded with a status code
                     // that falls out of the range of 2xx
@@ -442,9 +464,10 @@
             });
         },
         createMore: function () {
+            this.$refs.workoutForm.reset();
             this.workout_id = '';
             this.e6 = 1;
-            this.$refs.workoutForm.reset();
+
         },
         onSubmitExercise: function (event) {
               var self = this;
@@ -466,15 +489,17 @@
                   workout_id: this.workout_id,
               };
 
-
+              this.loading1 = true;
               axios.post(baseURLLocal+'v1/exercise/', data)
                   .then(function (response) {
                       self.snackbarMessage = "Successfully added exercise " +self.exercise_title;
                       self.context = 'success';
                       self.snackbar = true;
                       self.e6 = 2;
+                      self.loading1 = false;
 
                   }).catch(function (error) {
+                      self.loading1 = false;
                   if (error.response) {
                       // The request was made and the server responded with a status code
                       // that falls out of the range of 2xx
@@ -482,7 +507,7 @@
                       self.snackbarMessage = "There was an error creating workouts: \n" + 'Status' + '\n' + error.response.status;
                       self.context = 'error';
                       self.snackbar = true;
-
+                      self.loading1 = false;
 
                       console.log(error.response.data);
                       console.log(error.response.status);
@@ -512,18 +537,61 @@
       mounted: function () {
             var self = this;
 
+            this.loading = true;
             axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
+                self.loading = false;
                 self.recentWorkouts = response.data.results;
-                console.log(self.recentWorkouts);
+
+
+
             }).catch(function (e) {
                 console.log('There was an error loading recent workouts');
+                self.loading = false;
+                self.alert = true;
+
+
             })
       },
 }
 </script>
 
 <style>
-
+    .custom-loader {
+    animation: loader 1s infinite;
+    display: flex;
+  }
+  @-moz-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-webkit-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @-o-keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  @keyframes loader {
+    from {
+      transform: rotate(0);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
     
 
     @media only screen and (max-width: 768px) {
