@@ -239,7 +239,7 @@ export default {
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
                 { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
                 { title: 'Share Workouts', icon: 'share', link: '/'},
-                { title: 'Archive Workouts', icon: 'archive', link: '/'}
+                { title: 'Archive Workouts', icon: 'archive', link: '/archived-workouts/'}
             ],
             genderOpts: [
                 { text: 'Female' },

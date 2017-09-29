@@ -6,6 +6,8 @@
             <template>
                 <vue-event-calendar :events="scheduledEvents" @month-changed="changeMonth">
                     <template scope="props">
+                        <v-progress-circular style="" v-if="loading"
+                                             indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                         <div v-for="(event, index) in props.showEvents" class="event-item">
                             <h5 class="mb-0">{{ event.title }}</h5>
                             <div class="subheading mb-2">{{ event.date | moment }}</div>
@@ -47,6 +49,7 @@ import axios from 'axios'
                 currenCalWeek: [],
                 currentCalFullWeekDate: [],
                 currentWeekWorkouts: [],
+                loading: false
             }
         },
         filters: {
@@ -113,7 +116,7 @@ import axios from 'axios'
                 var self = this;
                 month = month.substring(0, 2);
 
-
+                this.loading = true;
                 axios.get(baseURLLocal + 'v1/workouts/?month=' + month)
                 .then(function (response) {
                     self.scheduledWorkouts = response.data.results;
@@ -125,9 +128,13 @@ import axios from 'axios'
                         self.scheduledEvents[i].date = moment(self.scheduledWorkouts[i].date_for_completion).format('YYYY/MM/DD');
                     }
 
+                    self.loading = false;
                     console.log(self.scheduledEvents);
                     console.log(response.data)
                 }).catch(function (error) {
+
+                    self.loading = false;
+
                   if (error.response) {
                       // The request was made and the server responded with a status code
                       // that falls out of the range of 2xx
@@ -168,6 +175,7 @@ import axios from 'axios'
                 date: ' '
             },];
 
+            this.loading = true;
             axios.get(baseURLLocal + 'v1/workouts/?month=' + month)
                 .then(function (response) {
                     self.scheduledWorkouts = response.data.results;
@@ -179,9 +187,14 @@ import axios from 'axios'
                         self.scheduledEvents[i].date = moment(self.scheduledWorkouts[i].date_for_completion).format('YYYY/MM/DD');
                     }
 
+
+                    self.loading = false;
                     console.log(self.scheduledEvents);
                     console.log(response.data)
                 }).catch(function (error) {
+
+                    self.loading = false;
+
                   if (error.response) {
                       // The request was made and the server responded with a status code
                       // that falls out of the range of 2xx

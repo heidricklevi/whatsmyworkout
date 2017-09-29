@@ -122,6 +122,7 @@ class SendWorkoutEmail(APIView):
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     def post(self, request):
+        image = request.data.pop('workout_image')
         to_email = request.data.pop('to')
         serialized = WorkoutSerializer(data=request.data)
 

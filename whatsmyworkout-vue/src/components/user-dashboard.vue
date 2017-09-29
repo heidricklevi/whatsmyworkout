@@ -1,7 +1,7 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 offset-md1 md4>
-            <v-progress-circular v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+
             <v-card v-if="recentWorkouts">
                 <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
                     {{ snackbarText1 }}
@@ -59,6 +59,7 @@
                 <v-card-media id="workout-image" :src="recentWorkouts.workout_image" height="200px" contain>
 
                 </v-card-media>
+                <v-progress-circular style="position:absolute; top: 50%; right: 50%; "  v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                 <v-divider></v-divider>
                 <v-card-actions>
 
@@ -79,6 +80,7 @@
                                     <v-subheader class="text-xs-center">sets/reps</v-subheader>
                                 </v-flex>
                             </v-layout>
+
                             <template v-for="(exercise, i) in recentWorkouts.exercises">
 
                                 <v-list-tile style="padding: 0">
@@ -145,7 +147,7 @@ export default {
       y: 'top',
       context: '',
       context1: '',
-      loadingWorkout: false,
+      loadingWorkout: true,
       snackbar1: false,
       snackbarText1: '',
 
@@ -165,7 +167,7 @@ export default {
             for (var i =0; i < payload.exercises.length; i++) {
                 payload.exercises[i].workout_id = this.recentWorkouts.id;
             }
-            payload.workout_image = null;
+
             payload.to = this.shareEmail;
 
             this.loading = true;

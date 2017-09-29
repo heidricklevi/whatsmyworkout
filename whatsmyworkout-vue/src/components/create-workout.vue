@@ -129,7 +129,7 @@
                 <template >
                     <v-alert error :value="alert" transition="scale-transition">Error loading last 5 workouts</v-alert>
                     <v-expansion-panel>
-                        <v-progress-circular v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+                        <v-progress-circular style="position: absolute; left: 25%;" v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                         <v-expansion-panel-content v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                             <div slot="header">
                                 <span class="pr-2"><img src="../assets/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
