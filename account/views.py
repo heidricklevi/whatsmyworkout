@@ -39,7 +39,7 @@ class WorkoutList(APIView):
         if not request.user.id:
             return Response(status=status.HTTP_400_BAD_REQUEST)
         else:
-            queryset = Workout.objects.all().filter(user=request.user).order_by('date_for_completion')
+            queryset = Workout.objects.all().filter(user=request.user).order_by('-date_for_completion')
 
         serializer = WorkoutSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)

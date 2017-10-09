@@ -11,6 +11,7 @@ import AccountSettings from '../components/account-settings.vue'
 import userDashboard from '../components/user-dashboard.vue'
 import ManageWorkouts from '../components/manage-workouts.vue'
 import ArchiveWorkouts from '../components/archive-workouts.vue'
+import WorkoutDetail from '../components/workout-detail.vue'
 
 Vue.use(Router);
 
@@ -57,6 +58,13 @@ export default new Router({
       path: '/archived-workouts/',
       name: 'archive-workouts',
       component: ArchiveWorkouts,
+
+    },
+    {
+      path: '/workout-detail/',
+      name: 'workout-detail',
+      component: WorkoutDetail,
+      props: true,
 
     }
   ],
