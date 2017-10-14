@@ -4,24 +4,28 @@ import router from './router'
 import Vuetify from 'vuetify'
 import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as one file, so you can easily update it.
 import vueEventCalendar from 'vue-event-calendar'
-
+import Vuex from 'vuex'
 
 Vue.use(vueEventCalendar, {locale: 'en'});
 Vue.use(Vuetify);
+Vue.use(Vuex);
 
-Object.defineProperty(Vue.prototype, '$bus', {
-    get() {
-        return this.$root.bus;
+const store = new Vuex.Store({
+    state: {
+      data: {}
+    },
+    mutations: {
+      setData (state, payload) {
+        state.data = payload;
+      }
     }
 });
 
-var bus = new Vue({});
+
 
 new Vue({
   el: '#app',
-  data: {
-      bus:bus
-  },
+  store,
   router,
   render: h => h(App)
 });
