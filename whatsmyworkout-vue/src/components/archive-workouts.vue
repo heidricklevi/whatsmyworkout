@@ -121,13 +121,15 @@ export default {
 
   },
   computed: {
-      selectedWorkout: function () {
+
+  },
+  methods: {
+
+    selectedWorkout: function () {
 
           this.$store.commit('setData', this.selected);
           console.log("commited selected workout to store")
     },
-  },
-  methods: {
     toggleAll () {
         if (this.selected.length) this.selected = [];
         else this.selected = this.items.slice()

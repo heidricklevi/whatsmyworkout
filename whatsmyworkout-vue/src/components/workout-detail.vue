@@ -5,11 +5,35 @@
                 <v-card>
                     <div>
                         <v-avatar class="ma-3" style="display: inline-flex;">
-                            <img :src="userAuth.user.avatar" >
+                            <img :src="userAuth.user.avatar">
                         </v-avatar>
-                        <span class="subheading">{{ userAuth.user.username }}</span>
-
                     </div>
+                     <span class="subheading mt-0" style="position: absolute; top: 5px; left: 65px">{{ userAuth.user.username }}</span>
+                    <v-menu lazy :close-on-content-click="false"
+                            v-model="updateDate"
+                            transition="scale-transition"
+                            offsetY
+                            fullWidth
+                            :nudge-right="40"
+                            maxWidth="295px"
+                            style="top: -25px">
+                        <div slot="activator"
+                         v-model="tmp.date_for_completion"
+                         label="edit date"
+                         style="position: absolute; left: 60px; top: 20%;"
+                         @click="updateDate = !updateDate">
+                        <v-icon class="pr-1">event</v-icon>
+                        {{ tmp.date_for_completion }}</div>
+                        <v-date-picker v-model="tmp.date_for_completion" no-title  actions>
+                            <template scope="{ save, cancel }">
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn primary @click.native="updateDate = !updateDate">Cancel</v-btn>
+                                    <v-btn primary @click.native="updateDate = !updateDate">Save</v-btn>
+                                </v-card-actions>
+                            </template>
+                        </v-date-picker>
+                    </v-menu>
                     <v-card-title primary-title>
                         <h3 class="headline mb-0" @click="updateTitle = !updateTitle">{{ tmp.title }}</h3>
                     </v-card-title>
@@ -36,12 +60,14 @@
 
 import { userAuth } from '../auth/auth'
 import axios from 'axios'
+import moment from 'moment'
+
+
 
 
 
 
 export default {
-
 
     name: 'workout-detail',
   data () {
@@ -51,6 +77,8 @@ export default {
         newWorkout: {},
         updateTitle: false,
         tmp: this.$store.state.data[0],
+        updateDate: false,
+
     }
   },
 
@@ -71,7 +99,7 @@ export default {
   },
 
   mounted: function () {
-
+      this.tmp.date_for_completion = moment(this.tmp.date_for_completion).format('YYYY-MM-DD');
   }
 }
 </script>
