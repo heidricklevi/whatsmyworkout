@@ -538,7 +538,7 @@
             var self = this;
 
             this.loading = true;
-            axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
+            axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
                 self.loading = false;
                 self.recentWorkouts = response.data.results;
 

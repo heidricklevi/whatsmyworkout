@@ -52,11 +52,15 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     def get_queryset(self, format=None):
         queryset = Workout.objects.all()
         month = self.request.query_params.get('month', None)
+        recent = self.request.query_params.get('recent', None)
 
         if month is not None:
             queryset = queryset.filter(user=self.request.user).filter(date_for_completion__month=month)
+        elif recent is not None:
+            recent = int(recent)
+            queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:recent]
         else:
-            queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:5]
+            queryset = queryset.filter(user=self.request.user)
 
         return queryset
 

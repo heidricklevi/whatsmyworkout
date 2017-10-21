@@ -111,14 +111,16 @@ class WorkoutSerializer(serializers.ModelSerializer):
         fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type')
 
     def create(self, validated_data):
+        image = validated_data.pop('workout_image')
         self.create_or_update(validated_data)
-        print(validated_data)
+
         self.set_workout_image(validated_data['target_muscle'], validated_data)
         return super(WorkoutSerializer, self).create(validated_data)
 
     def update(self, instance, validated_data):
 
         self.create_or_update(validated_data)
+        self.set_workout_image(validated_data['target_muscle'], validated_data)
         return super(WorkoutSerializer, self).update(instance, validated_data)
 
     def create_or_update(self, validated_data):
@@ -127,6 +129,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         print(exercises)
 
         for exercise in exercises:
+            id = exercise.pop('workout_id')
             Exercise.objects.create(**exercise)
 
     def set_workout_image(self, target_muscle, validated_data):

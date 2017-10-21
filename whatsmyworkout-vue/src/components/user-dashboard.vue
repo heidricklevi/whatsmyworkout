@@ -83,6 +83,7 @@
 
                             <template v-for="(exercise, i) in recentWorkouts.exercises">
 
+
                                 <v-list-tile style="padding: 0">
                                     <v-divider></v-divider>
                                     <v-list-tile-content>
@@ -194,7 +195,7 @@ export default {
 
 
             this.loadingWorkout = true;
-            axios.get(baseURLLocal+'v1/workouts/').then(function (response) {
+            axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
                 self.recentWorkouts = response.data.results[0];
                 self.loadingWorkout = false;
 
