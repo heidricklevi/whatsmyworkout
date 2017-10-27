@@ -1,30 +1,27 @@
 <template>
     <div>
+
         <v-layout v-if="selectedWorkout">
             <v-flex md5 offset-md1>
                 <v-card>
                 <v-snackbar v-model="snackbar" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                     {{ snackbarText }}
                 </v-snackbar>
-                    <div>
+
+                    <v-layout>
                         <v-avatar class="ma-3" style="display: inline-flex;">
                             <img :src="userAuth.user.avatar">
                         </v-avatar>
 
-                            <div style="display: inline; float: right" v-on:mouseover="showToolTip = !showToolTip">
-                                <v-icon class="blue--text darken-2 ma-2">edit</v-icon>
-                            </div>
-
-                        <span v-if="showToolTip">Click on the fields to edit the workout. Then click 'save edits' when you are finished.</span>
-                    </div>
+                    </v-layout>
                      <span class="subheading mt-0" style="position: absolute; top: 5px; left: 65px">{{ userAuth.user.username }}</span>
                     <v-menu lazy :close-on-content-click="false"
                             v-model="updateDate"
                             transition="scale-transition"
-                            offsetY
-                            fullWidth
+                            offset-y
+                            full-width
                             :nudge-right="40"
-                            maxWidth="295px"
+                            max-width="295px"
                             style="top: -25px">
                         <div slot="activator"
                          v-model="tmp.date_for_completion"
@@ -34,7 +31,7 @@
                         <v-icon class="pr-1">event</v-icon>
                         {{ tmp.date_for_completion }}</div>
                         <v-date-picker v-model="tmp.date_for_completion" no-title  actions>
-                            <template scope="{ save, cancel }">
+                            <template slot-scope="{ save, cancel }">
                                 <v-card-actions>
                                     <v-spacer></v-spacer>
                                     <v-btn primary @click.native="updateDate = !updateDate">Cancel</v-btn>
@@ -43,7 +40,7 @@
                             </template>
                         </v-date-picker>
                     </v-menu>
-                    <v-card-title primary-title>
+                    <v-card-title >
                         <h3 class="headline mb-0" @click="updateTitle = !updateTitle">{{ tmp.title }}</h3>
                     </v-card-title>
                     <v-card raised v-if="updateTitle" style="position:absolute; width: 100%; top: 0px">
@@ -59,6 +56,8 @@
                     </v-card>
                     <v-card-media :src="tmp.workout_image" contain height="250px"></v-card-media>
                     <v-card-actions>
+                        <v-btn flat class="blue--text text--darken-4 pl-0 pt-0" @click.native="viewExercises = !viewExercises">View Exercises</v-btn>
+                        <v-spacer></v-spacer>
                         <v-btn icon @click.native="viewExercises = !viewExercises">
                             <v-icon>{{ viewExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
                         </v-btn>
@@ -77,7 +76,6 @@
 
                             <template v-for="(exercise, index) in tmp.exercises" >
                                 <v-list-tile>
-
                                     <update-exercise @click="updateExercise = !updateExercise" :exercise="exercise" :index="index"></update-exercise>
                                 </v-list-tile>
                                 <v-divider :key="exercise.id"></v-divider>
@@ -142,9 +140,6 @@ export default {
   },
 
   watch: {
-      updateTitle: function () {
-
-      }
   },
   methods: {
       save: function (e) {

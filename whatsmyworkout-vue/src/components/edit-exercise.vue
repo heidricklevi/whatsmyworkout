@@ -1,15 +1,16 @@
-<template><div>
+<template><div style="width: 100%;">
 <v-list-tile-content @click="editExercise()">
                                         <v-layout row style="width: 100%">
-                                            <v-flex xs12 md12>
-                                        <span style="font-weight: 700;" class="mr-3">{{ index+1 }}.</span>
-                                        <span>{{exercise.exercise_name}}</span>
-                                        <span style="position: absolute; right: 15%">{{ exercise.sets }}x{{ exercise.reps }}</span>
-                                            </v-flex>
+                                                <span style="font-weight: 700; margin: 0 2% 0 4%" >{{ index+1 }}.</span>
+                                                <span>{{exercise.exercise_name}}</span>
+                                                <span style="position: absolute; right: 15%">{{ exercise.sets }}x{{ exercise.reps }}</span>
+                                            </v-layout>
+                                         <v-layout>
                                             <v-flex>
                                                 <v-list-tile-sub-title>{{ exercise.notes }}</v-list-tile-sub-title>
                                             </v-flex>
-                                        </v-layout>
+                                             </v-layout>
+
 </v-list-tile-content>
         <v-card raised v-if="updateExercise" style="width: 450px; position: absolute; z-index: 9999; border: 1px solid lightslategray; fill-opacity: 100">
             <v-layout style="width: 100%">
@@ -24,7 +25,7 @@
                     <v-text-field v-model="exercise.notes" label="Edit Notes"></v-text-field>
                 </v-flex>
         </v-layout>
-            <v-btn @click.native="editExercise" primary style="width: 20%" >Save</v-btn>
+            <v-btn @click.native="editExercise" color="primary" style="width: 20%" >Save</v-btn>
     </v-card>
 </div>
 

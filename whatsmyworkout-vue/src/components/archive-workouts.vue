@@ -80,6 +80,7 @@ export default {
       dataTableItems: [{}],
       alert: false,
       selected: [],
+      showToolTip: false,
       headers: [
           { text: 'Workout Name',
             align: 'left',

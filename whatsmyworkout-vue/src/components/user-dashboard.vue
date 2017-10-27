@@ -1,6 +1,9 @@
 <template>
     <v-layout row wrap>
         <v-flex xs12 offset-md1 md4>
+                     <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
+                            {{ snackbarText }}
+                        </v-snackbar>
 
             <v-card v-if="recentWorkouts">
                 <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
@@ -28,9 +31,7 @@
 
                     <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px;
                                                             position: absolute; height: 200px; top: 50px; width: 100%; z-index: 2">
-                        <v-snackbar v-model="snackbar" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
-                            {{ snackbarText }}
-                        </v-snackbar>
+
                         <form method="post" v-on:submit.prevent="sendWorkout">
                             <v-card-title>
                                 Send this workout to someone else via email
@@ -39,6 +40,8 @@
                             <v-flex xs8 offset-xs2 md6 offset-md3>
                             <v-text-field v-model="shareEmail" label="@" type="email" :value="shareEmail" required></v-text-field>
                             </v-flex>
+                            </v-layout>
+                            <v-layout>
                             <v-flex md6 offset-md3>
                                 <v-btn primary :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
                                     Send
@@ -46,8 +49,10 @@
                                         <v-icon>cached</v-icon>
                                     </span>
                                 </v-btn>
+
                             </v-flex>
-                        </v-layout>
+                                </v-layout>
+
 
 
                         </form>
@@ -85,7 +90,6 @@
 
 
                                 <v-list-tile style="padding: 0">
-                                    <v-divider></v-divider>
                                     <v-list-tile-content>
                                         <v-layout style="width: 100%" row wrap :key="exercise.exercise_name">
 
@@ -151,6 +155,7 @@ export default {
       loadingWorkout: true,
       snackbar1: false,
       snackbarText1: '',
+      snackColor: '',
 
     }
   },
@@ -177,6 +182,7 @@ export default {
                     self.context = 'success';
                     self.snackbar = true;
                     self.snackbarText = "Successfully sent workout to "+payload.to;
+                    self.snackColor = 'green';
 
                     self.loading = false;
                     console.log('Success')

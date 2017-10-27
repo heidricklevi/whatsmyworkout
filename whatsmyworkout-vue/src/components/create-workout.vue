@@ -31,15 +31,15 @@
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
                                     <v-select title="Target Muscle" id="id_target_muscle" name="target_muscle"
-                                              v-model="target_muscle" :items="target_muscles" label="Target Muscles"
-                                              segmented></v-select>
+                                              v-model="target_muscle" v-bind:items="target_muscles" label="Target Muscles"
+                                              ></v-select>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
                                     <v-select title="Training Type" id="id_training_type" name="training_type"
-                                              v-model="training_type" label="Training Type" :items="training_types"
-                                              required="" segmented>
+                                              v-model="training_type" label="Training Type" v-bind:items="training_types"
+                                              required="" >
                                     </v-select>
                                 </div>
                             </v-flex>
@@ -269,7 +269,7 @@
       reps: '',
       exercise_notes: '',
       target_muscle: '',
-      training_type: '',
+      training_type: null,
       workout_id: '',
       recentWorkouts: {},
       submittedWorkout: {},

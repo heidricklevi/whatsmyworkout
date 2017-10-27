@@ -1,7 +1,14 @@
 <template>
     <v-app id="dashboard">
-        <v-navigation-drawer persistent light :mini-variant.sync="mini" v-model="drawer" overflow>
-            <v-toolbar flat class="transparent">
+        <v-navigation-drawer
+                persistent
+                light
+                :mini-variant.sync="mini"
+                v-model="drawer"
+                enable-resize-watcher
+                clipped
+                app>
+
                 <v-list class="pa-0">
                     <v-list-tile avatar tag="div">
                         <v-list-tile-avatar>
@@ -17,7 +24,7 @@
                         </v-list-tile-action>
                     </v-list-tile>
                 </v-list>
-            </v-toolbar>
+
             <v-list class="pt-0" dense>
                 <v-divider></v-divider>
                 <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
@@ -30,18 +37,18 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar fixed class="indigo darken-4" dark>
+        <v-toolbar fixed clipped-left class="indigo darken-4" desnse app>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-items>
                 <img src="../assets/img/logo.png" style="width: 100px;">
             </v-toolbar-items>
-            <v-container fluid>
+            <v-container>
                 <v-spacer></v-spacer>
                 <v-layout row>
                     <v-flex offset-xs10 offset-md11 style="text-align: center">
-                        <v-btn icon style="margin-bottom: 10%">
+                        <v-btn icon style="margin-bottom: 10%; position: absolute; top: -5px;">
                             <v-menu left>
-                                <v-icon slot="activator" fa class="fa fa-2x">cogs</v-icon>
+                                <v-icon slot="activator" class="white--text" large>settings</v-icon>
 
                                 <v-list>
 
@@ -395,12 +402,24 @@ export default {
         height: 200px;
     }
 
-     @media only screen and (max-width: 768px) {
+    .container.fluid {
+        margin-left: 85px;
+
+        margin-top: 64px;
+    }
+
+     @media only screen and (max-width: 960px) {
 
         .profile-card {
             margin: 0 25% 0 25%;
             width: 200px;
             height: 200px;
+        }
+
+        .container.fluid {
+
+            max-width: 100%;
+            margin: 15% 0 0 0 ;
         }
 
     }
