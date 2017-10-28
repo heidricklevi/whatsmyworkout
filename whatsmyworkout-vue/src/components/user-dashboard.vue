@@ -93,9 +93,10 @@
                                     <v-list-tile-content>
                                         <v-layout style="width: 100%" row wrap :key="exercise.exercise_name">
 
+
                                             <v-flex style="display: flex;" xs12>
                                                 <v-flex xs1 class="ml-1">
-                                                    <span class="text-grey text--darken-2" style="font-size: smaller; position: relative; left: -8px;">#{{ i }}</span>
+                                                    <div style="text-align: center;">{{ i+1 }}.</div>
                                                 </v-flex>
                                                 <v-flex xs8 class="body-1" style="word-wrap: break-word">
                                                     {{ exercise.exercise_name }}
@@ -103,8 +104,8 @@
                                                 <v-flex xs2 offset-xs1>
                                                     <div>{{ exercise.sets }}/{{ exercise.reps }}</div>
                                                 </v-flex>
-
                                             </v-flex>
+                                            <div style="position: relative; margin-left: 5%"><v-icon style="position: absolute; top: 0;" color=" ">fa-sticky-note-o</v-icon></div>
                                             <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
                                                 {{ exercise.notes }}
                                             </div>
@@ -132,6 +133,7 @@
 import axios from 'axios'
 import moment from 'moment'
 import { devServer, baseURLLocal} from '../auth/auth'
+
 
 export default {
     name: 'user-dashboard',
