@@ -2,6 +2,7 @@ from django.contrib import admin
 from .models import Profile, Workout, Exercise, Exercises
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import User
+from simple_history.admin import SimpleHistoryAdmin
 
 
 class ProfileAdmin(admin.ModelAdmin):
@@ -11,7 +12,7 @@ class ProfileAdmin(admin.ModelAdmin):
 class UserAdmin(admin.ModelAdmin):
     pass
 
-class WorkoutAdmin(admin.ModelAdmin):
+class WorkoutAdmin(SimpleHistoryAdmin):
     list_display = ('user', 'title', 'target_muscle', 'training_type')
     prepopulated_fields = {'slug': ('date_for_completion', 'title',)}
 
@@ -20,7 +21,7 @@ class ExercisesAdmin(admin.ModelAdmin):
     pass
 
 
-class ExerciseAdmin(admin.ModelAdmin):
+class ExerciseAdmin(SimpleHistoryAdmin):
     pass
 
 

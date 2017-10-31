@@ -25,7 +25,7 @@
         :loading="loading"
         class="elevation-1"
       >
-        <template slot="headers" scope="props">
+        <template slot="headers" slot-scope="props">
       <tr :active="props.selected" @click="props.selected = !props.selected">
         <th>
         </th>
@@ -38,11 +38,11 @@
         </th>
       </tr>
         </template>
-      <template slot="items" scope="props">
+      <template slot="items" slot-scope="props">
 
         <tr :active="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
             <td >
-            <router-link to="/workout-detail/" ><v-btn icon v-model="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
+            <router-link to="/workout/edit/"><v-btn icon v-model="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
                  <v-icon class="blue--text">edit</v-icon>
             </v-btn></router-link>
 

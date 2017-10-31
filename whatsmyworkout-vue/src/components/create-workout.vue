@@ -3,8 +3,8 @@
         <div style="width: 103%; position: relative; left: -26px; right: -26px; top: -15px; text-align: center">
             <h4 class="hidden-md-and-down"></h4>
         </div>
-        <v-layout row>
-            <v-flex md6 sm12 xs12 v-show="createWorkout">
+        <v-layout row v-bind="binding">
+            <v-flex md5 sm12 xs12 v-if="createWorkout">
                 <v-stepper v-model="e6" vertical>
                     <v-stepper-step step="1" v-bind:complete="e6 > 1">
                         Create Your Workout
@@ -111,7 +111,7 @@
                     <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
                     <v-stepper-content step="3">
                         <v-btn primary @click.native="createMore">Create More</v-btn>
-                        <v-btn flat>Cancel</v-btn>
+                        <v-btn flat @click="createWorkout">Done</v-btn>
                     </v-stepper-content>
                 </v-stepper>
 
@@ -121,7 +121,8 @@
                 </v-snackbar>
 
             </v-flex>
-            <v-flex md6 xs12>
+
+            <v-flex md6 xs12 class="non-mobile-margin">
                 <div style="text-align: center" class="pt-5 pb-3">
                     <v-icon large>history</v-icon>
                     <span>Recently Created Workouts</span>
@@ -184,30 +185,27 @@
                                                 <template v-for="(exercise, i) in recentWorkout.exercises">
 
                                                     <v-list-tile style="padding: 0">
-                                                        <v-divider></v-divider>
                                                         <v-list-tile-content>
-                                                            <v-layout style="width: 100%" row wrap :key="exercise.exercise_name">
+                                                                <v-layout style="width: 100%" row wrap :key="exercise.exercise_name">
 
-                                                                <v-flex style="display: flex;" xs12>
-                                                                    <v-flex xs1 class="ml-1">
-                                                                        <span class="text-grey text--darken-2" style="font-size: smaller;
-                                                                        position: relative; left: -8px;">#{{ i }}</span>
+
+                                                                    <v-flex style="display: flex;" xs12>
+                                                                        <v-flex xs1 class="ml-1">
+                                                                            <div style="text-align: right;">{{ i+1 }}.</div>
+                                                                        </v-flex>
+                                                                        <v-flex xs8 class="body-1" style="word-wrap: break-word; margin-left: 5px">
+                                                                            {{ exercise.exercise_name }}
+                                                                        </v-flex>
+                                                                        <v-flex xs2 offset-xs1>
+                                                                            <div>{{ exercise.sets }}/{{ exercise.reps }}</div>
+                                                                        </v-flex>
                                                                     </v-flex>
-                                                                    <v-flex xs8 class="body-1" style="word-wrap: break-word">
-                                                                        {{ exercise.exercise_name }}
-                                                                    </v-flex>
-                                                                    <v-flex xs2 offset-xs1>
-                                                                        <div>{{ exercise.sets }}/{{ exercise.reps }}</div>
-                                                                    </v-flex>
+                                                                    <div style="position: relative; margin-left: 5%"><v-icon style="position: absolute; top: 0;" color=" ">fa-sticky-note-o</v-icon></div>
+                                                                    <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
+                                                                        {{ exercise.notes }}
+                                                                    </div>
 
-                                                                </v-flex>
-                                                                <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
-
-                                                                    {{ exercise.notes }}
-                                                                </div>
-
-                                                            </v-layout>
-
+                                                                </v-layout>
                                                         </v-list-tile-content>
 
                                                     </v-list-tile>
@@ -315,6 +313,14 @@
         }
       },
       computed: {
+        binding: function () {
+          const binding = {};
+
+          if (this.$vuetify.breakpoint.smAndDown) binding.column = true;
+
+          return binding;
+
+        },
         slug: function getSlug(e) {
             var date;
             var title = this.title;
@@ -592,6 +598,10 @@
       transform: rotate(360deg);
     }
   }
+
+    .non-mobile-margin {
+            margin-left: 5%;
+        }
     
 
     @media only screen and (max-width: 768px) {
@@ -601,6 +611,9 @@
         }
         div.stepper > div.stepper__content {
             padding: 16px 30px 16px 23px;
+        }
+        .non-mobile-margin {
+            margin-left: 0;
         }
 
     }

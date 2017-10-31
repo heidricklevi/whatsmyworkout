@@ -20,6 +20,11 @@
                                 <v-icon v-if="!isEmailWorkout">email</v-icon>
                                 <v-icon class="red--text" v-if="isEmailWorkout">cancel</v-icon>
                             </v-btn>
+                            <router-link to="/workout/edit/">
+                                <v-btn icon class="mr-1" @click="commitToStore">
+                                    <v-icon>edit</v-icon>
+                                </v-btn>
+                            </router-link>
                         </div>
                     </div>
 
@@ -168,6 +173,10 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+        commitToStore: function () {
+          this.$store.commit('setData', [this.recentWorkouts]);
+          console.log("Commited to store");
+        },
         sendWorkout: function () {
             var self = this;
             var payload = this.recentWorkouts;
@@ -208,6 +217,7 @@ export default {
                 self.loadingWorkout = false;
 
 
+
                 console.log(self.recentWorkouts);
             }).catch(function (e) {
                 self.loadingWorkout = false;
@@ -215,8 +225,11 @@ export default {
                 self.snackbar1 = true;
                 self.snackbarText1 = "error loading workout";
                 console.log('There was an error loading recent workouts');
-            })
+            });
+
+
       },
+
 }
 </script>
 

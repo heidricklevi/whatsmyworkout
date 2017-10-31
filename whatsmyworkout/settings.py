@@ -78,6 +78,7 @@ INSTALLED_APPS = [
     # 'rest_auth.registration',
     'rest_auth',
     'corsheaders',
+    'simple_history',
 ]
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"

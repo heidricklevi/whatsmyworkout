@@ -1,6 +1,5 @@
 <template>
     <div>
-
         <v-layout v-if="selectedWorkout">
             <v-flex md5 offset-md1>
                 <v-card>
@@ -180,6 +179,7 @@ export default {
   },
 
   mounted: function () {
+
       this.tmp.date_for_completion = moment(this.tmp.date_for_completion).format('YYYY-MM-DD');
   },
   components: {

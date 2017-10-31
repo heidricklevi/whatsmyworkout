@@ -61,7 +61,7 @@ export default new Router({
 
     },
     {
-      path: '/workout-detail/',
+      path: '/workout/edit/',
       name: 'workout-detail',
       component: WorkoutDetail,
       props: true,

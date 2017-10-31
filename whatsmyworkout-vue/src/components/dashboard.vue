@@ -203,9 +203,11 @@
                 <router-view :computed-auth="computedAuth"></router-view>
             </v-container>
         </main>
-        <v-footer class="pa-3">
+        <v-footer class="pa-3" app fixed>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
+    <p style="position: absolute; left: 50%">v0.0.6</p>
+
   </v-footer>
     </v-app>
 </template>
@@ -245,7 +247,7 @@ export default {
                 { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
                 { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
-                { title: 'Share Workouts', icon: 'share', link: '/'},
+                { title: 'Share Workouts', icon: 'trending_up', link: '/'},
                 { title: 'Archive Workouts', icon: 'archive', link: '/archived-workouts/'}
             ],
             genderOpts: [

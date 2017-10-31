@@ -3,6 +3,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from simple_history.models import HistoricalRecords
 import datetime
 
 
@@ -35,10 +36,12 @@ class Exercise(models.Model):
     exercises = models.ForeignKey(Exercises, on_delete=models.CASCADE, blank=True, null=True)
     # workout = models.ForeignKey(Workout, on_delete=models.CASCADE, default=1)
     exercise_name = models.CharField(max_length=255, blank=True, null=True)
+    weight = models.IntegerField(null=True, blank=True)
     sets = models.IntegerField()
     reps = models.IntegerField()
     notes = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
+    history = HistoricalRecords()
 
     def __str__(self):
         # return self.exercise_name if self.exercises.exercise_name is None else self.exercises.exercise_name
@@ -76,6 +79,7 @@ class Workout(models.Model):
                       (flexibility, 'Flexibility Focused'))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    history = HistoricalRecords()
     exercises = models.ManyToManyField(Exercise)
     date_for_completion = models.DateField(default=datetime.date.today,)
     created = models.DateTimeField(auto_now_add=True)
@@ -85,6 +89,7 @@ class Workout(models.Model):
     slug = models.SlugField(max_length=255)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
+
 
 
 
