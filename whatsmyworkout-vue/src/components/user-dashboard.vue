@@ -114,6 +114,7 @@
                                             <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
                                                 {{ exercise.notes }}
                                             </div>
+                                            <div style="word-wrap: break-word; margin: 2% 0 0 5%; font-size: small">lifting weight: <span style="font-style: italic" class="caption">{{ exercise.lifting_weight }}</span></div>
 
                                         </v-layout>
 

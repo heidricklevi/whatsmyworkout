@@ -199,7 +199,7 @@
             </v-container>
         </v-toolbar>
         <main>
-            <v-container fluid>
+            <v-container fluid style="margin-bottom: 64px">
                 <router-view :computed-auth="computedAuth"></router-view>
             </v-container>
         </main>
@@ -247,7 +247,7 @@ export default {
                 { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
                 { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
-                { title: 'Share Workouts', icon: 'trending_up', link: '/'},
+                { title: 'Workout Stats', icon: 'trending_up', link: '/'},
                 { title: 'Archive Workouts', icon: 'archive', link: '/archived-workouts/'}
             ],
             genderOpts: [

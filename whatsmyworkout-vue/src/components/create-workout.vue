@@ -81,8 +81,13 @@
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Reps" label="Reps" v-model="reps">
+                                    <v-text-field title="Reps" label="Reps" v-model="reps" type="number">
                                     </v-text-field>
+                                </div>
+                            </v-flex>
+                            <v-flex md8 xs12 offset-md1>
+                                <div class="py-2">
+                                    <v-text-field title="Lifting weight" label="Lifting Weight" type="number" v-model="lifting_weight" placeholder="lbs."></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
@@ -115,7 +120,7 @@
                     </v-stepper-content>
                 </v-stepper>
 
-                <v-snackbar :top="y === 'top'" v-model="snackbar" :success="context === 'success'" :error="context === 'error'">
+                <v-snackbar :top="y === 'top'" v-model="snackbar" :color="snackbarColor" :success="context === 'success'" :error="context === 'error'">
                     {{ snackbarMessage }}
                     <v-btn flat class="red--text" @click.native="snackbar = false">Close</v-btn>
                 </v-snackbar>
@@ -158,10 +163,10 @@
                                             <v-flex md3>
                                                 <v-icon>account_circle</v-icon><span class="pl-2 text-xs">{{ userAuth.user.username }}</span>
                                             </v-flex>
-                                            <v-flex md5>
+                                            <v-flex md5 class="mt-2">
                                                 <v-icon>schedule</v-icon><span class="pl-2">{{ recentWorkout.date_for_completion | moment}}</span></v-flex>
 
-                                            <v-flex offset-md-1 md3><img src="../assets/img/muscle.png">
+                                            <v-flex md3 class="mt-2"><img src="../assets/img/muscle.png">
                                                 <span class="pl-2 grey--text text--darken-3">{{ recentWorkout.target_muscle }}</span></v-flex>
                                         </v-card-title>
                                         <v-divider></v-divider>
@@ -200,6 +205,7 @@
                                                                             <div>{{ exercise.sets }}/{{ exercise.reps }}</div>
                                                                         </v-flex>
                                                                     </v-flex>
+                                                                    <!--<v-layout><v-flex>{{ exercise.lifting_weight }}</v-flex></v-layout>-->
                                                                     <div style="position: relative; margin-left: 5%"><v-icon style="position: absolute; top: 0;" color=" ">fa-sticky-note-o</v-icon></div>
                                                                     <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
                                                                         {{ exercise.notes }}
@@ -237,9 +243,9 @@
 
 
 
-  export default {
 
-    name: 'create-workout',
+  export default {
+      name: 'create-workout',
     data () {
       return {
       completionDate: null,
@@ -265,6 +271,7 @@
       exercise_title: '',
       sets: '',
       reps: '',
+      lifting_weight: '',
       exercise_notes: '',
       target_muscle: '',
       training_type: null,
@@ -277,6 +284,7 @@
       loading1: false,
       loading2: false,
       loader: null,
+      snackbarColor: ' ',
 
       training_types: [
           { text: 'Strength Training', value: 'Strength Training'},
@@ -380,6 +388,7 @@
                 .then(function (response) {
                     self.snackbarMessage = "Successfully updated your workout";
                     self.context = 'success';
+                    self.snackbarColor = 'success';
                     self.snackbar = true;
                     self.e6 = 2;
                     self.workout_id = response.data.id;
@@ -394,7 +403,7 @@
                     self.snackbarMessage = "There was an error updating workouts: \n" + 'Status' + '\n' + error.response.status;
                     self.context = 'error';
                     self.snackbar = true;
-
+                    self.snackbarColor = 'error';
 
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -407,6 +416,7 @@
                     self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
                     self.context = 'error';
                     self.snackbar = true;
+                    self.snackbarColor = 'error';
                     console.log(error.request);
                 } else {
                     // Something happened in setting up the request that triggered an Error
@@ -414,6 +424,7 @@
                     self.snackbarMessage = "There was an error in the request: " + error.message;
                     self.context = 'error';
                     self.snackbar = true;
+                    self.snackbarColor = 'error';
                     console.log('Error', error.message);
                 }
 
@@ -430,6 +441,7 @@
                     self.snackbarMessage = "Successfully created your workout";
                     self.context = 'success';
                     self.snackbar = true;
+                    self.snackbarColor = 'success';
                     self.e6 = 2;
                     self.workout_id = response.data.id;
                     self.submittedWorkout = data;
@@ -443,6 +455,7 @@
                     self.snackbarMessage = "There was an error creating workouts: \n" + 'Status' + '\n' + error.response.status;
                     self.context = 'error';
                     self.snackbar = true;
+                    self.snackbarColor = 'error';
 
 
                     console.log(error.response.data);
@@ -456,6 +469,7 @@
                     self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
                     self.context = 'error';
                     self.snackbar = true;
+                    self.snackbarColor = 'error';
                     console.log(error.request);
                 } else {
                     // Something happened in setting up the request that triggered an Error
@@ -463,6 +477,7 @@
                     self.snackbarMessage = "There was an error in the request: " + error.message;
                     self.context = 'error';
                     self.snackbar = true;
+                    self.snackbarColor = 'error';
                     console.log('Error', error.message);
                 }
 
@@ -477,8 +492,9 @@
         },
         onSubmitExercise: function (event) {
               var self = this;
-              var baseURL = "http://127.0.0.1:8000/";
               var exercises = null;
+
+
               if (!exercises){
                   exercises = {};
                   exercises.exercise_name = this.exercise_title;
@@ -489,6 +505,7 @@
                   exercise_name: this.exercise_title,
                   sets: this.sets,
                   reps: this.reps,
+                  lifting_weight: this.lifting_weight,
                   notes: this.exercise_notes,
                   user: this.userAuth.user.id,
                   exercises: exercises,
@@ -500,9 +517,11 @@
                   .then(function (response) {
                       self.snackbarMessage = "Successfully added exercise " +self.exercise_title;
                       self.context = 'success';
+                      self.snackbarColor = 'success';
                       self.snackbar = true;
                       self.e6 = 2;
                       self.loading1 = false;
+
 
                   }).catch(function (error) {
                       self.loading1 = false;
@@ -512,8 +531,10 @@
 
                       self.snackbarMessage = "There was an error creating workouts: \n" + 'Status' + '\n' + error.response.status;
                       self.context = 'error';
+                      self.snackbarColor = 'error';
                       self.snackbar = true;
                       self.loading1 = false;
+
 
                       console.log(error.response.data);
                       console.log(error.response.status);
@@ -525,6 +546,7 @@
 
                       self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
                       self.context = 'error';
+                      self.snackbarColor = 'error';
                       self.snackbar = true;
                       console.log(error.request);
                   } else {
@@ -532,6 +554,7 @@
 
                       self.snackbarMessage = "There was an error in the request: " + error.message;
                       self.context = 'error';
+                      self.snackbarColor = 'error';
                       self.snackbar = true;
                       console.log('Error', error.message);
                   }

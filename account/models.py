@@ -36,7 +36,7 @@ class Exercise(models.Model):
     exercises = models.ForeignKey(Exercises, on_delete=models.CASCADE, blank=True, null=True)
     # workout = models.ForeignKey(Workout, on_delete=models.CASCADE, default=1)
     exercise_name = models.CharField(max_length=255, blank=True, null=True)
-    weight = models.IntegerField(null=True, blank=True)
+    lifting_weight = models.IntegerField(null=True, blank=True)
     sets = models.IntegerField()
     reps = models.IntegerField()
     notes = models.CharField(max_length=255)
