@@ -1,4 +1,5 @@
 <template><div style="width: 100%;">
+
 <v-list-tile-content @click="editExercise()">
                                         <v-layout row style="width: 100%">
                                                 <span style="font-weight: 700; margin: 0 2% 0 4%" >{{ index+1 }}.</span>

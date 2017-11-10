@@ -1,11 +1,19 @@
 <template>
     <div>
+
         <v-layout v-if="selectedWorkout">
+
             <v-flex md5 offset-md1>
                 <v-card>
                 <v-snackbar v-model="snackbar" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                     {{ snackbarText }}
                 </v-snackbar>
+                     <v-tooltip v-model="show" top style="float: right; opacity: 1; z-index: 150">
+                      <v-btn icon slot="activator">
+                        <v-icon color="grey lighten-1" style="opacity: 1">help_outline</v-icon>
+                      </v-btn>
+                      <span class="caption">Click on the fields to edit this workout; then click save edits.</span>
+                        </v-tooltip>
 
                     <v-layout>
                         <v-avatar class="ma-3" style="display: inline-flex;">
@@ -89,6 +97,7 @@
                                     </span>
                                 </v-btn>
                         </v-card-actions>
+
                     </v-slide-y-transition>
                 </v-card>
             </v-flex>
@@ -129,6 +138,8 @@ export default {
         snackbar: false,
         snackbarText: '',
         showToolTip: false,
+        show: false,
+        tip: false,
 
 
     }
@@ -175,7 +186,8 @@ export default {
 
                     console.log(err)
             })
-        }
+        },
+
   },
 
   mounted: function () {
@@ -189,6 +201,23 @@ export default {
 </script>
 
 <style>
+
+
+            /* Enter and leave animations can use different */
+        /* durations and timing functions.              */
+        .slide-fade-enter-active {
+          transition: all .3s ease;
+        }
+        .slide-fade-leave-active {
+          transition: all .8s cubic-bezier(1.0, 0.5, 0.8, 1.0);
+        }
+        .slide-fade-enter, .slide-fade-leave-to
+        /* .slide-fade-leave-active below version 2.1.8 */ {
+          transform: translateX(10px);
+          opacity: 0;
+        }
+
+
 
     .custom-loader {
         animation: loader 1s infinite;
