@@ -1,9 +1,9 @@
 <template >
- <v-app v-if="isAuthenticated">
+ <div v-if="isAuthenticated">
      <div v-if="computedAuth">
     <dashboard :computed-auth="computedAuth"></dashboard>
      </div>
-</v-app>
+</div>
     <v-app v-else="isAuthenticated" standalone>
     <header id="header" style="position: relative">
              <v-alert info v-model="alert">

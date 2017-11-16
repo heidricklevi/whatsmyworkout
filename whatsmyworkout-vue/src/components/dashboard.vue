@@ -198,11 +198,11 @@
                 </v-dialog>
             </v-container>
         </v-toolbar>
-        <main>
+        <v-content style="position: absolute;">
             <v-container fluid style="margin-bottom: 64px">
                 <router-view :computed-auth="computedAuth"></router-view>
             </v-container>
-        </main>
+        </v-content>
         <v-footer class="pa-3" app fixed>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
@@ -403,12 +403,7 @@ export default {
         width: 200px;
         height: 200px;
     }
-
-    .container.fluid {
-        margin-left: 85px;
-
-        margin-top: 64px;
-    }
+    
 
      @media only screen and (max-width: 960px) {
 

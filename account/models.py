@@ -44,7 +44,6 @@ class Exercise(models.Model):
     history = HistoricalRecords()
 
     def __str__(self):
-        # return self.exercise_name if self.exercises.exercise_name is None else self.exercises.exercise_name
         return self.exercise_name
 
 
