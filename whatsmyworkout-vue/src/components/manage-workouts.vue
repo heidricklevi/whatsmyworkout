@@ -27,7 +27,7 @@
 <script>
 import moment from 'moment'
 import {baseURLLocal} from '../auth/auth'
-import calendar from 'calendar-js'
+
 
 import axios from 'axios'
 

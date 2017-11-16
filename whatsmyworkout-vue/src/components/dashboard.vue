@@ -1,13 +1,12 @@
 <template>
     <v-app id="dashboard">
         <v-navigation-drawer
-                persistent
                 light
                 :mini-variant.sync="mini"
                 v-model="drawer"
-                enable-resize-watcher
                 clipped
-                app>
+                app
+        >
 
                 <v-list class="pa-0">
                     <v-list-tile avatar tag="div">
@@ -198,15 +197,16 @@
                 </v-dialog>
             </v-container>
         </v-toolbar>
-        <v-content style="position: absolute;">
+        <v-content style="position: absolute; width: 100vw; background-color: #fafafa">
             <v-container fluid style="margin-bottom: 64px">
+                
                 <router-view :computed-auth="computedAuth"></router-view>
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-    <p style="position: absolute; left: 50%">v0.0.6</p>
+    <p style="position: absolute; left: 50%">v0.0.7</p>
 
   </v-footer>
     </v-app>
@@ -403,7 +403,8 @@ export default {
         width: 200px;
         height: 200px;
     }
-    
+
+
 
      @media only screen and (max-width: 960px) {
 

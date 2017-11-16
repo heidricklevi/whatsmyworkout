@@ -1,10 +1,7 @@
 <template>
     <div>
-        <div style="width: 103%; position: relative; left: -26px; right: -26px; top: -15px; text-align: center">
-            <h4 class="hidden-md-and-down"></h4>
-        </div>
-        <v-layout row v-bind="binding">
-            <v-flex md5 sm12 xs12 v-if="createWorkout">
+        <v-layout row v-bind="binding" >
+            <v-flex md5 offset-md-1 sm12 xs12 v-if="createWorkout">
                 <v-stepper v-model="e6" vertical>
                     <v-stepper-step step="1" v-bind:complete="e6 > 1">
                         Create Your Workout
@@ -236,7 +233,6 @@
     </div>
 </template>
 <script>
- import myDatepicker from 'vue-datepicker'
  import moment from 'moment'
  import axios from 'axios'
  import { devServer, baseURLLocal, login, userAuth } from '../auth/auth'
