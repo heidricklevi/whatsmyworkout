@@ -41,6 +41,7 @@ export function login(username, pass) {
 
         userAuth.isAuthenticated = true;
         setUserAuth(response.data);
+        console.log('login', response.data.user);
 
         window.location.href = '/';
 
@@ -84,8 +85,8 @@ export function logout() {
 }
 
 export function authenticationStatus() {
-    var JWT = localStorage.getItem('JWT');
-    var decoded = {};
+    let JWT = localStorage.getItem('JWT');
+    let decoded;
 
     if (!JWT) {
         return false;

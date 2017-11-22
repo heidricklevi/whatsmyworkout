@@ -1,7 +1,8 @@
 <template >
  <div v-if="isAuthenticated">
      <div v-if="computedAuth">
-    <dashboard :computed-auth="computedAuth"></dashboard>
+    <dashboard :computed-auth="computedAuth">
+    </dashboard>
      </div>
 </div>
     <v-app v-else="isAuthenticated" standalone>
@@ -350,6 +351,7 @@ import router from '../src/router/index'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
 import dashboard from '../src/components/dashboard.vue'
+import userDashboard from '../src/components/user-dashboard.vue'
 
 
 export default {
@@ -373,13 +375,12 @@ export default {
        ],
       mini: false,
       right: null,
-      isAuthenticated: authenticationStatus(),
       username: '',
       password: '',
       fullName: '',
       email: '',
       confirmPass: '',
-      userAuth: userAuth,
+      userAuth: this.$store.state.userAuth,
       hero: true,
       snackbar: true,
       mode: ' ',
@@ -389,23 +390,26 @@ export default {
     }
   },
     watch: {
-      isAuthenticated: function () {
-          router.go('/');
-      }
     },
     computed: {
       computedAuth: function () {
           if (!this.userAuth.user) return null;
           return this.userAuth.user;
-      }
+      },
+      isAuthenticated: function () {
+          return this.$store.state.userAuth.isAuthenticated;
+      },
     },
     methods: {
       logout: function (){
-          logout();
-          router.go('/')
+          this.$store.dispatch('logout');
       },
       userLogin: function () {
-          login(this.username, this.password);
+          let credentials = { username: this.username, password: this.password };
+          this.$store.dispatch('login', credentials).then(() => {
+              this.$router.push('/user/dashboard')
+          });
+          console.log("after login", this.$store.state.userAuth.user);
       },
       onFeedbackSubmit: function () {
 
@@ -446,7 +450,8 @@ export default {
             }).catch(function (errors) {
 
                 self.signUpErrorAlert = true;
-                self.signUpAlertMessage = "Sign ups have been limited during the early development stages. Please submit a request for an account via the feedback area."
+                self.signUpAlertMessage = "Sign ups have been limited during the early development stages." +
+                    " Please submit a request for an account via the feedback area.";
 
 
                 console.log(errors);
@@ -455,7 +460,8 @@ export default {
 
     },
     components: {
-        'dashboard': dashboard
+        'dashboard': dashboard,
+        'user-dashboard': userDashboard,
     },
     mounted: function () {
         var self = this;

@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-layout row v-bind="binding" >
-            <v-flex md5 offset-md-1 sm12 xs12 v-if="createWorkout">
+            <v-flex md5 sm12 xs12 v-if="createWorkout" style="margin-left: 1%">
                 <v-stepper v-model="e6" vertical>
                     <v-stepper-step step="1" v-bind:complete="e6 > 1">
                         Create Your Workout
@@ -274,7 +274,7 @@
       workout_id: '',
       recentWorkouts: {},
       submittedWorkout: {},
-      userAuth: userAuth,
+      userAuth: this.$store.state.userAuth,
       loading: false,
       alert: false,
       loading1: false,

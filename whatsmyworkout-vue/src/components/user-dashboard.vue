@@ -147,7 +147,6 @@ export default {
     name: 'user-dashboard',
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App',
       recentWorkouts: {},
       viewExercises: false,
       drawer: true,
@@ -210,11 +209,12 @@ export default {
             })
         }
     },
-    mounted: function () {
+    created: function () {
             var self = this;
 
 
             this.loadingWorkout = true;
+
             axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
                 self.recentWorkouts = response.data.results[0];
                 self.loadingWorkout = false;

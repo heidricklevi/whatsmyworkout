@@ -230,7 +230,7 @@ export default {
             context: '',
             y: 'top',
             snackbar: false,
-            userAuth: userAuth,
+            userAuth: this.$store.state.userAuth,
             filename: '',
             username: userAuth.user.username,
             about: this.computedAuth.about,

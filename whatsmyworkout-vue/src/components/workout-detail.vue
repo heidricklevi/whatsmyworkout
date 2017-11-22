@@ -125,7 +125,7 @@ export default {
   data () {
     return {
         selectedWorkout: this.$store.state.data[0],
-        userAuth: userAuth,
+        userAuth: this.$store.state.userAuth,
         newWorkout: {},
         updateTitle: false,
         tmp: this.$store.state.data[0],

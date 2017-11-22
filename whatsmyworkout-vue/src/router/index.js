@@ -15,7 +15,7 @@ import WorkoutDetail from '../components/workout-detail.vue'
 
 Vue.use(Router);
 
-var JWT = localStorage.getItem('JWT');
+
 
 
 export default new Router({
