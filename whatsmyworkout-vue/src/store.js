@@ -1,8 +1,9 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { getJWTHeader, authenticationStatus } from "./auth/auth";
+import { getJWTHeader, authenticationStatus, getUsernameFromToken } from "./auth/auth-utils";
 import router from './router/index';
+import jwt_decode from 'jwt-decode'
 
 Vue.use(Vuex);
 
@@ -65,7 +66,12 @@ export default new Vuex.Store({
 
         fetchUserProfile ({commit}) {
 
-            axios.get(baseURLLocal+"v1/users/" + this.state.userAuth.user.username +'/')
+            let username = getUsernameFromToken();
+            if (!username || !this.state.userAuth.isAuthenticated) return;
+            
+            axios.defaults.headers.common['Authorization'] = getJWTHeader();
+
+            axios.get(baseURLLocal+"v1/users/" + username +'/')
                 .then(function (response) {
                     console.log("Fetching from store", response);
                     commit('storeUserData', response.data);

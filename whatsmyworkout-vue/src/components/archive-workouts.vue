@@ -61,7 +61,7 @@
 
 <script>
 import axios from 'axios'
-import {baseURLLocal, userAuth} from '../auth/auth'
+import {baseURLLocal} from '../auth/auth-utils'
 import moment from 'moment'
 
 
@@ -74,7 +74,7 @@ export default {
       msg: 'dafsfasdfasdfsdaf',
       max50chars: (v) => v.length <= 50 || 'Input too long!',
       dateMenu: false,
-      userAuth: userAuth,
+      userAuth: this.$store.state.userAuth,
       editDialog: false,
       loading: false,
       dataTableItems: [{}],

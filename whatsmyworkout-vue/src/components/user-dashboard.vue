@@ -140,7 +140,7 @@
 <script>
 import axios from 'axios'
 import moment from 'moment'
-import { devServer, baseURLLocal} from '../auth/auth'
+import { devServer, baseURLLocal} from '../auth/auth-utils'
 
 
 export default {

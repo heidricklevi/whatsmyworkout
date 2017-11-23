@@ -108,7 +108,7 @@
 
 <script>
 
-import { userAuth, baseURLLocal } from '../auth/auth'
+import { userAuth, baseURLLocal } from '../auth/auth-utils'
 import axios from 'axios'
 import moment from 'moment'
 import updateExercise from './edit-exercise.vue'

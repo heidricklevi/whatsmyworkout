@@ -26,7 +26,7 @@
 
 <script>
 import moment from 'moment'
-import {baseURLLocal} from '../auth/auth'
+import {baseURLLocal} from '../auth/auth-utils'
 
 
 import axios from 'axios'

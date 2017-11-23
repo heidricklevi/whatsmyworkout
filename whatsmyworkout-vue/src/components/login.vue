@@ -41,7 +41,7 @@
 </template>
 
 <script>
-    import { login } from '../auth/auth'
+    import { login } from '../auth/auth-utils'
 
 
 

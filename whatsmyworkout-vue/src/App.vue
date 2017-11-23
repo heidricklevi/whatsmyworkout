@@ -346,7 +346,7 @@
 
 <script>
 
-import { baseURLLocal, devServer, userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../src/auth/auth'
+import { baseURLLocal } from './auth/auth-utils'
 import router from '../src/router/index'
 import jwt_decode from 'jwt-decode'
 import axios from 'axios'
@@ -401,15 +401,11 @@ export default {
       },
     },
     methods: {
-      logout: function (){
-          this.$store.dispatch('logout');
-      },
-      userLogin: function () {
+       userLogin: function () {
           let credentials = { username: this.username, password: this.password };
           this.$store.dispatch('login', credentials).then(() => {
               this.$router.push('/user/dashboard')
           });
-          console.log("after login", this.$store.state.userAuth.user);
       },
       onFeedbackSubmit: function () {
 
@@ -464,20 +460,9 @@ export default {
         'user-dashboard': userDashboard,
     },
     mounted: function () {
-        var self = this;
-        if (this.isAuthenticated) {
-            var JWT = localStorage.getItem("JWT");
-            axios.defaults.headers.common['Authorization'] = getJWTHeader();
-            var decoded = jwt_decode(JWT);
-            axios.get(baseURLLocal+"v1/users/" + decoded.username +'/')
-                .then(function (response) {
-                    userAuth.user = response.data;
-
-                }).catch(function (err) {
-                    console.log(err)
-            });
-            console.log(userAuth);
-        }
+        this.$store.dispatch('fetchUserProfile').then(() => {
+              this.$router.push('/user/dashboard')
+          });
     }
 }
 </script>

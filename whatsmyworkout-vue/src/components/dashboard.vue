@@ -214,7 +214,7 @@
 
 <script>
 
-import { devServer, baseURLLocal, userAuth, login, authenticationStatus, logout, getUserAccount, getJWTHeader, setUserAuth } from '../auth/auth'
+import { baseURLLocal } from '../auth/auth-utils'
 import router from '../router/index'
 import jwt_decode from 'jwt-decode'
 import AccountSettings from '../components/account-settings.vue'
@@ -232,7 +232,7 @@ export default {
             snackbar: false,
             userAuth: this.$store.state.userAuth,
             filename: '',
-            username: userAuth.user.username,
+            username: this.$store.state.userAuth.user.username,
             about: this.computedAuth.about,
             wt: this.computedAuth.weight,
             bf: this.computedAuth.body_fat,
@@ -276,8 +276,7 @@ export default {
           this.computedAuth.weight = this.$refs.wtInput.value;
       },
       logout: function (){
-          logout();
-          window.location.href = '/';
+          this.$store.dispatch('logout');
       },
       getFormData (files) {
           const forms = []
@@ -318,7 +317,7 @@ export default {
               formData.append('avatar', imageElement.files[0] );
           }
 
-          axios.put(baseURLLocal + 'v1/users/'+userAuth.user.username +'/', formData)
+          axios.put(baseURLLocal + 'v1/users/'+this.userAuth.user.username +'/', formData)
               .then(function (response) {
                   self.snackbarMessage = "Successfully updated your profile";
                   self.context = 'success';

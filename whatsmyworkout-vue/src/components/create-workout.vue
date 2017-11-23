@@ -235,7 +235,7 @@
 <script>
  import moment from 'moment'
  import axios from 'axios'
- import { devServer, baseURLLocal, login, userAuth } from '../auth/auth'
+ import { devServer, baseURLLocal, login, userAuth } from '../auth/auth-utils'
 
 
 
