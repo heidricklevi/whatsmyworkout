@@ -323,7 +323,8 @@ export default {
                   self.context = 'success';
                   self.snackbar = true;
 
-                  userAuth.user = response.data;
+                  self.$store.commit('storeUserData', response.data)
+                  console.log("response.data", response.data)
 
               }).catch(function (error) {
                   if (error.response) {

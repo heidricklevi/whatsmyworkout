@@ -1,13 +1,12 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
-import { getJWTHeader, authenticationStatus, getUsernameFromToken } from "./auth/auth-utils";
+import { getJWTHeader, authenticationStatus, getUsernameFromToken, baseURLLocal } from "./auth/auth-utils";
 import router from './router/index';
 import jwt_decode from 'jwt-decode'
 
 Vue.use(Vuex);
 
-export let baseURLLocal = "http://127.0.0.1:8000/";
 
 
 //TODO break down into vuex modules
@@ -60,8 +59,14 @@ export default new Vuex.Store({
 
 
         },
-        newUser ({commit}, userData) {
-
+        newUser ({commit}, userDataPayload) {
+            axios.post(baseURLLocal+'v1/user/create/', userDataPayload
+            ).then(function (response) {
+                console.log('success');
+                console.log(response);
+            }).catch(function (err) {
+                console.log(err);
+            })
         },
 
         fetchUserProfile ({commit}) {
@@ -82,6 +87,7 @@ export default new Vuex.Store({
         },
         logout ({commit}) {
             commit('removeAuth');
+
         }
     },
     getters: {

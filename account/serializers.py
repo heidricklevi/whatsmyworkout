@@ -1,12 +1,9 @@
 import pprint
 
 from django.contrib.auth import update_session_auth_hash
-from django.contrib.auth.models import User
 from rest_framework import serializers
 from .models import *
-from rest_framework_nested.relations import NestedHyperlinkedRelatedField
-from rest_framework import pagination
-from rest_framework.response import Response
+import boto3
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -38,6 +35,7 @@ class UserSerializer(serializers.ModelSerializer):
 
         if avatar is not None:
             instance.profile.avatar = profile_data.get('avatar', None)
+            print(instance.profile.avatar)
 
         instance.profile.body_fat = profile_data.get('body_fat', None)
         instance.profile.about = profile_data.get('about', None)
@@ -132,24 +130,29 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def set_workout_image(self, target_muscle, validated_data):
 
+        url = '..'
+        s3 = True
+        if s3:
+            url = 'https://s3.amazonaws.com/wmw-static'
+
         if target_muscle == 'Chest':
-            validated_data['workout_image'] = '../static/img/chest-muscle.jpg'
+            validated_data['workout_image'] = url + '/static/img/chest-muscle.jpg'
         elif target_muscle == 'Biceps':
-            validated_data['workout_image'] = '../static/img/biceps.jpg'
+            validated_data['workout_image'] = url + '/static/img/biceps.jpg'
         elif target_muscle == 'Triceps':
-            validated_data['workout_image'] = '../static/img/triceps.jpg'
+            validated_data['workout_image'] = url + '/static/img/triceps.jpg'
         elif target_muscle == 'Quads':
-            validated_data['workout_image'] = '../static/img/quads.jpg'
+            validated_data['workout_image'] = url + '/static/img/quads.jpg'
         elif target_muscle == 'Traps':
-            validated_data['workout_image'] = '../static/img/traps.jpg'
+            validated_data['workout_image'] = url + '/static/img/traps.jpg'
         elif target_muscle == 'Lats':
-            validated_data['workout_image'] = '../static/img/lats.jpg'
+            validated_data['workout_image'] = url + '/static/img/lats.jpg'
         elif target_muscle == 'Forearm':
-            validated_data['workout_image'] = '../static/img/forearm.jpg'
+            validated_data['workout_image'] = url + '/static/img/forearm.jpg'
         elif target_muscle == 'Calves':
-            validated_data['workout_image'] = '../static/img/calf.jpg'
+            validated_data['workout_image'] = url + '/static/img/calf.jpg'
         elif target_muscle == 'Abdominal':
-            validated_data['workout_image'] = '../static/img/abs.jpg'
+            validated_data['workout_image'] = url + '/static/img/abs.jpg'
 
 
 

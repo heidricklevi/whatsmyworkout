@@ -22,7 +22,7 @@
                     <a class="navbar-brand" href="#">
                         <div class="text-center logo-heading hidden-sm-and-down">Whats My Workout?
                         </div>
-                        <img id="header-logo" src="../src/assets/img/logo.png" alt="" class="img-fluid mr-5">
+                        <img id="header-logo" src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mr-5">
                     </a>
 
                     <div class="collapse navbar-collapse align-items-center">
@@ -366,13 +366,7 @@ export default {
       items: [
           { title: 'Home', icon: 'dashboard' },
           { title: 'About', icon: 'question_answer' }
-          ],
-       cItems: [
-           { src: "http://lorempixel.com/400/200/"},
-           { src: "http://lorempixel.com/400/200/"},
-           { src: "http://lorempixel.com/400/200/"},
-           { src: "http://lorempixel.com/400/200/"}
-       ],
+      ],
       mini: false,
       right: null,
       username: '',
@@ -413,13 +407,9 @@ export default {
         console.log("feedback submitted");
       },
       userSignUp: function () {
-        var self = this;
-        var firstName = this.fullName.split(' ')[0];
-        var lastName = this.fullName.split(' ')[1];
-
-
-        var endURL = "v1/user/create/";
-
+        let self = this;
+        let firstName = this.fullName.split(' ')[0];
+        let lastName = this.fullName.split(' ')[1];
 
         let payload = {
 
@@ -436,22 +426,19 @@ export default {
                 about: 'Default About',
             }
         };
-        axios.post(baseURLLocal+endURL, payload
-            ).then(function (response) {
-                console.log("Success")
-                self.signUpErrorAlert = true;
-                self.signUpAlertMessage = "You have successfully created your account.";
-                self.context = 'success';
 
-            }).catch(function (errors) {
+        this.$store.dispatch('newUser', payload).then(() => {
 
-                self.signUpErrorAlert = true;
-                self.signUpAlertMessage = "Sign ups have been limited during the early development stages." +
+            self.signUpErrorAlert = true;
+            self.signUpAlertMessage = "You have successfully created your account.";
+            self.context = 'success';
+        }).catch(() => {
+
+            self.signUpErrorAlert = true;
+            self.signUpAlertMessage = "Sign ups have been limited during the early development stages." +
                     " Please submit a request for an account via the feedback area.";
-
-
-                console.log(errors);
-        })
+            console.log(errors);
+        });
       },
 
     },

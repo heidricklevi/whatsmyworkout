@@ -11,6 +11,7 @@ export let baseURLLocal = "http://127.0.0.1:8000/";
 
 
 export function getJWTHeader() {
+    //exact format to set the Authorization header for requests
     return "JWT " + localStorage.getItem("JWT");
 }
 

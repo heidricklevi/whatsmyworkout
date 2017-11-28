@@ -7,13 +7,17 @@ from simple_history.models import HistoricalRecords
 import datetime
 
 
+def upload_to(instance, filename):
+    return 'images/%s/%s' % (instance.user.id, filename)
+
+
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     weight = models.IntegerField(default=0)
     body_fat = models.IntegerField(default=0)
     gender = models.CharField(max_length=20, default='Male')
     about = models.TextField(max_length=255, default='About')
-    avatar = models.ImageField(upload_to='users/%Y/%m/%d', blank=True)
+    avatar = models.ImageField(upload_to=upload_to, blank=True)
 
     def __str__(self):
         return self.user.first_name + '\'s Profile' if self.user.first_name else 'No User Name Profile'

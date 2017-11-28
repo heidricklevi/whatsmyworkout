@@ -12,7 +12,7 @@
                 <v-flex xs12>
                     <div class="pt-1 pl-1" style="display: inline-flex">
                         <v-avatar>
-                            <img :src="computedAuth.avatar">
+                            <img :src="userAuth.user.avatar">
                         </v-avatar>
                         <span class="title pl-2 pt-2 card-title grey--text">Next Workout </span>
                         <div style="position: absolute; right: 0; top: 0;">
@@ -148,6 +148,7 @@ export default {
   data () {
     return {
       recentWorkouts: {},
+      userAuth: this.$store.state.userAuth,
       viewExercises: false,
       drawer: true,
       isEmailWorkout: false,

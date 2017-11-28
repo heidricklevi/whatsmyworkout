@@ -162,29 +162,33 @@ class SendWorkoutEmail(APIView):
 
     def set_image(self, target_muscle):
         workout_image = None
+        account = 'account'
         dev_server = False
-        account = ''
+        s3 = True
+        if s3:
+            account = 'https://s3.amazonaws.com/wmw-static'
+
         if dev_server:
-            account = 'whatsmyworkout/'
+            account = 'whatsmyworkout/account'
 
         if target_muscle == 'Chest':
-            workout_image = account + 'account/static/img/chest-muscle.jpg'
+            workout_image = account + '/static/img/chest-muscle.jpg'
         elif target_muscle == 'Biceps':
-            workout_image = account + 'account/static/img/biceps.jpg'
+            workout_image = account + '/static/img/biceps.jpg'
         elif target_muscle == 'Triceps':
-            workout_image = account + 'account/static/img/triceps.jpg'
+            workout_image = account + '/static/img/triceps.jpg'
         elif target_muscle == 'Quads':
-            workout_image = account + 'account/static/img/quads.jpg'
+            workout_image = account + '/static/img/quads.jpg'
         elif target_muscle == 'Traps':
-            workout_image = account + 'account/static/img/traps.jpg'
+            workout_image = account + '/static/img/traps.jpg'
         elif target_muscle == 'Lats':
-            workout_image = account + 'account/static/img/lats.jpg'
+            workout_image = account + '/static/img/lats.jpg'
         elif target_muscle == 'Forearm':
-            workout_image = account + 'account/static/img/forearm.jpg'
+            workout_image = account + '/static/img/forearm.jpg'
         elif target_muscle == 'Calves':
-            workout_image = account + 'account/static/img/calf.jpg'
+            workout_image = account + '/static/img/calf.jpg'
         elif target_muscle == 'Abdominal':
-            workout_image = account + 'account/static/img/abs.jpg'
+            workout_image = account + '/static/img/abs.jpg'
 
         return workout_image
 
