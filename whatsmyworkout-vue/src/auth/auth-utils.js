@@ -2,8 +2,6 @@
  * Created by LeviJamesH on 7/8/2017.
  */
 
-import router from '../router/index'
-import axios from 'axios'
 import jwt_decoded from 'jwt-decode'
 
 

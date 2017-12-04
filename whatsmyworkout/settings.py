@@ -206,27 +206,27 @@ AWS_ACCESS_KEY_ID = AWS_CONFIG['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = AWS_CONFIG['AWS_SECRET_ACCESS_KEY']
 #
 STATICFILES_LOCATION = 'static'
-STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+STATICFILES_STORAGE = 'whatsmyworkout.custom_storages.StaticStorage'
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 MEDIAFILES_LOCATION = 'media'
-DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+DEFAULT_FILE_STORAGE = 'whatsmyworkout.custom_storages.MediaStorage'
 
 
 # Tell django-storages the domain to use to refer to static files.
-# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+AWS_S3_CUSTOM_DOMAIN = 's3.amazonaws.com/%s' % AWS_STORAGE_BUCKET_NAME
 
 # Tell the staticfiles app to use S3Boto3 storage when writing the collected static files (when
 # you run `collectstatic`).
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
-# STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
-STATIC_URL = '/static/'
-
+STATIC_URL = "https://%s/%s/" % (AWS_S3_CUSTOM_DOMAIN, STATICFILES_LOCATION)
+# STATIC_URL = '/static/'
+#
 STATIC_ROOT = os.path.join(BASE_DIR, '../../account/../../account/static/')
-
-
+#
+#
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
 

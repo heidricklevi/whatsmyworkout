@@ -135,7 +135,7 @@
                         <v-progress-circular style="position: absolute; left: 25%;" v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                         <v-expansion-panel-content v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                             <div slot="header">
-                                <span class="pr-2"><img src="../assets/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
+                                <span class="pr-2"><img src="https://s3.amazonaws.com/wmw-static/static/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
                             </div>
                             <v-layout row>
                                 <v-flex xs12>

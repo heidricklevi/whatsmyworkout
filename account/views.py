@@ -10,6 +10,7 @@ from django.core.mail import EmailMultiAlternatives
 from anymail.message import attach_inline_image_file
 from django.template.loader import get_template, render_to_string
 from django.template import Context
+from rest_framework.response import Response
 from whatsmyworkout.config import *
 import json
 
@@ -164,9 +165,6 @@ class SendWorkoutEmail(APIView):
         workout_image = None
         account = 'account'
         dev_server = False
-        s3 = True
-        if s3:
-            account = 'https://s3.amazonaws.com/wmw-static'
 
         if dev_server:
             account = 'whatsmyworkout/account'

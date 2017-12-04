@@ -88,7 +88,7 @@
 
                         <div class="bottom ">
                              <v-divider ></v-divider>
-                            <img src="../src/assets/img/logo.png" alt="" class="img-fluid mb-2">
+                            <img src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mb-2">
                             <p class="mb-0 mt-3">Copyright Whats My Workout 2017</p>
                             <div style="font-size: x-small;" class="grey--text">Icons made by <a href="http://www.freepik.com" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
                             is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a>
@@ -322,7 +322,7 @@
     <div class="container">
         <div class="row d-flex align-items-end">
             <div class="col-lg-6">
-                <img src="../src/assets/img/logo.png" alt="" class="img-fluid mb-2">
+                <img src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mb-2">
                 <p class="mb-0 mt-3">Copyright Whats My Workout 2017</p>
             </div>
             <div class="col-lg-6">

@@ -8,7 +8,7 @@ import datetime
 
 
 def upload_to(instance, filename):
-    return 'images/%s/%s' % (instance.user.id, filename)
+    return 'users/images/%s/%s' % (instance.user.id, filename)
 
 
 class Profile(models.Model):
