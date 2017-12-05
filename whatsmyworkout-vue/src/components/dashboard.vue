@@ -45,28 +45,27 @@
                 <v-spacer></v-spacer>
                 <v-layout row>
                     <v-flex offset-xs10 offset-md11 style="text-align: center">
-                        <v-btn icon style="margin-bottom: 10%; position: absolute; top: -5px;">
+                        <v-btn icon style="margin-bottom: 10%; position: absolute; top: -5px;"></v-btn>
                             <v-menu left>
                                 <v-icon slot="activator" class="white--text" large>settings</v-icon>
 
                                 <v-list>
 
-                                    <v-list-tile>
+                                    <v-list-tile @click="">
                                         <v-icon class="grey--text text--darken-4">settings</v-icon>
                                         <v-list-tile-title style="margin: 24px">Account Settings</v-list-tile-title>
                                     </v-list-tile>
-                                    <v-list-tile @click.native.stop="dialog = true">
+                                    <v-list-tile @click="" @click.native.stop="dialog = true">
                                         <v-icon class="blue-grey--text text--darken-4">perm_identity</v-icon>
                                         <v-list-tile-title style="margin: 24px">Profile Settings</v-list-tile-title>
                                     </v-list-tile>
                                     <v-divider></v-divider>
-                                    <v-list-tile>
+                                    <v-list-tile @click="">
                                         <v-icon v-on:click="logout" class="red--text text--darken-2">power_settings_new</v-icon>
                                         <v-list-tile-title v-on:click="logout" style="margin: 24px">Log Off</v-list-tile-title>
                                     </v-list-tile>
                                 </v-list>
                             </v-menu>
-                        </v-btn>
                     </v-flex>
                 </v-layout>
                 <v-dialog :computed-auth="computedAuth" v-model="dialog" fullscreen transition="dialog-bottom-transition" :overlay=false>
