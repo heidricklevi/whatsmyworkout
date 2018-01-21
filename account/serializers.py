@@ -1,9 +1,7 @@
-import pprint
-
 from django.contrib.auth import update_session_auth_hash
 from rest_framework import serializers
 from .models import *
-import boto3
+from friendship.models import Friend, Follow
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -35,7 +33,6 @@ class UserSerializer(serializers.ModelSerializer):
 
         if avatar is not None:
             instance.profile.avatar = profile_data.get('avatar', None)
-            print(instance.profile.avatar)
 
         instance.profile.body_fat = profile_data.get('body_fat', None)
         instance.profile.about = profile_data.get('about', None)
@@ -57,6 +54,12 @@ class UserSerializer(serializers.ModelSerializer):
         profile, created = Profile.objects.get_or_create(user=user, defaults=profile_data)
         if not created and profile_data is not None:
             super(UserSerializer, self).update(profile, profile_data)
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Follow
+        fields = '__all__'
 
 
 class ExercisesSerializer(serializers.ModelSerializer):

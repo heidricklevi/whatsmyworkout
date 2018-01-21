@@ -2,8 +2,8 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
-from simple_history.models import HistoricalRecords
+
+import reversion
 import datetime
 
 
@@ -11,6 +11,7 @@ def upload_to(instance, filename):
     return 'users/images/%s/%s' % (instance.user.id, filename)
 
 
+@reversion.register()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     weight = models.IntegerField(default=0)
@@ -20,7 +21,10 @@ class Profile(models.Model):
     avatar = models.ImageField(upload_to=upload_to, blank=True)
 
     def __str__(self):
-        return self.user.first_name + '\'s Profile' if self.user.first_name else 'No User Name Profile'
+        return self.user.username
+
+    def __unicode__(self):
+        return self.user.username
 
 
 class Exercises(models.Model):
@@ -45,12 +49,12 @@ class Exercise(models.Model):
     reps = models.IntegerField()
     notes = models.CharField(max_length=255)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
-    history = HistoricalRecords()
 
     def __str__(self):
         return self.exercise_name
 
 
+@reversion.register()
 class Workout(models.Model):
 
     endurance = 'Endurance'
@@ -82,7 +86,6 @@ class Workout(models.Model):
                       (flexibility, 'Flexibility Focused'))
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    history = HistoricalRecords()
     exercises = models.ManyToManyField(Exercise)
     date_for_completion = models.DateField(default=datetime.date.today,)
     created = models.DateTimeField(auto_now_add=True)
@@ -93,20 +96,8 @@ class Workout(models.Model):
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
 
-
-
-
     def __str__(self):
         return self.title
-
-    def get_absolute_url(self):
-        return reverse('workout', args=[self.date_for_completion,
-                                        self.title])
-
-
-
-
-
 
 
 @receiver(post_save, sender=User)

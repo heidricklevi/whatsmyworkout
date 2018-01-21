@@ -76,8 +76,9 @@ INSTALLED_APPS = [
     'anymail',
     'rest_auth',
     'corsheaders',
-    'simple_history',
+    'reversion',
     'storages',
+    'friendship',
 ]
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
@@ -102,6 +103,7 @@ MIDDLEWARE = [
     'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'reversion.middleware.RevisionMiddleware',
 
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',

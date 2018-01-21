@@ -12,6 +12,8 @@ from django.template.loader import get_template, render_to_string
 from django.template import Context
 from rest_framework.response import Response
 from whatsmyworkout.config import *
+from reversion.models import Version
+from friendship.models import Friend, Follow
 import json
 
 
@@ -31,6 +33,26 @@ class ExercisesViewSet(viewsets.ModelViewSet):
         return Exercises.objects.all()
 
 
+class ProfileHistory(APIView):
+
+    permission_classes = [IsAdminOrAccountOwner, ]
+
+    def get(self, request, format=None):
+
+        versions = Version.objects.filter(revision__user=request.user)
+        data = []
+        for i in versions:
+            data.append({
+                "revision_user": str(i.revision.user),
+                "serialized": i.serialized_data,
+                "date_created": i.revision.date_created,
+            })
+
+            # print(data)
+        # data_serialized = json.dumps(data)
+        return Response(data)
+
+
 class WorkoutList(APIView):
 
     permission_classes = [IsAdminOrAccountOwner, ]
@@ -45,6 +67,43 @@ class WorkoutList(APIView):
         serializer = WorkoutSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
+
+# Endpoints dealing with follow/friend requests
+
+class FollowView(APIView):
+    permission_classes = [IsAdminOrAccountOwner, ]
+
+    def post(self, request, *args, **kwargs):
+        other_user = User.objects.get(pk=request.data['other_user'])
+        qset = Follow.objects.add_follower(request.user, other_user)
+        serialized = FollowSerializer(qset)
+        return Response(serialized.data, status=201)
+
+    def get(self, request):
+        followers = self.request.query_params.get('followers', None)
+
+        if followers is not None:  # show current user followers else show who current user is following
+            qset = Follow.objects.filter(followee=request.user)
+        else:
+            qset = Follow.objects.filter(follower=request.user)
+
+        serializer = FollowSerializer(qset, many=True, context={'request': request})
+        return Response(serializer.data)
+
+    def delete(self, request, *args, **kwargs):
+        other_user = User.objects.get(pk=request.data['other_user'])
+        is_removed = Follow.objects.remove_follower(request.user, other_user)
+
+        if is_removed:
+            return Response({"status": "successfully removed"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"status": "Could not be removed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+
+
+# End endpoints dealing with follow/friend requests
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrAccountOwner, ]

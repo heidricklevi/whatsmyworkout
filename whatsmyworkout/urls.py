@@ -17,10 +17,13 @@ from django.conf import settings
 from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf.urls.static import static
+
+
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^account/', include('account.urls', namespace='account')),
     url(r'^rest-auth/', include('rest_auth.urls')),
+    url(r"^friendship/", include('friendship.urls')),
     # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^', include('account.urls')),
 ]
