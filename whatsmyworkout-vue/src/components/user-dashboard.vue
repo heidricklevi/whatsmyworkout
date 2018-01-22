@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs12 offset-md1 md4>
+        <v-flex xs12 offset-md1 md3>
                      <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                             {{ snackbarText }}
                         </v-snackbar>
@@ -133,6 +133,22 @@
                 <v-card-text>
                     No workouts have been created. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the recently scheduled one show up here
                 </v-card-text>
+            </v-card>
+        </v-flex>
+        <v-flex xs12  offset-md1 md3>
+            <v-card>
+                <v-card-title primary-title>
+                    <div>
+                        <h3 class="headline mb-0">Find Friends or Follow Experts</h3>
+                    </div>
+                </v-card-title>
+                <v-flex xs12 md10 offset-md1>
+                    <v-text-field
+                        name="search"
+                        label="Find Friends or other users"
+                        single-line
+                        append-icon="search"></v-text-field>
+                </v-flex>
             </v-card>
         </v-flex>
     </v-layout>

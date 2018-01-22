@@ -4,6 +4,8 @@ from .serializers import *
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework import viewsets, permissions
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 from .permissions import *
 from rest_framework import generics
 from django.core.mail import EmailMultiAlternatives
@@ -15,6 +17,63 @@ from whatsmyworkout.config import *
 from reversion.models import Version
 from friendship.models import Friend, Follow
 import json
+
+
+class UserLogin(APIView):
+
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, format=None):
+        json_content = json.loads(str(request.body.decode('utf-8')))
+
+        username = json_content['username']
+        password = json_content['password']
+        user = authenticate(username=username, password=password)
+
+        if user:
+            if user.is_active:
+                print('logging in')
+                login(request, user)
+                serialized = UserSerializer(user)
+                return Response(serialized.data)
+            else:
+                return Response(status.HTTP_401_UNAUTHORIZED)
+        else:
+            return Response(status.HTTP_401_UNAUTHORIZED)
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+
+    lookup_field = 'username'
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+
+class UserSearchListView(generics.ListAPIView):
+    permission_classes = [permissions.AllowAny]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('username', 'email')
+
+
+class CreateUser(APIView):
+    permission_classes = [permissions.AllowAny]
+    authorized_signup = auth_signup_list
+
+    def post(self, request):
+        user_data = json.loads(str(request.body.decode('utf-8')))
+        serialized = UserSerializer(data=user_data)
+
+        if serialized.is_valid():
+            if user_data['email'] not in self.authorized_signup:
+                return Response(serialized.data, status=status.HTTP_403_FORBIDDEN)
+
+            serialized.save()
+            return Response(serialized.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ExercisesList(generics.ListAPIView):
@@ -99,11 +158,8 @@ class FollowView(APIView):
         else:
             return Response({"status": "Could not be removed"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-
-
-
-
 # End endpoints dealing with follow/friend requests
+
 
 class WorkoutViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrAccountOwner, ]
@@ -132,54 +188,6 @@ class ExerciseViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return Exercise.objects.all().filter(user=self.request.user)
 
-
-class UserLogin(APIView):
-
-    permission_classes = [permissions.AllowAny]
-
-    def post(self, request, format=None):
-        json_content = json.loads(str(request.body.decode('utf-8')))
-
-        username = json_content['username']
-        password = json_content['password']
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                print('logging in')
-                login(request, user)
-                serialized = UserSerializer(user)
-                return Response(serialized.data)
-            else:
-                return Response(status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
-
-    lookup_field = 'username'
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-
-class CreateUser(APIView):
-    permission_classes = [permissions.AllowAny]
-    authorized_signup = auth_signup_list
-
-    def post(self, request):
-        user_data = json.loads(str(request.body.decode('utf-8')))
-        serialized = UserSerializer(data=user_data)
-
-        if serialized.is_valid():
-            if user_data['email'] not in self.authorized_signup:
-                return Response(serialized.data, status=status.HTTP_403_FORBIDDEN)
-
-            serialized.save()
-            return Response(serialized.data, status=status.HTTP_201_CREATED)
-        else:
-            return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SendWorkoutEmail(APIView):

@@ -58,6 +58,8 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.BasicAuthentication',
     ),
 
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
+
 }
 
 # Application definition
@@ -79,6 +81,7 @@ INSTALLED_APPS = [
     'reversion',
     'storages',
     'friendship',
+    'django_filters',
 ]
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
@@ -230,5 +233,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../../account/../../account/static/')
 #
 #
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
