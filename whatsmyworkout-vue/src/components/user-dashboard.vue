@@ -142,13 +142,22 @@
                         <h3 class="headline mb-0">Find Friends or Follow Experts</h3>
                     </div>
                 </v-card-title>
-                <v-flex xs12 md10 offset-md1>
-                    <v-text-field
-                        name="search"
-                        label="Find Friends or other users"
-                        single-line
-                        append-icon="search"></v-text-field>
-                </v-flex>
+                <v-container fluid>
+                    <v-layout>
+                      <v-flex xs12 offset-md1 md10>
+                        <v-text-field
+                          label="Async items"
+                          append-icon="search"
+                          :loading="loading"
+
+                          required
+                          :items="items"
+                          @keyup="search = $event.target.value"
+                          v-model="select"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+                  </v-container>
             </v-card>
         </v-flex>
     </v-layout>
@@ -163,6 +172,9 @@ export default {
     name: 'user-dashboard',
   data () {
     return {
+      search: null,
+      select: [],
+      items: [{}],
       recentWorkouts: {},
       userAuth: this.$store.state.userAuth,
       viewExercises: false,
@@ -185,6 +197,11 @@ export default {
 
     }
   },
+    watch: {
+      search (val) {
+          val && this.resolveSearch(val)
+      }
+    },
     filters: {
         moment: function (date) {
             return moment(date).format("dddd, MMMM Do YYYY");
@@ -192,6 +209,25 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+        resolveSearch (queryVal) {
+
+            this.loading = true;
+            var that = this;
+            axios.get(baseURLLocal+'v1/users/find?search='+queryVal).then(function (response) {
+
+                for (var i = 0; i < response.data.count; i++) {
+                    that.items[i].text = response.data.results[i].username;
+                    that.items[i].value = response.data.results[i].id;
+
+                }
+
+                that.loading = false;
+            }).catch(function (err) {
+                that.loading = false;
+
+            })
+
+        },
         commitToStore: function () {
           this.$store.commit('setData', [this.recentWorkouts]);
           console.log("Commited to store");
