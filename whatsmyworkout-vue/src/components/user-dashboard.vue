@@ -157,7 +157,32 @@
                         ></v-text-field>
                       </v-flex>
                     </v-layout>
-                  </v-container>
+                </v-container>
+              <v-layout>
+                <v-flex xs12 offset md1 md12 v-if="items" >
+                    <v-list subheader>
+                  <v-subheader>Results</v-subheader>
+                 <template v-for="item in items">
+
+                    <v-list-tile avatar  v-bind:key="item.id"  @click="">
+                      <v-list-tile-avatar>
+                        <img v-bind:src="item.avatar"/>
+                      </v-list-tile-avatar>
+                      <v-list-tile-content>
+                        <v-list-tile-title class="blue-grey--text">{{ item.username }}</v-list-tile-title>
+                      </v-list-tile-content>
+                      <v-list-tile-action>
+
+                      </v-list-tile-action>
+
+                    </v-list-tile>
+                     <v-divider></v-divider>
+                     </template>
+                    </v-list>
+
+                </v-flex>
+
+              </v-layout>
             </v-card>
         </v-flex>
     </v-layout>
@@ -174,7 +199,7 @@ export default {
     return {
       search: null,
       select: [],
-      items: [{}],
+      items: [],
       recentWorkouts: {},
       userAuth: this.$store.state.userAuth,
       viewExercises: false,
@@ -200,6 +225,9 @@ export default {
     watch: {
       search (val) {
           val && this.resolveSearch(val)
+          if (!val){
+              this.items = null;
+          }
       }
     },
     filters: {
@@ -215,10 +243,10 @@ export default {
             var that = this;
             axios.get(baseURLLocal+'v1/users/find?search='+queryVal).then(function (response) {
 
-                for (var i = 0; i < response.data.count; i++) {
-                    that.items[i].text = response.data.results[i].username;
-                    that.items[i].value = response.data.results[i].id;
+                for (var i = 0; i < response.data.results.length; i++) {
+                    that.items[i] = response.data.results[i];
 
+                    console.log(that.items[i]);
                 }
 
                 that.loading = false;
