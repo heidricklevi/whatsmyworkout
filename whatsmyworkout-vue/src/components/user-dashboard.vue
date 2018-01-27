@@ -146,7 +146,7 @@
                     <v-layout>
                       <v-flex xs12 offset-md1 md10>
                         <v-text-field
-                          label="Async items"
+                          label="Search by username"
                           append-icon="search"
                           :loading="loading"
 
@@ -162,22 +162,10 @@
                 <v-flex xs12 offset md1 md12 v-if="items" >
                     <v-list subheader>
                   <v-subheader>Results</v-subheader>
-                 <template v-for="item in items">
-
-                    <v-list-tile avatar  v-bind:key="item.id"  @click="">
-                      <v-list-tile-avatar>
-                        <img v-bind:src="item.avatar"/>
-                      </v-list-tile-avatar>
-                      <v-list-tile-content>
-                        <v-list-tile-title class="blue-grey--text">{{ item.username }}</v-list-tile-title>
-                      </v-list-tile-content>
-                      <v-list-tile-action>
-
-                      </v-list-tile-action>
-
-                    </v-list-tile>
-                     <v-divider></v-divider>
-                     </template>
+                 <template v-for="(item, index) in items">
+                     <add-follow :item="item" :index="index"></add-follow>
+                     <v-divider v-bind:key="item.id"></v-divider>
+                 </template>
                     </v-list>
 
                 </v-flex>
@@ -191,44 +179,43 @@
 import axios from 'axios'
 import moment from 'moment'
 import { devServer, baseURLLocal} from '../auth/auth-utils'
+import addFollow from './add-follow.vue'
 
 
 export default {
     name: 'user-dashboard',
-  data () {
-    return {
-      search: null,
-      select: [],
-      items: [],
-      recentWorkouts: {},
-      userAuth: this.$store.state.userAuth,
-      viewExercises: false,
-      drawer: true,
-      isEmailWorkout: false,
-      isArchiveWorkout: false,
-      nextWorkout: false,
-      shareEmail: '',
-      loader: null,
-      loading: false,
-      snackbar: false,
-      snackbarText: ' ',
-      y: 'top',
-      context: '',
-      context1: '',
-      loadingWorkout: true,
-      snackbar1: false,
-      snackbarText1: '',
-      snackColor: '',
+    data() {
+        return {
 
-    }
-  },
+            search: null,
+            select: [],
+            items: [],
+            recentWorkouts: {},
+            userAuth: this.$store.state.userAuth,
+            viewExercises: false,
+            drawer: true,
+            isEmailWorkout: false,
+            isArchiveWorkout: false,
+            nextWorkout: false,
+            shareEmail: '',
+            loader: null,
+            loading: false,
+            snackbar: false,
+            snackbarText: ' ',
+            y: 'top',
+            context: '',
+            context1: '',
+            loadingWorkout: true,
+            snackbar1: false,
+            snackbarText1: '',
+            snackColor: '',
+
+        }
+    },
     watch: {
-      search (val) {
-          val && this.resolveSearch(val)
-          if (!val){
-              this.items = null;
-          }
-      }
+        search(val) {
+            this.resolveSearch(val)
+        }
     },
     filters: {
         moment: function (date) {
@@ -237,82 +224,88 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
-        resolveSearch (queryVal) {
-
+        resolveSearch(queryVal) {
             this.loading = true;
+            this.items = [];
             var that = this;
-            axios.get(baseURLLocal+'v1/users/find?search='+queryVal).then(function (response) {
 
-                for (var i = 0; i < response.data.results.length; i++) {
-                    that.items[i] = response.data.results[i];
+            if (this.search) {
+                axios.get(baseURLLocal + 'v1/users/find?search=' + queryVal).then(function (response) {
 
-                    console.log(that.items[i]);
-                }
-
-                that.loading = false;
-            }).catch(function (err) {
-                that.loading = false;
-
-            })
-
+                    for (var i = 0; i < response.data.results.length; i++) {
+                        that.items[i] = response.data.results[i];
+                    }
+                    that.loading = false;
+                }).catch(function (err) {
+                    that.items = [];
+                    that.loading = false;
+                })
+            }
+            else {
+                this.items = [];
+                this.loading = false;
+            }
         },
         commitToStore: function () {
-          this.$store.commit('setData', [this.recentWorkouts]);
-          console.log("Commited to store");
+            this.$store.commit('setData', [this.recentWorkouts]);
+            console.log("Commited to store");
         },
         sendWorkout: function () {
             var self = this;
             var payload = this.recentWorkouts;
 
-            for (var i =0; i < payload.exercises.length; i++) {
+            for (var i = 0; i < payload.exercises.length; i++) {
                 payload.exercises[i].workout_id = this.recentWorkouts.id;
             }
 
             payload.to = this.shareEmail;
 
             this.loading = true;
-            axios.post(baseURLLocal+'v1/workout/send/', payload)
+            axios.post(baseURLLocal + 'v1/workout/send/', payload)
                 .then(function () {
                     self.context = 'success';
                     self.snackbar = true;
-                    self.snackbarText = "Successfully sent workout to "+payload.to;
+                    self.snackbarText = "Successfully sent workout to " + payload.to;
                     self.snackColor = 'green';
 
                     self.loading = false;
                     console.log('Success')
-            }).catch(function (err) {
-                    self.context = 'error';
-                    self.snackbar = true;
-                    self.snackbarText = "Could not send workout to "+payload.to +"error " + err;
+                }).catch(function (err) {
+                self.context = 'error';
+                self.snackbar = true;
+                self.snackbarText = "Could not send workout to " + payload.to + "error " + err;
 
-                    self.loading = false;
-                    console.log(err)
+                self.loading = false;
+                console.log(err)
             })
         }
     },
     created: function () {
-            var self = this;
+        var self = this;
 
 
-            this.loadingWorkout = true;
+        this.loadingWorkout = true;
 
-            axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
-                self.recentWorkouts = response.data.results[0];
-                self.loadingWorkout = false;
-
-
-
-                console.log(self.recentWorkouts);
-            }).catch(function (e) {
-                self.loadingWorkout = false;
-                self.context1 = 'error';
-                self.snackbar1 = true;
-                self.snackbarText1 = "error loading workout";
-                console.log('There was an error loading recent workouts');
-            });
+        axios.get(baseURLLocal + 'v1/workouts/?recent=5').then(function (response) {
+            self.recentWorkouts = response.data.results[0];
+            self.loadingWorkout = false;
 
 
-      },
+            console.log(self.recentWorkouts);
+        }).catch(function (e) {
+            self.loadingWorkout = false;
+            self.context1 = 'error';
+            self.snackbar1 = true;
+            self.snackbarText1 = "error loading workout";
+            console.log('There was an error loading recent workouts');
+        });
+
+
+    },
+    components: {
+        addFollow
+    }
+
 
 }
 </script>

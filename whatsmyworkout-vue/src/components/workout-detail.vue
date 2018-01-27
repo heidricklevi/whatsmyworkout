@@ -102,7 +102,7 @@
                 </v-card>
             </v-flex>
         </v-layout>
-        <v-alert v-else="selectedWorkout" error>Could not load the desired workout to edit</v-alert>
+        <v-alert v-else="selectedWorkout" color="error">Could not load the desired workout to edit</v-alert>
     </div>
 </template>
 
@@ -112,12 +112,6 @@ import { userAuth, baseURLLocal } from '../auth/auth-utils'
 import axios from 'axios'
 import moment from 'moment'
 import updateExercise from './edit-exercise.vue'
-
-
-
-
-
-
 
 
 export default {

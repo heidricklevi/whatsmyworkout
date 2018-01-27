@@ -133,7 +133,7 @@ class FollowView(APIView):
     permission_classes = [IsAdminOrAccountOwner, ]
 
     def post(self, request, *args, **kwargs):
-        other_user = User.objects.get(pk=request.data['other_user'])
+        other_user = User.objects.get(pk=request.data['id'])
         qset = Follow.objects.add_follower(request.user, other_user)
         serialized = FollowSerializer(qset)
         return Response(serialized.data, status=201)

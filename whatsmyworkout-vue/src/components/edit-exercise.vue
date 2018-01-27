@@ -30,24 +30,11 @@
     </v-card>
 </div>
 
-
-
-
-
-
 </template>
 
 
 
 <script>
-
-
-
-
-
-
-
-
 
 export default {
 
@@ -64,8 +51,4 @@ export default {
     },
     props: ['exercise', 'index']
 }
-
-
-
-
 </script>
