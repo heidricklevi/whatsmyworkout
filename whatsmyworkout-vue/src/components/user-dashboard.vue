@@ -135,7 +135,7 @@
                 </v-card-text>
             </v-card>
         </v-flex>
-        <v-flex xs12  offset-md1 md3>
+        <!--<v-flex xs12  offset-md1 md3>
             <v-card>
                 <v-card-title primary-title>
                     <div>
@@ -172,7 +172,68 @@
 
               </v-layout>
             </v-card>
-        </v-flex>
+        </v-flex> -->
+        <v-flex xs12 offset-md1 md3>
+    <v-card >
+        <v-card-title>Friends</v-card-title>
+        <v-tabs v-model="active" centered :scrollable="false" icons>
+              <v-tabs-bar  light>
+                  <v-tabs-slider color="blue-grey"></v-tabs-slider>
+                <v-tabs-item
+                  href="#friends-1"
+                  ripple
+                >
+                  <v-icon>search</v-icon>
+                </v-tabs-item>
+                  <v-tabs-item href="#friends-2">
+                      <v-icon>people</v-icon>
+                  </v-tabs-item>
+
+              </v-tabs-bar>
+              <v-tabs-items>
+                <v-tabs-content
+                  v-for="i in 2"
+                  :key="i"
+                  :id="'friends-' + i"
+                >
+                       <v-flex>
+                        <h4 class="subheading ma-3">Connect with others</h4>
+                            </v-flex>
+                    <v-layout >
+
+                      <v-flex xs12 offset-md1 md10>
+                        <v-text-field
+                          label="username"
+                          append-icon="search"
+                          :loading="loading"
+
+                          required
+                          :items="items"
+                          @keyup="search = $event.target.value"
+                          v-model="select"
+                        ></v-text-field>
+                      </v-flex>
+                    </v-layout>
+
+              <v-layout>
+                <v-flex xs12 offset md1 md12 v-if="items.length != 0" >
+                    <v-list subheader>
+                  <v-subheader>Results</v-subheader>
+                 <template v-for="(item, index) in items">
+                     <add-follow :item="item" :index="index"></add-follow>
+                     <v-divider v-bind:key="item.id"></v-divider>
+                 </template>
+                    </v-list>
+
+                </v-flex>
+
+              </v-layout>
+
+                </v-tabs-content>
+              </v-tabs-items>
+            </v-tabs>
+        </v-card>
+         </v-flex>
     </v-layout>
 </template>
 <script>
@@ -187,6 +248,8 @@ export default {
     data() {
         return {
 
+            active: null,
+            tabs: ['search-tab', 'friend-tab'],
             search: null,
             select: [],
             items: [],
@@ -233,7 +296,15 @@ export default {
                 axios.get(baseURLLocal + 'v1/users/find?search=' + queryVal).then(function (response) {
 
                     for (var i = 0; i < response.data.results.length; i++) {
+                        console.log(that.userAuth.user.id, response.data.results[i].id);
+                        if (that.userAuth.user.id === response.data.results[i].id) {
+
+                            response.data.results.splice(i, 1);
+                        }
+
                         that.items[i] = response.data.results[i];
+
+
                     }
                     that.loading = false;
                 }).catch(function (err) {
@@ -312,6 +383,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
+
+    div.tabs__bar {
+        border-bottom: 1px solid;
+        border-bottom-color: rgba(0,0,0,.12);
+    }
+
+    div.tabs__wrapper {
+        overflow-x: unset;
+    }
 
     .custom-loader {
         animation: loader 1s infinite;
