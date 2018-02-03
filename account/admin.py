@@ -1,8 +1,11 @@
 from django.contrib import admin
-from .models import Profile, Workout, Exercise, Exercises
+from .models import Profile, Workout, Exercise, Exercises, BodyStatTracking, MaxLiftTracking
 from django.contrib.auth.models import User
 from reversion.admin import VersionAdmin
 
+
+class MaxLiftTrackingAdmin(admin.ModelAdmin):
+    readonly_fields = ('created', 'id')
 
 class SubscriberAdmin(admin.ModelAdmin):
     pass
@@ -15,10 +18,15 @@ class SubscriberAdmin(admin.ModelAdmin):
 
 class ProfileAdmin(VersionAdmin):
     # inlines = [SubscriberInline, ]
-    pass
+    readonly_fields = ('id', )
+
 
 class UserAdmin(admin.ModelAdmin):
     pass
+
+
+class BodyStatTrackingAdmin(admin.ModelAdmin):
+    readonly_fields = ('created', )
 
 
 class WorkoutAdmin(VersionAdmin):
@@ -35,6 +43,8 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(MaxLiftTracking, MaxLiftTrackingAdmin)
+admin.site.register(BodyStatTracking, BodyStatTrackingAdmin)
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Workout, WorkoutAdmin)

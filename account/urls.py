@@ -16,6 +16,7 @@ from . import views
 from .views import *
 
 router = routers.SimpleRouter()
+router.register(r'body-stats', BodyStatTrackingViewSet, base_name='body-stat-tracking')
 router.register(r'users', UserViewSet, base_name='users')
 router.register(r'workouts', WorkoutViewSet, base_name='user-workouts')
 router.register(r'exercise', ExerciseViewSet, base_name='user-exercise')

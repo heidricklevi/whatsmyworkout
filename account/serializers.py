@@ -69,6 +69,12 @@ class ExercisesSerializer(serializers.ModelSerializer):
                   'during_exercise_image', 'exercise_link')
 
 
+class BodyStatSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BodyStatTracking
+        fields = '__all__'
+
+
 class ExerciseSerializer(serializers.ModelSerializer):
     exercises = ExercisesSerializer(allow_null=True)
     workout_id = serializers.CharField(max_length=255, write_only=True)  # not a field of the model

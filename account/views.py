@@ -76,6 +76,15 @@ class CreateUser(APIView):
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class BodyStatTrackingViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner, ]
+    serializer_class = BodyStatSerializer
+
+    def get_queryset(self):
+        queryset = BodyStatTracking.objects.filter(profile__user=self.request.user).order_by('-created')
+        return queryset
+
+
 class ExercisesList(generics.ListAPIView):
 
     permission_classes = [IsAdminOrReadOnly, ]

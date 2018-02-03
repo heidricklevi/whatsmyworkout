@@ -1,5 +1,6 @@
 <template>
     <v-layout row wrap>
+        <user-profile :user-auth="userAuth"></user-profile>
         <v-flex xs12 offset-md1 md3>
                      <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                             {{ snackbarText }}
@@ -176,7 +177,7 @@
         <v-flex xs12 offset-md1 md3>
     <v-card >
         <v-card-title>Friends</v-card-title>
-        <v-tabs v-model="active" centered :scrollable="false" icons>
+        <v-tabs v-model="active" centered :scrollable="false" >
               <v-tabs-bar  light>
                   <v-tabs-slider color="blue-grey"></v-tabs-slider>
                 <v-tabs-item
@@ -196,10 +197,10 @@
                   :key="i"
                   :id="'friends-' + i"
                 >
-                       <v-flex>
+                       <v-flex v-if="active == 'friends-1'">
                         <h4 class="subheading ma-3">Connect with others</h4>
                             </v-flex>
-                    <v-layout >
+                    <v-layout v-if="active == 'friends-1'">
 
                       <v-flex xs12 offset-md1 md10>
                         <v-text-field
@@ -216,7 +217,8 @@
                     </v-layout>
 
               <v-layout>
-                <v-flex xs12 offset md1 md12 v-if="items.length != 0" >
+
+                <v-flex xs12 offset md1 md12 v-if="items.length != 0 && active == 'friends-1'">
                     <v-list subheader>
                   <v-subheader>Results</v-subheader>
                  <template v-for="(item, index) in items">
@@ -226,6 +228,19 @@
                     </v-list>
 
                 </v-flex>
+
+                  <v-flex xs12 offset md1 md12 v-if="active == 'friends-2'">
+                      <h4 class="subheading ma-3">Friends and Follows</h4>
+                      <v-chip>
+                          Following {{ getFollows }}
+                      </v-chip>
+                      <v-chip>
+                          Followers {{ getFollowers }}
+                      </v-chip>
+
+
+                  </v-flex>
+
 
               </v-layout>
 
@@ -241,6 +256,7 @@ import axios from 'axios'
 import moment from 'moment'
 import { devServer, baseURLLocal} from '../auth/auth-utils'
 import addFollow from './add-follow.vue'
+import userProfile from './user-profile.vue'
 
 
 export default {
@@ -248,6 +264,8 @@ export default {
     data() {
         return {
 
+            following: '',
+            followers: '',
             active: null,
             tabs: ['search-tab', 'friend-tab'],
             search: null,
@@ -275,6 +293,31 @@ export default {
 
         }
     },
+    computed: {
+        getFollows: function () {
+            let self = this;
+
+            axios.get(baseURLLocal+'v1/follow/').then(function (response) {
+                self.following = response.data.length;
+            }).catch(function (err) {
+                return "error retrieving following number from server"
+            });
+
+
+            return this.following;
+        },
+        getFollowers: function () {
+            let self = this;
+
+            axios.get(baseURLLocal+'v1/follow/?followers=true').then(function (response) {
+                self.followers = response.data.length;
+            }).catch(function (err) {
+                return "error retrieving following number from server"
+            });
+
+            return this.followers;
+        }
+    },
     watch: {
         search(val) {
             this.resolveSearch(val)
@@ -296,11 +339,7 @@ export default {
                 axios.get(baseURLLocal + 'v1/users/find?search=' + queryVal).then(function (response) {
 
                     for (var i = 0; i < response.data.results.length; i++) {
-                        console.log(that.userAuth.user.id, response.data.results[i].id);
-                        if (that.userAuth.user.id === response.data.results[i].id) {
 
-                            response.data.results.splice(i, 1);
-                        }
 
                         that.items[i] = response.data.results[i];
 
@@ -374,7 +413,7 @@ export default {
 
     },
     components: {
-        addFollow
+        addFollow, userProfile
     }
 
 

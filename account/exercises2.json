@@ -1,0 +1,822 @@
+[
+   {
+      "exercise_name":"Biceps curls with barbell",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Biceps curls with SZ-bar",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Biceps curls with dumbbell",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Dips",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Dips between two benches",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"French press (skullcrusher) SZ-bar",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"French press (skullcrusher) dumbbells",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Hammercurls",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Dumbbells on scott machine",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Bench press narrow grip",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Triceps extensions on cable",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Triceps extensions on cable with bar",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Crunches",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Crunches with cable",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Negative crunches",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Crunches on machine",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Sit-ups",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Benchpress dumbbells",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Butterfly",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Butterfly narrow grip",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Decline bench press barbell",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Decline bench press dumbbell",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Standing calf raises",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Sitting calf raises",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Calf raises on Hackenschmitt machine",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Deadlifts",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Rowing, T-bar",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Pull-ups",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Rowing, seated",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Bent over rowing",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Bent over rowing reverse",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Squats",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Dumbbell lunges standing",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Dumbbell lunges walking",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Leg presses (wide)",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Leg presses (narrow)",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Good mornings",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Leg curls (sitting)",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Leg curls (standing)",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Shoulder press, barbell",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Fly with cable",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Shoulder press, dumbbells",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Butterfly reverse",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Leg raises, lying",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Leg raises, standing",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Upright row, SZ-bar",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Hyperextensions",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Biceps curl with cable",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Leg press on hackenschmidt machine",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Hammercurls on cable",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Triceps machine",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Pull ups on machine",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"MGM machine",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Rowing, lying on bench",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Long-Pulley (low row)",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Long-Pulley, narrow",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Fly with dumbbells",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Fly with dumbbells, decline bench",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Upright row, on multi press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Lateral raises",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Lateral raises on cable, one armed",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Shrugs, barbells",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Shrugs, dumbbells",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Shoulder press, on machine",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Leg curls (laying)",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Shoulder press, on multi press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Chin ups",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Wyciskanie Skos",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Pistol Squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Rack deadlift",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Triceps dips",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Incline Bench Press",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"High pull",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Incline Plank with alternate floor touch",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Hanging Leg Raises",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Cable Woodchoppers",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Incline Pushups",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Splinter Sit-ups",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Side Crunch",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Leg Extension",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Trazioni alla sbarra presa inversa",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Chin-ups",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Perfect Push Up",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Squat Jumps",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Triceps bench press one barbell",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Lat Pull Down (Straight Back)",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Lat Pull Down (Leaning back)",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Power Clean",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Push Press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Front Squats",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Bench Press",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Preacher Curls",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Cross-Bench Dumbbell Pullovers",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Push ups",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Overhand Cable Curl",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Pendelay rows",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Wall pushup",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Wide-grip pulldown",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Single-arm preacher curl",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Incline dumbbell flye",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Cable cross-over",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Reverse bar curl",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Stiff-legged deadlifts",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Incline dumbbell press",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Leverage machine chest press",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Underhand lat pull down",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Close-grip lat pull down",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Leverage machine iso row",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Straight-arm pull down (rope attachment)",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Straight-arm pull down (bar attachment)",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Close-grip bench press",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Smith machine close-grip bench press",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Super Squat",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Arnold Shoulder Press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Military Press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Front raises",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Rear Delt Raises",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Plank",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Propadanje",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Bend\u017e",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Razboj",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Kettlebell Swings",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Low Row Machine",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Military Press",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Upper External Oblique",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Decline Pushups",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Glute",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Roman Chair",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Cable External Rotation",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Depth Jumps",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Bent High Pulls",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Run - treadmill",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Pause Bench",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Snach",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Biking",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Biking",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Dumbbell Triceps Extension",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Dumbbell Concentration Curl",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Side dumbbell trunk flexion",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Tricep Dumbbell Kickback",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"L hold",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"farmers walks",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"duck walks",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"yolk walks",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"axe hold",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"car push",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Hercules pillars",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Stationary Bike",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Dumbbell Incline Curl",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Pelvic Tilting Medium Risk",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Dumbbell Goblet squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Side to Side Push Ups",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Flutter Kicks",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"High Knee Jumps",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Z Curls",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Lateral-to-Front Raises",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Bear Walk",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Calf Press using Leg Press Machine",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Trunk rotation with cable ",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Upright Row w/ Dumbbells",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Lying rotator cuff exercise",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Body Squats",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Hand Grip",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Turkish Get-Up",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Side raise",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"weighted step",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"weighted step-ups",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Decline Press Sit-Up",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Dumbbell Side Bends",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Side Plank",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Full Sit Outs",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Speed Deadlift",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Diagonal shoulder Press",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Superman",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Run",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Isometric Wipers",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Shotgun Row",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Incline Dumbbell Row",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Body-Ups",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Braced Squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Barbell Ab Rollout",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Barbell Triceps Extension",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"2 Handed Kettlebell swing",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Bulgarian Split Squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Deadhang",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Fentes avant",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Dumbbell Split Squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Aalex Gambe alte al muro",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Romanian Deadlift",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Burpees",
+      "exercise_category":"Chest"
+   },
+   {
+      "exercise_name":"Overhead Squat",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Run/Walk",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Wall Handstand",
+      "exercise_category":"Shoulders"
+   },
+   {
+      "exercise_name":"Ring Dips",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Pike Push Ups",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Bentover Dumbbell Rows",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Tricep Push Down FreeWieghts",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Hip Raise, Lying",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Walking",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"LifeFitness Calf Extension machine",
+      "exercise_category":"Calves"
+   },
+   {
+      "exercise_name":"Deficit Deadlift",
+      "exercise_category":"Back"
+   },
+   {
+      "exercise_name":"Standing Rope Forearm",
+      "exercise_category":"Arms"
+   },
+   {
+      "exercise_name":"Hollow Hold",
+      "exercise_category":"Abs"
+   },
+   {
+      "exercise_name":"Spinning",
+      "exercise_category":"Legs"
+   },
+   {
+      "exercise_name":"Seated Triceps Press",
+      "exercise_category":"Arms"
+   }
+]

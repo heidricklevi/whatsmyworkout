@@ -27,8 +27,25 @@ class Profile(models.Model):
         return self.user.username
 
 
+@reversion.register()
+class BodyStatTracking(models.Model):
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    created = models.DateTimeField(auto_now_add=True)
+    height = models.PositiveIntegerField(null=False, default=0)
+    bmi = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2)
+    weight = models.DecimalField(blank=True, null=False, max_digits=4, decimal_places=1, default=0)
+    body_fat = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=1)
+
+    def __str__(self):
+        return self.profile.user.username
+
+    def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.bmi = (self.weight / (self.height**2)) * 703 if self.weight != 0 and self.height != 0 else 0
+        super(BodyStatTracking, self).save()
+
+
 class Exercises(models.Model):
-    exercise_name = models.CharField(max_length=255)
+    exercise_name = models.CharField(max_length=60, unique=True)
     exercise_rating = models.CharField(max_length=255, null=True)
     target_muscle = models.CharField(max_length=255)
     exercise_link = models.CharField(max_length=255, null=True)
@@ -52,6 +69,22 @@ class Exercise(models.Model):
 
     def __str__(self):
         return self.exercise_name
+
+
+class MaxLiftTracking(models.Model):
+    one_rep = 'One Rep Max'
+    three_rep = 'Three Rep Max'
+
+    TYPES = ((one_rep, '1 Rep Max'), (three_rep, '3 Rep Max'))
+
+    profile = models.ForeignKey(Profile)
+    exercise = models.ForeignKey(Exercises)
+    created = models.DateTimeField(auto_now_add=True)
+    max_type = models.CharField(max_length=32, choices=TYPES)
+    weight = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.exercise.exercise_name
 
 
 @reversion.register()
@@ -111,6 +144,9 @@ def save_profile(sender, instance, **kwargs):
     instance.profile.save()
 
 
-
+@receiver(post_save, sender=Profile)
+def create_body_stat_tracking(sender, instance, created, **kwargs):
+    if created:
+        BodyStatTracking.objects.create(profile=instance)
 
 
