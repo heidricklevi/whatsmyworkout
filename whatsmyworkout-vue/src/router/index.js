@@ -12,6 +12,7 @@ import userDashboard from '../components/user-dashboard.vue'
 import ManageWorkouts from '../components/manage-workouts.vue'
 import ArchiveWorkouts from '../components/archive-workouts.vue'
 import WorkoutDetail from '../components/workout-detail.vue'
+import WorkoutStats from '../components/workout-stats.vue'
 
 Vue.use(Router);
 
@@ -27,6 +28,11 @@ export default new Router({
       name: 'user-dashboard',
       component: userDashboard
     },
+      {
+        path: '/workout/stats/',
+        name: 'workout-stats',
+        component: WorkoutStats
+      },
     {
       path: '/dashboard/',
       name: 'dashboard',

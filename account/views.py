@@ -85,6 +85,15 @@ class BodyStatTrackingViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner]
+    serializer_class = MaxLiftSerializer
+
+    def get_queryset(self):
+        q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
+        return q
+
+
 class ExercisesList(generics.ListAPIView):
 
     permission_classes = [IsAdminOrReadOnly, ]

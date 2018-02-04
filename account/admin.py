@@ -5,7 +5,21 @@ from reversion.admin import VersionAdmin
 
 
 class MaxLiftTrackingAdmin(admin.ModelAdmin):
-    readonly_fields = ('created', 'id')
+    readonly_fields = ('target_muscle', 'created', 'id')
+    list_display = ('get_username', 'get_exercise_name', 'created', 'target_muscle')
+
+    def get_exercise_name(self, obj):
+        return obj.exercise.exercise_name
+
+    get_exercise_name.admin_order_field = 'exercise__exercise_name'
+    get_exercise_name.short_description = 'Exercise Name'
+
+    def get_username(self, obj):
+        return obj.profile.user.username
+
+    get_username.admin_order_field = 'profile__user__username'
+    get_username.short_description = 'User'
+
 
 class SubscriberAdmin(admin.ModelAdmin):
     pass

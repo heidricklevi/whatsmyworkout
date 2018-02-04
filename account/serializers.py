@@ -69,6 +69,14 @@ class ExercisesSerializer(serializers.ModelSerializer):
                   'during_exercise_image', 'exercise_link')
 
 
+class MaxLiftSerializer(serializers.ModelSerializer):
+    exercise = ExercisesSerializer()
+
+    class Meta:
+        model = MaxLiftTracking
+        fields = '__all__'
+
+
 class BodyStatSerializer(serializers.ModelSerializer):
     class Meta:
         model = BodyStatTracking

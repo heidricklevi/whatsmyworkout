@@ -246,7 +246,7 @@ export default {
                 { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
                 { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
-                { title: 'Workout Stats', icon: 'trending_up', link: '/stats'},
+                { title: 'Workout Stats', icon: 'trending_up', link: '/workout/stats/'},
                 { title: 'Archived Workouts', icon: 'archive', link: '/archived-workouts/'}
             ],
             genderOpts: [
