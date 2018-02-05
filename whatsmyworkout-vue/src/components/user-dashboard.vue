@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <user-profile :user-auth="userAuth"></user-profile>
+        <user-profile :user-auth="userAuth" :class="{'mb-4': $vuetify.breakpoint.smAndDown }"></user-profile>
         <v-flex xs12 offset-md1 md3>
                      <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                             {{ snackbarText }}
@@ -136,6 +136,7 @@
                 </v-card-text>
             </v-card>
         </v-flex>
+
         <!--<v-flex xs12  offset-md1 md3>
             <v-card>
                 <v-card-title primary-title>
@@ -174,7 +175,7 @@
               </v-layout>
             </v-card>
         </v-flex> -->
-        <v-flex xs12 offset-md1 md3>
+        <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'pr-3': $vuetify.breakpoint.mdAndUp }">
     <v-card >
         <v-card-title>Friends</v-card-title>
         <v-tabs v-model="active" centered :scrollable="false" >
@@ -202,7 +203,7 @@
                             </v-flex>
                     <v-layout v-if="active == 'friends-1'">
 
-                      <v-flex xs12 offset-md1 md10>
+                      <v-flex xs10 offset-1 md10>
                         <v-text-field
                           label="username"
                           append-icon="search"
@@ -264,6 +265,7 @@ export default {
     data() {
         return {
 
+
             following: '',
             followers: '',
             active: null,
@@ -294,6 +296,7 @@ export default {
         }
     },
     computed: {
+
         getFollows: function () {
             let self = this;
 

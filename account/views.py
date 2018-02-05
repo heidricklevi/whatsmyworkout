@@ -90,7 +90,12 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
     serializer_class = MaxLiftSerializer
 
     def get_queryset(self):
+        target_muscle = self.request.query_params.get('target_muscle', None)
         q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
+
+        if target_muscle is not None:
+            q = q.filter(target_muscle=target_muscle).order_by('-created')
+
         return q
 
 
@@ -207,7 +212,6 @@ class ExerciseViewSet(viewsets.ModelViewSet):
         return Exercise.objects.all().filter(user=self.request.user)
 
 
-
 class SendWorkoutEmail(APIView):
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
@@ -272,6 +276,8 @@ class SendWorkoutEmail(APIView):
             workout_image = account + '/static/img/calf.jpg'
         elif target_muscle == 'Abdominal':
             workout_image = account + '/static/img/abs.jpg'
+
+        #     Need to add default image
 
         return workout_image
 

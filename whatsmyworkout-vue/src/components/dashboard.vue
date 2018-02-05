@@ -205,7 +205,7 @@
         <v-footer class="pa-3" app fixed>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-    <p style="position: absolute; left: 50%">v0.0.9</p>
+    <p style="position: absolute; left: 50%">v0.2.1 02/05</p>
 
   </v-footer>
     </v-app>

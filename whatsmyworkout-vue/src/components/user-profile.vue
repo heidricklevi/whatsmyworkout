@@ -1,5 +1,6 @@
 <template>
-    <v-flex xs12 md3 class="pl-3">
+<v-layout>
+    <v-flex xs12 md10 offset-md1>
         <v-card>
             <v-card-media :src="userAuth.user.avatar" height="200px"></v-card-media>
             <v-card-title>
@@ -23,9 +24,9 @@
 
                 </v-flex>
             </v-layout>
-
         </v-card>
     </v-flex>
+</v-layout>
 </template>
 
 <script>
