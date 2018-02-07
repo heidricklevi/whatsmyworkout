@@ -43,6 +43,11 @@
                     </v-layout>
             </v-card>
         </v-flex>
+        <v-flex xs12 md6 offset-md1>
+            <v-card class="pa-3">
+                <lift-progress-chart :chart-data="datacollection" :height="400" :options="{responsive: true, maintainAspectRatio: false}"></lift-progress-chart>
+            </v-card>
+        </v-flex>
     </v-layout>
 </template>
 
@@ -51,11 +56,13 @@
     import {baseURLLocal} from '../auth/auth-utils'
     import axios from 'axios'
     import moment from 'moment'
+    import LiftProgressChart from '../components/lift-progress-chart.vue'
 
     export default {
         name: "workout-stats",
         data () {
             return {
+                datacollection: null,
                 target_muscles: [
 
                               { text: 'Chest', value: "Chest"},
@@ -67,6 +74,8 @@
                 selectedMuscle: null,
                 isLoading: false,
                 maxLiftsObjects: [],
+                graphLabels: this.$store.state.muscleHistoryGraphLabels,
+                graphData: this.$store.state.muscleHistoryGraphData,
             }
         },
         watch: {
@@ -90,9 +99,29 @@
 
         },
         computed: {
+            getGraphLabels: function () {
+                return this.$store.state.muscleHistoryGraphLabels
+            },
 
         },
         methods: {
+            fillData: function () {
+                console.log(this.chestMax);
+                this.datacollection = {
+                  labels: this.graphLabels.reverse(),
+                  datasets: [
+                    {
+                      label: '3 Rep Max (lbs.)',
+                      backgroundColor: '#90a4ae',
+                      data: this.graphData.reverse()
+                    }, /*{
+                      label: 'Data One',
+                      backgroundColor: '#f87979',
+                      data: [this.getRandomInt(), this.getRandomInt()]
+                    }*/
+                  ]
+                }
+              },
 
         },
         created: function () {
@@ -100,16 +129,31 @@
             let self = this;
             let queryVal = this.target_muscles[0].text;
 
-            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(function (response) {
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(response => {
                 self.isLoading = false;
                 self.selectedMuscle = queryVal;
                 self.maxLiftsObjects = response.data.results[0];
                 self.maxLiftsObjects.created = moment(response.data.results[0].created).format("MMM Do YY, h:m a");
+                //self.graphData = this.$store.state.muscleHistoryGraphData;
 
-            }).catch(function (err) {
+            }).catch(err => {
                 console.log(err)
             })
         },
+        mounted: function () {
+            let queryVal = this.target_muscles[0].text;
+            let self = this;
+            this.$store.dispatch('fetchGraphLabels', queryVal).then(() => {
+                self.graphLabels = this.$store.state.muscleHistoryGraphLabels;
+                self.graphData = this.$store.state.muscleHistoryGraphData;
+
+                self.fillData();
+            }).catch(() => {
+
+            });
+
+        },
+        components: { LiftProgressChart },
     }
 </script>
 

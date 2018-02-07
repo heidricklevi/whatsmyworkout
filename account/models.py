@@ -77,17 +77,17 @@ class Exercise(models.Model):
 class MaxLiftTracking(models.Model):
     one_rep = 'One Rep Max'
     three_rep = 'Three Rep Max'
-    rep = "Repetition Based Max"
 
-    MAX_TYPES = ((one_rep, '1 Rep Max'), (three_rep, '3 Rep Max'), (rep, 'Repetition Based Max'))
+
+    MAX_TYPES = ((one_rep, '1 Rep Max'), (three_rep, '3 Rep Max'),)
 
     profile = models.ForeignKey(Profile)
     exercise = models.ForeignKey(Exercises)
     created = models.DateTimeField(auto_now_add=True)
-    max_type = models.CharField(max_length=32, choices=MAX_TYPES, editable=False)
+    max_type = models.CharField(max_length=255, choices=MAX_TYPES)
     weight = models.PositiveIntegerField(blank=True, null=True)
     target_muscle = models.CharField(max_length=65, editable=False)
-    max_reps = models.PositiveIntegerField(null=True, blank=True)
+    # max_reps = models.PositiveIntegerField(null=True, blank=True)
 
     def __str__(self):
         return self.exercise.exercise_name
@@ -100,6 +100,7 @@ class MaxLiftTracking(models.Model):
 
     class Meta:
         ordering = ['target_muscle', '-created']
+
 
 @reversion.register()
 class Workout(models.Model):

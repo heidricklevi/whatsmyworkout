@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import { getJWTHeader, authenticationStatus, getUsernameFromToken, baseURLLocal } from "./auth/auth-utils";
-import router from './router/index';
+import router from './router/index'
+import moment from 'moment'
 import jwt_decode from 'jwt-decode'
 
 Vue.use(Vuex);
@@ -19,9 +20,20 @@ export default new Vuex.Store({
 
             }
         },
-        data: {}
+        data: {},
+        muscleHistoryGraphLabels: [],
+        muscleHistoryGraphData: [],
     },
     mutations: {
+      setGraphData (state, payload) {
+        state.muscleHistoryGraphData = payload;
+        console.log("Graph Data Payload", payload)
+      },
+
+      setGraphLabels (state, payload) {
+          state.muscleHistoryGraphLabels = payload;
+          console.log("Graph Label Payload", payload);
+      },
       setData (state, payload) {
           state.data = payload;
       },
@@ -88,7 +100,37 @@ export default new Vuex.Store({
         logout ({commit}) {
             commit('removeAuth');
 
-        }
+        },
+        fetchGraphLabels ({commit}, queryVal) {
+            let temp = [];
+            let tempData = [];
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(function (response) {
+                for (var i = 0; i < response.data.results.length; i++) {
+                    temp[i] = moment(response.data.results[i].created).format("MMM Do YY");
+                    tempData[i] = response.data.results[i].weight;
+                   // tempData[i] += ' lbs.';
+                }
+
+                console.log(temp);
+                commit("setGraphData", tempData);
+                commit("setGraphLabels", temp);
+            }).catch(function (err) {
+                
+            })
+        },
+        fetchMaxMuscleData ({commit}, queryVal) {
+            var temp = [];
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(function (response) {
+                 for (let i = 0; i < response.data.results.length; i++) {
+                    temp[i] = response.data.results[i].weight;
+                    temp[i] += ' lbs.';
+                }
+               // commit('setGraphData', temp);
+            }).catch(function (error) {
+                
+            })
+
+        },
     },
     getters: {
 
