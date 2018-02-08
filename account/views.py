@@ -91,10 +91,15 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         target_muscle = self.request.query_params.get('target_muscle', None)
+        max_type = self.request.query_params.get('max_type', None)
         q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
 
-        if target_muscle is not None:
+        if target_muscle is not None and not max_type:
             q = q.filter(target_muscle=target_muscle).order_by('-created')
+        elif max_type is not None and not target_muscle:
+            q = q.filter(max_type=max_type).order_by('-created')
+        elif max_type is not None and target_muscle is not None:
+            q = q.filter(target_muscle=target_muscle).filter(max_type=max_type).order_by("-created")
 
         return q
 

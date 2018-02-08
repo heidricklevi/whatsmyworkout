@@ -1,6 +1,6 @@
 <template>
-    <v-layout>
-        <v-flex xs12 md4>
+    <v-layout row wrap>
+        <v-flex xs12 md4 :class="{'mb-4': $vuetify.breakpoint.smAndDown, 'ml-3': $vuetify.breakpoint.mdAndUp}">
             <v-card>
                 <v-card-title primary-title>
                     <h3 class="headline mb-0">Max Lift Tracking</h3>
@@ -45,9 +45,10 @@
         </v-flex>
         <v-flex xs12 md6 offset-md1>
             <v-card class="pa-3">
-                <lift-progress-chart :chart-data="datacollection" :height="400" :options="{responsive: true, maintainAspectRatio: false}"></lift-progress-chart>
+                <lift-progress-chart :chart-data="datacollection" :options="{responsive: true, maintainAspectRatio: false}"></lift-progress-chart>
             </v-card>
         </v-flex>
+
     </v-layout>
 </template>
 
@@ -141,9 +142,10 @@
             })
         },
         mounted: function () {
+            this.isLoading = true;
             let queryVal = this.target_muscles[0].text;
             let self = this;
-            this.$store.dispatch('fetchGraphLabels', queryVal).then(() => {
+            this.$store.dispatch('fetchGraphData', queryVal).then(() => {
                 self.graphLabels = this.$store.state.muscleHistoryGraphLabels;
                 self.graphData = this.$store.state.muscleHistoryGraphData;
 

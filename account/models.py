@@ -75,11 +75,10 @@ class Exercise(models.Model):
 
 
 class MaxLiftTracking(models.Model):
-    one_rep = 'One Rep Max'
-    three_rep = 'Three Rep Max'
+    one_rep = '1'
+    three_rep = '3'
 
-
-    MAX_TYPES = ((one_rep, '1 Rep Max'), (three_rep, '3 Rep Max'),)
+    MAX_TYPES = ((one_rep, '1'), (three_rep, '3'),)
 
     profile = models.ForeignKey(Profile)
     exercise = models.ForeignKey(Exercises)
