@@ -21,18 +21,43 @@ export default new Vuex.Store({
             }
         },
         data: {},
-        muscleHistoryGraphLabels: [],
-        muscleHistoryGraphData: [],
+        muscleHistoryGraphLabels: null,
+        muscleHistoryGraphData: null,
+        recentTargetedMuscleExercises: null,
+        targetMuscle: '',
     },
     mutations: {
+
+      setTargetedMuscleData (state, payload) {
+
+          if (payload){
+              state.recentTargetedMuscleExercises = payload;
+              state.recentTargetedMuscleExercises[0].created = moment(payload[0].created).format("MMM Do YY, h:m a");
+              state.targetMuscle = payload[0].target_muscle;
+            }
+          else {
+              state.recentTargetedMuscleExercises = null;
+          }
+      },
       setGraphData (state, payload) {
-        state.muscleHistoryGraphData = payload;
-        console.log("Graph Data Payload", payload)
+
+        if (payload) {
+            state.muscleHistoryGraphData = payload.reverse();
+            console.log("Graph Data Payload", payload)
+          }
+        else {
+            state.muscleHistoryGraphData = null;
+        }
       },
 
       setGraphLabels (state, payload) {
-          state.muscleHistoryGraphLabels = payload;
-          console.log("Graph Label Payload", payload);
+          if (payload) {
+              state.muscleHistoryGraphLabels = payload.reverse();
+              console.log("Graph Label Payload", payload);
+            }
+          else {
+            state.muscleHistoryGraphLabels = null;
+          }
       },
       setData (state, payload) {
           state.data = payload;
@@ -104,18 +129,30 @@ export default new Vuex.Store({
         fetchGraphData ({commit}, queryVal) {
             let temp = [];
             let tempData = [];
-            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal+'&max_type=3').then(function (response) {
+
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal+'&max_type='+ '3').then(response => {
+
+                if (response.data.results.length === 0) {
+
+                    console.log("no results");
+                    commit("setTargetedMuscleData", null);
+                    commit("setGraphData", null);
+                    commit("setGraphLabels", null);
+                    return;
+                }
+
                 for (var i = 0; i < response.data.results.length; i++) {
                     temp[i] = moment(response.data.results[i].created).format("MMM Do YY");
                     tempData[i] = response.data.results[i].weight;
-                   // tempData[i] += ' lbs.';
                 }
 
-                console.log(temp);
+
+                commit("setTargetedMuscleData", response.data.results);
                 commit("setGraphData", tempData);
                 commit("setGraphLabels", temp);
-            }).catch(function (err) {
-                
+
+            }).catch(err =>  {
+                console.log("fetchGraphData store.js errors: ", err);
             })
         },
 

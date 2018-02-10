@@ -203,9 +203,12 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
+            <p >{{ new Date() | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-    <p style="position: absolute; left: 50%">v0.2.2 02/07</p>
+            <p style="position: absolute; left: 50%">v0.2.3 </p>
+
+
 
   </v-footer>
     </v-app>
@@ -218,6 +221,7 @@ import router from '../router/index'
 import jwt_decode from 'jwt-decode'
 import AccountSettings from '../components/account-settings.vue'
 import axios from 'axios'
+import moment from 'moment'
 
 
 
@@ -259,6 +263,11 @@ export default {
     computed: {
         fullName: function (event) {
             return this.userAuth.user.first_name + ' ' + this.userAuth.user.last_name;
+        }
+    },
+    filters: {
+        moment: function (date) {
+            return moment(date).format("dddd, MMMM Do YYYY");
         }
     },
 

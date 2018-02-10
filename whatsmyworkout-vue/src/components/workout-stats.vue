@@ -14,38 +14,23 @@
                                       v-bind:items="target_muscles" v-model="selectedMuscle" label="Choose Muscle"></v-select>
                     </v-flex>
                 </v-layout>
-                    <v-layout class="ma-4" v-if="maxLiftsObjects && !isLoading ">
-                        <v-flex md6 xs12 class="pr-2" style="border-right: solid 1px black; text-align: right;">
-                            <p class="blue-grey--text text--lighten-2">Exercise</p>
-                            <p class="blue-grey--text text--lighten-2">Max Type</p>
-                            <p class="blue-grey--text text--lighten-2">Weight</p>
-                            <p class="blue-grey--text text--lighten-2">Recorded</p>
-
-                        </v-flex>
-                        <v-flex md6 xs12 class="pl-2" style="text-align: left;" >
-                            <p class=" blue-grey--text">{{ maxLiftsObjects.exercise.exercise_name }}</p>
-                            <p class=" blue-grey--text">{{ maxLiftsObjects.max_type }}</p>
-                            <p class=" blue-grey--text">{{ maxLiftsObjects.weight }} lbs.</p>
-                            <p class=" blue-grey--text">{{ maxLiftsObjects.created }}</p>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout class="ma-4" v-if="!maxLiftsObjects && !isLoading">
-                        <v-flex xs12>
-                            <v-alert color="info" icon="info" value="true">
-                                Please record a Max with an exercise that targets this muscle.
-                            </v-alert>
-                        </v-flex>
-                    </v-layout>
-                    <v-layout class="ma-4" v-if="isLoading">
+                <v-layout class="ma-4" v-if="isLoading">
                         <v-flex offset-4 xs9>
                              <v-progress-circular indeterminate v-bind:size="60" v-bind:width="5" color="primary"></v-progress-circular>
                         </v-flex>
-                    </v-layout>
+                </v-layout>
+
+                    <render-max-data :isLoading="getLoadingStatus" :max-lifts="getMaxLiftsObjects"></render-max-data>
             </v-card>
         </v-flex>
         <v-flex xs12 md6 offset-md1>
-            <v-card class="pa-3">
-                <lift-progress-chart :chart-data="datacollection" :options="{responsive: true, maintainAspectRatio: false}"></lift-progress-chart>
+            <v-card class="pa-2">
+                <v-alert outline color="error" icon="warning" :value="noResults">
+                        Chart Data not loaded. Please ensure you have recorded a Max for this target muscle.
+                </v-alert>
+                <lift-progress-chart ref="liftProgressChart" :graphLabels="getGraphLabels" v-if="!isLoading" :css-classes="cssClasses"
+                                     :chart-data="getGraphData" :options="{responsive: true, maintainAspectRatio: false}"></lift-progress-chart>
+
             </v-card>
         </v-flex>
 
@@ -58,12 +43,12 @@
     import axios from 'axios'
     import moment from 'moment'
     import LiftProgressChart from '../components/lift-progress-chart.vue'
+    import RenderMaxData from '../components/render-max-data.vue'
 
     export default {
         name: "workout-stats",
         data () {
             return {
-                datacollection: null,
                 target_muscles: [
 
                               { text: 'Chest', value: "Chest"},
@@ -74,91 +59,83 @@
                 chestMax: [],
                 selectedMuscle: null,
                 isLoading: false,
-                maxLiftsObjects: [],
                 graphLabels: this.$store.state.muscleHistoryGraphLabels,
                 graphData: this.$store.state.muscleHistoryGraphData,
+                max_type: '3',
+                noResults: false,
+                cssClasses: "",
             }
         },
         watch: {
 
             selectedMuscle: function (queryVal) {
                 this.isLoading = true;
-                let self = this;
-                console.log(queryVal);
+                console.log(this.isLoading);
+                this.setAndFetchMaxData(queryVal);
 
-
-                axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(function (response) {
-                    self.isLoading = false;
-                    self.maxLiftsObjects = response.data.results[0];
-                    self.maxLiftsObjects.created = moment(response.data.results[0].created).format("MMM Do YY, h:m a");
-
-                }).catch(function (err) {
-                    console.log(err)
-                })
-
-            },
+            }
 
         },
         computed: {
+            getMaxLiftsObjects: function () {
+
+                if (this.$store.state.recentTargetedMuscleExercises) {
+                    this.cssClasses = '';
+                    this.noResults = false;
+                    return this.$store.state.recentTargetedMuscleExercises[0]
+                }
+
+                this.cssClasses = 'opacity';
+                this.noResults = true;
+
+            },
             getGraphLabels: function () {
-                return this.$store.state.muscleHistoryGraphLabels
+                return this.$store.state.muscleHistoryGraphLabels;
+            },
+            getGraphData: function ()  {
+                return this.$store.state.muscleHistoryGraphData
+            },
+            getLoadingStatus: function () {
+                return this.isLoading;
+            }
+        },
+        methods: {
+            setAndFetchMaxData: function (queryVal) {
+
+                this.selectedMuscle = queryVal;
+
+                this.$store.dispatch('fetchGraphData', queryVal)
+                    .then(() => {
+                        this.graphLabels = this.$store.state.muscleHistoryGraphLabels;
+                        this.graphData = this.$store.state.muscleHistoryGraphData;
+                        this.isLoading = false;
+
+                    }).catch((err) => {
+                        this.isLoading = false;
+                        console.log("Workout-stats.vue setAndFetch: fetchGraphData error:", err);
+                    });
+
             },
 
         },
-        methods: {
-            fillData: function () {
-                console.log(this.chestMax);
-                this.datacollection = {
-                  labels: this.graphLabels.reverse(),
-                  datasets: [
-                    {
-                      label: '3 Rep Max (lbs.)',
-                      backgroundColor: '#90a4ae',
-                      data: this.graphData.reverse()
-                    }, /*{
-                      label: 'Data One',
-                      backgroundColor: '#f87979',
-                      data: [this.getRandomInt(), this.getRandomInt()]
-                    }*/
-                  ]
-                }
-              },
-
-        },
-        created: function () {
-            this.isLoading = true;
-            let self = this;
-            let queryVal = this.target_muscles[0].text;
-
-            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal).then(response => {
-                self.isLoading = false;
-                self.selectedMuscle = queryVal;
-                self.maxLiftsObjects = response.data.results[0];
-                self.maxLiftsObjects.created = moment(response.data.results[0].created).format("MMM Do YY, h:m a");
-                //self.graphData = this.$store.state.muscleHistoryGraphData;
-
-            }).catch(err => {
-                console.log(err)
-            })
-        },
         mounted: function () {
             this.isLoading = true;
-            let queryVal = this.target_muscles[0].text;
-            let self = this;
-            this.$store.dispatch('fetchGraphData', queryVal).then(() => {
-                self.graphLabels = this.$store.state.muscleHistoryGraphLabels;
-                self.graphData = this.$store.state.muscleHistoryGraphData;
+            this.selectedMuscle = this.target_muscles[0].text;
 
-                self.fillData();
-            }).catch(() => {
+            this.setAndFetchMaxData(this.target_muscles[0].text);
 
-            });
+
+
 
         },
-        components: { LiftProgressChart },
+        components: { LiftProgressChart, RenderMaxData },
     }
 </script>
 
 <style  scoped>
+
+    .opacity {
+        opacity: 0.4;
+    }
 
 </style>
