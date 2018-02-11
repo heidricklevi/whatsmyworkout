@@ -4,9 +4,18 @@
             <v-card>
                 <v-card-title primary-title>
                     <h3 class="headline mb-0">Max Lift Tracking</h3>
+                    <div class="mb-3" style="float: right">
+                        <v-btn icon @click="dialog = !dialog">
+                            <v-icon>add</v-icon>
+                        </v-btn>
+                        <add-max-lift-tracking :dialog="dialog"></add-max-lift-tracking>
+
+                    </div>
                 </v-card-title>
                 <span class="ml-4 grey--text">Core Muscle Groups Tracked</span>
                 <span class="caption grey--text text--lighten-1 mr-3 mt-3" style="font-style: italic; float: right;"></span>
+
+
                 <v-divider></v-divider>
                 <v-layout>
                     <v-flex md4 offset-1 xs10>
@@ -44,6 +53,7 @@
     import moment from 'moment'
     import LiftProgressChart from '../components/lift-progress-chart.vue'
     import RenderMaxData from '../components/render-max-data.vue'
+    import AddMaxLiftTracking from '../components/add-max-lift-tracking.vue'
 
     export default {
         name: "workout-stats",
@@ -58,6 +68,7 @@
                           ],
                 chestMax: [],
                 selectedMuscle: null,
+                dialog: false,
                 isLoading: false,
                 graphLabels: this.$store.state.muscleHistoryGraphLabels,
                 graphData: this.$store.state.muscleHistoryGraphData,
@@ -128,7 +139,7 @@
 
 
         },
-        components: { LiftProgressChart, RenderMaxData },
+        components: { LiftProgressChart, RenderMaxData, AddMaxLiftTracking },
     }
 </script>
 
