@@ -40,7 +40,7 @@ urlpatterns = [
     url(r'^v1/users/find', views.UserSearchListView.as_view()),
     url(r'^v1/workout/send/$', views.SendWorkoutEmail.as_view()),
     url(r'^v1/user/create/$', views.CreateUser.as_view()),
-    url(r'^api/exercises/$', views.ExercisesList.as_view()),
+    url(r'^v1/exercises-list/$', views.ExercisesList.as_view()),
     url(r'^v1/u/workouts/$', views.WorkoutList.as_view()),
     url(r'^v1/history/$', views.ProfileHistory.as_view()),
     url(r'^v1/follow/$', views.FollowView.as_view()),

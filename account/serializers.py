@@ -11,14 +11,15 @@ class UserSerializer(serializers.ModelSerializer):
     body_fat = serializers.IntegerField(source='profile.body_fat', default=12)
     about = serializers.CharField(source='profile.about', default='This is my About')
     weight = serializers.IntegerField(source='profile.weight', default=143)
+    profile_id = serializers.IntegerField(source='profile.id', required=False, allow_null=True)
 
     class Meta:
         model = User
         fields = ('id', 'email', 'username', 'date_joined', 'last_login',
                   'first_name', 'last_name', 'password',
-                  'avatar', 'weight', 'gender', 'body_fat', 'about')
+                  'avatar', 'weight', 'gender', 'body_fat', 'about', 'profile_id')
 
-        read_only_fields = ('date_joined', 'last_login')
+        read_only_fields = ('date_joined', 'last_login', )
 
     def create(self, validated_data):
         profile_data = validated_data.pop('profile', None)
@@ -67,14 +68,36 @@ class ExercisesSerializer(serializers.ModelSerializer):
         model = Exercises
         fields = ('id', 'exercise_name', 'target_muscle', 'exercise_rating', 'start_exercise_image',
                   'during_exercise_image', 'exercise_link')
+        extra_kwargs = {
+            'exercise_name': {
+                'validators': []
+            }
+        }
 
 
 class MaxLiftSerializer(serializers.ModelSerializer):
+
     exercise = ExercisesSerializer()
 
     class Meta:
         model = MaxLiftTracking
-        fields = '__all__'
+        fields = ('id', 'max_type', 'weight', 'target_muscle', 'created', 'exercise', 'profile', )
+        extra_kwargs = {
+            'exercise_name': {'validators': []},
+        }
+
+    def create(self, validated_data):
+        self.associate_predefined_exercise(validated_data)
+        print(validated_data)
+        return super(MaxLiftSerializer, self).create(validated_data)
+
+    def associate_predefined_exercise(self, validated_data):
+        exercise = validated_data.pop('exercise', None)
+
+        if exercise:
+            exercise_instance = Exercises.objects.get(exercise_name=exercise['exercise_name'])
+            print(exercise_instance)
+            validated_data['exercise'] = exercise_instance
 
 
 class BodyStatSerializer(serializers.ModelSerializer):

@@ -5,10 +5,10 @@
                 <v-card-title primary-title>
                     <h3 class="headline mb-0">Max Lift Tracking</h3>
                     <div class="mb-3" style="float: right">
-                        <v-btn icon @click="dialog = !dialog">
+                        <v-btn icon @click="dialogSet()">
                             <v-icon>add</v-icon>
                         </v-btn>
-                        <add-max-lift-tracking :dialog="dialog"></add-max-lift-tracking>
+                        <add-max-lift-tracking v-if="dialog"></add-max-lift-tracking>
 
                     </div>
                 </v-card-title>
@@ -68,7 +68,7 @@
                           ],
                 chestMax: [],
                 selectedMuscle: null,
-                dialog: false,
+                dialog: this.$store.state.dialog,
                 isLoading: false,
                 graphLabels: this.$store.state.muscleHistoryGraphLabels,
                 graphData: this.$store.state.muscleHistoryGraphData,
@@ -84,10 +84,19 @@
                 console.log(this.isLoading);
                 this.setAndFetchMaxData(queryVal);
 
-            }
+            },
+
+            dialog: function () {
+              this.dialog = this.$store.state.dialog;
+            },
 
         },
         computed: {
+            computeDialog () {
+
+                this.dialog = this.$store.state.dialog;
+
+            },
             getMaxLiftsObjects: function () {
 
                 if (this.$store.state.recentTargetedMuscleExercises) {
@@ -111,6 +120,10 @@
             }
         },
         methods: {
+            dialogSet () {
+              this.$store.commit('setDialog', !this.dialog);
+              this.dialog = this.$store.state.dialog;
+            },
             setAndFetchMaxData: function (queryVal) {
 
                 this.selectedMuscle = queryVal;

@@ -25,8 +25,12 @@ export default new Vuex.Store({
         muscleHistoryGraphData: null,
         recentTargetedMuscleExercises: null,
         targetMuscle: '',
+        dialog: false,
     },
     mutations: {
+      setDialog (state, payload) {
+        state.dialog = payload;
+      },
 
       setTargetedMuscleData (state, payload) {
 

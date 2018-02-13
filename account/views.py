@@ -7,6 +7,7 @@ from rest_framework import viewsets, permissions
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from .permissions import *
+from .pagination import *
 from rest_framework import generics
 from django.core.mail import EmailMultiAlternatives
 from anymail.message import attach_inline_image_file
@@ -107,16 +108,29 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
 class ExercisesList(generics.ListAPIView):
 
     permission_classes = [IsAdminOrReadOnly, ]
-    queryset = Exercises.objects.order_by('target_muscle')
     serializer_class = ExercisesSerializer
+
+    def get_queryset(self):
+        target_muscle = self.request.query_params.get('target_muscle', None)
+
+        if target_muscle:
+            return Exercises.objects.filter(target_muscle=target_muscle)
+
+        return Exercises.objects.all().order_by('target_muscle')
 
 
 class ExercisesViewSet(viewsets.ModelViewSet):
 
     permission_classes = [IsAdminOrReadOnly, ]
     serializer_class = ExercisesSerializer
+    pagination_class = CustomExercisesPagination
 
     def get_queryset(self):
+        target_muscle = self.request.query_params.get('target_muscle', None)
+
+        if target_muscle:
+            return Exercises.objects.filter(target_muscle=target_muscle)
+
         return Exercises.objects.all()
 
 
