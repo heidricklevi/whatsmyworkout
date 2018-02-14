@@ -178,22 +178,20 @@
         <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'pr-3': $vuetify.breakpoint.mdAndUp }">
     <v-card >
         <v-card-title>Friends</v-card-title>
-        <v-tabs v-model="active" centered :scrollable="false" >
-              <v-tabs-bar  light>
+        <v-tabs v-model="active" centered :scrollable="false" icons-and-text light fixed-tabs>
+
                   <v-tabs-slider color="blue-grey"></v-tabs-slider>
-                <v-tabs-item
+                <v-tab
                   href="#friends-1"
                   ripple
                 >
                   <v-icon>search</v-icon>
-                </v-tabs-item>
-                  <v-tabs-item href="#friends-2">
+                </v-tab>
+                  <v-tab href="#friends-2">
                       <v-icon>people</v-icon>
-                  </v-tabs-item>
+                  </v-tab>
 
-              </v-tabs-bar>
-              <v-tabs-items>
-                <v-tabs-content
+                <v-tab-item
                   v-for="i in 2"
                   :key="i"
                   :id="'friends-' + i"
@@ -245,8 +243,7 @@
 
               </v-layout>
 
-                </v-tabs-content>
-              </v-tabs-items>
+                </v-tab-item>
             </v-tabs>
         </v-card>
          </v-flex>

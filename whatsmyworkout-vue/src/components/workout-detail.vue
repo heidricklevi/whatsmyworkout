@@ -90,10 +90,10 @@
                             </v-list>
                         </v-card-text>
                         <v-card-actions>
-                            <v-btn primary :loading="loading" :disabled="loading" @click.native="saveEdits">
+                            <v-btn color="primary" :loading="loading" :disabled="loading" @click.native="saveEdits">
                                     Save Edits
                                     <span slot="loader" class="custom-loader">
-                                        <v-icon>cached</v-icon>
+                                        <v-icon light>cached</v-icon>
                                     </span>
                                 </v-btn>
                         </v-card-actions>

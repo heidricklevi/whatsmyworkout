@@ -1,11 +1,14 @@
 <template>
     <v-app id="dashboard">
         <v-navigation-drawer
-                light
+
                 :mini-variant.sync="mini"
                 v-model="drawer"
                 clipped
+                absolute
                 app
+                light
+
         >
 
                 <v-list class="pa-0">
@@ -25,7 +28,7 @@
                 </v-list>
 
             <v-list class="pt-0" dense>
-                <v-divider></v-divider>
+                <v-divider class="divider-color"></v-divider>
                 <v-list-tile v-for="item in items" :key="item.title" :to="item.link">
                     <v-list-tile-action>
                         <v-icon>{{ item.icon }}</v-icon>
@@ -36,7 +39,7 @@
                 </v-list-tile>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar fixed clipped-left class="indigo darken-4" desnse app>
+        <v-toolbar fixed clipped-left color="secondary" dark desnse app>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-items>
                 <img src="../assets/img/logo.png" style="width: 100px;">
@@ -206,7 +209,7 @@
             <p >{{ "02/13/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.2.4 </p>
+            <p style="position: absolute; left: 50%">v0.2.6 </p>
 
 
 
@@ -429,4 +432,15 @@ export default {
         }
 
     }
+
+
+    .dark-primary-color    { background: #455A64; }
+    .default-primary-color { background: #607D8B; }
+    .light-primary-color   { background: #CFD8DC; }
+    .text-primary-color    { color: #FFFFFF; }
+    .accent-color          { background: #00BCD4; }
+    .primary-text-color    { color: #212121; }
+    .secondary-text-color  { color: #757575; }
+    .divider-color         { border-color: #BDBDBD; }
+
 </style>
