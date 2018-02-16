@@ -1,6 +1,6 @@
 <template>
 <div>
-    <v-layout class="ma-4" v-if="!isLoading && maxLiftsObjects">
+    <v-layout class="ma-4" v-if="maxLiftsObjects && !loading">
         <v-flex md6 xs12 class="pr-2" style="border-right: solid 1px black; text-align: right;">
                                 <p class="blue-grey--text text--lighten-2">Exercise</p>
                                 <p class="blue-grey--text text--lighten-2">Max Type</p>
@@ -16,13 +16,7 @@
         </v-flex>
 
     </v-layout>
-    <v-layout class="ma-4" v-if="!maxLiftsObjects && !isLoading">
-                        <v-flex xs12>
-                            <v-alert color="info" icon="info" value="true">
-                                No data could be retrieved.
-                            </v-alert>
-                        </v-flex>
-    </v-layout>
+
 
 
 </div>
@@ -31,9 +25,11 @@
 <script>
     export default {
         name: "render-max-data",
-        props: ['maxLifts', "isLoading"],
+        props: ['maxLifts'],
         data () {
             return {
+
+                loading: this.$store.state.loading,
                 maxLiftsObjects: this.maxLiftsData,
 
             }
@@ -41,13 +37,14 @@
         computed: {
           maxLiftsData: function () {
 
-              return this.maxLifts;
+              return this.maxLifts
           },
         },
         watch: {
 
           maxLifts () {
               this.maxLiftsObjects = this.maxLifts;
+              this.$store.commit('setLoading', false);
           },
 
 

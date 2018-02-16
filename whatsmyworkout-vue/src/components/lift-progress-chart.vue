@@ -1,11 +1,7 @@
 
 
 <script>
-    import {baseURLLocal} from '../auth/auth-utils'
-    import axios from 'axios'
-    import moment from 'moment'
     import VueCharts from 'vue-chartjs'
-
 
     export default {
         extends: VueCharts.Line,

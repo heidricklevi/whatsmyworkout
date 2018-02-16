@@ -89,10 +89,12 @@ class BodyStatTrackingViewSet(viewsets.ModelViewSet):
 class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrAccountOwner]
     serializer_class = MaxLiftSerializer
+    pagination_class = CustomExercisesPagination
 
     def get_queryset(self):
         target_muscle = self.request.query_params.get('target_muscle', None)
         max_type = self.request.query_params.get('max_type', None)
+        exercise_name = self.request.query_params.get('exercise_name', None)
         q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
 
         if target_muscle is not None and not max_type:
@@ -101,6 +103,9 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
             q = q.filter(max_type=max_type).order_by('-created')
         elif max_type is not None and target_muscle is not None:
             q = q.filter(target_muscle=target_muscle).filter(max_type=max_type).order_by("-created")
+
+        if exercise_name:
+            q = q.filter(exercise__exercise_name=exercise_name)
 
         return q
 

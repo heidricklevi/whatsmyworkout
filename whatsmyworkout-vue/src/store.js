@@ -26,8 +26,13 @@ export default new Vuex.Store({
         recentTargetedMuscleExercises: null,
         targetMuscle: '',
         dialog: false,
+        loading: false,
     },
     mutations: {
+
+      setLoading (state, payload) {
+        state.loading = payload;
+      },
       setDialog (state, payload) {
         state.dialog = payload;
       },
@@ -134,7 +139,7 @@ export default new Vuex.Store({
             let temp = [];
             let tempData = [];
 
-            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal+'&max_type='+ '3').then(response => {
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal.target_muscle +'&max_type='+ '3' +'&exercise_name='+queryVal.exercise).then(response => {
 
                 if (response.data.results.length === 0) {
 
