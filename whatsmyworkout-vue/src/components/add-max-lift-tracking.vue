@@ -48,6 +48,7 @@
                           :items="items"
                           item-text="exercise_name"
                           return-object
+                          :disabled="disabled"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -91,6 +92,7 @@
                 errorMessages: [],
                 loadSubmission: false,
                 dialog: this.$store.state.dialog,
+                disabled: true,
 
 
                 alertText: '',
@@ -169,6 +171,10 @@
             search (val) {
               val && this.querySelections(val)
             },
+
+            target_muscle (val) {
+                this.disabled = !val;
+            }
 
         },
         mounted () {

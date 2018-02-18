@@ -7,7 +7,7 @@
         extends: VueCharts.Line,
         mixins: [VueCharts.mixins.reactiveProp],
         props: ['chartData', 'options', 'graphLabels',],
-        name: "lift-progress-chart",
+        name: "max-progress-chart",
 
         methods: {
 

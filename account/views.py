@@ -217,13 +217,24 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         month = self.request.query_params.get('month', None)
         recent = self.request.query_params.get('recent', None)
 
+        target_muscle = self.request.query_params.get('target_muscle', None)
+        exercise_name = self.request.query_params.get('exercise_name', None)
+        reps = self.request.query_params.get('reps', None)
+
         if month is not None:
             queryset = queryset.filter(user=self.request.user).filter(date_for_completion__month=month)
         elif recent is not None:
             recent = int(recent)
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:recent]
         else:
-            queryset = queryset.filter(user=self.request.user)
+            queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')
+
+        if target_muscle is not None:
+            queryset = queryset.filter(target_muscle=target_muscle).distinct()
+        elif exercise_name is not None:
+            queryset = queryset.filter(exercises__exercise_name=exercise_name).distinct()
+        elif reps is not None:
+            queryset = queryset.filter(exercises__reps=reps).distinct()
 
         return queryset
 

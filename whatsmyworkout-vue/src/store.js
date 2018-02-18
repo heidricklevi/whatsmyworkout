@@ -139,7 +139,7 @@ export default new Vuex.Store({
             let temp = [];
             let tempData = [];
 
-            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal.target_muscle +'&max_type='+ '3' +'&exercise_name='+queryVal.exercise).then(response => {
+            axios.get(baseURLLocal+'v1/max-lifts/?target_muscle='+queryVal.target_muscle +'&max_type='+ '3' +'&exercise_name='+queryVal.exercise_name).then(response => {
 
                 if (response.data.results.length === 0) {
 

@@ -67,11 +67,18 @@ class Exercise(models.Model):
     lifting_weight = models.IntegerField(null=True, blank=True)
     sets = models.IntegerField()
     reps = models.IntegerField()
-    notes = models.CharField(max_length=255)
+    notes = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
 
     def __str__(self):
         return self.exercise_name
+
+    def save(self, force_insert=False, force_update=False, using=None,
+             update_fields=None):
+
+        self.exercise_name = self.exercises.exercise_name if self.exercises.exercise_name else self.exercise_name
+
+        super(Exercise, self).save()
 
 
 class MaxLiftTracking(models.Model):
@@ -142,6 +149,7 @@ class Workout(models.Model):
     slug = models.SlugField(max_length=255)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
+    completed = models.BooleanField(blank=True, default=False)
 
     def __str__(self):
         return self.title
