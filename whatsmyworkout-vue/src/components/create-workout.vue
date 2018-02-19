@@ -7,19 +7,27 @@
                         Create Your Workout
                     </v-stepper-step>
                     <v-stepper-content step="1">
-                        <form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm">
+                        <v-form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm">
                             <v-flex md8 offset-md1 xs12>
                                 <v-text-field v-model="title" id="id-title" type="text" name="title" label="Workout Name" counter max="99"></v-text-field>
                             </v-flex>
                             <v-flex xs12 md8 offset-md1>
-                                <v-menu lazy :close-on-content-click="false" v-model="dateMenu" transition="scale-transition"
-                                        offset-y full-width :nudge-left="40" max-width="290px">
+                                <v-menu
+                                        lazy
+                                        :close-on-content-click="false"
+                                        v-model="dateMenu"
+                                        transition="scale-transition"
+                                        offset-y full-width
+                                        :nudge-left="40"
+                                        max-width="290px"
+                                        ref="menuDate"
+                                        :return-value.sync="completionDate">
                                     <v-text-field slot="activator" label="Completion Date" v-model="completionDate" prepend-icon="event" readonly></v-text-field>
                                     <v-date-picker v-model="completionDate" no-title scrollable actions>
-                                        <template scope="{ save, cancel }">
+                                        <template slot-scope="{ save, cancel }">
                                             <v-card-actions>
-                                                <v-btn flat primary @click.native="cancel()">Cancel</v-btn>
-                                                <v-btn flat primary @click.native="save()">Save</v-btn>
+                                                <v-btn flat color="primary" @click.native="menu = false">Cancel</v-btn>
+                                                <v-btn flat color="primary" @click.native="$refs.menuDate.save(completionDate)">Save</v-btn>
                                             </v-card-actions>
                                         </template>
                                     </v-date-picker>
@@ -53,7 +61,7 @@
 
                             <div class="form-group row">
                                 <div class="col-8">
-                                    <v-btn primary @click.native="onFocus" :loading="loading2" :disabled="loading2">
+                                    <v-btn color="primary" @click.native="onFocus" :loading="loading2" :disabled="loading2">
                                         <input type="submit" ref="workoutSubmit" value="Continue">
                                         <span slot="loader" class="custom-loader">
                                             <v-icon>cached</v-icon>
@@ -62,14 +70,26 @@
                                 </div>
                             </div>
 
-                        </form>
+                        </v-form>
                     </v-stepper-content>
                     <v-stepper-step step="2" v-bind:complete="e6 > 2">Add Exercises </v-stepper-step>
                     <v-stepper-content step="2">
-                        <form v-on:submit.prevent="onSubmitExercise" id="exerciseform" method="post">
+                        <v-form v-on:submit.prevent="onSubmitExercise" id="exerciseform" method="post" ref="exerciseRefSubmit">
                             <v-flex md8 offset-md1 xs12>
-                                <v-text-field v-model="exercise_title" id="id-exercise-title" type="text"
-                                              name="exercise-title" label="Exercise Name" counter max="99"></v-text-field>
+                                <v-select class="mt-0 blue-grey--text text--darken-2"
+                                        dense
+                                        :disabled="eSearchDisabled"
+                                        :loading="eSelectLoading"
+                                        item-text="exercise_name"
+                                        item-value="exercise_name"
+                                        autocomplete
+                                        :search-input.sync="searchExercises"
+                                        return-object
+                                        :items="target_exercises"
+                                        v-model="selectedExercise"
+                                        label="Exercise"
+
+                                    ></v-select>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
@@ -98,7 +118,7 @@
                             </div>
 
                             <v-flex md9 offset-md1 xs12>
-                                <v-btn primary @click.native="onFocusExercise" :loading="loading1" :disabled="loading1">
+                                <v-btn color="primary" @click.native="onFocusExercise" :loading="loading1" :disabled="loading1">
                                     <input type="submit" ref="exerciseSubmit" value="Save & Add">
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>cached</v-icon>
@@ -108,11 +128,11 @@
                                 <v-btn class="blue-grey white--text" @click.native="e6 = 3">Continue</v-btn>
                             </v-flex>
 
-                        </form>
+                        </v-form>
                     </v-stepper-content>
                     <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
                     <v-stepper-content step="3">
-                        <v-btn primary @click.native="createMore">Create More</v-btn>
+                        <v-btn color="primary" @click.native="createMore">Create More</v-btn>
                         <v-btn flat @click="createWorkout">Done</v-btn>
                     </v-stepper-content>
                 </v-stepper>
@@ -282,6 +302,14 @@
       loader: null,
       snackbarColor: ' ',
 
+      target_exercises: [],
+      eSearchDisabled: false,
+      eSelectLoading: false,
+      selectedExercise: null,
+      searchExercises: null,
+      exerciseDisabled: false,
+          
+
       training_types: [
           { text: 'Strength Training', value: 'Strength Training'},
           { text: 'Flexibility Focused', value: 'Flexibility Focused'},
@@ -316,6 +344,17 @@
             return moment(date).format("dddd, MMMM Do YYYY");
         }
       },
+      watch: {
+          target_muscle (v) {
+
+                this.eSearchDisabled = !v;
+            },
+          searchExercises(val) {
+
+                val && this.querySelections(val)
+            }
+
+      },
       computed: {
         binding: function () {
           const binding = {};
@@ -344,6 +383,23 @@
 
       },
       methods: {
+          querySelections (v) {
+                this.eSelectLoading = true;
+                //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
+
+                axios.get(baseURLLocal+'v1/exercises/?target_muscle='+this.target_muscle).then(response => {
+
+                    this.target_exercises = response.data.results.filter(e => {
+                        return (e || '').exercise_name.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                    });
+
+                    this.eSelectLoading = false;
+                }).catch(err => {
+                    console.log(err);
+                    this.eSelectLoading = false;
+                })
+
+            },
         onFocus: function () {
             this.$refs.workoutSubmit.click();
             this.loader = 'loading2';
@@ -488,7 +544,7 @@
         },
         onSubmitExercise: function (event) {
               var self = this;
-              var exercises = null;
+              var exercises = this.selectedExercise ;
 
 
               if (!exercises){
@@ -517,6 +573,7 @@
                       self.snackbar = true;
                       self.e6 = 2;
                       self.loading1 = false;
+                      self.$refs.exerciseRefSubmit.reset();
 
 
                   }).catch(function (error) {

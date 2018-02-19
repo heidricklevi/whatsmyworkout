@@ -31,6 +31,7 @@
                                       :disabled="disabled"
                                       :loading="eSelectLoading"
                                       item-text="exercise_name"
+                                      item-value="exercise_name"
                                       autocomplete
                                       :search-input.sync="search"
                                       return-object

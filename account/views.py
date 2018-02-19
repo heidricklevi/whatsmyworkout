@@ -213,7 +213,7 @@ class WorkoutViewSet(viewsets.ModelViewSet):
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
-        queryset = Workout.objects.all()
+        queryset = Workout.objects.all().filter(user=self.request.user)
         month = self.request.query_params.get('month', None)
         recent = self.request.query_params.get('recent', None)
 
@@ -226,15 +226,16 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         elif recent is not None:
             recent = int(recent)
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')[:recent]
+        elif target_muscle:
+            queryset = queryset.filter(target_muscle=target_muscle).distinct()
+        elif exercise_name:
+            queryset = queryset.filter(exercises__exercise_name=exercise_name).distinct()
+        elif reps:
+            queryset = queryset.filter(exercises__reps=reps).distinct()
+
         else:
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')
 
-        if target_muscle is not None:
-            queryset = queryset.filter(target_muscle=target_muscle).distinct()
-        elif exercise_name is not None:
-            queryset = queryset.filter(exercises__exercise_name=exercise_name).distinct()
-        elif reps is not None:
-            queryset = queryset.filter(exercises__reps=reps).distinct()
 
         return queryset
 

@@ -6,6 +6,7 @@
              </v-flex>
              <v-flex xs12 offset-md2 md4>
                 <v-text-field
+                    label="Filter Results"
                     append-icon="search"
                     v-model="search"
                 >
@@ -14,9 +15,9 @@
          </v-layout>
          <v-layout row wrap class="mt-3 mb-3">
                  <v-flex md2 xs10>
-                 <p class="caption blue-grey--text">Filter & Sort</p>
+                 <p class="caption blue-grey--text">Find & Narrow Results</p>
                      </v-flex>
-                <v-flex md2 xs2>
+                <v-flex md2 xs12>
                     <v-text-field
                         label="No. Reps"
                         v-model="enteredReps"
@@ -58,7 +59,7 @@
 
                 </v-flex>
          </v-layout>
-            <v-data-iterator
+            <!--<v-data-iterator
               content-tag="v-layout"
               :search="search"
               loading="primary"
@@ -83,16 +84,45 @@
                       <span><v-icon class="pr-2">event</v-icon>{{ props.item.date_for_completion | moment }}</span>
                   </v-card-title>
                   <v-divider></v-divider>
-                  <v-list dense >
-                    <v-list-tile>
-                      <v-list-tile-content >Exercise:</v-list-tile-content>
-                      <v-list-tile-content class="align-end" v-for="exercise in props.item.exercises">{{ exercise.exercise_name}}</v-list-tile-content>
+                  <v-list dense v-for="exercise in props.item.exercises" >
+
+                             <v-list-tile v-if="!selectedExercise || (exercise.exercise_name == selectedExercise.exercise_name)">
+                              <v-list-tile-content >Exercise:</v-list-tile-content>
+                              <v-list-tile-content class="align-end">{{ exercise.exercise_name}}</v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-if="!selectedExercise || exercise.exercise_name == selectedExercise.exercise_name">
+                                <v-list-tile-content >Weight</v-list-tile-content>
+                                <v-list-tile-content class="align-end" >
+                                  {{ exercise.lifting_weight }}lbs</v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-if="!selectedExercise || exercise.exercise_name == selectedExercise.exercise_name">
+                                <v-list-tile-content >Reps</v-list-tile-content>
+                                <v-list-tile-content class="align-end" >
+                                  {{ exercise.reps }}</v-list-tile-content>
+                            </v-list-tile>
                     </v-list-tile>
 
+                    <!--<v-list-group v-for="exercise in props.item.exercises" >
+                        <v-list-tile v-if="!selectedExercise || (exercise.exercise_name == selectedExercise.exercise_name)">
+                              <v-list-tile-content >Exercise:</v-list-tile-content>
+                              <v-list-tile-content class="align-end">{{ exercise.exercise_name}}</v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-if="!selectedExercise || exercise.exercise_name == selectedExercise.exercise_name">
+                                <v-list-tile-content >Weight</v-list-tile-content>
+                                <v-list-tile-content class="align-end" >
+                                  {{ exercise.lifting_weight }}lbs</v-list-tile-content>
+                            </v-list-tile>
+                            <v-list-tile v-if="!selectedExercise || exercise.exercise_name == selectedExercise.exercise_name">
+                                <v-list-tile-content >Reps</v-list-tile-content>
+                                <v-list-tile-content class="align-end" >
+                                  {{ exercise.reps }}</v-list-tile-content>
+                            </v-list-tile>
+                    </v-list-group>
                   </v-list>
                 </v-card>
               </v-flex>
             </v-data-iterator>
+         -->
   </v-container>
 </template>
 
@@ -180,7 +210,7 @@
 
                 let queryParamReps = this.enteredReps != null ? this.enteredReps: '';
                 let queryParamTargetMuscle = this.selectedMuscle != null ? this.selectedMuscle: '';
-                let queryParamSelectedExercise = this.selectedExercise.exercise_name != null ? this.selectedExercise.exercise_name: '';
+                let queryParamSelectedExercise = this.selectedExercise != null ? this.selectedExercise.exercise_name: '';
 
 
                 axios.get(baseURLLocal + 'v1/workouts/?target_muscle='
@@ -201,22 +231,7 @@
         },
 
         mounted: function () {
-            this.loading = true;
-
-            axios.get(baseURLLocal + 'v1/workouts/').then(response => {
-                this.items = response.data.results;
-                this.loading = false;
-
-            }).catch(err => {
-
-
-            })
-
-
-
-
-
-
+            this.fetchWorkoutData();
         },
 
 

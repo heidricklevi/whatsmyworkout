@@ -76,7 +76,7 @@ class Exercise(models.Model):
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
 
-        self.exercise_name = self.exercises.exercise_name if self.exercises.exercise_name else self.exercise_name
+        self.exercise_name = self.exercises.exercise_name if self.exercises else self.exercise_name
 
         super(Exercise, self).save()
 
