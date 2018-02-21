@@ -61,6 +61,9 @@ class Exercises(models.Model):
 
 class Exercise(models.Model):
 
+    TARGET_MUSCLE = (('Back', 'Back'), ('Arms', 'Arms'),
+                     ('Legs', 'Legs'), ('Chest', 'Chest'),)
+
     exercises = models.ForeignKey(Exercises, on_delete=models.CASCADE, blank=True, null=True)
     # workout = models.ForeignKey(Workout, on_delete=models.CASCADE, default=1)
     exercise_name = models.CharField(max_length=255, blank=True, null=True)
@@ -69,6 +72,8 @@ class Exercise(models.Model):
     reps = models.IntegerField()
     notes = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
+    target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
 
     def __str__(self):
         return self.exercise_name
@@ -77,6 +82,7 @@ class Exercise(models.Model):
              update_fields=None):
 
         self.exercise_name = self.exercises.exercise_name if self.exercises else self.exercise_name
+        self.target_muscle = self.exercises.target_muscle if self.exercises else self.target_muscle
 
         super(Exercise, self).save()
 
@@ -131,10 +137,10 @@ class Workout(models.Model):
     glutes = 'Glutes'
     hamstrings = 'Hamstrings'
 
-    TARGET_MUSCLE = ((traps, 'Traps'), (neck, 'Neck'), (chest, 'Chest'), (biceps, 'Biceps'),
+    TARGET_MUSCLE = ((traps, 'Traps'), (neck, 'Neck'), (biceps, 'Biceps'),
                      (forearm, 'Forearm'), (abs, 'Abdominal'), (quads, 'Quads'), (calves, 'Calves'),
                      (triceps, 'Triceps'), (lats, 'Lats'), (middle_back, 'Middle Back'), (lower_back, 'Lower Back'),
-                     (glutes, 'Glutes'), (hamstrings, 'Hamstrings'))
+                     (glutes, 'Glutes'), (hamstrings, 'Hamstrings'), ('Back', 'Back'), ('Arms', 'Arms'), ('Legs', 'Legs'), (chest, 'Chest'),)
 
     TRAINING_TYPES = ((endurance, 'Endurance'), (strength, 'Strength Training'), (balance, 'Balance Focused'),
                       (flexibility, 'Flexibility Focused'))

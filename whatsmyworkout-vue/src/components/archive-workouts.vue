@@ -1,6 +1,10 @@
 <template>
 <div>
     <v-card>
+        <v-alert :type="deleteAlertType" :value="deleteAlertValue">
+            {{ deleteAlertText }}
+        </v-alert>
+
         <v-progress-circular style="position: absolute; left: 50%;" v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
         <v-alert error v-model="alert">There was a problem loading your workout data</v-alert>
     <v-card-title>
@@ -43,11 +47,29 @@
         <tr :active="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
             <td >
             <router-link to="/workout/edit/"><v-btn icon v-model="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
-                 <v-icon class="blue--text">edit</v-icon>
+                 <v-icon small class="blue--text">edit</v-icon>
             </v-btn></router-link>
+                <v-btn  icon v-model="props.selected" @click.stop="deleteDialog = true" @click="props.selected = !props.selected" ><v-icon small color="error">delete</v-icon></v-btn>
 
+            <v-dialog
+                v-model="deleteDialog"
+                transition="dialog-bottom-transition"
+                :overlay="false"
+                max-width="290"
+                >
+                <v-card>
+                    <v-card-title class="title">Do you want to delete this workout?</v-card-title>
+
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn flat :disabled="deleteDisabled" color="warning" @click.native="deleteWorkout">Delete</v-btn>
+                        <v-btn flat color="primary" @click.native="deleteDialog = false">Don't Delete</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
             </td>
-            <td class="pt-3">{{ props.item.title }}</td>
+
+            <td class="text-xs-center pt-3">{{ props.item.title }}</td>
             <td class="text-xs-center pt-3">{{ props.item.training_type }}</td>
             <td class="text-xs-center pt-3">{{ props.item.target_muscle }}</td>
             <td class="text-xs-center pt-3">{{ props.item.date_for_completion }}</td>
@@ -70,6 +92,7 @@ export default {
     name: 'archive-workouts',
   data () {
     return {
+      deleteDialog: false,
       target_muscle: '',
       msg: 'dafsfasdfasdfsdaf',
       max50chars: (v) => v.length <= 50 || 'Input too long!',
@@ -80,6 +103,7 @@ export default {
       dataTableItems: [{}],
       alert: false,
       selected: [],
+      deleteDisabled: false,
       showToolTip: false,
       headers: [
           { text: 'Workout Name',
@@ -115,6 +139,11 @@ export default {
           { text: 'Hamstrings', value: "Hamstrings"}
 
       ],
+
+
+      deleteAlertValue: false,
+      deleteAlertText: '',
+      deleteAlertType: 'success',
     }
 
   },
@@ -125,7 +154,47 @@ export default {
 
   },
   methods: {
+    fetchWorkouts: function () {
+          let self = this;
+          this.loading = true;
+          axios.get(baseURLLocal + 'v1/u/workouts/')
+               .then(function (response) {
 
+                   self.loading = false;
+                   self.dataTableItems = response.data;
+                   for (var i = 0; i < self.dataTableItems.length; i++){
+                       self.dataTableItems[i].date_for_completion = moment(self.dataTableItems[i].date_for_completion).format('MM/DD/YYYY');
+                   }
+          }).catch(function (err) {
+              self.alert = true;
+              self.loading = "error";
+          })
+
+    },
+    deleteWorkout: function () {
+
+        let workoutTitle = this.selected[0].title;
+
+        this.deleteDisabled = true;
+        axios.delete(baseURLLocal+'v1/u/workouts/', { params: { id: this.selected[0].id} } ).then(response => {
+            console.log(response);
+            this.deleteDialog = false;
+            this.selected = [];
+            this.deleteDisabled = false;
+            this.deleteAlertValue= true;
+            this.deleteAlertText =  'You have successfully deleted workout: '+workoutTitle;
+            this.deleteAlertType =  'success';
+            this.fetchWorkouts();
+
+        }).catch(err => {
+            console.log(err);
+
+        });
+        console.log(this.selected);
+
+
+
+    },
     selectedWorkout: function () {
 
           this.$store.commit('setData', this.selected);
@@ -155,22 +224,7 @@ export default {
       }
   },
   mounted: function () {
-      var self = this;
-
-      this.loading = true;
-      axios.get(baseURLLocal + 'v1/u/workouts/')
-           .then(function (response) {
-
-               self.loading = false;
-               self.dataTableItems = response.data;
-               for (var i = 0; i < self.dataTableItems.length; i++){
-                   self.dataTableItems[i].date_for_completion = moment(self.dataTableItems[i].date_for_completion).format('MM/DD/YYYY');
-               }
-      }).catch(function (err) {
-          self.alert = true;
-          self.loading = "error";
-      })
-      
+      this.fetchWorkouts();
   }
 }
 </script>

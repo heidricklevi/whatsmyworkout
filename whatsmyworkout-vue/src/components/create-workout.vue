@@ -9,7 +9,7 @@
                     <v-stepper-content step="1">
                         <v-form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm">
                             <v-flex md8 offset-md1 xs12>
-                                <v-text-field v-model="title" id="id-title" type="text" name="title" label="Workout Name" counter max="99"></v-text-field>
+                                <v-text-field v-model="title" id="id-title" type="text" name="title" label="Workout Name" counter max="99" required></v-text-field>
                             </v-flex>
                             <v-flex xs12 md8 offset-md1>
                                 <v-menu
@@ -21,12 +21,13 @@
                                         :nudge-left="40"
                                         max-width="290px"
                                         ref="menuDate"
-                                        :return-value.sync="completionDate">
-                                    <v-text-field slot="activator" label="Completion Date" v-model="completionDate" prepend-icon="event" readonly></v-text-field>
+                                        :return-value.sync="completionDate"
+                                        required>
+                                    <v-text-field slot="activator" label="Completion Date" v-model="completionDate" prepend-icon="event" readonly required></v-text-field>
                                     <v-date-picker v-model="completionDate" no-title scrollable actions>
                                         <template slot-scope="{ save, cancel }">
                                             <v-card-actions>
-                                                <v-btn flat color="primary" @click.native="menu = false">Cancel</v-btn>
+                                                <v-btn flat color="primary" @click.native="dateMenu = false">Cancel</v-btn>
                                                 <v-btn flat color="primary" @click.native="$refs.menuDate.save(completionDate)">Save</v-btn>
                                             </v-card-actions>
                                         </template>
@@ -36,7 +37,7 @@
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
                                     <v-select title="Target Muscle" id="id_target_muscle" name="target_muscle"
-                                              v-model="target_muscle" v-bind:items="target_muscles" label="Target Muscles"
+                                              v-model="target_muscle" v-bind:items="target_muscles" label="Target Muscles" required
                                               ></v-select>
                                 </div>
                             </v-flex>
@@ -44,7 +45,7 @@
                                 <div class="py-2">
                                     <v-select title="Training Type" id="id_training_type" name="training_type"
                                               v-model="training_type" label="Training Type" v-bind:items="training_types"
-                                              required="" >
+                                              required >
                                     </v-select>
                                 </div>
                             </v-flex>
@@ -124,7 +125,7 @@
                                         <v-icon>cached</v-icon>
                                     </span>
                                 </v-btn>
-                                <v-btn secondary @click.native="e6 = 1">Back</v-btn>
+                                <v-btn color="info" flat @click.native="e6 = 1">Back</v-btn>
                                 <v-btn class="blue-grey white--text" @click.native="e6 = 3">Continue</v-btn>
                             </v-flex>
 
@@ -133,7 +134,7 @@
                     <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
                     <v-stepper-content step="3">
                         <v-btn color="primary" @click.native="createMore">Create More</v-btn>
-                        <v-btn flat @click="createWorkout">Done</v-btn>
+                        <v-btn flat @click.native="addWorkoutClick">Done</v-btn>
                     </v-stepper-content>
                 </v-stepper>
 
@@ -318,20 +319,14 @@
 
       ],
       target_muscles: [
-          { text: 'Traps', value: 'Traps'},
-          { text: 'Neck', value: "Neck"},
           { text: 'Chest', value: "Chest"},
-          { text: 'Biceps', value: "Biceps"},
-          { text: 'Forearm', value: "Forearm"},
-          { text: 'Abdominal', value: "Abdominal"},
-          { text: 'Quads', value: "Quads"},
-          { text: 'Calves', value: "Calves"},
-          { text: 'Triceps', value: "Triceps"},
-          { text: 'Lats', value: "Lats"},
-          { text: 'Middle Back', value: "Middle Back"},
-          { text: 'Lower Back', value: "Lower Back"},
-          { text: 'Glutes', value: "Glutes"},
-          { text: 'Hamstrings', value: "Hamstrings"}
+          //{ text: 'Biceps', value: "Biceps"},
+          { text: 'Abs', value: "Abs"},
+          //{ text: 'Triceps', value: "Triceps"},
+          { text: 'Back', value: 'Back'},
+          { text: 'Legs', value: 'Legs'},
+          { text: 'Arms', value: 'Arms'},
+
 
       ],
 
@@ -366,7 +361,7 @@
         },
         slug: function getSlug(e) {
             var date;
-            var title = this.title;
+            var title = this.title || ' ';
             if (!this.completionDate){ date = Date.now(); }
             else { date = this.completionDate; }
             title = title.replace(/ /g, '-');
@@ -411,6 +406,14 @@
         },
         addWorkoutClick: function () {
             this.createWorkout = !this.createWorkout;
+            this.e6 = this.createWorkout === true? 1: this.e6;
+
+            if (this.createWorkout === false) {
+                this.$refs.workoutForm.reset();
+                this.$refs.exerciseRefSubmit.reset();
+            }
+
+            
         },
         onSubmit: function (event) {
             var self = this;
@@ -445,6 +448,8 @@
                     self.e6 = 2;
                     self.workout_id = response.data.id;
                     self.submittedWorkout = data;
+
+
 
                 }).catch(function (error) {
                     self.loading2 = false;
@@ -494,6 +499,7 @@
                     self.context = 'success';
                     self.snackbar = true;
                     self.snackbarColor = 'success';
+
                     self.e6 = 2;
                     self.workout_id = response.data.id;
                     self.submittedWorkout = data;
@@ -537,9 +543,9 @@
             });
         },
         createMore: function () {
-            this.$refs.workoutForm.reset();
             this.workout_id = '';
             this.e6 = 1;
+
 
         },
         onSubmitExercise: function (event) {

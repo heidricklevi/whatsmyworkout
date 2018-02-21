@@ -6,38 +6,38 @@
      </div>
 </div>
     <v-app v-else="isAuthenticated" standalone>
-    <header id="header" style="position: relative">
+    <header id="header" style="position: relative; border-bottom: 1px solid #78909C" >
              <v-alert info v-model="alert">
             NOTE: This site and app is still under heavy active development and very early along the development process.
             This means that several features and aesthetics are not yet implemented. Please keep this in mind when using the app and site.
             All feedback and suggestions are much appreciated.
         </v-alert>
-    <div class="container">
-        <div class="row">
+    <div class="container ">
+        <div class="row ">
             <div class="col-md-12">
                 <nav class="navbar navbar-toggleable-md navbar-dark bg-faded p-0">
                     <button @click="hide = false" id="show" class="navbar-toggler navbar-show navbar-toggler-right" type="button">
                         <v-icon>menu</v-icon>
                     </button>
-                    <a class="navbar-brand" href="#">
+                    <!--<a class="navbar-brand" href="#">
                         <div class="text-center logo-heading hidden-sm-and-down">Whats My Workout?
                         </div>
                         <img id="header-logo" src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mr-5">
                     </a>
-
+                    -->
                     <div class="collapse navbar-collapse align-items-center">
                         <ul class="navbar-nav mr-auto ">
                             <li class="nav-item active mr-3">
-                                <a class="nav-link white--text title" href="#header">Home <span class="sr-only">(current)</span></a>
+                                <a class="nav-link blue-grey--text text--darken-4 title" href="#header">Home <span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item mr-3">
-                                <a class="nav-link white--text title" href="#features">Features</a>
+                                <a class="nav-link blue-grey--text text--darken-4 title" href="#features">Features</a>
                             </li>
                             <li class="nav-item mr-3">
-                                <a class="nav-link white--text title" href="#signup">Contact</a>
+                                <a class="nav-link blue-grey--text text--darken-4 title" href="#signup">Contact</a>
                             </li>
                             <li class="nav-item mr-3">
-                                <a class="nav-link white--text title" href="#feedback">Feedback</a>
+                                <a class="nav-link blue-grey--text text--darken-4 title" href="#feedback">Feedback</a>
                             </li>
                         </ul>
                         <span class="navbar-text">
@@ -106,12 +106,12 @@
     </div>
 </div>
 
-<section class="hero hero-1">
+<!--<section class="hero hero-1">
     <div class="white--text text-center title hidden-md-and-up">What's My Workout?</div>
     <div style="text-align: center" class="hidden-md-and-up"><img id="mockup" style="height: 60%; width: 60%;"  src="../src/assets/img/Untitled.png" alt="" class="mockup hidden-md-and-up"></div>
     <div class="container">
 
-        <div class="row">
+        <!--<div class="row">
             <div class="col-lg-6">
                 <h5 class="title pt-4 mb-4">Easily Create your workouts!</h5>
                 <p class="lead">
@@ -120,14 +120,14 @@
                 </p>
                 <a href="#signup" style="padding-left: 5%" class="btn text-md-center blue--text font-weight-bold text-uppercase">Checkout Whats My Workout Now!</a>
             </div>
-            <div class="col-lg-6 text-right d-lg-block">
+            <!--<div class="col-lg-6 text-right d-lg-block">
                 <img id="mockup" style="top: -90px;" src="../src/assets/img/Untitled.png" alt="" class="mockup hidden-sm-and-down">
             </div>
         </div>
     </div>
-</section>
+</section>-->
 
-<section id="features" class="features features-1 pt-5 mt-5 pb-5 mb-4">
+<section id="features" class="blue-grey lighten-5    features features-1 pt-5 mt-5 pb-5 mb-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 text-center mt-3 preamble">
@@ -136,25 +136,25 @@
                     Stop taking your clipboard to the gym. Easily keep track of your workouts and share them with others, trainer and trainee style.
                 </p>
             </div>
-            <div class="col-lg-4 mb-4">
-                <div class="single-feature text-center p-5 rounded">
+            <div class="col-lg-4 mb-4 ">
+                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
                     <img src="../src/assets/img/planner.svg" alt="" class="img-fluid mb-4 pb-2 rounded-circle">
-                    <h5 class="title mt-0 mb-3 font-weight-bold">Plan Your workouts</h5>
-                    <p class="mb-0">Create and plan your workouts in advance for easy viewing at the gym.</p>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Plan Your workouts</h5>
+                    <p class="mb-0 blue-grey--text text--darken-1 ">Create and plan your workouts in advance for easy viewing at the gym.</p>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="single-feature text-center p-5 rounded">
+                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
                     <img src="../src/assets/img/line-chart.svg" alt="" class="img-fluid mb-4 pb-2">
-                    <h5 class="title mt-0 mb-3 font-weight-bold">Workout Stats</h5>
-                    <p class="mb-0">Track your stats such as body fat and weight. Plus keep track of the weight you are lifting for each exercise.</p>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Workout Stats</h5>
+                    <p class="mb-0 blue-grey--text text--darken-1">Track your stats such as body fat and weight. Plus keep track of the weight you are lifting for each exercise.</p>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="single-feature text-center p-5 rounded">
+                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
                     <img src="../src/assets/img/dumbbell.svg" alt="" class="img-fluid mb-4 pb-2 rounded-circle">
-                    <h5 class="title mt-0 mb-3 font-weight-bold">Strength Training</h5>
-                    <p class="mb-0">Keep current on your training plans and sessions with simple exercise and workout creation.</p>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Strength Training</h5>
+                    <p class="mb-0 blue-grey--text text--darken-1">Keep current on your training plans and sessions with simple exercise and workout creation.</p>
                 </div>
             </div>
         </div>

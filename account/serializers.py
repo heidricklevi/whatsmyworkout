@@ -112,7 +112,7 @@ class ExerciseSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Exercise
-        fields = ('id', 'exercise_name', 'sets', 'reps', 'lifting_weight', 'notes', 'user', 'exercises', 'workout_id')
+        fields = ('id', 'exercise_name', 'sets', 'reps', 'lifting_weight', 'created', 'notes', 'user', 'exercises', 'workout_id')
 
     def create(self, validated_data):
         self.associate_exercises(validated_data)

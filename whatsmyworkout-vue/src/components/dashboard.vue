@@ -205,10 +205,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p >{{ "02/18/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "02/20/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.2.8 </p>
+            <p style="position: absolute; left: 50%">v0.3.0 </p>
 
 
 

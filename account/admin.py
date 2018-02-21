@@ -53,7 +53,7 @@ class ExercisesAdmin(admin.ModelAdmin):
 
 
 class ExerciseAdmin(admin.ModelAdmin):
-    pass
+    readonly_fields = ('created', 'id', )
 
 
 # admin.site.register(Subscriber, SubscriberAdmin)
@@ -62,7 +62,7 @@ admin.site.register(BodyStatTracking, BodyStatTrackingAdmin)
 admin.site.register(Exercise, ExerciseAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(Workout, WorkoutAdmin)
-admin.site.register(Exercises, ExerciseAdmin)
+admin.site.register(Exercises, ExercisesAdmin)
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 

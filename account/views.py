@@ -173,6 +173,18 @@ class WorkoutList(APIView):
         serializer = WorkoutSerializer(queryset, many=True, context={'request': request})
         return Response(serializer.data)
 
+    def delete(self, request):
+        id = request.query_params.get('id', None)
+        queryset = Workout.objects.filter(user=request.user.id)
+
+        if id:
+            workout = queryset.get(pk=id)
+            workout.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+        return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
 
 # Endpoints dealing with follow/friend requests
 
@@ -241,11 +253,28 @@ class WorkoutViewSet(viewsets.ModelViewSet):
 
 
 class ExerciseViewSet(viewsets.ModelViewSet):
+
     permission_classes = [IsAdminOrAccountOwner, ]
     serializer_class = ExerciseSerializer
 
     def get_queryset(self):
-        return Exercise.objects.all().filter(user=self.request.user)
+        queryset = Exercise.objects.filter(user=self.request.user).order_by('created')
+        target_muscle = self.request.query_params.get('target_muscle', None)
+        exercise_name = self.request.query_params.get('exercise_name', None)
+        reps = self.request.query_params.get('reps', None)
+
+        if target_muscle and exercise_name and not reps:
+            print('first condition')
+            queryset = queryset.filter(target_muscle=target_muscle)\
+                .filter(exercise_name=exercise_name)\
+                .order_by('created')
+        elif reps and target_muscle is not None and exercise_name is not None:
+            print('second condition')
+            queryset = queryset.filter(target_muscle=target_muscle)\
+                .filter(exercise_name=exercise_name)\
+                .filter(reps=reps).order_by('created')
+
+        return queryset
 
 
 class SendWorkoutEmail(APIView):

@@ -3,14 +3,7 @@
          <v-layout row wrap>
              <v-flex xs12 md6>
                  <h3 class="headline text--primary">Track Exercises</h3>
-             </v-flex>
-             <v-flex xs12 offset-md2 md4>
-                <v-text-field
-                    label="Filter Results"
-                    append-icon="search"
-                    v-model="search"
-                >
-                </v-text-field>
+                 <p class="subheading grey--text text--lighten-1 ml-1">Find your suggested lifting weight based on past exercises.</p>
              </v-flex>
          </v-layout>
          <v-layout row wrap class="mt-3 mb-3">
@@ -58,6 +51,20 @@
                     </v-btn>
 
                 </v-flex>
+         </v-layout>
+         <v-layout>
+             <v-flex md6>
+                     <v-card>
+
+                     </v-card>
+                </v-flex>
+             <v-flex md6>
+                 <v-card class="pa-2">
+                         <lifting-weight-chart ref="liftProgressChart" :graphLabels="getGraphLabels" :rep-data="getRepData" :exercise-data="exerciseData"
+                                     :chart-data="getGraphData" :options="{responsive: true, maintainAspectRatio: false, tooltips: { mode: 'index'}}"></lifting-weight-chart>
+                 </v-card>
+             </v-flex>
+
          </v-layout>
             <!--<v-data-iterator
               content-tag="v-layout"
@@ -130,6 +137,7 @@
     import {baseURLLocal} from '../auth/auth-utils'
     import axios from 'axios'
     import moment from 'moment'
+    import LiftingWeightChart from '../components/lifting-weight-chart.vue'
 
     export default {
         name: "lifting-weight-tracking",
@@ -145,6 +153,11 @@
               items: [
 
               ],
+                graphData: [],
+                graphLabels: [],
+                repData: [],
+                exerciseData: [],
+
                 enteredReps: null,
                 selectedMuscle: null,
                 selectedExercise: null,
@@ -153,6 +166,8 @@
                 eSelectLoading: false,
                 eSearchDisabled: true,
                 btnDisabled: false,
+
+                chartOptions: this.getChartOptions
 
             }
         },
@@ -176,6 +191,24 @@
 
         },
         computed: {
+            getChartOptions: function () {
+
+                return {responsive: true, maintainAspectRatio: false, tooltips: { mode: 'index'}}
+
+            },
+
+            getGraphLabels: function () {
+                return this.graphLabels;
+            },
+
+            getGraphData: function () {
+                return this.graphData;
+            },
+
+            getRepData: function () {
+
+                return this.repData;
+            },
 
         },
         methods: {
@@ -212,10 +245,24 @@
                 let queryParamTargetMuscle = this.selectedMuscle != null ? this.selectedMuscle: '';
                 let queryParamSelectedExercise = this.selectedExercise != null ? this.selectedExercise.exercise_name: '';
 
+                let temp = [];
+                let dataTemp = [];
+                let reps = [];
 
-                axios.get(baseURLLocal + 'v1/workouts/?target_muscle='
+                axios.get(baseURLLocal + 'v1/exercise/?target_muscle='
                     +queryParamTargetMuscle+'&reps='+queryParamReps+'&exercise_name='+queryParamSelectedExercise).then(response => {
-                    this.items = response.data.results;
+                    let results = response.data.results;
+
+                    for (let i = 0; i < results.length; i++) {
+                        temp[i] = moment(results[i].created).format("MMM Do YY");
+                        dataTemp[i] = results[i].lifting_weight !== null? results[i].lifting_weight: 0;
+                        reps[i] = results[i].reps;
+                    }
+
+                    this.graphData = dataTemp;
+                    this.graphLabels = temp;
+                    this.repData = reps;
+
                     this.loading = false;
                     this.btnDisabled = false;
 
@@ -233,6 +280,7 @@
         mounted: function () {
             this.fetchWorkoutData();
         },
+        components: { LiftingWeightChart, }
 
 
     }
