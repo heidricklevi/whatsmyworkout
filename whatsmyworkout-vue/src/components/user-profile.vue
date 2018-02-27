@@ -3,8 +3,15 @@
     <v-flex xs12 md10 offset-md1>
         <v-card>
             <v-card-media :src="userAuth.user.avatar" height="200px"></v-card-media>
-            <v-card-title>
-                <h4 class="headline mb-0">Profile Stat Tracking</h4>
+            <v-card-title >
+                <v-layout row wrap>
+                    <v-flex md8>
+                        <router-link to="/user/profile-stats/detail/"><h4 class="headline mb-0 ml-3" >Profile Stat Tracking</h4></router-link>
+                    </v-flex>
+                    <v-flex md1 offset-xs2>
+                        <v-btn  icon to="/user/profile-stats/detail/" ><v-icon small color="accent">edit</v-icon></v-btn>
+                    </v-flex>
+                </v-layout>
             </v-card-title>
             <span class="ml-3 grey--text">Body Stats</span>
             <span class="caption grey--text text--lighten-1 mr-3 mt-3" style="font-style: italic; float: right;">{{ currentBodyStats.created }}</span>

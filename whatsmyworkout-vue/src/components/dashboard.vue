@@ -205,10 +205,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p ><small>Last Build: </small>{{ "02/20/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "02/24/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.3.0 </p>
+            <p style="position: absolute; left: 50%">v0.3.3 </p>
 
 
 
@@ -269,7 +269,7 @@ export default {
     },
     filters: {
         moment: function (date) {
-            return moment(date).format("dddd, MMMM Do YYYY");
+            return moment(date).format("MMM Do YY");
         }
     },
 

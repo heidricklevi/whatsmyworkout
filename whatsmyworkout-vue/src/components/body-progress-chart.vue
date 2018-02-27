@@ -1,23 +1,22 @@
+
 <script>
     import VueCharts from 'vue-chartjs'
 
     export default {
         extends: VueCharts.Line,
         mixins: [VueCharts.mixins.reactiveProp],
-        props: ['chartData',  'graphLabels', 'repData', 'exerciseData'],
-        name: "lifting-weight-chart",
+        props: ['chartData',  'graphLabels', 'weightData'],
+        name: "body-progress-chart",
 
         data() {
             return {
                options: {
-
                     responsive: true,
                     maintainAspectRatio: false,
                     tooltips: {
                         mode: 'index',
 
                     },
-
 
                }
             }
@@ -31,13 +30,13 @@
                             labels: this.graphLabels,
                             datasets: [
                                 {
-                                  label: 'Lifting Weight (lbs.)',
+                                  label: 'Body Fat (%) ',
                                   backgroundColor: '#90a4ae',
                                   data: this.data
                                 }, {
-                                  label: 'Reps',
+                                  label: 'Weight (lbs)',
                                   backgroundColor: '#f87979',
-                                  data: this.reps
+                                  data: this.weight
                                 }
                           ]
 
@@ -51,13 +50,11 @@
             data: function () {
                return this.chartData;
             },
-            reps: function () {
-                return this.repData;
-            },
 
-            eData: function () {
-                return this.exerciseData;
+            weight: function () {
+                return this.weightData;
             }
+
         },
         watch: {
             chartData: function () {

@@ -13,6 +13,7 @@ import ManageWorkouts from '../components/manage-workouts.vue'
 import ArchiveWorkouts from '../components/archive-workouts.vue'
 import WorkoutDetail from '../components/workout-detail.vue'
 import WorkoutStats from '../components/workout-stats.vue'
+import ProfileStatDetail from '../components/profile-stat-tracking-detail.vue'
 
 Vue.use(Router);
 
@@ -23,6 +24,12 @@ export default new Router({
   base: '/',
   mode: 'hash',
   routes: [
+      {
+        path: '/user/profile-stats/detail/',
+        name: 'profile-stat-tracking-detail',
+        component: ProfileStatDetail
+
+      },
     {
       path: '/user/dashboard/',
       name: 'user-dashboard',
