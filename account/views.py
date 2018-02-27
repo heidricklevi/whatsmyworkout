@@ -274,6 +274,11 @@ class ExerciseViewSet(viewsets.ModelViewSet):
                 .filter(exercise_name=exercise_name)\
                 .filter(reps=reps).order_by('created')
 
+        elif target_muscle and not reps and not exercise_name:
+            print("third condition")
+
+            queryset = queryset.filter(target_muscle=target_muscle)
+
         return queryset
 
 

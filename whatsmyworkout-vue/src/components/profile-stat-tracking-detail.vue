@@ -114,6 +114,7 @@
                                      :weight-data="getWeightGraphData">
 
                 </body-progress-chart>
+
             </v-card>
         </v-flex>
     </v-layout>
@@ -194,8 +195,8 @@
         methods: {
 
             closeDialog: function () {
+                this.fetchGraphData();
                 this.edit = false;
-                this.newStats = this.$store.state.data;
                 this.alertVal = false;
 
 
@@ -206,18 +207,15 @@
             submitChange: function () {
 
                 let payload = this.newStats;
-                payload.bmi = this.newStats.bmi? this.newStats.bmi: 0;
-                payload.profile = this.newStats.profile? this.newStats.profile: this.userAuth.user.profile_id;
+                payload.bmi = Object.hasOwnProperty.call(this.newStats, 'bmi')? this.newStats.bmi: 0;
+                payload.profile = Object.hasOwnProperty.call(this.newStats, 'profile')? this.newStats.profile: this.userAuth.user.profile_id;
 
                 axios.post(baseURLLocal+ 'v1/body-stats/', payload).then(response => {
                     this.alertVal = true;
                     this.alertText = 'Success! Your changes have been updated';
                     this.color = 'success';
 
-                    this.currentBodyStats = response.data;
-                    this.currentBodyStats.created = moment(response.data.created).format("MMM Do YY, h:m a")
-
-                    this.$store.commit('setData', response.data.results[0]);
+                    this.$store.commit('setData', response.data[0]);
 
                 }).catch(err => {
 
@@ -225,7 +223,52 @@
                     this.alertText = 'Error Submitting Changes: '+err.message;
                     this.color = 'error';
 
+                    console.log(err);
+
                 })
+
+
+            },
+
+            fetchGraphData () {
+                let tempLabels = [];
+                let tempData = [];
+                let tempWeightData = [];
+
+                axios.get(baseURLLocal+'v1/body-stats/').then(response =>{
+                    this.loading = false;
+                    let results = response.data.results;
+
+                    for (let i = 0; i < results.length; i++) {
+                        tempLabels[i] = moment(results[i].created).format("MMM Do YY");
+                        tempData[i] = results[i].body_fat;
+                        tempWeightData[i] = results[i].weight;
+
+                    }
+
+
+                    this.bodyStats = results;
+
+                    this.currentBodyStats = results[0]; //get most recent stats
+                    this.currentBodyStats.created = moment(results[0].created).format("MMM Do YY, h:m a");
+
+                    this.$store.commit('setData', results[0]);
+
+
+                    this.graphLabels = tempLabels.reverse();
+                    this.graphData = tempData.reverse();
+                    this.graphWeightData = tempWeightData.reverse();
+
+
+
+                }).catch(function (err) {
+
+                    this.alertVal = true;
+                    this.alertText = 'Error Fetching Data: '+err.message;
+                    this.color = 'error';
+                    console.log(err);
+                })
+
 
 
             },
@@ -233,40 +276,8 @@
         },
         mounted: function () {
             this.loading = true;
+            this.fetchGraphData();
 
-            let tempLabels = [];
-            let tempData = [];
-            let tempWeightData = [];
-
-            axios.get(baseURLLocal+'v1/body-stats/').then(response =>{
-                this.loading = false;
-                let results = response.data.results;
-
-                for (let i = 0; i < results.length; i++) {
-                    tempLabels[i] = moment(results[i].created).format("MMM Do YY");
-                    tempData[i] = results[i].body_fat;
-                    tempWeightData[i] = results[i].weight;
-
-                }
-
-
-                this.bodyStats = results;
-
-                this.currentBodyStats = results[0]; //get most recent stats
-                this.currentBodyStats.created = moment(results[0].created).format("MMM Do YY, h:m a");
-
-                this.$store.commit('setData', results[0]);
-
-
-                this.graphLabels = tempLabels.reverse();
-                this.graphData = tempData.reverse();
-                this.graphWeightData = tempWeightData.reverse();
-
-
-
-            }).catch(function (err) {
-                console.log(err);
-            })
 
         },
 
