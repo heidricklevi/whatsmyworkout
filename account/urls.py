@@ -22,6 +22,7 @@ router.register(r'users', UserViewSet, base_name='users')
 router.register(r'workouts', WorkoutViewSet, base_name='user-workouts')
 router.register(r'exercise', ExerciseViewSet, base_name='user-exercise')
 router.register(r'exercises', ExercisesViewSet, base_name='exercises-list')
+router.register(r'friends', FriendsViewSet, base_name='friends')
 
 urlpatterns = [
 
@@ -44,6 +45,8 @@ urlpatterns = [
     url(r'^v1/u/workouts/$', views.WorkoutList.as_view()),
     url(r'^v1/history/$', views.ProfileHistory.as_view()),
     url(r'^v1/follow/$', views.FollowView.as_view()),
+    # url(r'^v1/friends/$', views.FriendView.as_view()),
+
 
     url(r'^v1/login/', obtain_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),

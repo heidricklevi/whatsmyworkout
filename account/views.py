@@ -16,7 +16,8 @@ from django.template import Context
 from rest_framework.response import Response
 from whatsmyworkout.config import *
 from reversion.models import Version
-from friendship.models import Friend, Follow
+from friendship.models import *
+from friendship.exceptions import *
 import json
 
 
@@ -185,7 +186,6 @@ class WorkoutList(APIView):
         return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-
 # Endpoints dealing with follow/friend requests
 
 class FollowView(APIView):
@@ -220,6 +220,84 @@ class FollowView(APIView):
 # End endpoints dealing with follow/friend requests
 
 
+# Endpoints for Friends and Requests Relating to Collaboration
+
+class FriendsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner]
+    serializer_class = FriendSerializer
+
+    # queryset to retrieve user friends # get
+    def get_queryset(self):
+
+        sent_requests = self.request.query_params.get('sent_requests', None)
+        received_requests = self.request.query_params.get('received_requests', None)
+
+        if sent_requests is not None:
+            return Friend.objects.sent_requests(user=self.request.user)
+
+        if received_requests is not None:
+            return Friend.objects.unread_requests(user=self.request.user)
+
+        return Friend.objects.filter(to_user=self.request.user)
+
+    # create a friend request v1/friends
+    #
+    def create(self, request, *args, **kwargs):
+
+        is_accept = request.data.pop('accept', None)
+        print(is_accept)
+        print(request.data)
+
+        # responding to friend request
+        if is_accept:
+            try:
+                new_friendship_request = FriendshipRequest.objects.get(pk=request.data['id'])
+                new_friendship_request.accept()
+
+                return Response({'status': 'successfully accepted request'}, status.HTTP_201_CREATED)
+
+            except Exception as e:
+                print(e)
+                return Response({'status': 'Could not add Friend', 'message': e}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        if is_accept == False:
+            try:
+                new_friendship_request = FriendshipRequest.objects.get(pk=request.data['id'])
+                new_friendship_request.reject()
+
+                return Response({'status': 'successfully rejected request'}, status.HTTP_201_CREATED)
+
+            except Exception as e:
+                print(e)
+                return Response({'status': 'A problem occurred while rejecting the request'}, status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+        # sending friend request
+        if is_accept is None:
+            other_user = User.objects.get(pk=request.data['to_user'])
+            try:
+                new = Friend.objects.add_friend(
+                    request.user,
+                    other_user
+                )
+            except AlreadyExistsError:
+                return Response({'status': 'Already Requested'}, status.HTTP_400_BAD_REQUEST)
+
+        return Response({'status': 'successfully sent request'}, status.HTTP_201_CREATED)
+
+    def destroy(self, request, *args, **kwargs):
+        to_be_removed = self.request.query_params.get('id', None)
+        # other_user = User.objects.get(pk=request.data['to_user'])
+
+        if to_be_removed is not None:
+            friend_request = FriendshipRequest.objects.get(pk=to_be_removed)
+            removed = friend_request.cancel()
+
+            if removed:
+                return Response({"status": "successfully Canceled Friend Request"}, status=status.HTTP_200_OK)
+
+        return Response({"status": "Error Canceling Request"}, status=status.HTTP_400_BAD_REQUEST)
+
+
 class WorkoutViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrAccountOwner, ]
     serializer_class = WorkoutSerializer
@@ -247,7 +325,6 @@ class WorkoutViewSet(viewsets.ModelViewSet):
 
         else:
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')
-
 
         return queryset
 

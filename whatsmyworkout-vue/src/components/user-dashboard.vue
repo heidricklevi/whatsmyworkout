@@ -228,14 +228,32 @@
 
                 </v-flex>
 
-                  <v-flex xs12 offset md1 md12 v-if="active == 'friends-2'">
-                      <h4 class="subheading ma-3">Friends and Follows</h4>
-                      <v-chip>
-                          Following {{ getFollows }}
-                      </v-chip>
-                      <v-chip>
-                          Followers {{ getFollowers }}
-                      </v-chip>
+                  <v-flex xs12 md12 v-if="active == 'friends-2'">
+                          <div class="text-xs-center">
+                                  <v-chip color="primary" class="text-xs-center mt-1 mb-1 white--text">
+                                  Friends {{ getMyFriends.length }}
+                                   </v-chip>
+                                <v-chip color="accent" class="text-xs-center mt-1 mb-1 white--text">
+                                  Sent {{ getSentRequests.length }}
+                                </v-chip>
+                                <v-chip color="orange lighten-1" class="text-xs-center mt-1 mb-1 white--text">
+
+                                    Pending {{ getReceivedRequests.length  }}
+                                </v-chip>
+                          </div>
+                        <v-divider class="mt-1" v-if="getReceivedRequests.length > 0"></v-divider>
+
+                      <handle-received-friend-requests></handle-received-friend-requests>
+
+                      <v-divider class="mt-1" v-if="getSentRequests.length > 0"></v-divider>
+                      <handle-sent-friend-requests></handle-sent-friend-requests>
+
+                       <v-divider></v-divider>
+                      <h5 class="subheading grey--text text--darken-2 ma-3">Friends</h5>
+                      <template v-for="friend in getMyFriends">
+                          <v-chip class="ml-2"><v-avatar><img :src="friend.from_user.avatar"></v-avatar>{{ friend.from_user.username }}</v-chip>
+                      </template>
+
 
 
                   </v-flex>
@@ -250,11 +268,15 @@
     </v-layout>
 </template>
 <script>
+
 import axios from 'axios'
 import moment from 'moment'
-import { devServer, baseURLLocal} from '../auth/auth-utils'
+import { baseURLLocal} from '../auth/auth-utils'
+
 import addFollow from './add-follow.vue'
 import userProfile from './user-profile.vue'
+import HandleSentFriendRequests from './handle-sent-friend-requests.vue'
+import HandleReceivedFriendRequests from './handle-received-friend-requests.vue'
 
 
 export default {
@@ -290,11 +312,20 @@ export default {
             snackbarText1: '',
             snackColor: '',
 
+
+            friends: this.$store.state.userDashboard.friends,
+            pendingRequests: this.$store.state.userDashboard.sentFriendRequests,
+
+            pendingFriendChip: true,
+
         }
     },
     computed: {
 
-        getFollows: function () {
+
+        //Going to stick with friend relationships instead of follow as they are bidirectional and user has more explicit control
+
+        /*getFollows: function () {
             let self = this;
 
             axios.get(baseURLLocal+'v1/follow/').then(function (response) {
@@ -316,12 +347,29 @@ export default {
             });
 
             return this.followers;
-        }
+        }*/
+
+        getSentRequests () {
+
+            //this.getPendingRequests();
+            return this.$store.state.userDashboard.sentFriendRequests;
+        },
+
+        getReceivedRequests () {
+
+            return this.$store.state.userDashboard.receivedFriendRequests;
+        },
+
+        getMyFriends () {
+
+            return this.$store.state.userDashboard.friends;
+        },
     },
     watch: {
         search(val) {
             this.resolveSearch(val)
-        }
+        },
+
     },
     filters: {
         moment: function (date) {
@@ -330,6 +378,40 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+
+
+
+        getPendingRequests() {
+
+            axios.get(baseURLLocal+ 'v1/friends/?sent_requests=true').then(response => {
+                this.$store.commit('setSentFriendRequests', response.data.results);
+            }).catch(err => {
+                console.log(err);
+            })
+
+
+        },
+
+        getPendingReceivedRequests() {
+            axios.get(baseURLLocal+ 'v1/friends/?received_requests=true').then(response => {
+                this.$store.commit('setReceivedFriendRequests', response.data.results);
+            }).catch(err => {
+                console.log(err);
+            })
+        },
+
+        getFriends() {
+            this.loading = true;
+
+            axios.get(baseURLLocal +'v1/friends/').then(response => {
+                this.friends = response.data.results;
+                this.$store.commit('setFriends', this.friends);
+                this.loading = false;
+            }).catch(err => {
+                console.log(err);
+            })
+
+        },
         resolveSearch(queryVal) {
             this.loading = true;
             this.items = [];
@@ -412,8 +494,19 @@ export default {
 
 
     },
+
+    mounted () {
+        //this.loading = true;
+        axios.all([this.getFriends(), this.getPendingRequests(), this.getPendingReceivedRequests()]).then(axios.spread(function (acct, perms) {
+            //this.loading = false;
+            console.log(acct, perms);
+
+
+        }))
+
+    },
     components: {
-        addFollow, userProfile
+        addFollow, userProfile, HandleSentFriendRequests, HandleReceivedFriendRequests
     }
 
 

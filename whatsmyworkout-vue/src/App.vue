@@ -127,7 +127,7 @@
     </div>
 </section>-->
 
-<section id="features" class="blue-grey lighten-5    features features-1 pt-5 mt-5 pb-5 mb-4">
+<section id="features" class="features features-1 pt-5 mt-5 pb-5 mb-4">
     <div class="container">
         <div class="row">
             <div class="col-lg-8 offset-lg-2 col-md-10 offset-md-1 text-center mt-3 preamble">
@@ -137,23 +137,23 @@
                 </p>
             </div>
             <div class="col-lg-4 mb-4 ">
-                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
+                <div class="single-feature text-center p-5 rounded ">
                     <img src="../src/assets/img/planner.svg" alt="" class="img-fluid mb-4 pb-2 rounded-circle">
-                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Plan Your workouts</h5>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--darken-4">Plan Your workouts</h5>
                     <p class="mb-0 blue-grey--text text--darken-1 ">Create and plan your workouts in advance for easy viewing at the gym.</p>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
+                <div class="single-feature text-center p-5 rounded">
                     <img src="../src/assets/img/line-chart.svg" alt="" class="img-fluid mb-4 pb-2">
-                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Workout Stats</h5>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--darken-4">Workout Stats</h5>
                     <p class="mb-0 blue-grey--text text--darken-1">Track your stats such as body fat and weight. Plus keep track of the weight you are lifting for each exercise.</p>
                 </div>
             </div>
             <div class="col-lg-4 mb-4">
-                <div class="single-feature text-center p-5 rounded blue-grey lighten-3">
+                <div class="single-feature text-center p-5 rounded ">
                     <img src="../src/assets/img/dumbbell.svg" alt="" class="img-fluid mb-4 pb-2 rounded-circle">
-                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--lighten-4">Strength Training</h5>
+                    <h5 class="title mt-0 mb-3 font-weight-bold grey--text text--darken-4">Strength Training</h5>
                     <p class="mb-0 blue-grey--text text--darken-1">Keep current on your training plans and sessions with simple exercise and workout creation.</p>
                 </div>
             </div>

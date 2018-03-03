@@ -5,7 +5,7 @@
                 :value="alertVal">{{ alertText }}</v-alert>
         <v-progress-circular v-if="loading" indeterminate :size="40" :width="5" color="purple" ></v-progress-circular>
         <div v-if="!loading" class="text-md-left">
-            <h5 class="subheading grey--text text--lighten-1 ma-3" v-if="!alertVal">Sent</h5>
+            <h5 class="subheading grey--text text--lighten-1 ma-3" v-if="!alertVal && !noResults">Sent</h5>
                               <v-chip
                                       v-for="pendingFriend in sentFriendRequests"
                                       :value="pendingFriend.toggleDisplay"
@@ -30,13 +30,14 @@
     import { baseURLLocal } from "../auth/auth-utils";
 
     export default {
-        name: "handle-friend-requests",
+        name: "handle-sent-friend-requests",
         props: [],
         data () {
             return {
                 disabled: false,
                 sentFriendRequests: [],
                 loading: false,
+                noResults: false,
 
                 alertVal: false,
                 alertText: '',
@@ -58,6 +59,8 @@
                     this.sentFriendRequests.map((pr) => {pr.toggleDisplay = true; return pr});
 
                     this.loading = false;
+
+                    this.noResults = response.data.results.length === 0;
 
                 }).catch(err => {
                     this.loading = false;
@@ -84,6 +87,9 @@
 
                 }).catch(err => {
 
+                    this.alertVal = true;
+                    this.alertText = 'A problem occurred canceling request '+ err.message;
+                    this.alertColor = 'error';
                     console.log(err)
 
                 });

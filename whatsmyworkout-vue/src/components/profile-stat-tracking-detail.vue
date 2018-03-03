@@ -79,7 +79,7 @@
 
                           <v-card-actions>
                               <v-btn color="orange" flat outline @click.native="closeDialog">Close</v-btn>
-                              <v-btn color="primary" flat @click.native="submitChange">Update</v-btn>
+                              <v-btn color="primary" flat @click.native="submitChange" :disabled="disabled">Update</v-btn>
                           </v-card-actions>
                       </v-card>
                 </v-dialog>
@@ -154,6 +154,8 @@
 
 
 
+
+
             }
         },
 
@@ -206,6 +208,7 @@
             },
             submitChange: function () {
 
+                this.disabled = true;
                 let payload = this.newStats;
                 payload.bmi = Object.hasOwnProperty.call(this.newStats, 'bmi')? this.newStats.bmi: 0;
                 payload.profile = Object.hasOwnProperty.call(this.newStats, 'profile')? this.newStats.profile: this.userAuth.user.profile_id;
@@ -214,11 +217,13 @@
                     this.alertVal = true;
                     this.alertText = 'Success! Your changes have been updated';
                     this.color = 'success';
+                    this.disabled = false;
 
                     this.$store.commit('setData', response.data[0]);
 
                 }).catch(err => {
 
+                    this.disabled = false;
                     this.alertVal = true;
                     this.alertText = 'Error Submitting Changes: '+err.message;
                     this.color = 'error';

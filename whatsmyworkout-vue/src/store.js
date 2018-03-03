@@ -27,6 +27,12 @@ export default new Vuex.Store({
         targetMuscle: '',
         dialog: false,
         loading: false,
+
+        userDashboard: {
+            friends: [],
+            receivedFriendRequests: null,
+            sentFriendRequests: null,
+        }
     },
     mutations: {
 
@@ -37,6 +43,17 @@ export default new Vuex.Store({
         state.dialog = payload;
       },
 
+      setSentFriendRequests (state, payload) {
+        state.userDashboard.sentFriendRequests = payload;
+      },
+
+      setReceivedFriendRequests (state, payload) {
+        state.userDashboard.receivedFriendRequests = payload;
+      },
+
+      setFriends (state, payload) {
+        state.userDashboard.friends = payload;
+      },
       setTargetedMuscleData (state, payload) {
 
           if (payload){
