@@ -6,10 +6,12 @@
             <v-card-title >
                 <v-layout row wrap>
                     <v-flex md8>
-                        <router-link to="/user/profile-stats/detail/"><h4 class="headline mb-0 ml-3" >Profile Stat Tracking</h4></router-link>
+                        <router-link :to=" authUserProfileId === viewedUserProfileId ? '/user/profile-stats/detail/' : '' ">
+                            <h4 class="headline mb-0 ml-3" >Profile Stat Tracking</h4>
+                        </router-link>
                     </v-flex>
-                    <v-flex md1 offset-xs2>
-                        <v-btn  icon to="/user/profile-stats/detail/" ><v-icon small color="accent">edit</v-icon></v-btn>
+                    <v-flex md1 offset-xs2 v-if="authUserProfileId === viewedUserProfileId">
+                        <v-btn  icon to="/user/profile-stats/detail/" ><v-icon color="accent">edit</v-icon></v-btn>
                     </v-flex>
                 </v-layout>
             </v-card-title>
@@ -47,6 +49,8 @@
             return {
                 currentBodyStats: {},
                 bodyStats: [{}],
+                authUserProfileId: this.$store.state.userAuth.user.profile_id,
+                viewedUserProfileId: this.userAuth.user.profile_id,
 
 
             }
@@ -58,15 +62,13 @@
         props: ['userAuth', ],
         created: function () {
             var self = this;
-            axios.get(baseURLLocal+'v1/body-stats/').then(function (response) {
-                for (var i = 0; i < response.data.count; i++) {
-                    self.bodyStats[i] = response.data.results[i];
-                }
+            axios.get(baseURLLocal+'v1/body-stats/'+this.userAuth.user.profile_id+'/').then(function (response) {
 
-                self.currentBodyStats = response.data.results[0]; //get most recent stats
-                self.currentBodyStats.created = moment(response.data.results[0].created).format("MMM Do YY, h:m a");
+                self.currentBodyStats = response.data; //get most recent stats
+                self.currentBodyStats.created = moment(response.data.created).format("MMM Do YY, h:m a");
             }).catch(function (err) {
 
+                console.log(err)
             })
         }
 

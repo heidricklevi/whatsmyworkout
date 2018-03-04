@@ -45,7 +45,7 @@ class UserLogin(APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+    permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
 
     lookup_field = 'username'
     queryset = User.objects.all()
@@ -79,12 +79,34 @@ class CreateUser(APIView):
 
 
 class BodyStatTrackingViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner, ]
+
     serializer_class = BodyStatSerializer
+    lookup_field = 'profile_id'
 
     def get_queryset(self):
         queryset = BodyStatTracking.objects.filter(profile__user=self.request.user).order_by('-created')
         return queryset
+
+    def retrieve(self, request, *args, **kwargs):
+
+        profile = Profile.objects.get(id=kwargs['profile_id'])
+        queryset = BodyStatTracking.objects.filter(profile_id=kwargs['profile_id']).last()
+
+        self.check_object_permissions(self.request, profile.user.username)
+        serialized = BodyStatSerializer(queryset)
+        return Response(serialized.data)
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+
+        if self.action == 'list':
+            permission_classes = [IsAdminOrAccountOwner]
+        else:
+            permission_classes = [IsAccountOwnerOrIsFriend]
+
+        return [permission() for permission in permission_classes]
 
 
 class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
@@ -238,10 +260,10 @@ class FriendsViewSet(viewsets.ModelViewSet):
         if received_requests is not None:
             return Friend.objects.unread_requests(user=self.request.user)
 
-        return Friend.objects.filter(to_user=self.request.user)
+        return Friend.objects.filter(to_user=self.request.user).order_by('created')
 
     # create a friend request v1/friends
-    #
+    # or respond to received request (accept or reject) based on 'accept' bool val
     def create(self, request, *args, **kwargs):
 
         is_accept = request.data.pop('accept', None)

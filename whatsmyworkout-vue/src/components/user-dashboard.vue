@@ -251,7 +251,13 @@
                        <v-divider></v-divider>
                       <h5 class="subheading grey--text text--darken-2 ma-3">Friends</h5>
                       <template v-for="friend in getMyFriends">
-                          <v-chip class="ml-2"><v-avatar><img :src="friend.from_user.avatar"></v-avatar>{{ friend.from_user.username }}</v-chip>
+                          <router-link :to="friend.url">
+                                <v-chip class="ml-2">
+                                    <v-avatar>
+                                        <img :src="friend.from_user.avatar">
+                                    </v-avatar>{{ friend.from_user.username }}
+                                </v-chip>
+                          </router-link>
                       </template>
 
 
@@ -405,6 +411,9 @@ export default {
 
             axios.get(baseURLLocal +'v1/friends/').then(response => {
                 this.friends = response.data.results;
+
+                this.friends.map( (friend) => {friend.url = '/profile/'+friend.from_user.username; return friend});
+
                 this.$store.commit('setFriends', this.friends);
                 this.loading = false;
             }).catch(err => {
