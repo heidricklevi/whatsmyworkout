@@ -188,7 +188,10 @@
                   <v-icon>search</v-icon>
                 </v-tab>
                   <v-tab href="#friends-2">
-                      <v-icon>people</v-icon>
+                      <v-badge right color="primary" overlap>
+                          <span slot="badge">{{ getReceivedRequests.length }}</span>
+                          <v-icon color="grey lighten-1" large style="background-color: inherit!important;">people</v-icon>
+                      </v-badge>
                   </v-tab>
 
                 <v-tab-item
@@ -251,21 +254,49 @@
                        <v-divider></v-divider>
                       <h5 class="subheading grey--text text--darken-2 ma-3">Friends</h5>
                       <template v-for="friend in getMyFriends">
-                          <router-link :to="friend.url">
-                                <v-chip class="ml-2">
+
+                                <v-chip
+
+                                        :value="friend.toggleDisplay"
+                                        v-model="friend.toggleDisplay"
+                                        :key="friend.id"
+                                        :disabled="friendRemoveDisabled"
+                                        class="ml-2">
+
                                     <v-avatar>
                                         <img :src="friend.from_user.avatar">
-                                    </v-avatar>{{ friend.from_user.username }}
+                                    </v-avatar>
+                                    <router-link :to="friend.url">{{ friend.from_user.username }}</router-link>
+                                    <div class="chip__close red--text" @click="deleteDialog = true"><v-icon >cancel</v-icon></div>
                                 </v-chip>
-                          </router-link>
+
+
+
+                      <v-dialog
+                            v-model="deleteDialog"
+                            transition="dialog-bottom-transition"
+                            :overlay="false"
+                            max-width="290"
+                            >
+                            <v-card>
+                                <v-card-title class="title">Are you sure you want to remove {{ friend.from_user.username }} from your friends list?</v-card-title>
+
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn flat :disabled="friendRemoveDisabled" color="warning" @click.native="onRemoveFriend(friend)">Delete</v-btn>
+                                    <v-btn flat color="primary" @click.native="deleteDialog = false">Don't Delete</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+
                       </template>
 
+                            <v-snackbar v-model="removeFriendSbModel" :color="removeFriendSbColor" top>{{ removeFriendSbText }}</v-snackbar>
+
+                        </v-flex>
 
 
-                  </v-flex>
-
-
-              </v-layout>
+                    </v-layout>
 
                 </v-tab-item>
             </v-tabs>
@@ -322,7 +353,17 @@ export default {
             friends: this.$store.state.userDashboard.friends,
             pendingRequests: this.$store.state.userDashboard.sentFriendRequests,
 
-            pendingFriendChip: true,
+
+
+            friendRemoveDisabled: false,
+            deleteDialog: false,
+            removeFriendSbPosition: 'top',
+            removeFriendSbModel: false,
+            removeFriendSbText: '',
+            removeFriendSbColor: 'success',
+
+
+            showFriendRequestsBadge: false,
 
         }
     },
@@ -367,8 +408,10 @@ export default {
         },
 
         getMyFriends () {
+            let friendsList = this.$store.state.userDashboard.friends;
+            friendsList.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr})
 
-            return this.$store.state.userDashboard.friends;
+            return friendsList;
         },
     },
     watch: {
@@ -385,7 +428,30 @@ export default {
     props: ["computedAuth"],
     methods: {
 
+        onRemoveFriend(friend) {
 
+            this.friendRemoveDisabled = true;
+
+            axios.delete(baseURLLocal+'v1/user/friends/', { params: { id: friend.from_user.id } } ).then(response => {
+                console.log(response);
+                this.deleteDialog = false;
+                friend.toggleDisplay = false;
+
+                this.removeFriendSbColor = 'success';
+                this.removeFriendSbModel = true;
+                this.removeFriendSbText = 'Successfully removed '+friend.from_user.username+' from your friends list';
+                console.log(response);
+                this.getFriends();
+
+
+            }).catch(err => {
+                this.friendRemoveDisabled = false;
+                console.log(err);
+
+            });
+
+
+        },
 
         getPendingRequests() {
 
@@ -487,7 +553,7 @@ export default {
 
         this.loadingWorkout = true;
 
-        axios.get(baseURLLocal + 'v1/workouts/?recent=5').then(function (response) {
+        axios.get(baseURLLocal + 'v1/workouts/?next_workout=true').then(function (response) {
             self.recentWorkouts = response.data.results[0];
             self.loadingWorkout = false;
 

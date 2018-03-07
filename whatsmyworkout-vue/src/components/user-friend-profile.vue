@@ -49,7 +49,7 @@
     import {baseURLLocal} from '../auth/auth-utils'
 
     export default {
-        name: "user-profile",
+        name: "user-friend-profile",
         data () {
             return {
                 currentBodyStats: {},
@@ -74,7 +74,7 @@
 
 
         },
-        props: ['userAuth', ],
+        props: ['userAuth', 'username'],
         created: function () {
 
         },
@@ -84,10 +84,11 @@
             console.log(this.authUserProfileId);
             this.loading = true;
 
-            axios.get(baseURLLocal+'v1/body-stats/').then(response => {
+            axios.get(baseURLLocal+'v1/body-stats/' +this.username).then(response => {
                 this.loading = false;
-                this.currentBodyStats = response.data.results[0]; //get most recent stats
-                this.currentBodyStats.created = moment(response.data.results[0].created).format("MMM Do YY, h:m a");
+                
+                this.currentBodyStats = response.data; //get most recent stats
+                this.currentBodyStats.created = moment(response.data.created).format("MMM Do YY, h:m a");
             }).catch(err =>  {
                 this.loading = false;
                 console.log(err)

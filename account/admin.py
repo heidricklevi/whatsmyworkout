@@ -40,7 +40,7 @@ class UserAdmin(admin.ModelAdmin):
 
 
 class BodyStatTrackingAdmin(admin.ModelAdmin):
-    readonly_fields = ('created', )
+    readonly_fields = ('created', 'username')
 
 
 class WorkoutAdmin(VersionAdmin):

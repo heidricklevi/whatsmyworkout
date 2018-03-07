@@ -19,6 +19,7 @@ from reversion.models import Version
 from friendship.models import *
 from friendship.exceptions import *
 import json
+from datetime import date
 
 
 class UserLogin(APIView):
@@ -81,7 +82,7 @@ class CreateUser(APIView):
 class BodyStatTrackingViewSet(viewsets.ModelViewSet):
 
     serializer_class = BodyStatSerializer
-    lookup_field = 'profile_id'
+    lookup_field = 'username'
 
     def get_queryset(self):
         queryset = BodyStatTracking.objects.filter(profile__user=self.request.user).order_by('-created')
@@ -89,10 +90,9 @@ class BodyStatTrackingViewSet(viewsets.ModelViewSet):
 
     def retrieve(self, request, *args, **kwargs):
 
-        profile = Profile.objects.get(id=kwargs['profile_id'])
-        queryset = BodyStatTracking.objects.filter(profile_id=kwargs['profile_id']).last()
+        queryset = BodyStatTracking.objects.filter(username=kwargs['username']).last()
 
-        self.check_object_permissions(self.request, profile.user.username)
+        self.check_object_permissions(self.request, kwargs['username'])
         serialized = BodyStatSerializer(queryset)
         return Response(serialized.data)
 
@@ -102,15 +102,15 @@ class BodyStatTrackingViewSet(viewsets.ModelViewSet):
         """
 
         if self.action == 'list':
-            permission_classes = [IsAdminOrAccountOwner]
+            permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
         else:
-            permission_classes = [IsAccountOwnerOrIsFriend]
+            permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
 
         return [permission() for permission in permission_classes]
 
 
 class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
     serializer_class = MaxLiftSerializer
     pagination_class = CustomExercisesPagination
 
@@ -135,7 +135,7 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
 
 class ExercisesList(generics.ListAPIView):
 
-    permission_classes = [IsAdminOrReadOnly, ]
+    permission_classes = [IsAdminOrReadOnly, permissions.IsAuthenticated]
     serializer_class = ExercisesSerializer
 
     def get_queryset(self):
@@ -149,7 +149,7 @@ class ExercisesList(generics.ListAPIView):
 
 class ExercisesViewSet(viewsets.ModelViewSet):
 
-    permission_classes = [IsAdminOrReadOnly, ]
+    permission_classes = [IsAdminOrReadOnly, permissions.IsAuthenticated]
     serializer_class = ExercisesSerializer
     pagination_class = CustomExercisesPagination
 
@@ -164,7 +164,7 @@ class ExercisesViewSet(viewsets.ModelViewSet):
 
 class ProfileHistory(APIView):
 
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     def get(self, request, format=None):
 
@@ -184,7 +184,7 @@ class ProfileHistory(APIView):
 
 class WorkoutList(APIView):
 
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     def get(self, request, format=None):
         print(request.user)
@@ -211,7 +211,7 @@ class WorkoutList(APIView):
 # Endpoints dealing with follow/friend requests
 
 class FollowView(APIView):
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     def post(self, request, *args, **kwargs):
         other_user = User.objects.get(pk=request.data['id'])
@@ -244,8 +244,8 @@ class FollowView(APIView):
 
 # Endpoints for Friends and Requests Relating to Collaboration
 
-class FriendsViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner]
+class FriendsViewSet(viewsets.ModelViewSet): # ViewSet for handling friendship requests/rejects & listing friends
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
     serializer_class = FriendSerializer
 
     # queryset to retrieve user friends # get
@@ -320,14 +320,34 @@ class FriendsViewSet(viewsets.ModelViewSet):
         return Response({"status": "Error Canceling Request"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class FriendsView(APIView):  # APIView for deleting friend
+
+    permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
+
+    def delete(self, request):
+        to_delete_id = self.request.query_params.get('id', None)
+        to_user = User.objects.get(id=to_delete_id)
+
+        if to_delete_id is not None:
+
+            removed = Friend.objects.remove_friend(request.user, to_user)
+
+            if removed:
+                return Response({'status': 'Removed friend successfully'}, status=status.HTTP_200_OK)
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 class WorkoutViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
     serializer_class = WorkoutSerializer
 
     def get_queryset(self, format=None):
         queryset = Workout.objects.all().filter(user=self.request.user)
+
         month = self.request.query_params.get('month', None)
         recent = self.request.query_params.get('recent', None)
+        next_workout = self.request.query_params.get('next_workout', None)
 
         target_muscle = self.request.query_params.get('target_muscle', None)
         exercise_name = self.request.query_params.get('exercise_name', None)
@@ -344,6 +364,8 @@ class WorkoutViewSet(viewsets.ModelViewSet):
             queryset = queryset.filter(exercises__exercise_name=exercise_name).distinct()
         elif reps:
             queryset = queryset.filter(exercises__reps=reps).distinct()
+        elif next_workout:
+            queryset = queryset.filter(date_for_completion__gte=date.today()).order_by('date_for_completion')[:5]
 
         else:
             queryset = queryset.filter(user=self.request.user).order_by('-date_for_completion')
@@ -351,9 +373,22 @@ class WorkoutViewSet(viewsets.ModelViewSet):
         return queryset
 
 
+class FriendWorkoutViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
+    serializer_class = WorkoutSerializer
+
+    def get_queryset(self):
+        friend = self.request.query_params.get('friend', None)
+
+        if friend:
+            return Workout.objects.filter(user__username=friend).filter(date_for_completion__lte=date.today()).order_by('-date_for_completion')[:5]
+
+        return None
+
+
 class ExerciseViewSet(viewsets.ModelViewSet):
 
-    permission_classes = [IsAdminOrAccountOwner, ]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
     serializer_class = ExerciseSerializer
 
     def get_queryset(self):

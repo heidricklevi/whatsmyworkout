@@ -12,22 +12,14 @@ class IsAccountOwner(permissions.BasePermission):
 
 class IsAccountOwnerOrIsFriend(permissions.BasePermission):
 
-    def has_permission(self, request, view):
-        if request.user.is_superuser:
-            return True
-        elif view.action == 'retrieve':
-            return True
-        else:
-            return False
-
     def has_object_permission(self, request, view, obj):
         user2 = User.objects.get(username=obj)
         if request.user.is_superuser:
             return True
         print(obj)
         print(request.user)
-        print(Friend.objects.are_friends(user1=request.user, user2=user2) is True or request.user.username == obj)
-        return Friend.objects.are_friends(user1=request.user, user2=user2) is True or request.user.username == obj
+        print(((Friend.objects.are_friends(user1=request.user, user2=user2) is True) or request.user == user2))
+        return Friend.objects.are_friends(user1=request.user, user2=user2) is True or request.user == user2
 
 
 class IsOwnerOrReadOnly(permissions.BasePermission):

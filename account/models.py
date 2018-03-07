@@ -35,11 +35,13 @@ class BodyStatTracking(models.Model):
     bmi = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2)
     weight = models.DecimalField(blank=True, null=False, max_digits=4, decimal_places=1, default=0)
     body_fat = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=1)
+    username = models.CharField(max_length=255, editable=False)
 
     def __str__(self):
         return self.profile.user.username
 
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None):
+        self.username = self.profile.user.username
         self.bmi = (self.weight / (self.height**2)) * 703 if self.weight != 0 and self.height != 0 else 0
         super(BodyStatTracking, self).save()
 
