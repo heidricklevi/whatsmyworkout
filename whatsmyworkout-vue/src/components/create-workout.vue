@@ -570,6 +570,10 @@
                   workout_id: this.workout_id,
               };
 
+              if (!this.lifting_weight) {
+                  delete data.lifting_weight;
+              }
+
               this.loading1 = true;
               axios.post(baseURLLocal+'v1/exercise/', data)
                   .then(function (response) {

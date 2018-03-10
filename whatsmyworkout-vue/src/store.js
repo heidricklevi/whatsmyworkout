@@ -32,6 +32,10 @@ export default new Vuex.Store({
             friends: [],
             receivedFriendRequests: null,
             sentFriendRequests: null,
+        },
+        friendProfile: {
+            toCopyWorkout: {},
+            toCopyExercises: [],
         }
     },
     mutations: {
@@ -41,6 +45,10 @@ export default new Vuex.Store({
       },
       setDialog (state, payload) {
         state.dialog = payload;
+      },
+
+      setToCopyExercises (state, payload) {
+        state.friendProfile.toCopyExercises = payload;
       },
 
       setSentFriendRequests (state, payload) {

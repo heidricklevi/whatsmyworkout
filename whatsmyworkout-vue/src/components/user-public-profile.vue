@@ -58,10 +58,28 @@
                               >
                                 <v-card>
                                   <v-card-title class="pt-2 pl-2 pb-0">
-                                      <v-avatar  ><img :src="userProfileProp.user.avatar"></v-avatar>
-                                      <span class="body grey--text text--darken-2">{{ username }}</span>
-                                      <span class="caption d-inline-block" style="float: right"><v-icon small color="primary">event </v-icon>
-                                          {{ props.item.date_for_completion | moment }}</span>
+                                      <v-layout row wrap>
+                                          <v-flex xs2>
+                                            <v-avatar  ><img :src="userProfileProp.user.avatar"></v-avatar>
+                                          </v-flex>
+                                          <v-flex xs6>
+                                              <span class="body grey--text text--darken-2">{{ username }}</span>
+
+                                              <p class="caption" ><v-icon small color="primary">event </v-icon>
+                                              {{ props.item.date_for_completion | moment }}</p>
+
+                                          </v-flex>
+                                          <v-flex xs4 text-xs-right class="pt-0">
+                                              <span class="d-inline text-xs-right mt-0 pt-0 pr-0 mr-0">
+                                                  <v-btn icon class="mt-0 pt-0 pr-0 mr-0" @click="selectedCopy(props.item)">
+                                                      <v-icon small>content_copy</v-icon>
+                                                  </v-btn>
+                                              </span>
+                                          </v-flex>
+
+
+
+                                      </v-layout>
                                       <v-layout row>
                                           <v-flex text-md-right text-xs-center xs8>
                                               <p class="headline primary--text">{{ props.item.title }}</p>
@@ -97,9 +115,131 @@
                                 </v-card>
                               </v-flex>
                             </v-data-iterator>
+                          <v-alert :type="copyAlertColor" :value="copyAlertVal">{{ copyAlertText }}</v-alert>
                           </v-container>
                    </v-tab-item>
                 </v-tabs>
+                <v-dialog
+                    v-model="copyDialog"
+                    :fullscreen="$vuetify.breakpoint.smAndDown"
+                    transition="dialog-bottom-transition"
+                    :overlay="false"
+                    scrollable
+                    max-width="890px"
+                  >
+                    <v-card tile>
+                      <v-toolbar card dark color="primary">
+                        <v-btn icon @click.native="copyDialog = false" dark>
+                          <v-icon>close</v-icon>
+                        </v-btn>
+                        <v-toolbar-title>Copy Workout</v-toolbar-title>
+                        <v-spacer></v-spacer>
+                        <v-toolbar-items>
+                          <v-btn dark flat @click.native.stop="saveCopy" :disabled="copySaveDisabled">Save</v-btn>
+                        </v-toolbar-items>
+                      </v-toolbar>
+
+                                <v-card-title>Review & Edit Workout</v-card-title>
+
+                        <v-form ref="copyWorkoutForm">
+                              <v-card-text>
+                                      <v-layout wrap>
+                                          <v-flex xs12 md3 offset-md1 >
+                                              <v-text-field
+                                                      color="accent"
+                                                      label="Workout Title"
+                                                      persistent-hint
+                                                      hint="What would you like to call this workout?"
+                                                      append-icon="edit"
+                                                      v-model="title"
+                                                      ></v-text-field>
+                                          </v-flex>
+                                          <v-flex xs12 md3 offset-md1 >
+                                               <v-menu
+                                                    ref="menu"
+                                                    lazy
+                                                    :close-on-content-click="false"
+                                                    v-model="menu"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    full-width
+                                                    :nudge-right="40"
+                                                    min-width="290px"
+                                                    :return-value.sync="date"
+                                                  >
+                                                    <v-text-field
+                                                      slot="activator"
+                                                      label="Completion Date"
+                                                      v-model="date"
+                                                      :value="copiedWorkout.date_for_completion"
+                                                      hint="When will you complete this workout?"
+                                                      persistent-hint
+                                                      prepend-icon="event"
+                                                      readonly
+
+                                                    ></v-text-field>
+                                                    <v-date-picker v-model="date" no-title scrollable>
+                                                      <v-spacer></v-spacer>
+                                                      <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                                                      <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                                                    </v-date-picker>
+                                                  </v-menu>
+                                          </v-flex>
+                                          <v-flex xs12 md3 offset-md1 >
+                                              <v-select
+                                                      v-model="selectedTrainingType"
+                                                      label="Training Type"
+                                                      :value="copiedWorkout.training_type"
+                                                      :items="training_types"
+                                                      title="Training Type">
+
+                                              </v-select>
+                                          </v-flex>
+
+
+                                      </v-layout>
+                                  <v-divider class="mt-3 mb-3"></v-divider>
+                                  <p class="body grey--text text--darken-3 ml-1">Exercises</p>
+                                      <v-layout row wrap fill-height>
+                                          <v-flex xs12 >
+                                           <!--<v-flex xs12 md1 offset-md1 class="mt-3">
+
+                                           </v-flex>
+                                            <v-flex md4 xs12 class="ml-2">
+                                                <v-select
+                                                    dense
+                                                    :disabled="eSearchDisabled"
+                                                    :loading="eSelectLoading"
+                                                    item-text="exercise_name"
+                                                    item-value="exercise_name"
+                                                    autocomplete
+                                                    :search-input.sync="searchExercises"
+                                                    return-object
+                                                    :items="target_exercises"
+                                                    v-model="selectedExercise"
+                                                    label="Exercise"
+                                                    >
+
+                                                </v-select>
+                                            </v-flex>-->
+                                          <v-list dense>
+                                              <template v-for="(cExercise, i) in getCopiedExercises">
+                                                <edit-copied-exercises
+                                                        :c-exercise="cExercise"
+                                                        :index="i"
+                                                        :target-muscle="copiedWorkout.target_muscle"
+                                                        :edit-exercise="cExercise.editExercise">
+
+                                                </edit-copied-exercises>
+                                                <v-flex xs12 md11 offset-md1><v-divider></v-divider></v-flex>
+                                              </template>
+                                           </v-list>
+                                              </v-flex>
+                                      </v-layout>
+                              </v-card-text>
+                        </v-form>
+                    </v-card>
+                  </v-dialog>
             </v-flex>
         </v-flex>
     </v-layout>
@@ -118,10 +258,11 @@
     import { baseURLLocal} from '../auth/auth-utils'
 
     import UserFriendProfile from './user-friend-profile.vue'
+    import EditCopiedExercises from './edit-copied-exercises.vue'
 
     export default {
         name: "user-public-profile",
-        components: { UserFriendProfile, },
+        components: { UserFriendProfile, EditCopiedExercises},
         props: [],
         data () {
             return {
@@ -140,6 +281,39 @@
                 items: [],
                 loadLastFive: false,
 
+
+
+
+                copyDialog: false,
+                copiedWorkout: {},
+                menu: false,
+                date: '',
+                training_types: [
+                  { text: 'Strength Training', value: 'Strength Training'},
+                  { text: 'Flexibility Focused', value: 'Flexibility Focused'},
+                  { text: 'Endurance', value: 'Endurance'},
+                  { text: 'Balance Focused', value: 'Balance Focused'}
+                ],
+                selectedTrainingType: '',
+                title: '',
+                targetMuscle: '',
+                copiedWorkoutExercises: [],
+
+                target_exercises: [],
+                eSearchDisabled: false,
+                eSelectLoading: false,
+                selectedExercise: null,
+                searchExercises: null,
+                exerciseDisabled: false,
+
+                copyAlertVal: false,
+                copyAlertText: '',
+                copyAlertColor: '',
+                copySaveDisabled: false,
+
+
+
+
             }
         },
         filters: {
@@ -148,7 +322,14 @@
             }
         },
         computed: {
+            getCopiedWorkout: function () {
+                this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
+                return this.copiedWorkout;
+            },
 
+            getCopiedExercises: function () {
+                return this.copiedWorkout.exercises
+            }
         },
         watch: {
 
@@ -156,10 +337,100 @@
                 this.fetchProfileData();
             },
 
+            searchExercises(val) {
+
+                val && this.querySelections(val)
+            },
+            getCopiedExercises(val) {
+                console.log('Fired', val);
+                this.copiedExerciseEdit(val);
+            }
+
 
         },
         methods: {
+            copiedExerciseEdit(exercise) {
 
+                exercise.editExercise = true;
+                console.log('copiedExerciise', exercise)
+
+
+            },
+            selectedCopy (workout){
+                this.copyDialog = true;
+                this.$store.commit('setToCopyWorkout', workout);
+                this.copiedWorkout = workout;
+                this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
+
+                // set fields to original workout values
+                this.selectedTrainingType = this.copiedWorkout.training_type;
+                this.date = this.copiedWorkout.date_for_completion;
+                this.targetMuscle = this.copiedWorkout.target_muscle;
+                this.target_exercises = this.getCopiedWorkout.exercises;
+                this.title = this.copiedWorkout.title;
+            },
+            saveCopy () {
+
+                let localCopy = this.copiedWorkout;
+
+                localCopy.user = this.$store.state.userAuth.user.id;
+                localCopy.date_for_completion = this.date;
+                localCopy.training_type = this.selectedTrainingType;
+                localCopy.title = this.title;
+                localCopy.workout_image = null;
+                localCopy.exercises.map((e) => { e.workout_id = null; return e});
+
+
+                this.copySaveDisabled = true;
+
+                axios.post(baseURLLocal+ 'v1/workouts/', localCopy).then(response => {
+                    localCopy.exercises.map((e) => { e.workout_id = response.data.id; return e});
+                    this.submitExercises(localCopy.exercises);
+                    console.log(response)
+
+                }).catch(err => {
+                    this.copySaveDisabled = false;
+                    this.copyAlertColor = 'error';
+                    this.copyAlertVal = true;
+                    this.copyAlertText = 'Error copying workout: '+err.message;
+                    console.log(err)
+                })
+
+            },
+            submitExercises(exercises, workout_id) {
+
+                axios.post(baseURLLocal+ 'v1/exercise/', exercises).then(response => {
+                    this.copyAlertColor = 'success';
+                    this.copyAlertVal = true;
+                    this.copyAlertText = 'Successfully copied workout!';
+                    this.copySaveDisabled = false;
+                    console.log(response)
+                }).catch(err => {
+                    this.copySaveDisabled = false;
+                    this.copyAlertColor = 'error';
+                    this.copyAlertVal = true;
+                    this.copyAlertText = 'Error copying workout: '+err.message;
+                    console.log(err);
+                })
+
+            },
+            querySelections (v) {
+                this.eSelectLoading = true;
+                //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
+
+                axios.get(baseURLLocal+'v1/exercises/?target_muscle='+this.copiedWorkout.target_muscle).then(response => {
+
+                    this.target_exercises = response.data.results.filter(e => {
+                        return (e || '').exercise_name.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                    });
+
+                    this.eSelectLoading = false;
+                }).catch(err => {
+                    console.log(err);
+                    this.eSelectLoading = false;
+                })
+
+            },
             fetchProfileData () {
                 //this.loading = true;
                 axios.get(baseURLLocal+"v1/users/" + this.username +'/').then(response => {

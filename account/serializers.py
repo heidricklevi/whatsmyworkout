@@ -121,17 +121,33 @@ class BodyStatSerializer(serializers.ModelSerializer):
 
 class ExerciseSerializer(serializers.ModelSerializer):
     exercises = ExercisesSerializer(allow_null=True)
-    workout_id = serializers.CharField(max_length=255, write_only=True)  # not a field of the model
+    workout_id = serializers.CharField(max_length=255, write_only=True, allow_null=True)  # not a field of the model
 
     class Meta:
         model = Exercise
         fields = ('id', 'exercise_name', 'sets', 'reps', 'lifting_weight', 'created', 'notes', 'user', 'exercises', 'workout_id', 'target_muscle')
+        extra_kwargs = {
+            'lifting_weight':
+                {
+                    'validators': []
+                },
+        }
 
     def create(self, validated_data):
-        self.associate_exercises(validated_data)
-        workout_id = validated_data.pop('workout_id')
-        workout = Workout.objects.get(id=workout_id)
 
+        if validated_data is list:
+            workout_id = validated_data[0].pop('workout_id', None)
+            workout = Workout.objects.get(id=workout_id)
+            for e in validated_data:
+                self.associate_exercises(e)
+                exercise = super(ExerciseSerializer, self).create(e)
+                workout.exercises.add(exercise)
+            workout.save()
+            return validated_data
+
+        self.associate_exercises(validated_data)
+        workout_id = validated_data.pop('workout_id', None)
+        workout = Workout.objects.get(id=workout_id)
         exercise = super(ExerciseSerializer, self).create(validated_data)
 
         workout.exercises.add(exercise)
@@ -153,6 +169,59 @@ class ExerciseSerializer(serializers.ModelSerializer):
         validated_data['exercises'] = exercises_instance
 
 
+class CopyExerciseSerializer(serializers.ModelSerializer):
+    exercises = ExercisesSerializer(allow_null=True)
+    workout_id = serializers.CharField(max_length=255, write_only=True, allow_null=True)  # not a field of the model
+
+    class Meta:
+        model = Exercise
+        fields = (
+        'id', 'exercise_name', 'sets', 'reps', 'lifting_weight', 'created', 'notes', 'user', 'exercises', 'workout_id',
+        'target_muscle'
+        )
+        extra_kwargs = {
+            'lifting_weight':
+                {
+                    'validators': []
+                },
+        }
+
+    def create(self, validated_data):
+
+        if validated_data is list:
+            workout_id = validated_data[0].pop('workout_id', None)
+            workout = Workout.objects.get(id=workout_id)
+            for e in validated_data:
+                self.associate_exercises(e)
+                exercise = super(CopyExerciseSerializer, self).create(e)
+                workout.exercises.add(exercise)
+            workout.save()
+            return validated_data
+
+        self.associate_exercises(validated_data)
+        workout_id = validated_data.pop('workout_id', None)
+        workout = Workout.objects.get(id=workout_id)
+        exercise = super(CopyExerciseSerializer, self).create(validated_data)
+
+        workout.exercises.add(exercise)
+        workout.save()
+
+        return exercise
+
+    def update(self, instance, validated_data):
+        self.associate_exercises(validated_data)
+        return super(CopyExerciseSerializer, self).update(instance, validated_data)
+
+    def associate_exercises(self, validated_data):
+        exercises = validated_data.pop('exercises')
+
+        if not Exercises.objects.filter(exercise_name=exercises['exercise_name']).exists():
+            return
+
+        exercises_instance = Exercises.objects.get(exercise_name=exercises['exercise_name'])
+        validated_data['exercises'] = exercises_instance
+
+
 class WorkoutSerializer(serializers.ModelSerializer):
     exercises = ExerciseSerializer(many=True, allow_null=True, required=False)
     workout_image = serializers.ImageField(required=False, allow_null=True)
@@ -160,9 +229,13 @@ class WorkoutSerializer(serializers.ModelSerializer):
     class Meta:
         model = Workout
         fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type', 'completed')
+        extra_kwargs = {
+            'lifting_weight': {'validators': []},
+        }
 
     def create(self, validated_data):
-        self.create_or_update(validated_data)
+        # self.create_or_update(validated_data)
+        exercises = validated_data.pop('exercises', None)
         self.set_workout_image(validated_data['target_muscle'], validated_data)
         return super(WorkoutSerializer, self).create(validated_data)
 
@@ -175,11 +248,16 @@ class WorkoutSerializer(serializers.ModelSerializer):
     def create_or_update(self, validated_data):
 
         exercises = validated_data.pop('exercises')
-        print(exercises)
-
         for exercise in exercises:
-            id = exercise.pop('workout_id')
-            Exercise.objects.create(**exercise)
+            id = exercise.pop('workout_id', None)
+            exercises_to_be_added = exercise.pop('exercises', None)
+
+            print(exercises_to_be_added)
+            if exercises_to_be_added:
+                to_associate = Exercises.objects.get(exercise_name=exercises_to_be_added['exercise_name'])
+                Exercise.objects.create(**exercise, exercises=to_associate)
+            else:
+                Exercise.objects.create(**exercise)
 
     def set_workout_image(self, target_muscle, validated_data):
 
