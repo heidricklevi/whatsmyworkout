@@ -115,7 +115,7 @@
                                 </v-card>
                               </v-flex>
                             </v-data-iterator>
-                          <v-alert :type="copyAlertColor" :value="copyAlertVal">{{ copyAlertText }}</v-alert>
+
                           </v-container>
                    </v-tab-item>
                 </v-tabs>
@@ -128,6 +128,7 @@
                     max-width="890px"
                   >
                     <v-card tile>
+                        <v-snackbar :color="copyAlertColor" v-model="copyAlertVal" top>{{ copyAlertText }}</v-snackbar>
                       <v-toolbar card dark color="primary">
                         <v-btn icon @click.native="copyDialog = false" dark>
                           <v-icon>close</v-icon>
@@ -199,9 +200,19 @@
 
                                       </v-layout>
                                   <v-divider class="mt-3 mb-3"></v-divider>
-                                  <p class="body grey--text text--darken-3 ml-1">Exercises</p>
                                       <v-layout row wrap fill-height>
-                                          <v-flex xs12 >
+                                          <v-layout row class="mt-0">
+                                              <v-flex xs5 offset-xs1 class="text-xs-left">
+                                                <span class="title grey--text text--darken-3">Exercises</span>
+                                              </v-flex>
+                                            <v-flex xs5 text-xs-right class="pt-0 mt-0">
+                                              <v-btn icon @click="addNewExercise" class="pt-0 mt-0">
+                                                  <v-icon v-if="!getAddNewExerciseToggle">add</v-icon>
+                                                  <v-icon v-if="getAddNewExerciseToggle" color="error">cancel</v-icon>
+                                              </v-btn>
+                                            </v-flex>
+                                          </v-layout>
+                                          <v-flex xs12 class="mt-3">
                                            <!--<v-flex xs12 md1 offset-md1 class="mt-3">
 
                                            </v-flex>
@@ -224,14 +235,15 @@
                                             </v-flex>-->
                                           <v-list dense>
                                               <template v-for="(cExercise, i) in getCopiedExercises">
-                                                <edit-copied-exercises
+                                                <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mb-5': $vuetify.breakpoint.smAndDown,}"><edit-copied-exercises
                                                         :c-exercise="cExercise"
                                                         :index="i"
                                                         :target-muscle="copiedWorkout.target_muscle"
                                                         :edit-exercise="cExercise.editExercise">
 
                                                 </edit-copied-exercises>
-                                                <v-flex xs12 md11 offset-md1><v-divider></v-divider></v-flex>
+                                                </div>
+                                                  <v-flex xs12 md10 offset-md1><v-divider></v-divider></v-flex>
                                               </template>
                                            </v-list>
                                               </v-flex>
@@ -312,6 +324,9 @@
                 copySaveDisabled: false,
 
 
+                newExercise: {},
+
+
 
 
             }
@@ -322,9 +337,19 @@
             }
         },
         computed: {
-            getCopiedWorkout: function () {
-                this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
-                return this.copiedWorkout;
+            getAddNewExerciseToggle (){
+                return this.$store.state.friendProfile.addNewExerciseToggle;
+            },
+            getCopiedWorkout: {
+                get: function() {
+                    this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
+                    return this.copiedWorkout;
+                },
+                set: function (newExercise) {
+
+                    this.copiedWorkout.exercises.push(newExercise);
+                }
+
             },
 
             getCopiedExercises: function () {
@@ -349,6 +374,34 @@
 
         },
         methods: {
+            addNewExercise() {
+                let newExercise = {};
+                this.$store.commit('setNewExerciseToggle', !this.$store.state.friendProfile.addNewExerciseToggle);
+                //this.addNewExerciseToggle = this.$store.state.friendProfile.addNewExerciseToggle;
+
+                if (!this.getAddNewExerciseToggle) {
+
+                    this.copiedWorkout.exercises.splice(-1, 1); // user cancels addition of new exercise, so we remove last one from list
+                    return
+                }
+
+                // construct new exercise object with default/stub values
+
+                newExercise.user = this.$store.state.userAuth.user.id;
+                newExercise.date_for_completion = '';
+                newExercise.lifting_weight = 0;
+                newExercise.sets = 0;
+                newExercise.reps = 0;
+                newExercise.workout_id = null;
+                newExercise.editExercise = true;
+                newExercise.exercises = [];
+
+                // push onto copied workout exercises property list
+
+                this.getCopiedWorkout = newExercise;
+
+
+            },
             copiedExerciseEdit(exercise) {
 
                 exercise.editExercise = true;
@@ -359,7 +412,7 @@
             selectedCopy (workout){
                 this.copyDialog = true;
                 this.$store.commit('setToCopyWorkout', workout);
-                this.copiedWorkout = workout;
+                this.copiedWorkout = this.$store.state.friendProfile.toCopyWorkout;
                 this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
 
                 // set fields to original workout values
@@ -384,7 +437,7 @@
                 this.copySaveDisabled = true;
 
                 axios.post(baseURLLocal+ 'v1/workouts/', localCopy).then(response => {
-                    localCopy.exercises.map((e) => { e.workout_id = response.data.id; return e});
+                    localCopy.exercises.map((e) => { e.workout_id = response.data.id; e.notes = ''; return e});
                     this.submitExercises(localCopy.exercises);
                     console.log(response)
 
@@ -399,11 +452,12 @@
             },
             submitExercises(exercises, workout_id) {
 
-                axios.post(baseURLLocal+ 'v1/exercise/', exercises).then(response => {
+                axios.post(baseURLLocal+ 'v1/workout-copy/', exercises).then(response => {
                     this.copyAlertColor = 'success';
                     this.copyAlertVal = true;
                     this.copyAlertText = 'Successfully copied workout!';
                     this.copySaveDisabled = false;
+                    this.fetchLastFive();
                     console.log(response)
                 }).catch(err => {
                     this.copySaveDisabled = false;

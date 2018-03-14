@@ -34,11 +34,16 @@ export default new Vuex.Store({
             sentFriendRequests: null,
         },
         friendProfile: {
+            addNewExerciseToggle: false,
             toCopyWorkout: {},
             toCopyExercises: [],
         }
     },
     mutations: {
+
+      setNewExerciseToggle (state, payload) {
+        state.friendProfile.addNewExerciseToggle = payload;
+      },
 
       setLoading (state, payload) {
         state.loading = payload;
@@ -49,6 +54,10 @@ export default new Vuex.Store({
 
       setToCopyExercises (state, payload) {
         state.friendProfile.toCopyExercises = payload;
+      },
+
+      setToCopyWorkout (state, payload) {
+        state.friendProfile.toCopyWorkout = payload;
       },
 
       setSentFriendRequests (state, payload) {

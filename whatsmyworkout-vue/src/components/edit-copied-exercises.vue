@@ -1,6 +1,7 @@
 <template>
     <v-list-tile >
-                                                      <v-flex md4 offset-md1 xs12 v-if="getEditExercise">
+        <v-layout row wrap>
+                                                      <v-flex md3 offset-md1 xs8 v-if="getEditExercise">
                                                           <v-select
                                                                 dense
 
@@ -24,25 +25,37 @@
                                                       </v-flex>
 
 
-                                                  <v-list-tile-content class="align-end grey--text text--darken-1" v-if="!getEditExercise">
+                                                  <v-list-tile-content class="align-end grey--text text--darken-1 hidden-sm-and-down" v-if="!getEditExercise">
                                                       {{ sets? sets: cExercise.sets }} x {{ reps? reps: cExercise.reps }}
                                                   <v-list-tile-content class="align-end caption grey--text text--lighten-1" v-if="!getEditExercise">
 
                                                       @ {{ workingWeight? workingWeight: cExercise.lifting_weight }} lbs.
                                                   </v-list-tile-content>
                                                   </v-list-tile-content>
-                                                    <v-flex xs5 md1 offset-md1 v-if="getEditExercise">
+                                                    <v-layout row class="hidden-md-and-up" wrap >
+                                                        <v-flex xs12 text-xs-right v-if="!getEditExercise">
+                                                            {{ sets? sets: cExercise.sets }} x {{ reps? reps: cExercise.reps }}
+                                                        </v-flex>
+                                                        <v-flex xs12 text-xs-right v-if="!getEditExercise">
+                                                            @ {{ workingWeight? workingWeight: cExercise.lifting_weight }} lbs.
+                                                        </v-flex>
+                                                    </v-layout>
+                                                    <v-flex
+                                                            xs2
+                                                            md1
+                                                            offset-md1
+                                                            v-if="getEditExercise"
+                                                            >
                                                           <v-text-field
                                                               label="Sets"
                                                               type="number"
                                                               v-model="cExercise.sets"
-                                                              class="body"
                                                               hint="# of sets">
 
                                                           </v-text-field>
 
                                                       </v-flex>
-                                                      <v-flex xs5 md1 class="ml-1" v-if="getEditExercise">
+                                                      <v-flex xs3 offset-xs1 md1 text-xs-right class="ml-1" v-if="getEditExercise">
                                                           <v-text-field
                                                               label="Reps"
                                                               type="number"
@@ -52,7 +65,7 @@
                                                           </v-text-field>
 
                                                       </v-flex>
-                                                    <v-flex xs6 md2 offset-md1 align-end v-if="getEditExercise">
+                                                    <v-flex xs3 md2 offset-xs1 text-xs-right offset-md1 align-end v-if="getEditExercise">
                                                           <v-text-field
                                                               label="Weight"
                                                               type="number"
@@ -63,17 +76,17 @@
                                                           </v-text-field>
 
                                                       </v-flex>
-                                                    <v-flex md1 xs3 v-if="!getEditExercise" text-xs-right>
-                                                            <v-btn icon class="align-end" @click="copiedExerciseEdit(cExercise)">
+                                                    <v-flex md1 xs3 offset-xs1 v-if="!getEditExercise" text-xs-right>
+                                                            <v-btn icon class="align-end" right @click="copiedExerciseEdit(cExercise)">
                                                                 <v-icon color="primary lighten-3">edit</v-icon>
                                                             </v-btn>
                                                       </v-flex>
-                                                      <v-flex md1 xs3 v-if="getEditExercise" text-xs-right>
+                                                      <v-flex md1 xs3 offset-xs1 v-if="getEditExercise" text-xs-right>
                                                             <v-btn icon class="align-end" @click="saveExerciseEdit(cExercise)">
                                                                 <v-icon color="accent">check</v-icon>
                                                             </v-btn>
                                                       </v-flex>
-
+</v-layout>
 
                                                 </v-list-tile>
 
@@ -102,6 +115,7 @@
                 workingWeight: null,
 
                 localExercises: [],
+                newExerciseToggle: this.$store.state.friendProfile.addNewExerciseToggle,
 
             }
         },
@@ -143,6 +157,7 @@
             },
             saveExerciseEdit(exercise) {
                 this.getEditExercise = !this.getEditExercise;
+                this.$store.commit('setNewExerciseToggle', false);
                 exercise.exercises = this.selectedExercise;
                 exercise.exercise_name = this.selectedExercise.exercise_name;
 

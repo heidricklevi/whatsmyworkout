@@ -82,6 +82,7 @@ INSTALLED_APPS = [
     'storages',
     'friendship',
     'django_filters',
+    'django_celery_results',
 ]
 
 EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
@@ -234,4 +235,12 @@ STATIC_ROOT = os.path.join(BASE_DIR, '../../account/../../account/static/')
 #
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# CELERY CONFIGURATION
+
+CELERY_RESULT_BACKEND = 'django-db'
+CELERY_BROKER_URL = 'amqp://localhost'
+
+
+# Custom Command Logging config (send emails)
 

@@ -2,6 +2,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
+from friendship.models import Friend
 
 import reversion
 import datetime
@@ -158,20 +159,49 @@ class Workout(models.Model):
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
     completed = models.BooleanField(blank=True, default=False)
+    sent_notification = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.title
+
+
+class WorkoutNotificationSettings(models.Model):
+    user = models.ForeignKey(User)
+    workout = models.ForeignKey(Workout, blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    is_enabled = models.BooleanField(default=False)
+    is_sent = models.BooleanField(default=False)
+
+
+class FriendSubscriptionSettings(models.Model):
+    user = models.ForeignKey(User)
+    friend = models.ForeignKey(Friend, null=True, blank=True)
+    can_receive_content = models.BooleanField(default=False)
+
+
+class AccountSettings(models.Model):
+    user = models.OneToOneField(User)
+    workout_notification_settings = models.ForeignKey(WorkoutNotificationSettings, blank=True, null=True)
+    friend_subscription_settings = models.ForeignKey(FriendSubscriptionSettings, blank=True, null=True)
+    friends_can_subscribe = models.BooleanField(default=False)
+    receive_workout_notifications = models.BooleanField(default=True)
+    receive_workouts_from_friends = models.BooleanField(default=False)
+
+    def __str__(self):
+        return "Account Settings for {}".format(self.user.username)
 
 
 @receiver(post_save, sender=User)
 def create_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+        AccountSettings.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()
+
 
 
 @receiver(post_save, sender=Profile)

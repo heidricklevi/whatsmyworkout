@@ -61,6 +61,17 @@ class UserSearchListView(generics.ListAPIView):
     search_fields = ('username', 'email')
 
 
+class FriendSearchListView(generics.ListAPIView):
+    permission_classes = [permissions.IsAuthenticated, IsAccountOwnerOrIsFriend]
+
+    serializer_class = FriendSerializer
+    filter_backends = (filters.SearchFilter,)
+    search_fields = ('from_user__username',)
+
+    def get_queryset(self):
+        return Friend.objects.filter(to_user=self.request.user)
+
+
 class CreateUser(APIView):
     permission_classes = [permissions.AllowAny]
     authorized_signup = auth_signup_list
@@ -386,6 +397,45 @@ class FriendWorkoutViewSet(viewsets.ModelViewSet):
         return None
 
 
+class CopyFriendWorkoutViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
+    serializer_class = CopyExerciseSerializer
+
+    def get_queryset(self):
+        return Workout.objects.filter(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        workout_id = request.data[0]['workout_id']
+        workout = Workout.objects.get(id=workout_id)
+
+        serializer = self.get_serializer(data=request.data, many=True)
+        if serializer.is_valid():
+            print(serializer.data)
+            print(workout_id)
+            print(workout)
+
+            for exercise in serializer.data:
+                exercise.pop('user', None)
+                exercise.pop('workout_id', None)
+                predefined_exercises_to_associate = self.associate_exercises(exercise)
+                created_exercise = Exercise.objects.create(**exercise, exercises=predefined_exercises_to_associate)
+                workout.exercises.add(created_exercise)
+
+            workout.save()
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def associate_exercises(self, exercise):
+        to_associate_exercise = exercise.pop('exercises', None)
+
+        if to_associate_exercise:
+            return Exercises.objects.get(exercise_name=to_associate_exercise['exercise_name'])
+
+        return None
+
+
 class ExerciseViewSet(viewsets.ModelViewSet):
 
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
@@ -421,7 +471,9 @@ class SendWorkoutEmail(APIView):
 
     def post(self, request):
         image = request.data.pop('workout_image')
-        to_email = request.data.pop('to')
+        to_username = request.data.pop('to')
+        to_email = User.objects.get(username=to_username)
+        to_email = to_email.email
         serialized = WorkoutSerializer(data=request.data)
 
         exercises = {}

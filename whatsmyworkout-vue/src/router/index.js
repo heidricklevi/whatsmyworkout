@@ -60,7 +60,8 @@ export default new Router({
     {
       path: '/create-workout/',
       name: 'create-workout',
-      component: CreateWorkout
+      component: CreateWorkout,
+      props: { createWorkout: true }
     },
     {
       path: '/login/',

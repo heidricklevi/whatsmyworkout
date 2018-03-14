@@ -40,16 +40,58 @@
 
                         <form method="post" v-on:submit.prevent="sendWorkout">
                             <v-card-title>
-                                Send this workout to someone else via email
+                                Send this workout to a friend
                             </v-card-title>
                         <v-layout row>
-                            <v-flex xs8 offset-xs2 md6 offset-md3>
-                            <v-text-field v-model="shareEmail" label="@" type="email" :value="shareEmail" required></v-text-field>
+                            <v-flex xs8 offset-xs2 md8 text-xs-center>
+                            <v-select
+                                    v-model="shareFriendWorkout"
+                                    label="Search Friends"
+                                    append-icon="search"
+                                    return-object
+                                    item-text="from_user.username"
+                                    item-value="from_user.username"
+
+                                    :items="friendsList"
+                                    chips
+                                    :loading="loadingFriendSearch"
+                                    autocomplete
+                                    :search-input.sync="searchFriends"
+                                    required
+                            >
+                                <template slot="selection" slot-scope="data">
+
+                                    <v-chip
+                                      close
+                                      @input="data.parent.selectItem(data.item.from_user)"
+                                      :selected="data.selected"
+                                      :key="JSON.stringify(data.item.from_user)"
+                                    >
+                                      <v-avatar>
+                                        <img :src="data.item.from_user.avatar">
+                                      </v-avatar>
+                                      {{ data.item.from_user.username }}
+                                    </v-chip>
+                                  </template>
+                                <template slot="item" slot-scope="data">
+                                    <template v-if="typeof data.item !== 'object'">
+                                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                    </template>
+                                <template v-else>
+                                  <v-list-tile-avatar>
+                                    <img :src="data.item.from_user.avatar">
+                                  </v-list-tile-avatar>
+                                  <v-list-tile-content>
+                                    <v-list-tile-title v-html="data.item.from_user.username"></v-list-tile-title>
+                                  </v-list-tile-content>
+                                </template>
+                              </template>
+                            </v-select>
                             </v-flex>
                             </v-layout>
                             <v-layout>
-                            <v-flex md6 offset-md3>
-                                <v-btn primary :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
+                            <v-flex xs12 text-xs-center>
+                                <v-btn color="primary" :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
                                     Send
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>cached</v-icon>
@@ -336,7 +378,7 @@ export default {
             isEmailWorkout: false,
             isArchiveWorkout: false,
             nextWorkout: false,
-            shareEmail: '',
+            shareFriendWorkout: [],
             loader: null,
             loading: false,
             snackbar: false,
@@ -364,6 +406,10 @@ export default {
 
 
             showFriendRequestsBadge: false,
+
+            friendsList: [],
+            loadingFriendSearch: false,
+            searchFriends: null,
 
         }
     },
@@ -409,7 +455,7 @@ export default {
 
         getMyFriends () {
             let friendsList = this.$store.state.userDashboard.friends;
-            friendsList.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr})
+            friendsList.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr});
 
             return friendsList;
         },
@@ -417,6 +463,10 @@ export default {
     watch: {
         search(val) {
             this.resolveSearch(val)
+        },
+
+        searchFriends(val) {
+              val && this.querySelections(val)
         },
 
     },
@@ -427,6 +477,32 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+
+        querySelections (v) {
+                this.loadingFriendSearch = true;
+                this.friendsList = [];
+
+
+                if (v) {
+                    axios.get(baseURLLocal+'v1/friends/find?search='+v).then(response => {
+
+                    this.friendsList = response.data.results.filter(e => {
+                        return (e || '').from_user.username.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                    });
+
+                    this.loadingFriendSearch = false;
+                    }).catch(err => {
+                        this.friendsList = [];
+                        console.log(err);
+                    })
+                }
+
+                else {
+                    this.friendsList = [];
+                }
+
+
+        },
 
         onRemoveFriend(friend) {
 
@@ -525,7 +601,7 @@ export default {
                 payload.exercises[i].workout_id = this.recentWorkouts.id;
             }
 
-            payload.to = this.shareEmail;
+            payload.to = this.shareFriendWorkout.from_user.username;
 
             this.loading = true;
             axios.post(baseURLLocal + 'v1/workout/send/', payload)

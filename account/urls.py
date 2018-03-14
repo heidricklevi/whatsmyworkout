@@ -24,6 +24,7 @@ router.register(r'exercise', ExerciseViewSet, base_name='user-exercise')
 router.register(r'exercises', ExercisesViewSet, base_name='exercises-list')
 router.register(r'friends', FriendsViewSet, base_name='friends')
 router.register(r'friend-workouts', FriendWorkoutViewSet, base_name='friend-workouts')
+router.register(r'workout-copy', CopyFriendWorkoutViewSet, base_name='workout-copy')
 
 urlpatterns = [
 
@@ -40,6 +41,7 @@ urlpatterns = [
 
     url(r'^v1/', include(router.urls)),
     url(r'^v1/users/find', views.UserSearchListView.as_view()),
+    url(r'^v1/friends/find', views.FriendSearchListView.as_view()),
     url(r'^v1/workout/send/$', views.SendWorkoutEmail.as_view()),
     url(r'^v1/user/create/$', views.CreateUser.as_view()),
     url(r'^v1/exercises-list/$', views.ExercisesList.as_view()),

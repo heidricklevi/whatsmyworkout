@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Workout, Exercise, Exercises, BodyStatTracking, MaxLiftTracking
+from .models import *
 from django.contrib.auth.models import User
 from reversion.admin import VersionAdmin
 
@@ -25,6 +25,9 @@ class SubscriberAdmin(admin.ModelAdmin):
     pass
 
 
+class AccountSettingsAdmin(admin.ModelAdmin):
+    pass
+
 # # class SubscriberInline(admin.StackedInline):
 #     model = Subscriber
 #     fk_name = 'user_from'
@@ -36,6 +39,14 @@ class ProfileAdmin(VersionAdmin):
 
 
 class UserAdmin(admin.ModelAdmin):
+    pass
+
+
+class WorkoutNotificationSettingsAdmin(admin.ModelAdmin):
+    pass
+
+
+class FriendSubscriptionSettingsAdmin(admin.ModelAdmin):
     pass
 
 
@@ -57,6 +68,9 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(AccountSettings, AccountSettingsAdmin)
+admin.site.register(WorkoutNotificationSettings, WorkoutNotificationSettingsAdmin)
+admin.site.register(FriendSubscriptionSettings, FriendSubscriptionSettingsAdmin)
 admin.site.register(MaxLiftTracking, MaxLiftTrackingAdmin)
 admin.site.register(BodyStatTracking, BodyStatTrackingAdmin)
 admin.site.register(Exercise, ExerciseAdmin)

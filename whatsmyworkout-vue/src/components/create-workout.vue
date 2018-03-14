@@ -1,7 +1,7 @@
 <template>
     <div>
         <v-layout row v-bind="binding" >
-            <v-flex md5 sm12 xs12 v-if="createWorkout" style="margin-left: 1%">
+            <v-flex md5 offset-md1 sm12 xs12 style="margin-left: 1%">
                 <v-stepper v-model="e6" vertical>
                     <v-stepper-step step="1" v-bind:complete="e6 > 1">
                         Create Your Workout
@@ -83,6 +83,7 @@
                                         :loading="eSelectLoading"
                                         item-text="exercise_name"
                                         item-value="exercise_name"
+                                        append-icon="search"
                                         autocomplete
                                         :search-input.sync="searchExercises"
                                         return-object
@@ -119,22 +120,29 @@
                             </div>
 
                             <v-flex md9 offset-md1 xs12>
-                                <v-btn color="primary" @click.native="onFocusExercise" :loading="loading1" :disabled="loading1">
-                                    <input type="submit" ref="exerciseSubmit" value="Save & Add">
+                                <v-btn color="accent" @click.native="addExercise" >
+                               
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>cached</v-icon>
                                     </span>
+
+                                    Save & Add
                                 </v-btn>
-                                <v-btn color="info" flat @click.native="e6 = 1">Back</v-btn>
-                                <v-btn class="blue-grey white--text" @click.native="e6 = 3">Continue</v-btn>
+                                <v-btn color="primary" flat @click.native="e6 = 1" >Back</v-btn>
+                                <v-btn class="blue-grey white--text"
+                                       @click.native="saveCompletedWorkoutForm"
+                                       :disabled="loading1"
+                                       :loading="loading1">
+                                    <span slot="loader" class="custom-loader">
+                                        <v-icon>cached</v-icon>
+                                    </span>
+
+
+                                    Finish
+                                </v-btn>
                             </v-flex>
 
                         </v-form>
-                    </v-stepper-content>
-                    <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
-                    <v-stepper-content step="3">
-                        <v-btn color="primary" @click.native="createMore">Create More</v-btn>
-                        <v-btn flat @click.native="addWorkoutClick">Done</v-btn>
                     </v-stepper-content>
                 </v-stepper>
 
@@ -153,7 +161,7 @@
                 <template >
                     <v-alert error :value="alert" transition="scale-transition">Error loading last 5 workouts</v-alert>
                     <v-expansion-panel>
-                        <v-progress-circular style="position: absolute; left: 25%;" v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+                        <v-progress-circular style="position: absolute; left: 50%;" v-if="loading" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
                         <v-expansion-panel-content v-for="recentWorkout in recentWorkouts" :key="recentWorkouts.id">
                             <div slot="header">
                                 <span class="pr-2"><img src="https://s3.amazonaws.com/wmw-static/static/img/weights.png"> </span> {{ recentWorkout.date_for_completion | moment }}
@@ -246,11 +254,6 @@
                 </template>
             </v-flex>
         </v-layout>
-        <v-fab-transition>
-            <v-btn :class="activeFab.class" :key="activeFab.icon" v-model="fab" @click.native="addWorkoutClick" fab fixed bottom right>
-                <v-icon>{{ activeFab.icon }}</v-icon>
-            </v-btn>
-        </v-fab-transition>
     </div>
 </template>
 <script>
@@ -302,6 +305,7 @@
       loading2: false,
       loader: null,
       snackbarColor: ' ',
+      exerciseSubmissionPromises: [],
 
       target_exercises: [],
       eSearchDisabled: false,
@@ -309,6 +313,7 @@
       selectedExercise: null,
       searchExercises: null,
       exerciseDisabled: false,
+      exercisesToSubmit: [],
           
 
       training_types: [
@@ -367,14 +372,6 @@
             title = title.replace(/ /g, '-');
             return title + '-' + date + '-' + this.target_muscle;
         },
-        activeFab: function (e) {
-            if (this.createWorkout) {
-                return {'class': 'red', icon: 'cancel'}
-            }
-            else {
-                return {'class': 'blue-grey', icon: 'add'}
-            }
-        },
 
       },
       methods: {
@@ -396,8 +393,9 @@
 
             },
         onFocus: function () {
-            this.$refs.workoutSubmit.click();
-            this.loader = 'loading2';
+            //this.$refs.workoutSubmit.click();
+            //this.loader = 'loading2';
+            this.e6 = 2;
 
         },
         onFocusExercise: function () {
@@ -415,7 +413,7 @@
 
             
         },
-        onSubmit: function (event) {
+        saveCompletedWorkoutForm (event) {
             var self = this;
 
 
@@ -429,80 +427,41 @@
                 exercises: [],
             };
 
-            // No changes to sync
-            if (JSON.stringify(data) === JSON.stringify(this.submittedWorkout)) {
-
-                this.e6 = 2;
-                return 
-            }
-
-            if (this.workout_id && JSON.stringify(data) !== JSON.stringify(this.submittedWorkout)) {
-                this.loading2 = true;
-
-                axios.put(baseURLLocal+'v1/workouts/'+this.workout_id + '/', data)
-                .then(function (response) {
-                    self.snackbarMessage = "Successfully updated your workout";
-                    self.context = 'success';
-                    self.snackbarColor = 'success';
-                    self.snackbar = true;
-                    self.e6 = 2;
-                    self.workout_id = response.data.id;
-                    self.submittedWorkout = data;
-
-
-
-                }).catch(function (error) {
-                    self.loading2 = false;
-                if (error.response) {
-                    // The request was made and the server responded with a status code
-                    // that falls out of the range of 2xx
-
-                    self.snackbarMessage = "There was an error updating workouts: \n" + 'Status' + '\n' + error.response.status;
-                    self.context = 'error';
-                    self.snackbar = true;
-                    self.snackbarColor = 'error';
-
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    // The request was made but no response was received
-                    // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                    // http.ClientRequest in node.js
-
-                    self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
-                    self.context = 'error';
-                    self.snackbar = true;
-                    self.snackbarColor = 'error';
-                    console.log(error.request);
-                } else {
-                    // Something happened in setting up the request that triggered an Error
-
-                    self.snackbarMessage = "There was an error in the request: " + error.message;
-                    self.context = 'error';
-                    self.snackbar = true;
-                    self.snackbarColor = 'error';
-                    console.log('Error', error.message);
-                }
-
-                console.log(error.config);
-            });
-
-                return
-            }
-
-            this.loading2 = true;
+            this.loading1 = true;
             axios.post(baseURLLocal+'v1/workouts/', data)
                 .then(function (response) {
-                    self.loading2 = false;
-                    self.snackbarMessage = "Successfully created your workout";
-                    self.context = 'success';
-                    self.snackbar = true;
-                    self.snackbarColor = 'success';
-
-                    self.e6 = 2;
                     self.workout_id = response.data.id;
                     self.submittedWorkout = data;
+                    self.exercisesToSubmit.map((e) => {e.workout_id = response.data.id; e.exercise_name = e.exercises.exercise_name;  return e;});
+
+                    self.exercisesToSubmit.forEach(function (exercise) {
+                            self.exerciseSubmissionPromises.push(axios.post(baseURLLocal + 'v1/exercise/', exercise))
+                    });
+                    axios.all(self.exerciseSubmissionPromises).then(exerciseResponse => {
+                            self.loading1 = false;
+                            self.snackbarMessage = "You have successfully created your workout.";
+                            self.snackbarColor = 'success';
+                            self.snackbar = true;
+
+                            self.e6 = '1';
+                            self.exercisesToSubmit = [];
+                            self.exerciseSubmissionPromises = [];
+                            self.$refs.workoutForm.reset();
+                    }).catch( error => {
+                       self.snackbarMessage = "There was an error adding exercises to your workout. Please try again later and double check your inputs: "+error.message;
+                       self.snackbar = true;
+                       self.snackbarColor = 'error';
+                       self.loading1 = false;
+                       console.log(error);
+                       this.exercisesToSubmit = [];
+                       self.exerciseSubmissionPromises = [];
+                        axios.delete(baseURLLocal+'v1/u/workouts/', { params: { id: self.workout_id} } ).then(response => {
+                           console.log(response);
+                           self.e6 = '1';
+                        }).catch(err => {
+                           console.log(err)
+                        });
+                    });
 
                 }).catch(function (error) {
                     self.loading2 = false;
@@ -548,18 +507,10 @@
 
 
         },
-        onSubmitExercise: function (event) {
-              var self = this;
-              var exercises = this.selectedExercise ;
+        addExercise: function () {
+              let exercises = this.selectedExercise;
 
-
-              if (!exercises){
-                  exercises = {};
-                  exercises.exercise_name = this.exercise_title;
-                  exercises.target_muscle = this.target_muscle;
-              }
-
-              var data = {
+              let data = {
                   exercise_name: this.exercise_title,
                   sets: this.sets,
                   reps: this.reps,
@@ -567,63 +518,23 @@
                   notes: this.exercise_notes,
                   user: this.userAuth.user.id,
                   exercises: exercises,
-                  workout_id: this.workout_id,
+
               };
 
               if (!this.lifting_weight) {
                   delete data.lifting_weight;
               }
 
-              this.loading1 = true;
-              axios.post(baseURLLocal+'v1/exercise/', data)
-                  .then(function (response) {
-                      self.snackbarMessage = "Successfully added exercise " +self.exercise_title;
-                      self.context = 'success';
-                      self.snackbarColor = 'success';
-                      self.snackbar = true;
-                      self.e6 = 2;
-                      self.loading1 = false;
-                      self.$refs.exerciseRefSubmit.reset();
+              this.exercisesToSubmit.push(data);
+              this.$refs.exerciseRefSubmit.reset();
 
+              this.snackbarMessage = "Successfully added exercise ";
+              this.context = 'success';
+              this.snackbarColor = 'success';
+              this.snackbar = true;
+              this.e6 = 2;
+              this.loading1 = false;
 
-                  }).catch(function (error) {
-                      self.loading1 = false;
-                  if (error.response) {
-                      // The request was made and the server responded with a status code
-                      // that falls out of the range of 2xx
-
-                      self.snackbarMessage = "There was an error creating workouts: \n" + 'Status' + '\n' + error.response.status;
-                      self.context = 'error';
-                      self.snackbarColor = 'error';
-                      self.snackbar = true;
-                      self.loading1 = false;
-
-
-                      console.log(error.response.data);
-                      console.log(error.response.status);
-                      console.log(error.response.headers);
-                  } else if (error.request) {
-                      // The request was made but no response was received
-                      // `error.request` is an instance of XMLHttpRequest in the browser and an instance of
-                      // http.ClientRequest in node.js
-
-                      self.snackbarMessage = "There was an error generating a response from the server: \n" + error.request;
-                      self.context = 'error';
-                      self.snackbarColor = 'error';
-                      self.snackbar = true;
-                      console.log(error.request);
-                  } else {
-                      // Something happened in setting up the request that triggered an Error
-
-                      self.snackbarMessage = "There was an error in the request: " + error.message;
-                      self.context = 'error';
-                      self.snackbarColor = 'error';
-                      self.snackbar = true;
-                      console.log('Error', error.message);
-                  }
-
-                  console.log(error.config);
-              });
           },
       },
       mounted: function () {

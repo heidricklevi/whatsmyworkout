@@ -45,7 +45,57 @@
             </v-toolbar-items>
             <v-container>
                 <v-spacer></v-spacer>
-                <v-layout row>
+                <v-layout justify-end>
+                <v-speed-dial
+
+                              v-model="fab"
+                              top
+                              right
+                              direction="bottom"
+                              transition="slide-y-reverse"
+                            >
+                              <v-btn
+                                slot="activator"
+                                color="accent"
+                                dark
+                                fab
+                                hover
+                                v-model="fab"
+                              >
+                                <v-icon large style="top: unset!important;">account_circle</v-icon>
+                                <v-icon style="top: unset!important;">close</v-icon>
+                              </v-btn>
+                              <v-btn
+                                to="/create-workout/"
+                                fab
+                                dark
+                                small
+                                color="green"
+                              >
+                                <v-icon>add</v-icon>
+                              </v-btn>
+                              <v-btn
+                                @click="dialog = true"
+                                fab
+                                dark
+                                small
+                                color="indigo"
+                              >
+                                <v-icon>settings</v-icon>
+                              </v-btn>
+                              <v-btn
+                                fab
+                                dark
+                                small
+                                color="red"
+                                @click="logout"
+                              >
+                                <v-icon>power_settings_new</v-icon>
+                              </v-btn>
+                            </v-speed-dial>
+
+                    </v-layout>
+                <!--<v-layout row>
                     <v-flex offset-xs10 offset-md11 style="text-align: center">
                         <v-btn icon style="margin-bottom: 10%; position: absolute; top: -5px;"></v-btn>
                             <v-menu left>
@@ -68,8 +118,9 @@
                                     </v-list-tile>
                                 </v-list>
                             </v-menu>
+
                     </v-flex>
-                </v-layout>
+                </v-layout>!-->
                 <v-dialog :computed-auth="computedAuth" v-model="dialog" fullscreen transition="dialog-bottom-transition" :overlay=false>
                     <v-layout row justify-center wrap>
                         <v-flex xs12 md6>
@@ -205,10 +256,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p ><small>Last Build: </small>{{ "03/07/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "03/14/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.4.1 </p>
+            <p style="position: absolute; left: 50%">v0.4.4 </p>
 
 
 
@@ -258,7 +309,10 @@ export default {
             genderOpts: [
                 { text: 'Female' },
                 { text: 'Male' },
-            ]
+            ],
+            fab: false,
+            hover: true,
+
         }
     },
     props: ['computedAuth'],
