@@ -27,11 +27,20 @@ export default new Vuex.Store({
         targetMuscle: '',
         dialog: false,
         loading: false,
+        accountSettingsDialog: false,
+
+        accountSettings: {
+            receiveWorkoutNotifications: null,
+            receiveWorkoutsFromFriends: null,
+
+
+        },
 
         userDashboard: {
             friends: [],
             receivedFriendRequests: null,
             sentFriendRequests: null,
+
         },
         friendProfile: {
             addNewExerciseToggle: false,
@@ -40,9 +49,21 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+      setReceiveWorkoutsFromFriends (state, payload) {
+        state.accountSettings.receiveWorkoutsFromFriends = payload;
+      },
+
+      setReceiveWorkoutNotifications (state, payload) {
+
+          state.accountSettings.receiveWorkoutNotifications = payload;
+      },
 
       setNewExerciseToggle (state, payload) {
         state.friendProfile.addNewExerciseToggle = payload;
+      },
+
+      setAccountSettingsDialog (state, payload) {
+        state.accountSettingsDialog = payload;
       },
 
       setLoading (state, payload) {

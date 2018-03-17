@@ -86,7 +86,7 @@ class Command(BaseCommand):
                 workout_image = account + '/static/img/biceps.jpg'
             elif target_muscle == 'Triceps':
                 workout_image = account + '/static/img/triceps.jpg'
-            elif target_muscle == 'Quads':
+            elif target_muscle == 'Legs':
                 workout_image = account + '/static/img/quads.jpg'
             elif target_muscle == 'Traps':
                 workout_image = account + '/static/img/traps.jpg'

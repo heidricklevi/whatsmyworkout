@@ -397,6 +397,14 @@ class FriendWorkoutViewSet(viewsets.ModelViewSet):
         return None
 
 
+class AccountSettingsViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+    serializer_class = AccountSettingsSerializer
+
+    def get_queryset(self):
+        return AccountSettings.objects.filter(user=self.request.user)
+
+
 class CopyFriendWorkoutViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
     serializer_class = CopyExerciseSerializer

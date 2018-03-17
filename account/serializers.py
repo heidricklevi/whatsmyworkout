@@ -4,20 +4,24 @@ from .models import *
 from friendship.models import Friend, Follow
 
 
+class AccountSettingsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = AccountSettings
+        fields = '__all__'
+
+
 class UserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True, required=False)
     avatar = serializers.ImageField(source='profile.avatar', required=False)
     gender = serializers.CharField(source='profile.gender', default='Male')
-    body_fat = serializers.IntegerField(source='profile.body_fat', default=12)
     about = serializers.CharField(source='profile.about', default='This is my About')
-    weight = serializers.IntegerField(source='profile.weight', default=143)
     profile_id = serializers.IntegerField(source='profile.id', required=False, allow_null=True)
 
     class Meta:
         model = User
         fields = ('id', 'email', 'username', 'date_joined', 'last_login',
                   'first_name', 'last_name', 'password',
-                  'avatar', 'weight', 'gender', 'body_fat', 'about', 'profile_id')
+                  'avatar', 'gender',  'about', 'profile_id', )
 
         read_only_fields = ('date_joined', 'last_login', )
 

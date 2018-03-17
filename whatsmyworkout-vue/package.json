@@ -17,6 +17,7 @@
     "vue-chartjs": "^3.2.1",
     "vue-event-calendar": "^1.5.2",
     "vue-fullcalendar": "^1.0.9",
+    "vue-picture-input": "^2.1.5",
     "vue-router": "^2.6.0",
     "vuejs-datepicker": "^0.9.26",
     "vuetify": "^1.0.0",

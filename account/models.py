@@ -15,8 +15,7 @@ def upload_to(instance, filename):
 @reversion.register()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    weight = models.IntegerField(default=0, null=True, blank=True)
-    body_fat = models.IntegerField(default=0, null=True, blank=True)
+
     gender = models.CharField(max_length=20, default='Male')
     about = models.TextField(max_length=255, default='About')
     avatar = models.ImageField(upload_to=upload_to, blank=True)
