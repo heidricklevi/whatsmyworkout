@@ -30,6 +30,7 @@ class UserSerializer(serializers.ModelSerializer):
         user = User.objects.create_user(**validated_data)
         user.set_password(validated_data['password'])
         self.create_or_update_profile(user, profile_data)
+        user.save()
         return user
 
     def update(self, instance, validated_data):
@@ -42,18 +43,32 @@ class UserSerializer(serializers.ModelSerializer):
         instance.profile.body_fat = profile_data.get('body_fat', None)
         instance.profile.about = profile_data.get('about', None)
         instance.profile.weight = profile_data.get('weight', None)
+        email = validated_data.get('email', None)
+        first_name = validated_data.get('first_name', None)
+        last_name = validated_data.get('last_name', None)
 
-        instance.save()
+        if email:
+            instance.email = email
+
+        if first_name:
+            instance.first_name = first_name
+
+        if last_name:
+            instance.last_name = last_name
 
         password = validated_data.get('password', None)
+        print(password)
+        print(instance)
 
-        if password:
+        if password is not None:
+            print(password)
             instance.set_password(password)
             instance.save()
 
+        instance.save()
         update_session_auth_hash(self.context.get('request'), instance)
         self.create_or_update_profile(instance, profile_data)
-        return super(UserSerializer, self).update(instance, validated_data)
+        return instance
 
     def create_or_update_profile(self, user, profile_data):
         profile, created = Profile.objects.get_or_create(user=user, defaults=profile_data)

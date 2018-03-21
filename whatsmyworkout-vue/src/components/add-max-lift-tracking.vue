@@ -10,7 +10,7 @@
         </v-card-title>
         <v-card-text>
           <v-container grid-list-md>
-              <v-form ref="form">
+              <v-form ref="form" v-model="valid">
                     <v-layout wrap>
 
                       <v-flex  xs12 sm6 md6 >
@@ -20,17 +20,29 @@
                                   persistent-hint
                                   v-model="max_type"
                                   :items="['1', '3']"
+                                  :rules="[rules.required]"
                                   required></v-select>
                       </v-flex>
 
                       <v-flex  xs12 sm6 md6>
-                        <v-text-field v-model="weight" label="Weight" hint="The amount lifted" suffix="lbs." type="number" required></v-text-field>
+                        <v-text-field
+                                v-model="weight"
+                                label="Weight"
+
+                                hint="The amount lifted"
+                                suffix="lbs."
+                                type="number"
+                                ref="weight"
+                                :rules="[() => weight.length > 0 || 'Please enter a valid positive number', rules.required]"
+                                required></v-text-field>
                       </v-flex>
+
                       <v-flex xs12 sm6>
                         <v-select
                           label="Target Muscle"
                           required
                           v-model="target_muscle"
+                          :rules="[rules.required]"
                           :items="['Arms', 'Chest', 'Back', 'Legs']"
                         ></v-select>
                       </v-flex>
@@ -49,6 +61,7 @@
                           item-text="exercise_name"
                           return-object
                           :disabled="disabled"
+                          :rules="[rules.required]"
                         ></v-select>
                       </v-flex>
                     </v-layout>
@@ -60,7 +73,7 @@
         <v-card-actions>
           <v-spacer></v-spacer>
           <v-btn color="blue darken-1" flat @click.native="clearForm()">Close</v-btn>
-          <v-btn color="blue darken-1" flat @click.native="submitMax">Add</v-btn>
+          <v-btn color="blue darken-1" :disabled="disabledAdd" flat @click.native="submitMax">Add</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -79,6 +92,13 @@
         props: [],
         data () {
             return {
+
+                valid: false,
+                disabledAdd:true,
+                 rules: {
+
+                     required: (val) => !!val || 'Cannot be blank.',
+                 },
 
                 userAuth: this.$store.state.userAuth,
                 weight: '',
@@ -168,6 +188,17 @@
 
         },
         watch: {
+
+            select() {
+
+                this.disabledAdd = this.select? this.select.length === 0: true;
+            },
+
+            valid() {
+
+                this.disabledAdd = !this.valid || this.select.length === 0;
+            },
+
             search (val) {
               val && this.querySelections(val)
             },

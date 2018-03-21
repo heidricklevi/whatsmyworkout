@@ -484,9 +484,13 @@ class SendWorkoutEmail(APIView):
         to_email = to_email.email
         serialized = WorkoutSerializer(data=request.data)
 
+        to_user = AccountSettings.objects.get(user__email=to_email)
+
+
+
         exercises = {}
 
-        if serialized.is_valid():
+        if serialized.is_valid() and to_user.receive_workouts_from_friends:
             payload = {
                 'date_for_completion': serialized.data['date_for_completion'],
                 'target_muscle': serialized.data['target_muscle'],
@@ -511,6 +515,10 @@ class SendWorkoutEmail(APIView):
             message.send()
 
             return Response(serialized.data, status=status.HTTP_200_OK)
+        elif not to_user.receive_workouts_from_friends:
+            return Response({'status': 'Could not be sent. Please make sure your '
+                                       'friend has the ability to receive workouts enabled in their settings.'},
+                            status=status.HTTP_400_BAD_REQUEST)
         else:
             return Response(serialized._errors, status=status.HTTP_400_BAD_REQUEST)
 

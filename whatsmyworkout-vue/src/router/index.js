@@ -16,6 +16,7 @@ import WorkoutStats from '../components/workout-stats.vue'
 import ProfileStatDetail from '../components/profile-stat-tracking-detail.vue'
 import PublicProfile from '../components/user-public-profile.vue'
 import ProfileSettings from '../components/profile-settings.vue'
+import AccountSettingsDetail from '../components/account-settings-detail.vue'
 
 Vue.use(Router);
 
@@ -26,6 +27,11 @@ export default new Router({
   base: '/',
   mode: 'hash',
   routes: [
+      {
+        path: '/account/settings/',
+        component: AccountSettingsDetail,
+      },
+
       {
         path: '/profile-settings/',
         component: ProfileSettings,

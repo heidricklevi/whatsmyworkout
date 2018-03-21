@@ -1,13 +1,13 @@
 <template>
     <div>
-        <v-layout class="ma-5" row>
+        <v-layout class="ma-5" row wrap justify-center>
             <v-flex xs12 sm12 md4 class="margin">
                     <v-card >
                         <v-card-text>
                             <v-container fluid>
                                 <v-layout row wrap>
                                     <v-flex xs12 md12>
-                                        <v-subheader display-4>Login below to access your Dashboard</v-subheader>
+                                        <v-subheader display-4>Provide Your Credentials to continue</v-subheader>
                                     </v-flex>
                                 </v-layout>
                                 <form v-on:submit.prevent="userLogin" method="post">
@@ -21,7 +21,7 @@
                                     </v-layout>
                                       <v-layout row>
                                         <v-flex xs12 sm12 md8>
-                                            <v-text-field v-model="password" label="password"
+                                            <v-text-field v-model="password" label="password" type="password"
                                                             prepend-icon="visibility_off"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -57,7 +57,10 @@
         },
         methods: {
             userLogin: function () {
-                login(this.username, this.password);
+                let credentials = {username: this.username, password: this.password};
+                this.$store.dispatch('login', credentials).then(() => {
+                    this.$router.push('/user/dashboard')
+                });
             }
         },
     }
@@ -68,15 +71,11 @@
     #hero {
         display: none;
     }
-    .margin {
-        margin: 5% 0 0 35%;
-    }
+
 
 @media only screen and (max-width: 768px) {
 
-      .margin {
-          margin: 15% 0 0 0 ;
-      }
+
 
     }
 </style>

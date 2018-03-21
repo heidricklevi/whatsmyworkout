@@ -73,7 +73,7 @@ class Command(BaseCommand):
             account = 'account'
             dev_server = False
 
-            email_notif_cron = False
+            email_notif_cron = True
             if email_notif_cron:
                 account = server_config["workout_notifcations_url"]
 

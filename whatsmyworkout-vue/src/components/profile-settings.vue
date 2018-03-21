@@ -1,9 +1,14 @@
 <template >
 
                     <v-layout row wrap>
+
+                                        <v-flex xs12 text-xs-center md10 offset-md2 text-md-left >
+                                            <h6 class="headline  grey--text text--lighten-1">Profile Settings</h6>
+                                        </v-flex>
+
                         <v-flex md4 offset-md1 xs12>
-                            <v-flex xs12 md8 text-xs-center>
-                                <v-avatar size="300" tile><img :src="getProfileAvatar">
+                            <v-flex xs12 md8 text-xs-center class="elevation-5 mt-3">
+                                <v-avatar size="300" ><img :src="getProfileAvatar">
 
 
 
@@ -11,7 +16,7 @@
                                 <v-btn block class="blue-grey white--text text-xs-center" @click.native="onFocus">
                                         Change
                                         <v-icon right dark>cloud_upload</v-icon>
-                                        <input  id="image" type="file" ref="fileInput" @change="onFileChange">
+                                        <input  id="image" type="file" ref="fileInput" accept="image/*" @change="onFileChange">
                                         <span v-model="filename"></span>
                                 </v-btn>
                                     <v-btn
@@ -64,12 +69,8 @@
                                         <v-btn dark flat @click.native="updateProfile">Save</v-btn>
                                     </v-toolbar-items>
                                 </v-toolbar>-->
-                                <form id="profile-form" enctype="multipart/form-data" method="post" @submit.prevent="updateProfile">
-                                    <v-layout row wrap class="ml-1">
-                                        <v-flex xs12 >
-                                            <h6 class="title  grey--text text--lighten-1">Profile Settings</h6>
-                                        </v-flex>
-                                    </v-layout>
+                                <v-form ref="profileForm" v-model="valid" id="profile-form" enctype="multipart/form-data" method="post" @submit.prevent="updateProfile">
+
                                     <v-layout row wrap class="ml-1" justify-center align-center>
                                         <!--<v-flex xs12 md6 text-md-left>
                                             <v-text-field
@@ -93,6 +94,7 @@
                                                 :value="heightInFeet"
                                                 suffix="ft."
                                                 type="number"
+                                                :rules="[rules.required, rules.validHeightInFeet]"
                                                 box
                                                 light
                                                 color="primary darken-3"
@@ -105,6 +107,7 @@
                                                 label="Inches"
                                                 suffix="in."
                                                 type="number"
+                                                :rules="[rules.required, rules.validHeightInInches]"
                                                 box
                                                 light
                                                 color="primary darken-3"
@@ -115,6 +118,8 @@
                                                 v-model="bodyFat"
                                                 label="Body Fat"
                                                 suffix="%"
+                                                v-mask="['##.#', '#.#']"
+                                                return-masked-value
                                                 box
                                                 light
                                                 color="primary darken-3"
@@ -126,7 +131,9 @@
                                                 v-model="weight"
                                                 label="Weight"
                                                 suffix="lbs."
-                                                type="decimal"
+                                                v-mask="['###.#', '##.#']"
+                                                return-masked-value
+                                                :rules="[rules.required]"
                                                 box
                                                 light
                                                 color="primary darken-3"
@@ -147,7 +154,6 @@
                                                 disabled
                                                 v-model="bmi"
                                                 label="BMI"
-                                                type="decimal"
                                                 box
                                                 light
                                                 hint="BMI is automatically calculated based on profile data."
@@ -161,7 +167,10 @@
                                                     multi-line
                                                     hint="Describe your goals, hobbies etc. "
                                                     light
+                                                    ref="about"
                                                     color="primary darken-3"
+                                                    counter="160"
+                                                    :rules="[() => about.length <= 160 || 'Must be less than 160 characters.']"
                                                 >
                                                 <div slot="label">
                                                     About
@@ -171,7 +180,7 @@
                                     </v-layout>
 
 
-                                </form>
+                                </v-form>
                             </div>
 
                             <v-snackbar
@@ -197,6 +206,7 @@
 </template>
 
 <script>
+    import {mask} from 'vue-the-mask'
     import PictureInput from 'vue-picture-input'
     import axios from 'axios'
     import { baseURLLocal } from '../auth/auth-utils'
@@ -206,9 +216,14 @@
     export default {
         name: 'profile-settings',
         props: ['computedAuth'],
+        directives: { mask },
 
         data () {
             return {
+
+
+
+                valid: false,
 
                 loading: false,
 
@@ -229,12 +244,6 @@
 
                 currentBodyStats: null,
 
-                bodyStats: {
-                  height: '',
-                  weight: '',
-                  bodyFat: ''
-                },
-
                 feet: '',
                 inches: '',
                 heightInInches: '',
@@ -242,6 +251,15 @@
                 bodyFat: '',
                 weight: '',
                 bmi: '',
+
+
+                rules: {
+
+                    required: (val) => !!val || 'Cannot be blank.',
+                    validHeightInFeet: (val) => (val > 1 && val < 8) || 'Enter a valid number between 2-7',
+                    validHeightInInches: (val) => (val >= 0 && val <= 11) || 'Enter a valid number between 0-11',
+                },
+                formHasErrors: false,
 
 
                 wt: this.computedAuth.weight,
@@ -271,6 +289,12 @@
             }
 
 
+        },
+
+        watch: {
+            valid() {
+                this.disabledSave = !this.valid;
+            }
         },
 
         computed: {
@@ -309,11 +333,14 @@
             saveBodyStats (payload) {
 
 
+                      console.log('saveBodyStats', payload);
+                      console.log('currentBodyStats', this.currentBodyStats);
+
                   if (this.currentBodyStats.height === payload.height &&
                           this.currentBodyStats.weight === payload.weight &&
                           this.currentBodyStats.body_fat === payload.body_fat) {
 
-                      console.log('no changes - body stats');
+                        console.log('no changes - body stats');
                       return;
                   }
 
@@ -322,6 +349,7 @@
                       console.log(response);
                       this.heightInInches = response.data.height;
                       this.bmi = response.data.bmi;
+                      this.currentBodyStats = response.data
 
                     }).catch(err => {
 
@@ -409,6 +437,7 @@
             updateProfile() {
                 this.disabledSave = true;
 
+
                 let height = ((parseInt(this.feet) * 12) + parseInt(this.inches));
 
                 let payload = {
@@ -452,10 +481,13 @@
 
             },
             onFileChange($event) {
-                const files = $event.target.files || $event.dataTransfer.files
+                const files = $event.target.files || $event.dataTransfer.files;
                 console.log(files);
 
+
+
                 if (files) {
+
                      this.getProfileAvatar = URL.createObjectURL(files[0]);
                      this.avatarChange = true;
                 }

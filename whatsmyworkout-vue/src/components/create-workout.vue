@@ -7,9 +7,18 @@
                         Create Your Workout
                     </v-stepper-step>
                     <v-stepper-content step="1">
-                        <v-form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm">
+                        <v-form v-on:submit.prevent="onSubmit" id="workoutform" method="post" ref="workoutForm" v-model="workoutValid">
                             <v-flex md8 offset-md1 xs12>
-                                <v-text-field v-model="title" id="id-title" type="text" name="title" label="Workout Name" counter max="99" required></v-text-field>
+                                <v-text-field
+                                        v-model="title"
+                                        id="id-title"
+                                        type="text"
+                                        name="title"
+                                        label="Workout Name"
+                                        counter max="99"
+                                        ref="title"
+                                        :rules="[rules.required, () => title.length <= 99 && title.length > 0 || 'The workout title should be between 1-99 characters']"
+                                        required></v-text-field>
                             </v-flex>
                             <v-flex xs12 md8 offset-md1>
                                 <v-menu
@@ -22,7 +31,8 @@
                                         max-width="290px"
                                         ref="menuDate"
                                         :return-value.sync="completionDate"
-                                        required>
+                                        required
+                                        :rules="[rules.required]">
                                     <v-text-field slot="activator" label="Completion Date" v-model="completionDate" prepend-icon="event" readonly required></v-text-field>
                                     <v-date-picker v-model="completionDate" no-title scrollable actions>
                                         <template slot-scope="{ save, cancel }">
@@ -37,7 +47,7 @@
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
                                     <v-select title="Target Muscle" id="id_target_muscle" name="target_muscle"
-                                              v-model="target_muscle" v-bind:items="target_muscles" label="Target Muscles" required
+                                              v-model="target_muscle" v-bind:items="target_muscles" label="Target Muscles" :rules="[rules.required]"
                                               ></v-select>
                                 </div>
                             </v-flex>
@@ -45,7 +55,8 @@
                                 <div class="py-2">
                                     <v-select title="Training Type" id="id_training_type" name="training_type"
                                               v-model="training_type" label="Training Type" v-bind:items="training_types"
-                                              required >
+                                              required
+                                              :rules="[rules.required]"  >
                                     </v-select>
                                 </div>
                             </v-flex>
@@ -62,11 +73,9 @@
 
                             <div class="form-group row">
                                 <div class="col-8">
-                                    <v-btn color="primary" @click.native="onFocus" :loading="loading2" :disabled="loading2">
-                                        <input type="submit" ref="workoutSubmit" value="Continue">
-                                        <span slot="loader" class="custom-loader">
-                                            <v-icon>cached</v-icon>
-                                        </span>
+                                    <v-btn color="primary" @click.native="onFocus" :loading="loading2" :disabled="continueWorkout">
+                                        Continue
+
                                     </v-btn>
                                 </div>
                             </div>
@@ -75,7 +84,7 @@
                     </v-stepper-content>
                     <v-stepper-step step="2" v-bind:complete="e6 > 2">Add Exercises </v-stepper-step>
                     <v-stepper-content step="2">
-                        <v-form v-on:submit.prevent="onSubmitExercise" id="exerciseform" method="post" ref="exerciseRefSubmit">
+                        <v-form v-on:submit.prevent="onSubmitExercise" id="exerciseform" method="post" ref="exerciseRefSubmit" v-model="exerciseForm">
                             <v-flex md8 offset-md1 xs12>
                                 <v-select class="mt-0 blue-grey--text text--darken-2"
                                         dense
@@ -90,17 +99,18 @@
                                         :items="target_exercises"
                                         v-model="selectedExercise"
                                         label="Exercise"
+                                        :rules="[rules.required]"
 
                                     ></v-select>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Sets" label="Sets" type="number" v-model="sets"></v-text-field>
+                                    <v-text-field title="Sets" label="Sets" type="number" v-model="sets" ref="sets" :rules="[rules.required, () => sets.length > 0 || 'Enter valid sets greater than 0']"></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Reps" label="Reps" v-model="reps" type="number">
+                                    <v-text-field title="Reps" label="Reps" v-model="reps" type="number" ref="reps" :rules="[rules.required, () => reps.length > 0 || 'Enter valid reps greater than 0']">
                                     </v-text-field>
                                 </div>
                             </v-flex>
@@ -120,7 +130,7 @@
                             </div>
 
                             <v-flex md9 offset-md1 xs12>
-                                <v-btn color="accent" @click.native="addExercise" >
+                                <v-btn color="accent" @click.native="addExercise" :disabled="addDisabled">
                                
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>cached</v-icon>
@@ -130,8 +140,25 @@
                                 </v-btn>
                                 <v-btn color="primary" flat @click.native="e6 = 1" >Back</v-btn>
                                 <v-btn class="blue-grey white--text"
+                                       @click.native="continueExerciseForm"
+                                       :disabled="disabledExerciseContinue"
+                                       :loading="loading1">
+                                    <span slot="loader" class="custom-loader">
+                                        <v-icon>cached</v-icon>
+                                    </span>
+
+
+                                    Continue
+                                </v-btn>
+                            </v-flex>
+
+                        </v-form>
+                    </v-stepper-content>
+                    <v-stepper-step step="3" v-bind:complete="e6 > 3">Complete</v-stepper-step>
+                    <v-stepper-content step="3">
+                        <v-btn class="blue-grey white--text"
                                        @click.native="saveCompletedWorkoutForm"
-                                       :disabled="loading1"
+                                       :disabled="disabledWorkoutSubmit"
                                        :loading="loading1">
                                     <span slot="loader" class="custom-loader">
                                         <v-icon>cached</v-icon>
@@ -140,9 +167,8 @@
 
                                     Finish
                                 </v-btn>
-                            </v-flex>
 
-                        </v-form>
+
                     </v-stepper-content>
                 </v-stepper>
 
@@ -307,6 +333,14 @@
       snackbarColor: ' ',
       exerciseSubmissionPromises: [],
 
+      continueWorkout: true,
+      workoutValid: false,
+      disabledWorkoutSubmit: false,
+      exerciseForm: false,
+      addDisabled: true,
+
+      disabledExerciseContinue: true,
+
       target_exercises: [],
       eSearchDisabled: false,
       eSelectLoading: false,
@@ -314,6 +348,11 @@
       searchExercises: null,
       exerciseDisabled: false,
       exercisesToSubmit: [],
+
+      rules: {
+
+                    required: (val) => !!val || 'Cannot be blank.',
+      },
           
 
       training_types: [
@@ -345,6 +384,23 @@
         }
       },
       watch: {
+
+
+
+          exerciseForm () {
+
+              this.addDisabled = !this.exerciseForm;
+          },
+          workoutValid () {
+
+              this.continueWorkout = !this.workoutValid;
+          },
+          exercisesToSubmit() {
+
+              this.disabledExerciseContinue = this.exercisesToSubmit.length === 0;
+              this.disabledWorkoutSubmit = this.exercisesToSubmit.length === 0;
+
+          },
           target_muscle (v) {
 
                 this.eSearchDisabled = !v;
@@ -375,6 +431,10 @@
 
       },
       methods: {
+          continueExerciseForm () {
+
+              this.e6 = '3';
+          },
           querySelections (v) {
                 this.eSelectLoading = true;
                 //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
@@ -428,6 +488,7 @@
             };
 
             this.loading1 = true;
+            this.disabledWorkoutSubmit = true;
             axios.post(baseURLLocal+'v1/workouts/', data)
                 .then(function (response) {
                     self.workout_id = response.data.id;
@@ -439,6 +500,7 @@
                     });
                     axios.all(self.exerciseSubmissionPromises).then(exerciseResponse => {
                             self.loading1 = false;
+                            self.disabledWorkoutSubmit = false;
                             self.snackbarMessage = "You have successfully created your workout.";
                             self.snackbarColor = 'success';
                             self.snackbar = true;
@@ -452,8 +514,9 @@
                        self.snackbar = true;
                        self.snackbarColor = 'error';
                        self.loading1 = false;
+                       self.disabledWorkoutSubmit = false;
                        console.log(error);
-                       this.exercisesToSubmit = [];
+                       self.exercisesToSubmit = [];
                        self.exerciseSubmissionPromises = [];
                         axios.delete(baseURLLocal+'v1/u/workouts/', { params: { id: self.workout_id} } ).then(response => {
                            console.log(response);

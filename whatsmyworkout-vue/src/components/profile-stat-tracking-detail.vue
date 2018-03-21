@@ -30,7 +30,7 @@
                         </v-card-title>
                         <v-card-text>
                             <v-container grid-list-md>
-                                <v-form ref="form">
+                                <v-form ref="form" v-model="valid">
                                     <v-layout wrap>
                                         <v-flex xs12 md6>
                                                          <v-text-field
@@ -39,6 +39,8 @@
                                                                   label="Height"
                                                                   type="number"
                                                                   v-model="newStats.height"
+                                                                  :rules="[rules.required, rules.validHeightInInches]"
+
                                                           ></v-text-field>
                                         </v-flex>
 
@@ -46,8 +48,10 @@
                                             <v-text-field
                                                               suffix="lbs."
                                                               label="Weight"
-                                                              type="number"
+                                                              v-mask="['###.#', '##.#']"
                                                               v-model="newStats.weight"
+                                                              return-masked-value
+                                                              :rules="[rules.required]"
                                                               ></v-text-field>
                                         </v-flex>
 
@@ -59,6 +63,7 @@
                                                               v-model="newStats.bmi"
                                                               persistent-hint
                                                               hint="Automatically calculated based on profile data"
+
                                                               ></v-text-field>
                                         </v-flex>
 
@@ -66,8 +71,9 @@
                                             <v-text-field
                                                               suffix="%"
                                                               label="Body Fat"
-                                                              type="number"
+                                                              v-mask="['##.#', '#.#']"
                                                               v-model="newStats.body_fat"
+                                                              return-masked-value
                                                               ></v-text-field>
                                         </v-flex>
 
@@ -125,13 +131,25 @@
     import moment from 'moment'
     import { baseURLLocal} from '../auth/auth-utils'
     import BodyProgressChart from '../components/body-progress-chart.vue'
+    import { mask } from 'vue-the-mask'
 
 
     export default {
         name: "profile-stat-tracking-detail",
+        directives: {mask},
         data () {
 
             return {
+
+                rules: {
+
+                    required: (val) => !!val || 'Cannot be blank.',
+                    validHeightInFeet: (val) => (val > 1 && val < 8) || 'Enter a valid number between 2-7',
+                    validHeightInInches: (val) => (val > 0 && val <= 90) || 'Enter a valid number for Height in inches.',
+                },
+                valid: false,
+
+
                 loading: false,
                 userAuth: this.$store.state.userAuth,
 
@@ -168,7 +186,9 @@
 
         },
         watch: {
-
+            valid() {
+                this.disabled = !this.valid;
+            }
         },
         computed: {
             computedClass: function () {

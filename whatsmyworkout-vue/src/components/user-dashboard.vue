@@ -174,7 +174,7 @@
             </v-card>
          <v-card v-else="recentWorkouts">
                 <v-card-text>
-                    No workouts have been created. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the recently scheduled one show up here
+                    No upcoming workouts have been scheduled. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the next one scheduled show up here
                 </v-card-text>
             </v-card>
         </v-flex>
@@ -614,9 +614,9 @@ export default {
                     self.loading = false;
                     console.log('Success')
                 }).catch(function (err) {
-                self.context = 'error';
+                self.snackColor = 'error';
                 self.snackbar = true;
-                self.snackbarText = "Could not send workout to " + payload.to + "error " + err;
+                self.snackbarText = "Could not send workout to " + payload.to + " error " + err.response.data.status;
 
                 self.loading = false;
                 console.log(err)

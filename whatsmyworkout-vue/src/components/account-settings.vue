@@ -30,7 +30,7 @@
                                       <v-list-tile-sub-title>Change profile picture, your 'about' section and more. </v-list-tile-sub-title>
                                     </v-list-tile-content>
                                   </v-list-tile>
-                                  <v-list-tile>
+                                  <v-list-tile to="/account/settings/">
                                     <v-list-tile-content>
                                       <v-list-tile-title>Account Settings</v-list-tile-title>
                                       <v-list-tile-sub-title>Change password, email address, and other account related settings</v-list-tile-sub-title>
