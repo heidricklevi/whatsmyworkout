@@ -194,7 +194,8 @@
                 this.updateDisabled = true;
 
 
-                this.isChangingUsername = this.$store.state.userAuth.user.username === this.username;
+                this.isChangingUsername = this.$store.state.userAuth.user.username !== this.username;
+                console.log(this.isChangingUsername);
                 axios.put(baseURLLocal+'v1/users/'+this.$store.state.userAuth.user.username+'/', payload).then(response => {
                     console.log(response);
 

@@ -40,6 +40,7 @@ export default new Vuex.Store({
             friends: [],
             receivedFriendRequests: null,
             sentFriendRequests: null,
+            recentWorkouts: [],
 
         },
         friendProfile: {
@@ -49,6 +50,13 @@ export default new Vuex.Store({
         }
     },
     mutations: {
+
+      setRecentWorkouts (state, payload) {
+        console.log(payload);
+
+        state.userDashboard.recentWorkouts = payload;
+      },
+
       setReceiveWorkoutsFromFriends (state, payload) {
         state.accountSettings.receiveWorkoutsFromFriends = payload;
       },

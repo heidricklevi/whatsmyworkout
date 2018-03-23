@@ -1,6 +1,6 @@
 <template>
 <v-layout>
-    <v-flex xs12 md10 offset-md1>
+    <v-flex xs12 offset-md1>
         <v-card>
             <v-card-media :src="userAuth.user.avatar" height="290px"></v-card-media>
             <v-card-title >

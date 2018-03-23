@@ -235,13 +235,14 @@
                                             </v-flex>-->
                                           <v-list dense>
                                               <template v-for="(cExercise, i) in getCopiedExercises">
-                                                <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mb-5': $vuetify.breakpoint.smAndDown,}"><edit-copied-exercises
+                                                <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mb-5': $vuetify.breakpoint.smAndDown,}">
+                                                    <edit-copied-exercises
                                                         :c-exercise="cExercise"
                                                         :index="i"
                                                         :target-muscle="copiedWorkout.target_muscle"
                                                         :edit-exercise="cExercise.editExercise">
 
-                                                </edit-copied-exercises>
+                                                    </edit-copied-exercises>
                                                 </div>
                                                   <v-flex xs12 md10 offset-md1><v-divider></v-divider></v-flex>
                                               </template>
@@ -290,6 +291,8 @@
                 pagination: {
                     rowsPerPage: 2
                   },
+
+                isOpened: false,
                 items: [],
                 loadLastFive: false,
 

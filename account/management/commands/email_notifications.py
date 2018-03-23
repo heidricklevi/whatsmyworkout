@@ -96,7 +96,7 @@ class Command(BaseCommand):
                 workout_image = account + '/static/img/forearm.jpg'
             elif target_muscle == 'Calves':
                 workout_image = account + '/static/img/calf.jpg'
-            elif target_muscle == 'Abdominal':
+            elif target_muscle == 'Abs':
                 workout_image = account + '/static/img/abs.jpg'
 
             #     Need to add default image

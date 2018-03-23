@@ -46,6 +46,7 @@ class UserSerializer(serializers.ModelSerializer):
         email = validated_data.get('email', None)
         first_name = validated_data.get('first_name', None)
         last_name = validated_data.get('last_name', None)
+        username = validated_data.get('username', None)
 
         if email:
             instance.email = email
@@ -55,6 +56,9 @@ class UserSerializer(serializers.ModelSerializer):
 
         if last_name:
             instance.last_name = last_name
+
+        if username:
+            instance.username = username
 
         password = validated_data.get('password', None)
         print(password)
@@ -265,17 +269,17 @@ class WorkoutSerializer(serializers.ModelSerializer):
             validated_data['workout_image'] = url + 'img/biceps.jpg'
         elif target_muscle == 'Triceps':
             validated_data['workout_image'] = url + 'img/triceps.jpg'
-        elif target_muscle == 'Quads':
+        elif target_muscle == 'Legs':
             validated_data['workout_image'] = url + 'img/quads.jpg'
         elif target_muscle == 'Traps':
             validated_data['workout_image'] = url + 'img/traps.jpg'
-        elif target_muscle == 'Lats':
+        elif target_muscle == 'Back':
             validated_data['workout_image'] = url + 'img/lats.jpg'
         elif target_muscle == 'Forearm':
             validated_data['workout_image'] = url + 'img/forearm.jpg'
         elif target_muscle == 'Calves':
             validated_data['workout_image'] = url + 'img/calf.jpg'
-        elif target_muscle == 'Abdominal':
+        elif target_muscle == 'Abs':
             validated_data['workout_image'] = url + 'img/abs.jpg'
 
 

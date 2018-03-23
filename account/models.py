@@ -32,7 +32,7 @@ class BodyStatTracking(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     height = models.PositiveIntegerField(null=False, default=0)
-    bmi = models.DecimalField(blank=True, null=True, max_digits=4, decimal_places=2)
+    bmi = models.DecimalField(blank=True, null=True, max_digits=5, decimal_places=2)
     weight = models.DecimalField(blank=True, null=False, max_digits=4, decimal_places=1, default=0)
     body_fat = models.DecimalField(blank=True, null=True, max_digits=3, decimal_places=1)
     username = models.CharField(max_length=255, editable=False)
@@ -129,7 +129,7 @@ class Workout(models.Model):
     chest = 'Chest'
     biceps = 'Biceps'
     forearm = 'Forearm'
-    abs = 'Abdominal'
+    abs = 'Abs'
     quads = 'Quads'
     calves = 'Calves'
     triceps = 'Triceps'
@@ -140,7 +140,7 @@ class Workout(models.Model):
     hamstrings = 'Hamstrings'
 
     TARGET_MUSCLE = ((traps, 'Traps'), (neck, 'Neck'), (biceps, 'Biceps'),
-                     (forearm, 'Forearm'), (abs, 'Abdominal'), (quads, 'Quads'), (calves, 'Calves'),
+                     (forearm, 'Forearm'), (abs, 'Abs'), (quads, 'Quads'), (calves, 'Calves'),
                      (triceps, 'Triceps'), (lats, 'Lats'), (middle_back, 'Middle Back'), (lower_back, 'Lower Back'),
                      (glutes, 'Glutes'), (hamstrings, 'Hamstrings'), ('Back', 'Back'), ('Arms', 'Arms'), ('Legs', 'Legs'), (chest, 'Chest'),)
 
@@ -154,7 +154,7 @@ class Workout(models.Model):
     title = models.CharField(max_length=150, )
     workout_image = models.ImageField(blank=True, null=True)
 
-    slug = models.SlugField(max_length=255)
+    slug = models.SlugField(max_length=255, blank=True, null=True)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
     completed = models.BooleanField(blank=True, default=False)
@@ -200,7 +200,6 @@ def create_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_profile(sender, instance, **kwargs):
     instance.profile.save()
-
 
 
 @receiver(post_save, sender=Profile)

@@ -540,13 +540,13 @@ class SendWorkoutEmail(APIView):
             workout_image = account + '/static/img/quads.jpg'
         elif target_muscle == 'Traps':
             workout_image = account + '/static/img/traps.jpg'
-        elif target_muscle == 'Lats':
+        elif target_muscle == 'Back':
             workout_image = account + '/static/img/lats.jpg'
         elif target_muscle == 'Forearm':
             workout_image = account + '/static/img/forearm.jpg'
         elif target_muscle == 'Calves':
             workout_image = account + '/static/img/calf.jpg'
-        elif target_muscle == 'Abdominal':
+        elif target_muscle == 'Abs':
             workout_image = account + '/static/img/abs.jpg'
 
         #     Need to add default image

@@ -157,7 +157,7 @@
                 bodyStats: [],
 
                 newStats: this.$store.state.data,
-                disabled: false,
+                disabled: true,
                 edit: false,
 
 
@@ -220,9 +220,7 @@
                 this.fetchGraphData();
                 this.edit = false;
                 this.alertVal = false;
-
-
-
+                this.$refs.form.reset();
 
 
             },

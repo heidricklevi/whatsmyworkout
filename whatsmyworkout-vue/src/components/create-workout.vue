@@ -17,7 +17,8 @@
                                         label="Workout Name"
                                         counter max="99"
                                         ref="title"
-                                        :rules="[rules.required, () => title.length <= 99 && title.length > 0 || 'The workout title should be between 1-99 characters']"
+                                        :rules="[rules.required,
+                                        () => title.length <= 99 && title.length > 0 || 'The workout title should be between 1-99 characters', rules.workoutNameSpecialChars]"
                                         required></v-text-field>
                             </v-flex>
                             <v-flex xs12 md8 offset-md1>
@@ -105,18 +106,36 @@
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Sets" label="Sets" type="number" v-model="sets" ref="sets" :rules="[rules.required, () => sets.length > 0 || 'Enter valid sets greater than 0']"></v-text-field>
+                                    <v-text-field
+                                            title="Sets" l
+                                            label="Sets"
+                                            v-model="sets"
+                                            ref="sets"
+                                            type="number"
+                                            :rules="[rules.required, rules.validSets]"></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Reps" label="Reps" v-model="reps" type="number" ref="reps" :rules="[rules.required, () => reps.length > 0 || 'Enter valid reps greater than 0']">
+                                    <v-text-field
+                                            title="Reps"
+                                            label="Reps"
+                                            v-model="reps"
+                                            type="number"
+                                            ref="reps"
+                                            :rules="[rules.required, rules.validReps]">
                                     </v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
-                                    <v-text-field title="Lifting weight" label="Lifting Weight" type="number" v-model="lifting_weight" placeholder="lbs."></v-text-field>
+                                    <v-text-field
+                                            title="Lifting weight"
+                                            label="Lifting Weight"
+                                            type="number"
+                                            :rules="[rules.validLW]"
+                                            v-model="lifting_weight"
+                                            suffix="lbs."></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
@@ -352,6 +371,12 @@
       rules: {
 
                     required: (val) => !!val || 'Cannot be blank.',
+                    workoutNameSpecialChars: (val) => {
+                        return !/[^a-zA-Z0-9 '!]/.test(val) || 'Workout Name is Alphanumeric and can only include space, apostrophe and exclamation.';
+                    },
+                    validSets: (val) => val > 0 || 'Enter valid Sets',
+                    validReps: (val) => val > 0 || 'Enter Valid Reps',
+                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)'
       },
           
 
@@ -481,8 +506,7 @@
                 title: this.title,
                 date_for_completion: this.completionDate,
                 target_muscle: this.target_muscle,
-                training_type: this.training_type,
-                slug: this.slug,
+                training_type: this.training_type, //
                 user: this.userAuth.user.id,
                 exercises: [],
             };

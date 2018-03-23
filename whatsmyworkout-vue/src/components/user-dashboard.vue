@@ -1,15 +1,14 @@
 <template>
     <v-layout row wrap>
-        <user-profile :user-auth="userAuth" :class="{'mb-4': $vuetify.breakpoint.smAndDown }"></user-profile>
-        <v-flex xs12 offset-md1 md3>
-                     <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
-                            {{ snackbarText }}
-                        </v-snackbar>
-
-            <v-card v-if="recentWorkouts">
-                <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
+        <v-flex xs12 md4 ><user-profile :user-auth="userAuth" :class="{'mb-4': $vuetify.breakpoint.smAndDown }"></user-profile></v-flex>
+        <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
                     {{ snackbarText1 }}
                 </v-snackbar>
+        <!--<v-flex xs12 offset-md1 md3>
+
+
+            <v-card v-if="recentWorkouts">
+
                 <v-flex xs12>
                     <div class="pt-1 pl-1" style="display: inline-flex">
                         <v-avatar>
@@ -35,76 +34,7 @@
                     </div>
                 </v-flex>
 
-                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px;
-                                                            position: absolute; height: 200px; top: 50px; width: 100%; z-index: 2">
 
-                        <form method="post" v-on:submit.prevent="sendWorkout">
-                            <v-card-title>
-                                Send this workout to a friend
-                            </v-card-title>
-                        <v-layout row>
-                            <v-flex xs8 offset-xs2 md8 text-xs-center>
-                            <v-select
-                                    v-model="shareFriendWorkout"
-                                    label="Search Friends"
-                                    append-icon="search"
-                                    return-object
-                                    item-text="from_user.username"
-                                    item-value="from_user.username"
-
-                                    :items="friendsList"
-                                    chips
-                                    :loading="loadingFriendSearch"
-                                    autocomplete
-                                    :search-input.sync="searchFriends"
-                                    required
-                            >
-                                <template slot="selection" slot-scope="data">
-
-                                    <v-chip
-                                      close
-                                      @input="data.parent.selectItem(data.item.from_user)"
-                                      :selected="data.selected"
-                                      :key="JSON.stringify(data.item.from_user)"
-                                    >
-                                      <v-avatar>
-                                        <img :src="data.item.from_user.avatar">
-                                      </v-avatar>
-                                      {{ data.item.from_user.username }}
-                                    </v-chip>
-                                  </template>
-                                <template slot="item" slot-scope="data">
-                                    <template v-if="typeof data.item !== 'object'">
-                                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
-                                    </template>
-                                <template v-else>
-                                  <v-list-tile-avatar>
-                                    <img :src="data.item.from_user.avatar">
-                                  </v-list-tile-avatar>
-                                  <v-list-tile-content>
-                                    <v-list-tile-title v-html="data.item.from_user.username"></v-list-tile-title>
-                                  </v-list-tile-content>
-                                </template>
-                              </template>
-                            </v-select>
-                            </v-flex>
-                            </v-layout>
-                            <v-layout>
-                            <v-flex xs12 text-xs-center>
-                                <v-btn color="primary" :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
-                                    Send
-                                    <span slot="loader" class="custom-loader">
-                                        <v-icon>cached</v-icon>
-                                    </span>
-                                </v-btn>
-
-                            </v-flex>
-                                </v-layout>
-
-
-
-                        </form>
-                        </v-card>
                 <v-divider></v-divider>
                 <v-card-title>
                     <h3 class="headline">{{ recentWorkouts.title }}</h3>
@@ -177,46 +107,168 @@
                     No upcoming workouts have been scheduled. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the next one scheduled show up here
                 </v-card-text>
             </v-card>
-        </v-flex>
+        </v-flex>-->
+        <v-flex md3 xs12 offset-md1>
+            <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
+                            {{ snackbarText }}
+                        </v-snackbar>
+            <v-container fluid grid-list-md>
+                    <v-data-iterator
+                      content-tag="v-layout"
+                      row
+                      wrap
+                      :items="nextWorkoutItems"
+                      :rows-per-page-items="rowsPerPageItems"
+                      :pagination.sync="pagination"
+                    >
+                      <v-flex
+                        slot="item"
+                        slot-scope="props"
+                        xs12
+                      >
+                        <v-card>
+                            <v-layout  row wrap>
+                                <v-flex xs8 md9>
+                                    <v-avatar class="ml-2 mt-2"><img :src="userAuth.user.avatar"></v-avatar>
+                                    <div class="d-inline subheading  grey--text text--lighten-1 mt-0 mb-0 text-sm-center"
+                                                style="text-transform: uppercase; letter-spacing: 1px">
+                                            Next Workout</div>
 
-        <!--<v-flex xs12  offset-md1 md3>
-            <v-card>
-                <v-card-title primary-title>
-                    <div>
-                        <h3 class="headline mb-0">Find Friends or Follow Experts</h3>
-                    </div>
-                </v-card-title>
-                <v-container fluid>
-                    <v-layout>
-                      <v-flex xs12 offset-md1 md10>
-                        <v-text-field
-                          label="Search by username"
-                          append-icon="search"
-                          :loading="loading"
+                                    <div class="caption text-md-center text-xs-right text-sm-center ml-4 pl-1" style="position: relative; top: -15px;">
+                                        <v-icon small>event</v-icon>
+                                        {{ props.item.date_for_completion | moment }}
+                                    </div>
+                                </v-flex>
+                                <v-flex xs4 md3 text-xs-right>
 
-                          required
-                          :items="items"
-                          @keyup="search = $event.target.value"
-                          v-model="select"
-                        ></v-text-field>
+                                    <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout" class="ml-0 mr-0">
+                                            <v-icon v-if="!isEmailWorkout" small color="accent">send</v-icon>
+                                            <v-icon class="red--text" small v-if="isEmailWorkout">cancel</v-icon>
+                                    </v-btn>
+                                        <router-link to="/workout/edit/">
+                                            <v-btn icon class="mr-0 ml-0" @click="commitToStore">
+                                                <v-icon small color="primary">edit</v-icon>
+                                            </v-btn>
+                                        </router-link>
+
+                                </v-flex>
+                                <v-flex xs10 class="pb-2 ">
+
+                                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px;
+                                                            position: absolute; height: 200px; top: 50px; width: 100%; z-index: 2">
+
+                        <form method="post" v-on:submit.prevent="sendWorkout">
+                            <v-card-title>
+                                Send this workout to a friend
+                            </v-card-title>
+                        <v-layout row>
+                            <v-flex xs8 offset-xs2 md8 text-xs-center>
+                            <v-select
+                                    v-model="shareFriendWorkout"
+                                    label="Search Friends"
+                                    append-icon="search"
+                                    return-object
+                                    item-text="from_user.username"
+                                    item-value="from_user.username"
+
+                                    :items="friendsList"
+                                    chips
+                                    :loading="loadingFriendSearch"
+                                    autocomplete
+                                    :search-input.sync="searchFriends"
+                                    required
+                            >
+                                <template slot="selection" slot-scope="data">
+
+                                    <v-chip
+                                      close
+                                      @input="data.parent.selectItem(data.item.from_user)"
+                                      :selected="data.selected"
+                                      :key="JSON.stringify(data.item.from_user)"
+                                    >
+                                      <v-avatar>
+                                        <img :src="data.item.from_user.avatar">
+                                      </v-avatar>
+                                      {{ data.item.from_user.username }}
+                                    </v-chip>
+                                  </template>
+                                <template slot="item" slot-scope="data">
+                                    <template v-if="typeof data.item !== 'object'">
+                                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                    </template>
+                                <template v-else>
+                                  <v-list-tile-avatar>
+                                    <img :src="data.item.from_user.avatar">
+                                  </v-list-tile-avatar>
+                                  <v-list-tile-content>
+                                    <v-list-tile-title v-html="data.item.from_user.username"></v-list-tile-title>
+                                  </v-list-tile-content>
+                                </template>
+                              </template>
+                            </v-select>
+                            </v-flex>
+                            </v-layout>
+                            <v-layout>
+                            <v-flex xs12 text-xs-center>
+                                <v-btn color="primary" :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
+                                    Send
+                                    <span slot="loader" class="custom-loader">
+                                        <v-icon>cached</v-icon>
+                                    </span>
+                                </v-btn>
+
+                            </v-flex>
+                                </v-layout>
+
+
+
+                        </form>
+                        </v-card>
+
+                                </v-flex>
+                                <v-flex xs12 class="pt-0"><v-divider class="mt-1"></v-divider></v-flex>
+
+                            </v-layout>
+                            <v-card-media :src="props.item.workout_image" contain height="300px">
+                                <v-layout row justify-center>
+                                    <v-flex text-xs-center xs12>
+                                        <h6 class="display-1 primary--text text--darken-2 ">
+                                            {{ props.item.title }}</h6></v-flex></v-layout>
+                            </v-card-media>
+                            <v-progress-circular style="position:absolute; top: 50%; right: 50%; "  v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+                            <v-divider></v-divider>
+                            <v-card-actions>
+
+                                <v-btn flat class="primary--text text--lighten-2 pl-0 pt-0" @click.native="viewExercises = !viewExercises">View Exercises</v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn icon @click.native="viewExercises = !viewExercises">
+                                    <v-icon color="primary">{{ viewExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                                </v-btn>
+                            </v-card-actions>
+                            <v-card-text v-if="viewExercises">
+                                <v-list dense>
+                                      <template v-for="(exercise, i) in props.item.exercises" v-if="props.item.exercises.length > 0">
+                                    <v-list-tile  :key="exercise.id">
+
+                                      <v-list-tile-content class="grey--text text--darken-4">{{ i+1 }}. {{ exercise.exercise_name }}</v-list-tile-content>
+                                      <v-list-tile-content class="align-end grey--text text--darken-1 pt-2">{{ exercise.sets }} x {{ exercise.reps }}
+                                      <v-list-tile-content class="align-end caption grey--text text--lighten-1" v-if="exercise.lifting_weight">
+                                          @ {{ exercise.lifting_weight }} lbs.
+                                      </v-list-tile-content>
+                                      </v-list-tile-content>
+
+
+                                    </v-list-tile>
+                                        <toggle-exercise-notes  v-if="exercise.notes" :exercise="exercise" :index="i" :opened="exercise.isOpened"></toggle-exercise-notes>
+                                          <v-divider class="mt-2"></v-divider>
+                                          </template>
+                                  </v-list>
+                            </v-card-text>
+                        </v-card>
                       </v-flex>
-                    </v-layout>
-                </v-container>
-              <v-layout>
-                <v-flex xs12 offset md1 md12 v-if="items" >
-                    <v-list subheader>
-                  <v-subheader>Results</v-subheader>
-                 <template v-for="(item, index) in items">
-                     <add-follow :item="item" :index="index"></add-follow>
-                     <v-divider v-bind:key="item.id"></v-divider>
-                 </template>
-                    </v-list>
-
-                </v-flex>
-
-              </v-layout>
-            </v-card>
-        </v-flex> -->
+                    </v-data-iterator>
+            </v-container>
+        </v-flex>
         <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'pr-3': $vuetify.breakpoint.mdAndUp }">
     <v-card >
         <v-card-title>Friends</v-card-title>
@@ -356,13 +408,20 @@ import addFollow from './add-follow.vue'
 import userProfile from './user-profile.vue'
 import HandleSentFriendRequests from './handle-sent-friend-requests.vue'
 import HandleReceivedFriendRequests from './handle-received-friend-requests.vue'
+import ToggleExerciseNotes from './toggle-exercise-notes.vue'
 
 
 export default {
     name: 'user-dashboard',
     data() {
         return {
+            rowsPerPageItems: [1, ],
+            pagination: {
+                rowsPerPage: 1
+            },
+            nextWorkoutItems: this.$store.state.userDashboard.recentWorkouts,
 
+            seeNotes: false,
 
             following: '',
             followers: '',
@@ -415,33 +474,16 @@ export default {
     },
     computed: {
 
+        getNextWorkoutItems: {
+            get: function () {
 
-        //Going to stick with friend relationships instead of follow as they are bidirectional and user has more explicit control
+                return this.nextWorkoutItems;
+            },
 
-        /*getFollows: function () {
-            let self = this;
-
-            axios.get(baseURLLocal+'v1/follow/').then(function (response) {
-                self.following = response.data.length;
-            }).catch(function (err) {
-                return "error retrieving following number from server"
-            });
-
-
-            return this.following;
+            set: function (item) {
+                console.log(item)
+            }
         },
-        getFollowers: function () {
-            let self = this;
-
-            axios.get(baseURLLocal+'v1/follow/?followers=true').then(function (response) {
-                self.followers = response.data.length;
-            }).catch(function (err) {
-                return "error retrieving following number from server"
-            });
-
-            return this.followers;
-        }*/
-
         getSentRequests () {
 
             //this.getPendingRequests();
@@ -478,6 +520,19 @@ export default {
     props: ["computedAuth"],
     methods: {
 
+        toggleNotes (workout, exercise) {
+
+            console.log(workout, exercise)
+
+            let workoutIndex = this.nextWorkoutItems.findIndex(workoutIndex => workoutIndex.id === workout.id);
+            let exerciseIndex = this.nextWorkoutItems[workoutIndex].exercises.findIndex(eIndex => eIndex.id === exercise.id);
+
+            console.log(workoutIndex);
+            console.log(exerciseIndex);
+
+            this.nextWorkoutItems[workoutIndex].exercises[exerciseIndex].isOpened = true;
+
+        },
         querySelections (v) {
                 this.loadingFriendSearch = true;
                 this.friendsList = [];
@@ -528,6 +583,7 @@ export default {
 
 
         },
+
 
         getPendingRequests() {
 
@@ -630,8 +686,27 @@ export default {
         this.loadingWorkout = true;
 
         axios.get(baseURLLocal + 'v1/workouts/?next_workout=true').then(function (response) {
+
+            self.nextWorkoutItems = response.data.results;
             self.recentWorkouts = response.data.results[0];
+
             self.loadingWorkout = false;
+            if (self.nextWorkoutItems) {
+                    self.nextWorkoutItems.map((w) => {
+                        if (w.exercises) {
+                            w.exercises.map((e) => {
+                                e.isOpened = false;
+                                return e;
+                            });
+
+                            return w;
+                        }
+                    })
+                }
+
+
+                self.$store.commit('setRecentWorkouts', response.data.results);
+
 
 
             console.log(self.recentWorkouts);
@@ -641,6 +716,7 @@ export default {
             self.snackbar1 = true;
             self.snackbarText1 = "error loading workout";
             console.log('There was an error loading recent workouts');
+            console.log(e);
         });
 
 
@@ -657,7 +733,7 @@ export default {
 
     },
     components: {
-        addFollow, userProfile, HandleSentFriendRequests, HandleReceivedFriendRequests
+        addFollow, userProfile, HandleSentFriendRequests, HandleReceivedFriendRequests, ToggleExerciseNotes
     }
 
 
