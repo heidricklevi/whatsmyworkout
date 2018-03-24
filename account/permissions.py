@@ -16,9 +16,7 @@ class IsAccountOwnerOrIsFriend(permissions.BasePermission):
         user2 = User.objects.get(username=obj)
         if request.user.is_superuser:
             return True
-        print(obj)
-        print(request.user)
-        print(((Friend.objects.are_friends(user1=request.user, user2=user2) is True) or request.user == user2))
+
         return Friend.objects.are_friends(user1=request.user, user2=user2) is True or request.user == user2
 
 

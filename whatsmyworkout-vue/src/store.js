@@ -41,6 +41,7 @@ export default new Vuex.Store({
             receivedFriendRequests: null,
             sentFriendRequests: null,
             recentWorkouts: [],
+            friendsCount: null,
 
         },
         friendProfile: {
@@ -95,6 +96,10 @@ export default new Vuex.Store({
 
       setReceivedFriendRequests (state, payload) {
         state.userDashboard.receivedFriendRequests = payload;
+      },
+
+      setFriendCount (state, payload) {
+         state.userDashboard.friendsCount = payload;
       },
 
       setFriends (state, payload) {

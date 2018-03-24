@@ -114,6 +114,7 @@
                         </v-snackbar>
             <v-container fluid grid-list-md>
                     <v-data-iterator
+                      v-if="nextWorkoutItems"
                       content-tag="v-layout"
                       row
                       wrap
@@ -267,6 +268,11 @@
                         </v-card>
                       </v-flex>
                     </v-data-iterator>
+                <v-card v-else="nextWorkoutItems">
+                    <v-card-text>
+                        No upcoming workouts have been scheduled. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the next one scheduled show up here
+                    </v-card-text>
+                </v-card>
             </v-container>
         </v-flex>
         <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'pr-3': $vuetify.breakpoint.mdAndUp }">
@@ -345,47 +351,6 @@
                       <v-divider class="mt-1" v-if="getSentRequests.length > 0"></v-divider>
                       <handle-sent-friend-requests></handle-sent-friend-requests>
 
-                       <v-divider></v-divider>
-                      <h5 class="subheading grey--text text--darken-2 ma-3">Friends</h5>
-                      <template v-for="friend in getMyFriends">
-
-                                <v-chip
-
-                                        :value="friend.toggleDisplay"
-                                        v-model="friend.toggleDisplay"
-                                        :key="friend.id"
-                                        :disabled="friendRemoveDisabled"
-                                        class="ml-2">
-
-                                    <v-avatar>
-                                        <img :src="friend.from_user.avatar">
-                                    </v-avatar>
-                                    <router-link :to="friend.url">{{ friend.from_user.username }}</router-link>
-                                    <div class="chip__close red--text" @click="deleteDialog = true"><v-icon >cancel</v-icon></div>
-                                </v-chip>
-
-
-
-                      <v-dialog
-                            v-model="deleteDialog"
-                            transition="dialog-bottom-transition"
-                            :overlay="false"
-                            max-width="290"
-                            >
-                            <v-card>
-                                <v-card-title class="title">Are you sure you want to remove {{ friend.from_user.username }} from your friends list?</v-card-title>
-
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn flat :disabled="friendRemoveDisabled" color="warning" @click.native="onRemoveFriend(friend)">Delete</v-btn>
-                                    <v-btn flat color="primary" @click.native="deleteDialog = false">Don't Delete</v-btn>
-                                </v-card-actions>
-                            </v-card>
-                        </v-dialog>
-
-                      </template>
-
-                            <v-snackbar v-model="removeFriendSbModel" :color="removeFriendSbColor" top>{{ removeFriendSbText }}</v-snackbar>
 
                         </v-flex>
 
@@ -395,6 +360,62 @@
                 </v-tab-item>
             </v-tabs>
         </v-card>
+           <v-flex xs12 class="mt-4">
+            <v-card>
+                <v-card-title>
+                    <v-icon>people</v-icon>
+                    <h5 class=" d-inline-flex subheading grey--text text--darken-2 ma-3">
+                        My Friends
+                    </h5>
+                </v-card-title>
+                <v-divider></v-divider>
+                    <v-list dense v-if="getMyFriends.length > 0">
+                        <template v-for="(friend, i) in getMyFriendsListPagination">
+                        <v-list-tile >
+                            <v-list-tile-avatar>
+                                <img :src="friend.from_user.avatar">
+                            </v-list-tile-avatar>
+                            <v-list-tile-content>
+                                <v-list-tile-title><router-link :to="friend.url">{{ friend.from_user.username }}</router-link></v-list-tile-title>
+                            </v-list-tile-content>
+                            <v-list-tile-action>
+                                <v-btn :key="friend.id"  icon @click="onClickRemoveDialog(friend)"><v-icon color="error">remove_circle_outline</v-icon></v-btn>
+                            </v-list-tile-action>
+
+                        </v-list-tile>
+
+
+                              <v-dialog
+                                    v-model="deleteDialog"
+                                    transition="dialog-bottom-transition"
+                                    :overlay="false"
+                                    max-width="290"
+                                    >
+                                    <v-card>
+                                        <v-card-title class="title">Are you sure you want to remove {{ getFriendToDelete? getFriendToDelete.from_user.username: 'None' }}  from your friends list?</v-card-title>
+
+                                        <v-card-actions>
+                                            <v-spacer></v-spacer>
+                                            <v-btn flat :disabled="friendRemoveDisabled" color="warning" @click.native="onRemoveFriend(getFriendToDelete)">Remove</v-btn>
+                                            <v-btn flat color="primary" @click.native="deleteDialog = false">Cancel</v-btn>
+                                        </v-card-actions>
+                                    </v-card>
+                              </v-dialog>
+                            <v-divider inset v-if="i !== getMyFriendsListPagination.length - 1"></v-divider>
+                        </template>
+                    </v-list>
+                    <v-layout flex justify-center v-else>
+                        <v-card-text>
+                            <p class="subheading"> No Friends to Display.</p>
+                        </v-card-text>
+                    </v-layout>
+
+
+                            <v-snackbar v-model="removeFriendSbModel" :color="removeFriendSbColor" top>{{ removeFriendSbText }}</v-snackbar>
+
+            </v-card>
+               <v-pagination :length="getFriendNumberOfPages" v-model="friendPagination.page"></v-pagination>
+               </v-flex>
          </v-flex>
     </v-layout>
 </template>
@@ -420,6 +441,13 @@ export default {
                 rowsPerPage: 1
             },
             nextWorkoutItems: this.$store.state.userDashboard.recentWorkouts,
+
+
+            friendPagination: {
+                page: 1,
+                total: this.$store.state.userDashboard.friendsCount,
+                perPage: 5,
+            },
 
             seeNotes: false,
 
@@ -458,6 +486,7 @@ export default {
 
             friendRemoveDisabled: false,
             deleteDialog: false,
+            friendToDelete: null,
             removeFriendSbPosition: 'top',
             removeFriendSbModel: false,
             removeFriendSbText: '',
@@ -473,6 +502,45 @@ export default {
         }
     },
     computed: {
+
+        getFriendToDelete: {
+            get: function () {
+                return this.friendToDelete;
+            },
+
+            set: function (toDelete) {
+                this.friendToDelete = toDelete;
+            }
+        },
+        getMyFriends () {
+            let friendsList = this.$store.state.userDashboard.friends;
+            friendsList.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr});
+
+            return friendsList;
+        },
+
+
+        getFriendOffset () {
+            return ((this.friendPagination.page - 1) * this.friendPagination.perPage);
+        },
+        getFriendLimit () {
+
+            return (this.getFriendOffset + this.friendPagination.perPage);
+        },
+
+        getFriendNumberOfPages () {
+           return Math.ceil(this.$store.state.userDashboard.friendsCount / this.friendPagination.perPage)
+        },
+
+        getMyFriendsListPagination () {
+          let friends = this.$store.state.userDashboard.friends;
+          friends.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr});
+
+          return friends.slice(this.getFriendOffset, this.getFriendLimit);
+
+        },
+
+
 
         getNextWorkoutItems: {
             get: function () {
@@ -495,12 +563,7 @@ export default {
             return this.$store.state.userDashboard.receivedFriendRequests;
         },
 
-        getMyFriends () {
-            let friendsList = this.$store.state.userDashboard.friends;
-            friendsList.map((fr) => {fr.toggleDisplay = true; fr.url = '/profile/'+fr.from_user.username;  return fr});
 
-            return friendsList;
-        },
     },
     watch: {
         search(val) {
@@ -519,6 +582,13 @@ export default {
     },
     props: ["computedAuth"],
     methods: {
+
+        onClickRemoveDialog(friend) {
+
+            console.log(friend? friend.from_user.username: 'none');
+            this.getFriendToDelete = friend;
+            this.deleteDialog = true;
+        },
 
         toggleNotes (workout, exercise) {
 
@@ -566,7 +636,6 @@ export default {
             axios.delete(baseURLLocal+'v1/user/friends/', { params: { id: friend.from_user.id } } ).then(response => {
                 console.log(response);
                 this.deleteDialog = false;
-                friend.toggleDisplay = false;
 
                 this.removeFriendSbColor = 'success';
                 this.removeFriendSbModel = true;
@@ -574,7 +643,7 @@ export default {
                 console.log(response);
                 this.getFriends();
 
-
+                this.friendRemoveDisabled = false;
             }).catch(err => {
                 this.friendRemoveDisabled = false;
                 console.log(err);
@@ -609,6 +678,9 @@ export default {
 
             axios.get(baseURLLocal +'v1/friends/').then(response => {
                 this.friends = response.data.results;
+                this.friendsCount = response.data.count;
+
+                this.$store.commit('setFriendCount', this.friendsCount);
 
                 this.friends.map( (friend) => {friend.url = '/profile/'+friend.from_user.username; return friend});
 

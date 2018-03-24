@@ -271,7 +271,7 @@ class FriendsViewSet(viewsets.ModelViewSet): # ViewSet for handling friendship r
         if received_requests is not None:
             return Friend.objects.unread_requests(user=self.request.user)
 
-        return Friend.objects.filter(to_user=self.request.user).order_by('created')
+        return Friend.objects.filter(to_user=self.request.user).order_by('from_user__username')
 
     # create a friend request v1/friends
     # or respond to received request (accept or reject) based on 'accept' bool val
