@@ -132,10 +132,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p ><small>Last Build: </small>{{ "03/24/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "03/27/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.5.2 </p>
+            <p style="position: absolute; left: 50%">v0.5.3 </p>
 
 
 
@@ -179,7 +179,7 @@ export default {
             items: [
                 { title: 'Dashboard', icon: 'dashboard', link: '/user/dashboard/'},
                 { title: 'Create Workout', icon: 'create', link: '/create-workout/' },
-                { title: 'Manage Workouts', icon: 'schedule', link: '/manage/workouts/'},
+                { title: 'Calendar', icon: 'event', link: '/manage/workouts/'},
                 { title: 'Workout Stats', icon: 'trending_up', link: '/workout/stats/'},
                 { title: 'Archived Workouts', icon: 'archive', link: '/archived-workouts/'}
             ],

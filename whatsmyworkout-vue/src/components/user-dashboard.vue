@@ -112,9 +112,9 @@
             <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                             {{ snackbarText }}
                         </v-snackbar>
-            <v-container fluid grid-list-md>
+            <v-container fluid grid-list-md v-if="nextWorkoutItems.length > 0">
                     <v-data-iterator
-                      v-if="nextWorkoutItems"
+
                       content-tag="v-layout"
                       row
                       wrap
@@ -268,14 +268,15 @@
                         </v-card>
                       </v-flex>
                     </v-data-iterator>
-                <v-card v-else="nextWorkoutItems">
+
+            </v-container>
+            <v-card v-else="nextWorkoutItems">
                     <v-card-text>
                         No upcoming workouts have been scheduled. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the next one scheduled show up here
                     </v-card-text>
                 </v-card>
-            </v-container>
         </v-flex>
-        <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'pr-3': $vuetify.breakpoint.mdAndUp }">
+        <v-flex xs12 offset-md1 md3 :class="{'mt-4': $vuetify.breakpoint.smAndDown }">
     <v-card >
         <v-card-title>Friends</v-card-title>
         <v-tabs v-model="active" centered :scrollable="false" icons-and-text light fixed-tabs>

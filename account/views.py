@@ -473,6 +473,17 @@ class ExerciseViewSet(viewsets.ModelViewSet):
 
         return queryset
 
+    def destroy(self, request, *args, **kwargs):
+        delete_id = self.request.query_params.get('id', None)
+
+        deleted = Exercise.objects.get(id=delete_id).delete()
+
+        if deleted:
+            return Response({'status': 'Deleted Successfully'})
+
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 
 class SendWorkoutEmail(APIView):
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
@@ -525,7 +536,7 @@ class SendWorkoutEmail(APIView):
     def set_image(self, target_muscle):
         workout_image = None
         account = 'account'
-        dev_server = False
+        dev_server = True
 
         if dev_server:
             account = 'whatsmyworkout/account'

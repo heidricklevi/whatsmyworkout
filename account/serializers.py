@@ -145,6 +145,7 @@ class BodyStatSerializer(serializers.ModelSerializer):
 
 
 class ExerciseSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
     exercises = ExercisesSerializer(allow_null=True)
     workout_id = serializers.CharField(max_length=255, write_only=True, allow_null=True)  # not a field of the model
 
@@ -226,10 +227,11 @@ class CopyExerciseSerializer(serializers.ModelSerializer):
 class WorkoutSerializer(serializers.ModelSerializer):
     exercises = ExerciseSerializer(many=True, allow_null=True, required=False)
     workout_image = serializers.ImageField(required=False, allow_null=True)
+    notes = serializers.CharField(max_length=255, source='exercises.notes', required=False, allow_null=True)
 
     class Meta:
         model = Workout
-        fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type', 'completed')
+        fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type', 'completed', 'notes')
         extra_kwargs = {
             'lifting_weight': {'validators': []},
         }
@@ -241,9 +243,61 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
     def update(self, instance, validated_data):
 
-        self.create_or_update(validated_data)
+        # self.create_or_update(validated_data)
+        print(instance.id)
         self.set_workout_image(validated_data['target_muscle'], validated_data)
-        return super(WorkoutSerializer, self).update(instance, validated_data)
+
+        print(instance)
+
+        instance.date_for_completion = validated_data.get('date_for_completion', instance.date_for_completion)
+        instance.title = validated_data.get('title', instance.title)
+        instance.target_muscle = validated_data.get('target_muscle', instance.target_muscle)
+        instance.training_type = validated_data.get('training_type', instance.training_type)
+        instance.workout_image = validated_data.get('workout_image', None)
+
+        instance.save()
+
+        workout_exercises = validated_data.get('exercises')
+
+        for exercise in workout_exercises:
+            e_id = exercise.pop('id', None)
+            print(exercise)
+            exercises_to_be_added = exercise.pop('exercises', None)
+
+            if e_id:
+                exercise_object = Exercise.objects.get(id=e_id)
+
+                if exercises_to_be_added:
+                    to_associate = Exercises.objects.get(exercise_name=exercises_to_be_added['exercise_name'])
+                    exercise_object.exercises = to_associate
+
+                exercise_object.exercise_name = exercise['exercise_name']
+                exercise_object.reps = exercise['reps']
+                exercise_object.sets = exercise['sets']
+                exercise_object.notes = exercise['notes']
+                exercise_object.lifting_weight = exercise['lifting_weight']
+
+                exercise_object.save()
+
+                instance.exercises.add(exercise_object)
+            else:
+                exercise.pop('workout_id')
+
+                if exercises_to_be_added:
+
+                    to_associate = Exercises.objects.get(exercise_name=exercises_to_be_added['exercise_name'])
+                    new_exercise = Exercise.objects.create(**exercise, exercises=to_associate)
+
+                    instance.exercises.add(new_exercise)
+                else:
+                    new_exercise = Exercise.objects.create(**exercise)
+                    instance.exercises.add(new_exercise)
+
+            print(exercises_to_be_added)
+
+        instance.save()
+
+        return instance
 
     def create_or_update(self, validated_data):
 

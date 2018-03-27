@@ -130,7 +130,7 @@
                     <v-card tile>
                         <v-snackbar :color="copyAlertColor" v-model="copyAlertVal" top>{{ copyAlertText }}</v-snackbar>
                       <v-toolbar card dark color="primary">
-                        <v-btn icon @click.native="copyDialog = false" dark>
+                        <v-btn icon @click.native="closeCopyDialog" :disabled="closeDialogDisabled" dark>
                           <v-icon>close</v-icon>
                         </v-btn>
                         <v-toolbar-title>Copy Workout</v-toolbar-title>
@@ -240,6 +240,7 @@
                                                         :c-exercise="cExercise"
                                                         :index="i"
                                                         :target-muscle="copiedWorkout.target_muscle"
+                                                        :copied-workout="copiedWorkout"
                                                         :edit-exercise="cExercise.editExercise">
 
                                                     </edit-copied-exercises>
@@ -321,6 +322,8 @@
                 searchExercises: null,
                 exerciseDisabled: false,
 
+                closeDialogDisabled: false,
+
                 copyAlertVal: false,
                 copyAlertText: '',
                 copyAlertColor: '',
@@ -377,6 +380,12 @@
 
         },
         methods: {
+            closeCopyDialog() {
+                this.closeDialogDisabled = true;
+                this.fetchLastFive();
+
+
+            },
             addNewExercise() {
                 let newExercise = {};
                 this.$store.commit('setNewExerciseToggle', !this.$store.state.friendProfile.addNewExerciseToggle);
@@ -414,6 +423,7 @@
             },
             selectedCopy (workout){
                 this.copyDialog = true;
+                workout.isCopiedFromFriend = true;
                 this.$store.commit('setToCopyWorkout', workout);
                 this.copiedWorkout = this.$store.state.friendProfile.toCopyWorkout;
                 this.copiedWorkout.exercises.map((e) => {e.editExercise = false; return e});
@@ -518,9 +528,14 @@
                     this.loadLastFive = false;
                     this.items = response.data.results;
 
+                    this.copyDialog = false;
+                    this.closeDialogDisabled = false;
                 }).catch(err => {
                     this.loadLastFive = false;
                     console.log(err);
+
+                    this.copyDialog = false;
+                    this.closeDialogDisabled = false;
                 })
 
             },

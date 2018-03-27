@@ -1,105 +1,291 @@
 <template>
     <div>
 
-        <v-layout v-if="selectedWorkout">
+        <v-layout v-if="selectedWorkout" justify-center row wrap>
 
-            <v-flex md5 offset-md1>
-                <v-card>
-                <v-snackbar v-model="snackbar" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
-                    {{ snackbarText }}
+            <v-flex md3 xs12>
+                <v-snackbar v-model="snackbar" :color="snackColor" :top="y === 'top'">
+                    {{ snackText }}
                 </v-snackbar>
-                     <v-tooltip v-model="show" top style="float: right; opacity: 1; z-index: 150">
-                      <v-btn icon slot="activator">
-                        <v-icon color="grey lighten-1" style="opacity: 1">help_outline</v-icon>
-                      </v-btn>
-                      <span class="caption">Click on the fields to edit this workout; then click save edits.</span>
-                        </v-tooltip>
 
-                    <v-layout>
-                        <v-avatar class="ma-3" style="display: inline-flex;">
-                            <img :src="userAuth.user.avatar">
-                        </v-avatar>
 
-                    </v-layout>
-                     <span class="subheading mt-0" style="position: absolute; top: 5px; left: 65px">{{ userAuth.user.username }}</span>
-                    <v-menu lazy :close-on-content-click="false"
-                            v-model="updateDate"
-                            transition="scale-transition"
-                            offset-y
-                            full-width
-                            :nudge-right="40"
-                            max-width="295px"
-                            style="top: -25px">
-                        <div slot="activator"
-                         v-model="tmp.date_for_completion"
-                         label="edit date"
-                         style="position: absolute; left: 60px; top: 20%;"
-                         @click="updateDate = !updateDate">
-                        <v-icon class="pr-1">event</v-icon>
-                        {{ tmp.date_for_completion }}</div>
-                        <v-date-picker v-model="tmp.date_for_completion" no-title  actions>
-                            <template slot-scope="{ save, cancel }">
-                                <v-card-actions>
-                                    <v-spacer></v-spacer>
-                                    <v-btn primary @click.native="updateDate = !updateDate">Cancel</v-btn>
-                                    <v-btn primary @click.native="updateDate = !updateDate">Save</v-btn>
-                                </v-card-actions>
-                            </template>
-                        </v-date-picker>
-                    </v-menu>
-                    <v-card-title >
-                        <h3 class="headline mb-0" @click="updateTitle = !updateTitle">{{ tmp.title }}</h3>
-                    </v-card-title>
-                    <v-card raised v-if="updateTitle" style="position:absolute; width: 100%; top: 0px">
-                         <v-flex xs12>
-                            <v-text-field
-                                v-model="tmp.title"
-                                name="input-1"
-                                label="Update Title"
-                                id="title"
-                            ></v-text-field>
-                            <v-btn primary @click="save">save</v-btn>
-                        </v-flex>
-                    </v-card>
-                    <v-card-media :src="tmp.workout_image" contain height="250px"></v-card-media>
-                    <v-card-actions>
-                        <v-btn flat class="blue--text text--darken-4 pl-0 pt-0" @click.native="viewExercises = !viewExercises">View Exercises</v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn icon @click.native="viewExercises = !viewExercises">
-                            <v-icon>{{ viewExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                        </v-btn>
-                    </v-card-actions>
-                    <v-slide-y-transition>
-                        <v-card-text v-if="viewExercises">
-                            <v-list three-line subheader>
-                            <v-layout row justify-center>
-                                <v-flex xs6>
-                                    <v-subheader>Exercise</v-subheader>
+                    <v-card>
+                            <v-layout  row wrap>
+                                <v-flex xs8>
+                                    <v-avatar class="ml-4 mt-2"><img :src="userAuth.user.avatar"></v-avatar>
+                                    <div class="d-inline subheading  grey--text text--lighten-1 mt-0 mb-0 text-sm-center"
+                                                style="text-transform: uppercase; letter-spacing: 1px">
+                                            {{ userAuth.user.username }}</div>
+
+                                    <div class="caption text-md-center text-xs-right text-sm-center ml-4 pl-1" style="position: relative; top: -15px;">
+                                        <v-icon small>event</v-icon>
+                                        {{ tmp.date_for_completion | moment }}
+                                    </div>
                                 </v-flex>
-                                <v-flex xs3 offset-xs1>
-                                    <v-subheader class="text-xs-center">sets/reps</v-subheader>
+                                <v-flex xs4 md3 text-md-right text-xs-center>
+
+                                    <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout" class="ml-0 mr-0">
+                                            <v-icon v-if="!isEmailWorkout" small color="accent">send</v-icon>
+                                            <v-icon class="red--text" small v-if="isEmailWorkout">cancel</v-icon>
+                                    </v-btn>
                                 </v-flex>
+                                <v-flex xs10 class="pb-2 ">
+
+                                    <v-card raised v-if="isEmailWorkout" style="border-color: lightslategray; border-bottom-width: 5px;
+                                                            position: absolute; height: 200px; top: 50px; width: 100%; z-index: 2">
+
+                                        <form method="post" v-on:submit.prevent="sendWorkout">
+                                            <v-card-title>
+                                                Send this workout to a friend
+                                            </v-card-title>
+                                        <v-layout row>
+                                            <v-flex xs8 offset-xs2 md8 text-xs-center>
+                                            <v-select
+                                                    v-model="shareFriendWorkout"
+                                                    label="Search Friends"
+                                                    append-icon="search"
+                                                    return-object
+                                                    item-text="from_user.username"
+                                                    item-value="from_user.username"
+
+                                                    :items="friendsList"
+                                                    chips
+                                                    :loading="loadingFriendSearch"
+                                                    autocomplete
+                                                    :search-input.sync="searchFriends"
+                                                    required
+                                            >
+                                                <template slot="selection" slot-scope="data">
+
+                                                    <v-chip
+                                                      close
+                                                      @input="data.parent.selectItem(data.item.from_user)"
+                                                      :selected="data.selected"
+                                                      :key="JSON.stringify(data.item.from_user)"
+                                                    >
+                                                      <v-avatar>
+                                                        <img :src="data.item.from_user.avatar">
+                                                      </v-avatar>
+                                                      {{ data.item.from_user.username }}
+                                                    </v-chip>
+                                                  </template>
+                                                <template slot="item" slot-scope="data">
+                                                    <template v-if="typeof data.item !== 'object'">
+                                                        <v-list-tile-content v-text="data.item"></v-list-tile-content>
+                                                    </template>
+                                                <template v-else>
+                                                  <v-list-tile-avatar>
+                                                    <img :src="data.item.from_user.avatar">
+                                                  </v-list-tile-avatar>
+                                                  <v-list-tile-content>
+                                                    <v-list-tile-title v-html="data.item.from_user.username"></v-list-tile-title>
+                                                  </v-list-tile-content>
+                                                </template>
+                                              </template>
+                                            </v-select>
+                                            </v-flex>
+                                            </v-layout>
+                                            <v-layout>
+                                            <v-flex xs12 text-xs-center>
+                                                <v-btn color="primary" :loading="loading" type="submit" :disabled="loading" @click.native="loader = 'loading'">
+                                                    Send
+                                                    <span slot="loader" class="custom-loader">
+                                                        <v-icon>cached</v-icon>
+                                                    </span>
+                                                </v-btn>
+
+                                            </v-flex>
+                                                </v-layout>
+                                        </form>
+                                        </v-card>
+
+                                </v-flex>
+                                <v-flex xs10 offset-xs1 class="pt-0"><v-divider class="mt-1"></v-divider></v-flex>
+
                             </v-layout>
+                            <v-card-media :src="tmp.workout_image" contain height="300px">
+                                <v-layout row justify-center>
+                                    <v-flex text-xs-center xs12>
+                                        <h6 class="display-1 primary--text text--darken-2 ">
+                                            {{ tmp.title }}</h6></v-flex></v-layout>
+                            </v-card-media>
+                            <v-progress-circular style="position:absolute; top: 50%; right: 50%; "  v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
+                            <v-divider></v-divider>
+                            <v-card-actions>
 
-                            <template v-for="(exercise, index) in tmp.exercises" >
-                                <v-list-tile>
-                                    <update-exercise @click="updateExercise = !updateExercise" :exercise="exercise" :index="index"></update-exercise>
-                                </v-list-tile>
-                                <v-divider :key="exercise.id"></v-divider>
-                            </template>
-                            </v-list>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn color="primary" :loading="loading" :disabled="loading" @click.native="saveEdits">
-                                    Save Edits
-                                    <span slot="loader" class="custom-loader">
-                                        <v-icon light>cached</v-icon>
-                                    </span>
+                                <v-btn flat class="primary--text text--lighten-2 pl-0 pt-0" @click.native="viewExercises = !viewExercises">View Exercises</v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn icon @click.native="viewExercises = !viewExercises">
+                                    <v-icon color="primary">{{ viewExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
                                 </v-btn>
-                        </v-card-actions>
+                            </v-card-actions>
+                            <v-card-text v-if="viewExercises">
+                                <v-list dense>
+                                      <template v-for="(exercise, i) in tmp.exercises" v-if="tmp.exercises.length > 0">
+                                    <v-list-tile  :key="exercise.id">
 
-                    </v-slide-y-transition>
+                                      <v-list-tile-content class="grey--text text--darken-4">{{ i+1 }}. {{ exercise.exercise_name }}</v-list-tile-content>
+                                      <v-list-tile-content class="align-end grey--text text--darken-1 pt-2">{{ exercise.sets }} x {{ exercise.reps }}
+                                      <v-list-tile-content class="align-end caption grey--text text--lighten-1" v-if="exercise.lifting_weight">
+                                          @ {{ exercise.lifting_weight }} lbs.
+                                      </v-list-tile-content>
+                                      </v-list-tile-content>
+
+
+                                    </v-list-tile>
+                                        <toggle-exercise-notes  v-if="exercise.notes" :exercise="exercise" :index="i" :opened="exercise.isOpened"></toggle-exercise-notes>
+                                          <v-divider class="mt-2"></v-divider>
+                                          </template>
+                                  </v-list>
+                            </v-card-text>
+                        </v-card>
+            </v-flex>
+
+            <v-flex md6 xs12 offset-md1>
+                <v-flex xs12 class="mb-2 mt-3 pb-0"><v-card color="grey lighten-4">
+                    <v-card-title><h6 class="headline primary--text text--darken-2 pt-0 pb-0 mt-0 mb-0">Edit Workout</h6></v-card-title>
                 </v-card>
+                </v-flex>
+                <v-flex xs12>
+                <v-card>
+                    <v-form ref="copyWorkoutForm">
+                              <v-card-text>
+                                      <v-layout row wrap>
+                                          <v-flex xs11 offset-xs1 class="text-xs-left mb-3 ">
+                                                <span class="title grey--text text--darken-3">Workout Details</span>
+                                          </v-flex>
+                                          <v-flex xs10 offset-xs1 md4 offset-md1 >
+                                              <v-text-field
+                                                      color="accent"
+                                                      label="Workout Title"
+                                                      hint="What would you like to call this workout?"
+                                                      append-icon="edit"
+                                                      v-model="tmp.title"
+                                                      ></v-text-field>
+                                          </v-flex>
+                                          <v-flex xs10 offset-xs1 md4 offset-md1 >
+                                               <v-menu
+                                                    ref="menu"
+                                                    lazy
+                                                    :close-on-content-click="false"
+                                                    v-model="menu"
+                                                    transition="scale-transition"
+                                                    offset-y
+                                                    full-width
+                                                    :nudge-right="40"
+                                                    min-width="290px"
+                                                    :return-value.sync="tmp.date_for_completion"
+                                                  >
+                                                    <v-text-field
+                                                      slot="activator"
+                                                      label="Completion Date"
+                                                      v-model="tmp.date_for_completion"
+                                                      :value="tmp.date_for_completion"
+                                                      hint="When will you complete this workout?"
+                                                      prepend-icon="event"
+                                                      readonly
+
+                                                    ></v-text-field>
+                                                    <v-date-picker v-model="date" no-title scrollable>
+                                                      <v-spacer></v-spacer>
+                                                      <v-btn flat color="primary" @click="menu = false">Cancel</v-btn>
+                                                      <v-btn flat color="primary" @click="$refs.menu.save(date)">OK</v-btn>
+                                                    </v-date-picker>
+                                                  </v-menu>
+                                          </v-flex>
+                                          <v-flex xs10 offset-xs1 md4 offset-md1 >
+                                              <v-select
+                                                      v-model="tmp.training_type"
+                                                      label="Training Type"
+                                                      :value="tmp.training_type"
+                                                      :items="training_types"
+                                                      title="Training Type">
+
+                                              </v-select>
+                                          </v-flex>
+                                          <v-flex xs10 offset-xs1 md4 offset-md1>
+                                              <v-select
+                                                  v-model="targetMuscle"
+                                                  label="Target Muscle"
+                                                  :value="tmp.target_muscle"
+                                                  :items="targetMuscles"
+                                                  hint="Exercises displayed based on target muscle."
+                                              >
+
+                                              </v-select>
+                                          </v-flex>
+
+
+                                      </v-layout>
+                                  <v-divider class="mt-3 mb-3"></v-divider>
+                                      <v-layout row wrap fill-height>
+                                          <v-layout row class="mt-0">
+                                              <v-flex xs5 offset-xs1 class="text-xs-left">
+                                                <span class="title grey--text text--darken-3">Exercises</span>
+                                              </v-flex>
+                                            <v-flex xs5 text-xs-right class="pt-0 mt-0">
+                                              <v-btn icon @click="addNewExercise" class="pt-0 mt-0">
+                                                  <v-icon v-if="!getAddNewExerciseToggle">add</v-icon>
+                                                  <v-icon v-if="getAddNewExerciseToggle" color="error">cancel</v-icon>
+                                              </v-btn>
+                                            </v-flex>
+                                          </v-layout>
+                                          <v-flex xs12 class="mt-3">
+                                           <!--<v-flex xs12 md1 offset-md1 class="mt-3">
+
+                                           </v-flex>
+                                            <v-flex md4 xs12 class="ml-2">
+                                                <v-select
+                                                    dense
+                                                    :disabled="eSearchDisabled"
+                                                    :loading="eSelectLoading"
+                                                    item-text="exercise_name"
+                                                    item-value="exercise_name"
+                                                    autocomplete
+                                                    :search-input.sync="searchExercises"
+                                                    return-object
+                                                    :items="target_exercises"
+                                                    v-model="selectedExercise"
+                                                    label="Exercise"
+                                                    >
+
+                                                </v-select>
+                                            </v-flex>-->
+                                          <v-list dense>
+                                              <template v-for="(cExercise, i) in getCopiedExercises">
+                                                <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mb-5': $vuetify.breakpoint.smAndDown,}">
+                                                    <edit-copied-exercises
+                                                        :c-exercise="cExercise"
+                                                        :index="i"
+                                                        :copied-workout="tmp"
+                                                        :target-muscle="targetMuscle"
+                                                        :edit-exercise="cExercise.editExercise">
+
+                                                    </edit-copied-exercises>
+                                                </div>
+                                                  <v-flex xs12 md10 offset-md1 v-if="i !== getCopiedExercises.length -1"><v-divider></v-divider></v-flex>
+                                              </template>
+                                           </v-list>
+                                              </v-flex>
+                                      </v-layout>
+                              </v-card-text>
+                        </v-form>
+                </v-card>
+
+            </v-flex>
+                <v-divider></v-divider>
+
+
+                <v-flex text-xs-right>
+                    <v-btn
+                            @click="saveEdits"
+                            :disabled="saveDisabled"
+                            color="accent">
+                        Save Changes
+
+                        <v-icon right >save</v-icon>
+                    </v-btn>
+                </v-flex>
             </v-flex>
         </v-layout>
         <v-alert v-else="selectedWorkout" color="error">Could not load the desired workout to edit</v-alert>
@@ -112,12 +298,21 @@ import { userAuth, baseURLLocal } from '../auth/auth-utils'
 import axios from 'axios'
 import moment from 'moment'
 import updateExercise from './edit-exercise.vue'
+import EditCopiedExercises from './edit-copied-exercises.vue'
+import ToggleExerciseNotes from './toggle-exercise-notes.vue'
 
 
 export default {
     name: 'workout-detail',
   data () {
     return {
+
+        isEmailWorkout: false,
+        friendsList: [],
+        shareFriendWorkout: [],
+        loadingFriendSearch: false,
+        searchFriends: null,
+
         selectedWorkout: this.$store.state.data[0],
         userAuth: this.$store.state.userAuth,
         newWorkout: {},
@@ -135,17 +330,198 @@ export default {
         show: false,
         tip: false,
 
+        loadingWorkout: false,
+
+        date: this.$store.state.data[0].date_for_completion,
+        workoutTitle: this.$store.state.data[0].title,
+        trainingType: this.$store.state.data[0].training_type,
+        targetMuscle: this.$store.state.data[0].target_muscle,
+        completed: this.$store.state.data[0].completed,
+        created: this.$store.state.data[0].created? this.$store.state.data[0].created: '',
+
+
+        target_exercises: [],
+        eSearchDisabled: false,
+        eSelectLoading: false,
+        selectedExercise: null,
+        searchExercises: null,
+        exerciseDisabled: false,
+
+        saveDisabled: false,
+
+        snackColor: '',
+        snackText: '',
+
+
+
+        targetMuscles: [
+            { text: 'Chest', value: "Chest"},
+          //{ text: 'Biceps', value: "Biceps"},
+          { text: 'Abs', value: "Abs"},
+          //{ text: 'Triceps', value: "Triceps"},
+          { text: 'Back', value: 'Back'},
+          { text: 'Legs', value: 'Legs'},
+          { text: 'Arms', value: 'Arms'},
+        ],
+        training_types: [
+                  { text: 'Strength Training', value: 'Strength Training'},
+                  { text: 'Flexibility Focused', value: 'Flexibility Focused'},
+                  { text: 'Endurance', value: 'Endurance'},
+                  { text: 'Balance Focused', value: 'Balance Focused'}
+        ],
+        menu: false,
+
+
+
+        newExercise: {},
+
+
 
     }
   },
 
+    filters: {
+        moment: function (date) {
+            return moment(date).format("dddd, MMMM Do YYYY");
+        }
+      },
+
   computed: {
+
+        getAddNewExerciseToggle (){
+                return this.$store.state.friendProfile.addNewExerciseToggle;
+            },
+            getCopiedWorkout: {
+                get: function() {
+                    this.tmp.exercises.map((e) => {e.editExercise = false; return e});
+                    return this.tmp;
+                },
+                set: function (newExercise) {
+
+                    this.tmp.exercises.push(newExercise);
+                }
+
+            },
+
+            getCopiedExercises: function () {
+                return this.tmp.exercises
+            },
+
+            getTargetMuscle: function () {
+                return this.targetMuscle;
+            }
 
   },
 
   watch: {
+        searchFriends(val) {
+              val && this.querySelectionsFriends(val)
+        },
+
+
+        searchExercises(val) {
+
+                val && this.querySelections(val)
+            },
   },
   methods: {
+
+        sendWorkout: function () {
+            var self = this;
+            var payload = this.tmp;
+
+            for (var i = 0; i < payload.exercises.length; i++) {
+                payload.exercises[i].workout_id = this.tmp.id;
+            }
+
+            payload.to = this.shareFriendWorkout.from_user.username;
+
+            this.loading = true;
+            axios.post(baseURLLocal + 'v1/workout/send/', payload)
+                .then(function () {
+                    self.snackbar = true;
+                    self.snackbarText = "Successfully sent workout to " + payload.to;
+                    self.snackColor = 'green';
+
+                    self.loading = false;
+                    console.log('Success')
+                }).catch(function (err) {
+                self.snackColor = 'error';
+                self.snackbar = true;
+                self.snackText = "Could not send workout to " + payload.to + " error " + err.response.data.status;
+
+                self.loading = false;
+                console.log(err)
+            })
+        },
+        querySelections (v) {
+                this.eSelectLoading = true;
+                //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
+
+                axios.get(baseURLLocal+'v1/exercises/?target_muscle='+this.getTargetMuscle).then(response => {
+
+                    this.target_exercises = response.data.results.filter(e => {
+                        return (e || '').exercise_name.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                    });
+
+                    this.eSelectLoading = false;
+                }).catch(err => {
+                    console.log(err);
+                    this.eSelectLoading = false;
+                })
+
+        },
+      querySelectionsFriends(v) {
+            this.loadingFriendSearch = true;
+            this.friendsList = [];
+
+
+                if (v) {
+                    axios.get(baseURLLocal+'v1/friends/find?search='+v).then(response => {
+
+                    this.friendsList = response.data.results.filter(e => {
+                        return (e || '').from_user.username.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                    });
+
+                    this.loadingFriendSearch = false;
+                    }).catch(err => {
+                        this.friendsList = [];
+                        console.log(err);
+                    })
+                }
+
+                else {
+                    this.friendsList = [];
+                }
+      },
+        addNewExercise() {
+                let newExercise = {};
+                this.$store.commit('setNewExerciseToggle', !this.$store.state.friendProfile.addNewExerciseToggle);
+                //this.addNewExerciseToggle = this.$store.state.friendProfile.addNewExerciseToggle;
+
+                if (!this.getAddNewExerciseToggle) {
+
+                    this.tmp.exercises.splice(-1, 1); // user cancels addition of new exercise, so we remove last one from list
+                    return
+                }
+
+                // construct new exercise object with default/stub values
+
+                newExercise.user = this.$store.state.userAuth.user.id;
+                newExercise.date_for_completion = '';
+                newExercise.lifting_weight = 0;
+                newExercise.sets = 0;
+                newExercise.reps = 0;
+                newExercise.workout_id = null;
+                newExercise.editExercise = true;
+                newExercise.exercises = [];
+
+                // push onto copied workout exercises property list
+
+                this.getCopiedWorkout = newExercise;
+
+
+            },
       save: function (e) {
         this.updateTitle = false;
 
@@ -164,9 +540,19 @@ export default {
             axios.put(baseURLLocal+'v1/workouts/'+payload.id +'/', payload)
                 .then(function (response) {
                     payload.workout_image = response.data.workout_image;
+
+                    let arr = [];
+                    arr.push(response.data);
+
+                    self.$store.commit('setData', arr);
+
+                    self.tmp = response.data;
+
+
                     self.context = 'success';
                     self.snackbar = true;
-                    self.snackbarText = "Successfully updated workout to ";
+                    self.snackbarText = "Successfully updated workout";
+
 
                     self.loading = false;
 
@@ -182,6 +568,8 @@ export default {
             })
         },
 
+
+
   },
 
   mounted: function () {
@@ -189,7 +577,7 @@ export default {
       this.tmp.date_for_completion = moment(this.tmp.date_for_completion).format('YYYY-MM-DD');
   },
   components: {
-      updateExercise
+      updateExercise, EditCopiedExercises, ToggleExerciseNotes
   }
 }
 </script>
