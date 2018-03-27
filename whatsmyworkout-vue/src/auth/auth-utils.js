@@ -5,7 +5,7 @@
 import jwt_decoded from 'jwt-decode'
 
 
-export let baseURLLocal = "";
+export let baseURLLocal = "http://127.0.0.1:8000/";
 
 
 export function getJWTHeader() {
