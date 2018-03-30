@@ -305,6 +305,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         for exercise in exercises:
             id = exercise.pop('workout_id', None)
             exercises_to_be_added = exercise.pop('exercises', None)
+            print(exercise)
 
             print(exercises_to_be_added)
             if exercises_to_be_added:

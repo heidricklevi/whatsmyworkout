@@ -148,9 +148,11 @@
                 </v-flex>
                 <v-flex xs12>
                 <v-card>
-                    <v-form ref="copyWorkoutForm">
+
                               <v-card-text>
+                                  <v-form ref="copyWorkoutForm" v-model="workoutValid" style="width: 100%;">
                                       <v-layout row wrap>
+
                                           <v-flex xs11 offset-xs1 class="text-xs-left mb-3 ">
                                                 <span class="title grey--text text--darken-3">Workout Details</span>
                                           </v-flex>
@@ -161,6 +163,7 @@
                                                       hint="What would you like to call this workout?"
                                                       append-icon="edit"
                                                       v-model="tmp.title"
+                                                      :rules="[rules.required, rules.workoutNameSpecialChars]"
                                                       ></v-text-field>
                                           </v-flex>
                                           <v-flex xs10 offset-xs1 md4 offset-md1 >
@@ -184,6 +187,7 @@
                                                       hint="When will you complete this workout?"
                                                       prepend-icon="event"
                                                       readonly
+                                                      :rules="[rules.required]"
 
                                                     ></v-text-field>
                                                     <v-date-picker v-model="date" no-title scrollable>
@@ -199,6 +203,7 @@
                                                       label="Training Type"
                                                       :value="tmp.training_type"
                                                       :items="training_types"
+                                                      :rules="[rules.required]"
                                                       title="Training Type">
 
                                               </v-select>
@@ -210,6 +215,7 @@
                                                   :value="tmp.target_muscle"
                                                   :items="targetMuscles"
                                                   hint="Exercises displayed based on target muscle."
+                                                  :rules="[rules.required]"
                                               >
 
                                               </v-select>
@@ -217,6 +223,7 @@
 
 
                                       </v-layout>
+                                       </v-form>
                                   <v-divider class="mt-3 mb-3"></v-divider>
                                       <v-layout row wrap fill-height>
                                           <v-layout row class="mt-0">
@@ -269,7 +276,7 @@
                                               </v-flex>
                                       </v-layout>
                               </v-card-text>
-                        </v-form>
+
                 </v-card>
 
             </v-flex>
@@ -279,7 +286,7 @@
                 <v-flex text-xs-right>
                     <v-btn
                             @click="saveEdits"
-                            :disabled="saveDisabled"
+                            :disabled="saveChangesDisabled"
                             color="accent">
                         Save Changes
 
@@ -313,6 +320,9 @@ export default {
         loadingFriendSearch: false,
         searchFriends: null,
 
+        saveChangesDisabled: false,
+        workoutValid: false,
+
         selectedWorkout: this.$store.state.data[0],
         userAuth: this.$store.state.userAuth,
         newWorkout: {},
@@ -338,6 +348,18 @@ export default {
         targetMuscle: this.$store.state.data[0].target_muscle,
         completed: this.$store.state.data[0].completed,
         created: this.$store.state.data[0].created? this.$store.state.data[0].created: '',
+
+
+        rules: {
+
+                    required: (val) => !!val || 'Cannot be blank.',
+                    workoutNameSpecialChars: (val) => {
+                        return !/[^a-zA-Z0-9 '!]/.test(val) || 'Workout Name is Alphanumeric and can only include space, apostrophe and exclamation.';
+                    },
+                    validSets: (val) => val > 0 || 'Enter valid Sets',
+                    validReps: (val) => val > 0 || 'Enter Valid Reps',
+                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)'
+      },
 
 
         target_exercises: [],
@@ -414,6 +436,11 @@ export default {
   },
 
   watch: {
+
+        workoutValid () {
+
+            this.saveChangesDisabled = !this.workoutValid;
+        },
         searchFriends(val) {
               val && this.querySelectionsFriends(val)
         },
@@ -440,7 +467,7 @@ export default {
             axios.post(baseURLLocal + 'v1/workout/send/', payload)
                 .then(function () {
                     self.snackbar = true;
-                    self.snackbarText = "Successfully sent workout to " + payload.to;
+                    self.snackText = "Successfully sent workout to " + payload.to;
                     self.snackColor = 'green';
 
                     self.loading = false;
@@ -527,6 +554,7 @@ export default {
 
       },
       saveEdits: function () {
+            this.saveChangesDisabled = true;
             var self = this;
             this.loader = 'loading';
             var payload = this.tmp;
@@ -549,20 +577,24 @@ export default {
                     self.tmp = response.data;
 
 
-                    self.context = 'success';
+                    self.snackColor = 'success';
                     self.snackbar = true;
-                    self.snackbarText = "Successfully updated workout";
+                    self.snackText = "Successfully updated workout";
 
 
                     self.loading = false;
+
+                    self.saveChangesDisabled = false;
 
                     console.log('Success')
             }).catch(function (err) {
-                    self.context = 'error';
+                    self.snackColor = 'error';
                     self.snackbar = true;
-                    self.snackbarText = "Could not update workout "+"error " + err;
+                    self.snackText = "Could not update workout "+"error " + err;
 
                     self.loading = false;
+
+                    self.saveChangesDisabled = false;
 
                     console.log(err)
             })

@@ -75,7 +75,7 @@ class Exercise(models.Model):
     notes = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
-    created = models.DateTimeField(auto_now_add=True, editable=False)
+    created = models.DateTimeField(auto_now_add=True, editable=False, blank=True, null=True)
 
     def __str__(self):
         return self.exercise_name
@@ -150,7 +150,7 @@ class Workout(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     exercises = models.ManyToManyField(Exercise)
     date_for_completion = models.DateField(default=datetime.date.today,)
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(auto_now_add=True, blank=True)
     title = models.CharField(max_length=150, )
     workout_image = models.ImageField(blank=True, null=True)
 

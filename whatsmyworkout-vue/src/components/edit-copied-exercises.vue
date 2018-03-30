@@ -4,7 +4,7 @@
 
         <v-layout row wrap >
 
-                                                      <v-flex md3 offset-md1 xs8 v-if="getEditExercise" class="hidden-sm-and-down">
+                                                      <v-flex md3 offset-md1 xs8 v-if="getEditExercise && $vuetify.breakpoint.mdAndUp" class="hidden-sm-and-down">
                                                           <v-select
                                                                 dense
 
@@ -18,8 +18,10 @@
                                                                 :items="target_exercise"
                                                                 v-model="selectedExercise"
                                                                 label="Exercise"
-                                                                :value="cExercise.exercise_name"
+
+                                                                :rules="[rules.required]"
                                                                 :disabled="exerciseSearchDisabled"
+                                                                ref="selectedExercise"
                                                                 >
 
                                                             </v-select>
@@ -49,42 +51,50 @@
                                                                 @ {{ workingWeight? workingWeight: cExercise.lifting_weight }} lbs.</span>
                                                         </v-flex>
                                                     </v-layout>
+                                                    <!--<v-form ref="editExerciseForm" v-model="exerciseValid">-->
                                                     <v-flex
                                                             xs2
                                                             md1
                                                             offset-md1
-                                                            v-if="getEditExercise"
+                                                            v-if="getEditExercise && $vuetify.breakpoint.mdAndUp"
                                                             >
                                                           <v-text-field
                                                               label="Sets"
                                                               type="number"
-                                                              v-model="cExercise.sets"
+                                                              v-model="sets"
+                                                              :rules="[rules.required, rules.validSets]"
+                                                              ref="sets"
                                                               hint="# of sets">
 
                                                           </v-text-field>
 
                                                       </v-flex>
-                                                      <v-flex xs3 offset-xs1 md1 text-xs-right class="ml-1" v-if="getEditExercise">
+                                                      <v-flex xs3 offset-xs1 md1 text-xs-right class="ml-1" v-if="getEditExercise && $vuetify.breakpoint.mdAndUp">
                                                           <v-text-field
                                                               label="Reps"
                                                               type="number"
-                                                              v-model="cExercise.reps"
+                                                              v-model="reps"
+                                                              ref="reps"
+                                                              :rules="[rules.required, rules.validReps]"
                                                               hint="# of reps">
 
                                                           </v-text-field>
 
                                                       </v-flex>
-                                                    <v-flex xs3 md2 offset-xs1 text-xs-right offset-md1 align-end v-if="getEditExercise">
+                                                    <v-flex xs3 md2 offset-xs1 text-xs-right offset-md1 align-end v-if="getEditExercise && $vuetify.breakpoint.mdAndUp">
                                                           <v-text-field
                                                               label="Weight"
                                                               type="number"
                                                               suffix="lbs."
-                                                              v-model="cExercise.lifting_weight"
+                                                              ref="workingWeight"
+                                                              v-model="workingWeight"
+                                                              :rules="[rules.validLW]"
                                                               hint="Total weight lifted per rep">
 
                                                           </v-text-field>
 
                                                       </v-flex>
+                                                   <!--</v-form>-->
                                                     <v-flex md2 xs4 offset-xs1 v-if="!getEditExercise" text-xs-left class="hidden-sm-and-down">
                                                             <v-btn icon class="align-end pa-0 ma-0"   @click="copiedExerciseEdit(cExercise)">
                                                                 <v-icon color="primary lighten-3">edit</v-icon>
@@ -94,10 +104,14 @@
                                                             </v-btn>
                                                       </v-flex>
                                                       <v-flex md1 xs3  v-if="getEditExercise" text-xs-right class="hidden-sm-and-down">
-                                                            <v-btn icon class="align-end" absolute style="right: 50px; " @click="saveExerciseEdit(cExercise)">
+                                                            <v-btn icon class="align-end"
+                                                                   absolute
+                                                                   style="right: 50px; "
+                                                                   @click="saveExerciseEdit(cExercise)"
+                                                                   :disabled="hasErrors">
                                                                 <v-icon color="accent">check_circle</v-icon>
                                                             </v-btn>
-                                                            <v-btn icon absolute  class="align-end" @click="editExercise = false" v-if="!newExerciseToggle">
+                                                            <v-btn icon absolute  class="align-end" @click="cancelEditExercise(cExercise)" v-if="!newExerciseToggle">
                                                                 <v-icon color="error">cancel</v-icon>
                                                             </v-btn>
                                                       </v-flex>
@@ -119,6 +133,7 @@
                                                       </v-flex>-->
 
                                             <v-layout row wrap justify-center class="hidden-md-and-up">
+
                                                     <v-dialog
                                                             v-model="mobileEditExerciseDialog"
                                                             fullscreen
@@ -126,14 +141,17 @@
                                                             :overlay="false"
                                                             class="hidden-md-and-up">
                                                       <v-card>
+                                                          <v-form ref="mobileExerciseEditForm" v-model="valid" lazy-validation>
                                                         <v-toolbar dark color="primary">
-                                                          <v-btn icon @click.native="editExercise = false" dark>
+                                                          <v-btn icon @click.native="cancelEditExercise(cExercise)" dark>
                                                             <v-icon>close</v-icon>
                                                           </v-btn>
                                                           <v-toolbar-title>Edit Exercise</v-toolbar-title>
                                                           <v-spacer></v-spacer>
                                                           <v-toolbar-items>
-                                                            <v-btn dark flat @click.native="saveExerciseEdit(cExercise)">Save</v-btn>
+                                                            <v-btn dark flat
+                                                                   @click.native="saveExerciseEdit(cExercise)"
+                                                                   :disabled="!valid">Save</v-btn>
                                                           </v-toolbar-items>
                                                         </v-toolbar>
                                                         <v-layout row wrap>
@@ -153,6 +171,7 @@
                                                                 label="Exercise"
                                                                 :value="cExercise.exercise_name"
                                                                 :disabled="exerciseSearchDisabled"
+                                                                :rules="[rules.required]"
                                                                 >
 
                                                             </v-select>
@@ -161,12 +180,13 @@
                                                             xs4 offset-xs1
                                                             md1
                                                             offset-md1
-                                                            v-if="getEditExercise"
+
                                                             >
                                                           <v-text-field
                                                               label="Sets"
                                                               type="number"
-                                                              v-model="cExercise.sets"
+                                                              v-model="sets"
+                                                              :rules="[rules.required, rules.validSets]"
                                                               hint="# of sets">
 
                                                           </v-text-field>
@@ -176,7 +196,8 @@
                                                           <v-text-field
                                                               label="Reps"
                                                               type="number"
-                                                              v-model="cExercise.reps"
+                                                              v-model="reps"
+                                                              :rules="[rules.required, rules.validReps]"
                                                               hint="# of reps">
 
                                                           </v-text-field>
@@ -187,13 +208,15 @@
                                                               label="Weight"
                                                               type="number"
                                                               suffix="lbs."
-                                                              v-model="cExercise.lifting_weight"
+                                                              :rules="[rules.validLW]"
+                                                              v-model="workingWeight"
                                                               hint="Total weight lifted per rep">
 
                                                           </v-text-field>
 
                                                       </v-flex>
                                                             </v-layout>
+                                                    </v-form>
 
                                                       </v-card>
                                                     </v-dialog>
@@ -224,13 +247,14 @@
                 target_exercise: [],
                 eSearchDisabled: false,
                 eSelectLoading: false,
-                selectedExercise: null,
+                selectedExercise: this.cExercise.exercises,
                 searchExercises: null,
                 exerciseSearchDisabled: false,
 
-                sets: null,
-                reps: null,
-                workingWeight: null,
+                setsVal: this.cExercise.sets,
+                repsVal: this.cExercise.reps,
+                liftingWeightVal: this.cExercise.lifting_weight,
+
 
                 localExercises: [],
                 newExerciseToggle: this.$store.state.friendProfile.addNewExerciseToggle,
@@ -247,10 +271,86 @@
                   { text: 'Arms', value: 'Arms'},
                 ],
 
+                rules: {
+
+                    required: (val) => !!val || 'Cannot be blank.',
+                    workoutNameSpecialChars: (val) => {
+                        return !/[^a-zA-Z0-9 '!]/.test(val) || 'Workout Name is Alphanumeric and can only include space, apostrophe and exclamation.';
+                    },
+                    validSets: (val) => val > 0 || 'Enter valid Sets',
+                    validReps: (val) => val > 0 || 'Enter Valid Reps',
+                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)'
+                },
+
+                mobileExerciseEditSave: false,
+                valid: false,
+
+                exerciseEditSave: false,
+                exerciseValid: false,
+
+                hasErrors: false,
+
+
+
 
             }
         },
         computed: {
+
+            exercisePayload () {
+
+                return {
+
+                        selectedExercise: this.selectedExercise,
+                        sets: this.sets,
+                        reps: this.reps,
+                        workingWeight: this.workingWeight
+                    }
+            },
+
+            sets: {
+                get () {
+
+                    return this.setsVal;
+
+                },
+
+                set(val) {
+
+                    this.setsVal = val;
+
+                }
+            },
+
+            reps: {
+                get () {
+
+                    return this.repsVal;
+
+                },
+
+                set(val) {
+
+                    this.repsVal = val;
+
+                }
+            },
+
+            workingWeight: {
+                get () {
+
+                    return this.liftingWeightVal;
+
+                },
+
+                set(val) {
+
+                    this.liftingWeightVal = val;
+
+                }
+            },
+
+
 
             mobileEditExerciseDialog: {
                 get: function () {
@@ -282,6 +382,18 @@
         },
         watch: {
 
+            exercisePayload() {
+
+                this.hasErrors = false;
+
+                Object.keys(this.exercisePayload).forEach(field => {
+                    if (!this.$refs[field].validate()) this.hasErrors = true;
+                })
+
+
+
+            },
+
             eTargetMuscle() {
 
                 this.exerciseSearchDisabled = !this.eTargetMuscle
@@ -292,6 +404,18 @@
             },
         },
         methods: {
+
+            cancelEditExercise(exercise) {
+
+                this.sets = exercise.sets;
+                this.reps = exercise.reps;
+                this.workingWeight = exercise.lifting_weight;
+                this.selectedExercise = exercise.exercises;
+
+                this.editExercise = false;
+
+            },
+
 
             removeExercise(exerciseToDelete) {
                 let exercises = this.workoutToEdit[0].exercises;
@@ -351,8 +475,12 @@
             saveExerciseEdit(exercise) {
                 this.getEditExercise = !this.getEditExercise;
                 this.$store.commit('setNewExerciseToggle', false);
+
                 exercise.exercises = this.selectedExercise;
                 exercise.exercise_name = this.selectedExercise.exercise_name;
+                exercise.sets = this.sets;
+                exercise.reps = this.reps;
+                exercise.lifting_weight = this.workingWeight? this.workingWeight: 0;
 
 
 

@@ -332,6 +332,8 @@
 
                 newExercise: {},
 
+                userAuth: this.$store.state.userAuth,
+
 
 
 
@@ -444,7 +446,9 @@
                 localCopy.training_type = this.selectedTrainingType;
                 localCopy.title = this.title;
                 localCopy.workout_image = null;
-                localCopy.exercises.map((e) => { e.workout_id = null; return e});
+                localCopy.exercises.map((e) => { e.workout_id = null; delete e.id; e.user = this.userAuth.user.id; delete e.editExercise; e.notes = ''; return e});
+
+
 
 
                 this.copySaveDisabled = true;
