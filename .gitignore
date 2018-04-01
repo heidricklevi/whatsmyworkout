@@ -8,3 +8,4 @@ img/
 migrations/
 *(1)*
 *.log
+*.htaccess

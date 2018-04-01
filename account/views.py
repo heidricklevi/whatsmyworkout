@@ -129,7 +129,15 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
         target_muscle = self.request.query_params.get('target_muscle', None)
         max_type = self.request.query_params.get('max_type', None)
         exercise_name = self.request.query_params.get('exercise_name', None)
+        friend = self.request.query_params.get('friend', None)
+        latest = self.request.query_params.get('latest', None)
+        earliest = self.request.query_params.get('earliest', None)
+        max = self.request.query_params.get('max', None)
+
         q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
+
+        if friend:
+            q = MaxLiftTracking.objects.filter(profile__user=friend)
 
         if target_muscle is not None and not max_type:
             q = q.filter(target_muscle=target_muscle).order_by('-created')
@@ -140,6 +148,21 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
 
         if exercise_name:
             q = q.filter(exercise__exercise_name=exercise_name)
+
+        if friend and latest:
+            q = MaxLiftTracking.objects.filter(profile_id=friend).\
+                filter(exercise__exercise_name=exercise_name)\
+                .filter(max_type=max_type).order_by('-created')[:1]
+
+        if friend and earliest:
+            q = MaxLiftTracking.objects.filter(profile_id=friend). \
+                filter(exercise__exercise_name=exercise_name)\
+                .filter(max_type=max_type).order_by('created')[:1]
+
+        if friend and max:
+            q = MaxLiftTracking.objects.filter(profile_id=friend). \
+                filter(exercise__exercise_name=exercise_name)\
+                .filter(max_type=max_type).order_by('-weight')[:1]
 
         return q
 
@@ -482,7 +505,6 @@ class ExerciseViewSet(viewsets.ModelViewSet):
             return Response({'status': 'Deleted Successfully'})
 
         return Response(status=status.HTTP_400_BAD_REQUEST)
-
 
 
 class SendWorkoutEmail(APIView):

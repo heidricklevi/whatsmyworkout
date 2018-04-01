@@ -9,12 +9,12 @@
             <user-friend-profile :user-auth="userProfileProp" :username="username"></user-friend-profile>
         </v-flex>
         <v-flex md8 xs12>
-            <v-flex md8 offset-md2 xs12>
+            <v-flex md10 offset-md1 xs12>
                     <v-card class="blue-grey lighten-5" :class="{'mt-4': $vuetify.breakpoint.smAndDown }">
                           <v-layout row wrap >
-                            <v-flex xs6 text-xs-center>
+                            <v-flex xs5 offset-xs1 text-xs-left>
                                 <v-avatar><img :src="userProfileProp.user.avatar"></v-avatar>
-                                 <span class="subheading grey--text text--darken-1">{{ userProfileProp.user.username }}</span>
+                                 <span class="subheading grey--text text--darken-4">{{ userProfileProp.user.username }}</span>
                             </v-flex>
                             <v-flex  xs6 text-xs-center fill-height>
                                 <v-avatar icon class="pr-0 mr-0"><v-icon color="primary">access_time</v-icon></v-avatar>
@@ -28,6 +28,17 @@
                             </v-flex>-->
                           </v-layout>
                         </v-card>
+            </v-flex>
+            <v-flex md10 offset-md1 xs12>
+                <v-container class="mt-4">
+                    <v-layout row wrap>
+                        <v-flex xs12>
+                            <h6 class="title grey--text text--darken-3">Max Lift Progression</h6>
+                            <h6 class="subheading grey--text text--darken-1">Core Movements Displayed</h6>
+                        </v-flex>
+                        <max-lift-profile></max-lift-profile>
+                    </v-layout>
+                </v-container>
             </v-flex>
             <v-flex md10 offset-md1 class="mt-4">
                 <v-tabs icons-and-text centered color="grey lighten-3">
@@ -106,7 +117,7 @@
 
 
                                     </v-list-tile>
-                                          <v-divider></v-divider>
+                                          <v-divider v-if="i !== props.item.exercises.length -1"></v-divider>
                                           </template>
                                   </v-list>
                                   <v-flex text-xs-center xs12 v-if="props.item.exercises.length <= 0">
@@ -273,10 +284,11 @@
 
     import UserFriendProfile from './user-friend-profile.vue'
     import EditCopiedExercises from './edit-copied-exercises.vue'
+    import MaxLiftProfile from './max-lift-profile.vue'
 
     export default {
         name: "user-public-profile",
-        components: { UserFriendProfile, EditCopiedExercises},
+        components: { UserFriendProfile, EditCopiedExercises, MaxLiftProfile},
         props: [],
         data () {
             return {
