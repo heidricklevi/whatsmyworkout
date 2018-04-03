@@ -17,15 +17,29 @@ import ProfileStatDetail from '../components/profile-stat-tracking-detail.vue'
 import PublicProfile from '../components/user-public-profile.vue'
 import ProfileSettings from '../components/profile-settings.vue'
 import AccountSettingsDetail from '../components/account-settings-detail.vue'
+import { getJWTHeader } from '../auth/auth-utils'
+import axios from 'axios'
 
 Vue.use(Router);
+
+(function() {
+     let token = getJWTHeader();
+     if (token) {
+         axios.defaults.headers.common['Authorization'] = token;
+     } else {
+         axios.defaults.headers.common['Authorization'] = null;
+         /*if setting null does not remove `Authorization` header then try
+           delete axios.defaults.headers.common['Authorization'];
+         */
+     }
+})();
 
 
 
 
 export default new Router({
   base: '/',
-  mode: 'hash',
+  mode: 'history',
   routes: [
       {
         path: '/account/settings/',

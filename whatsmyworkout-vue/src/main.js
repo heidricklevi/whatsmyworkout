@@ -7,6 +7,7 @@ import vueEventCalendar from 'vue-event-calendar'
 import Vuex from 'vuex'
 import store from './store'
 
+
 Vue.use(vueEventCalendar, {locale: 'en'});
 Vue.use(Vuetify, {
   theme: {

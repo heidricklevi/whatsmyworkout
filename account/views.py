@@ -137,7 +137,7 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
         q = MaxLiftTracking.objects.filter(profile__user=self.request.user)
 
         if friend:
-            q = MaxLiftTracking.objects.filter(profile__user=friend)
+            q = MaxLiftTracking.objects.filter(profile__user__username=friend)
 
         if target_muscle is not None and not max_type:
             q = q.filter(target_muscle=target_muscle).order_by('-created')
@@ -146,21 +146,23 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
         elif max_type is not None and target_muscle is not None:
             q = q.filter(target_muscle=target_muscle).filter(max_type=max_type).order_by("-created")
 
-        if exercise_name:
+        if exercise_name and friend:
+            q = q.filter(exercise__exercise_name=exercise_name).order_by('created')
+        elif exercise_name:
             q = q.filter(exercise__exercise_name=exercise_name)
 
         if friend and latest:
-            q = MaxLiftTracking.objects.filter(profile_id=friend).\
+            q = MaxLiftTracking.objects.filter(profile__user__username=friend).\
                 filter(exercise__exercise_name=exercise_name)\
                 .filter(max_type=max_type).order_by('-created')[:1]
 
         if friend and earliest:
-            q = MaxLiftTracking.objects.filter(profile_id=friend). \
+            q = MaxLiftTracking.objects.filter(profile__user__username=friend). \
                 filter(exercise__exercise_name=exercise_name)\
                 .filter(max_type=max_type).order_by('created')[:1]
 
         if friend and max:
-            q = MaxLiftTracking.objects.filter(profile_id=friend). \
+            q = MaxLiftTracking.objects.filter(profile__user__username=friend). \
                 filter(exercise__exercise_name=exercise_name)\
                 .filter(max_type=max_type).order_by('-weight')[:1]
 

@@ -4,46 +4,38 @@
     export default {
         extends: VueCharts.Line,
         mixins: [VueCharts.mixins.reactiveProp],
-        props: ['chartData',  'graphLabels', 'repData', 'exerciseData'],
-        name: "lifting-weight-chart",
+        props: ['chartData', 'graphLabels', 'exerciseName', 'options'],
+        name: "max-lift-profile-chart",
 
-        data() {
+         data() {
             return {
-               options: {
 
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    tooltips: {
-                        mode: 'index',
-
-                    },
-
-
-               }
             }
         },
+
 
         methods: {
 
             renderChartWrapper: function () {
                 this.renderChart(
                     {
-                            labels: this.graphLabels,
+                            labels: this.labels,
                             datasets: [
                                 {
-                                  label: 'Lifting Weight (lbs.)',
-                                  backgroundColor: '#90a4ae',
+                                  label: '3 Rep Max (lbs.)',
+                                  backgroundColor: '#00BCD4',
+
                                   data: this.data
-                                }, {
-                                  label: 'Reps',
+                                }, /*{
+                                  label: 'Data One',
                                   backgroundColor: '#f87979',
-                                  data: this.reps
-                                }
-                          ]
+                                  data: [this.getRandomInt(), this.getRandomInt()]
+                                }*/
+                          ],
+
 
                     },
                     this.options
-
                 )
             },
         },
@@ -51,12 +43,9 @@
             data: function () {
                return this.chartData;
             },
-            reps: function () {
-                return this.repData;
-            },
 
-            eData: function () {
-                return this.exerciseData;
+            labels: function () {
+                return this.graphLabels
             }
         },
         watch: {
@@ -64,7 +53,10 @@
                 this.$data._chart.destroy();
                 this.renderChartWrapper();
             },
-
+            'options': function () {
+                this.$data._chart.destroy();
+                this.renderChartWrapper();
+            }
         },
         mounted() {
             this.renderChartWrapper();

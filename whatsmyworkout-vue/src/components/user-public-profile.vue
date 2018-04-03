@@ -30,13 +30,17 @@
                         </v-card>
             </v-flex>
             <v-flex md10 offset-md1 xs12>
-                <v-container class="mt-4">
+                <v-container class="mt-4 ">
                     <v-layout row wrap>
+
                         <v-flex xs12>
                             <h6 class="title grey--text text--darken-3">Max Lift Progression</h6>
                             <h6 class="subheading grey--text text--darken-1">Core Movements Displayed</h6>
                         </v-flex>
-                        <max-lift-profile></max-lift-profile>
+                        <v-flex xs12>
+                            <max-lift-profile></max-lift-profile>
+
+                         </v-flex>
                     </v-layout>
                 </v-container>
             </v-flex>
@@ -74,9 +78,9 @@
                                             <v-avatar  ><img :src="userProfileProp.user.avatar"></v-avatar>
                                           </v-flex>
                                           <v-flex xs6>
-                                              <span class="body grey--text text--darken-2">{{ username }}</span>
+                                              <span class=" body grey--text text--darken-2" style="padding-left: 3px">{{ username }}</span>
 
-                                              <p class="caption" ><v-icon small color="primary">event </v-icon>
+                                              <p class="caption " style="padding-left: 3px" ><v-icon small color="primary">event </v-icon>
                                               {{ props.item.date_for_completion | moment }}</p>
 
                                           </v-flex>
