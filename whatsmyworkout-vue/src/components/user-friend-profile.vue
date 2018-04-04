@@ -84,7 +84,7 @@
             console.log(this.authUserProfileId);
             this.loading = true;
 
-            axios.get(baseURLLocal+'v1/body-stats/' +this.username).then(response => {
+            axios.get(baseURLLocal+'v1/body-stats/' +this.username+'/').then(response => {
                 this.loading = false;
                 
                 this.currentBodyStats = response.data; //get most recent stats
