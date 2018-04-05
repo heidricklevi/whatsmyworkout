@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/sh
 
 cd /var/www/whatsmyworkout
 git pull https://github.com/heidricklevi/whatsmyworkout.git
