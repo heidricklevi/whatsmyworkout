@@ -2,9 +2,6 @@
 *.idea/
 *__pycache__/
 media/
-*dist/
-*build.js
-img/
 migrations/
 *(1)*
 *.log
