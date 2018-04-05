@@ -11,10 +11,15 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
-from whatsmyworkout.config import *
+import whatsmyworkout.config
 import datetime
 # from custom_storages import StaticStorage
 
+
+CONFIG_ALLOW_HOSTS = whatsmyworkout.config.CONFIG_ALLOW_HOSTS
+email_config = whatsmyworkout.config.email_config
+database_config = whatsmyworkout.config.database_config
+AWS_CONFIG = whatsmyworkout.config.AWS_CONFIG
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
