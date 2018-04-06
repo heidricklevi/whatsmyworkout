@@ -6,3 +6,4 @@ migrations/
 *(1)*
 *.log
 *.htaccess
+*dist/
