@@ -560,7 +560,7 @@ class SendWorkoutEmail(APIView):
     def set_image(self, target_muscle):
         workout_image = None
         account = 'account'
-        dev_server = False
+        dev_server = True
 
         if dev_server:
             account = 'whatsmyworkout/account'
