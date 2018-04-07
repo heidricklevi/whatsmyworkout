@@ -284,7 +284,7 @@
 
 
 
-                }).catch(function (err) {
+                }).catch(err => {
 
                     this.alertVal = true;
                     this.alertText = 'Error Fetching Data: '+err.message;

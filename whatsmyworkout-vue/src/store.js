@@ -137,11 +137,12 @@ export default new Vuex.Store({
           }
       },
       setData (state, payload) {
-          if (payload[0].date_for_completion) {
+          try {
               payload[0].date_for_completion =  moment(payload[0].date_for_completion).format('YYYY-MM-DD');
               state.data = payload;
           }
-          else {
+          catch (e) {
+              console.log(e)
               state.data = payload;
           }
 
