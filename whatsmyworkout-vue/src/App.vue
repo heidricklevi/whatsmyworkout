@@ -14,7 +14,9 @@
                     <button @click="hide = false" id="show" class="navbar-toggler navbar-show navbar-toggler-right" type="button">
                         <v-icon>menu</v-icon>
                     </button>
-                    <a class="navbar-brand" href="#header" style="margin-top: 0px !important;"><img id="header-logo" src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mr-5" style="height: 54px; width: 86px;"></a>
+                    <a class="navbar-brand" href="#header" style="margin-top: 0px !important; margin-right: 10%"><img
+                            id="header-logo" src="https://s3.amazonaws.com/wmw-static/static/img/WMW2.png" alt="" class="img-fluid mr-5"
+                            style="position: absolute; top: -45px; height: 150px; width: 200px; left: -90px; max-width: inherit"></a>
                     
                     <div class="collapse navbar-collapse align-items-center">
                         <ul class="navbar-nav mr-auto ">
@@ -79,7 +81,7 @@
 
                         <div class="bottom ">
                              <v-divider ></v-divider>
-                            <img src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mb-2" style="width: 86px; height: 54px; max-height: none;">
+                            <img src="https://s3.amazonaws.com/wmw-static/static/img/WMW2.png" alt="" class="img-fluid mb-2" style="width: 86px; height: 54px; max-height: none;">
                             <p class="mb-0 mt-3">&copy; 2017 What's My Workout</p>
                         </div>
                     </div>
@@ -355,9 +357,12 @@
 <footer id="footer" class="pt-5 pb-5 mb-0 mb-lg-4">
     <div class="container">
         <div class="row d-flex">
-            <div class="col-lg-6">
-                <img src="https://s3.amazonaws.com/wmw-static/static/img/logo.png" alt="" class="img-fluid mb-2" style="width: 86px; height: 54px; max-height: none;">
-                <p class="mb-0 mt-3">&copy; 2017 What's My Workout</p>
+            <div class="col-lg-6 text-xs-center">
+                <img src="https://s3.amazonaws.com/wmw-static/static/img/WMW2.png"
+                     alt="" class="img-fluid mb-2"
+                     style="width: 200px; height:150px;
+                     max-height: none;">
+                <p class="mb-0 mt-3" >&copy; 2018 What's My Workout</p>
             </div>
             <div class="col-lg-3 d-none d-lg-block">
                 <div class="row"><a href="#header" class="font-weight-bold">Home</a></div>

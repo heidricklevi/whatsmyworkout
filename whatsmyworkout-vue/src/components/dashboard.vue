@@ -39,9 +39,10 @@
             </v-list>
         </v-navigation-drawer>
         <v-toolbar fixed clipped-left color="secondary" dark desnse app>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+            <v-toolbar-side-icon style="z-index: 1000" @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-items>
-                <img src="../assets/img/logo.png" style="width: 100px;">
+               <v-avatar :size="64" :tile="true" class="ml-3 tile" >
+                   <img src="https://s3.amazonaws.com/wmw-static/static/img/WMW2.png" class="scale-img"></v-avatar>
             </v-toolbar-items>
             <v-container>
                 <v-spacer></v-spacer>
@@ -132,10 +133,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p ><small>Last Build: </small>{{ "04/06/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "04/07/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.5.7.10 </p>
+            <p style="position: absolute; left: 50%">v0.5.7.11 </p>
 
 
 
@@ -299,7 +300,10 @@ export default {
         }
 
     }
+    .scale-img {
 
+        transform: scale(3, 2);
+    }
 
     .dark-primary-color    { background: #455A64; }
     .default-primary-color { background: #607D8B; }
