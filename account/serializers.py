@@ -336,6 +336,8 @@ class WorkoutSerializer(serializers.ModelSerializer):
             validated_data['workout_image'] = url + 'img/calf.jpg'
         elif target_muscle == 'Abs':
             validated_data['workout_image'] = url + 'img/abs.jpg'
+        elif target_muscle == 'Arms':
+            validated_data['workout_image'] = url + 'img/biceps.jpg'
 
 
 

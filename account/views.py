@@ -560,7 +560,7 @@ class SendWorkoutEmail(APIView):
     def set_image(self, target_muscle):
         workout_image = None
         account = 'account'
-        dev_server = True
+        dev_server = False
 
         if dev_server:
             account = 'whatsmyworkout/account'
@@ -583,6 +583,8 @@ class SendWorkoutEmail(APIView):
             workout_image = account + '/static/img/calf.jpg'
         elif target_muscle == 'Abs':
             workout_image = account + '/static/img/abs.jpg'
+        elif target_muscle == 'Arms':
+            workout_image = account + '/static/img/biceps.jpg'
 
         #     Need to add default image
 
