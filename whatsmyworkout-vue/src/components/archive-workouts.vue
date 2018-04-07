@@ -46,9 +46,13 @@
 
         <tr :active="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
             <td >
-            <router-link to="/workout/edit/"><v-btn icon v-model="props.selected" @click="props.selected = !props.selected" @click.native.stop="selectedWorkout">
+            <!--<router-link to="/workout/edit/">-->
+                <v-btn icon v-model="props.selected"
+                       @click="props.selected = !props.selected"
+                       @click.native.stop="selectedWorkout">
                  <v-icon small class="blue--text">edit</v-icon>
-            </v-btn></router-link>
+            </v-btn>
+                <!--</router-link>-->
                 <v-btn  icon v-model="props.selected" @click.stop="deleteDialog = true" @click="props.selected = !props.selected" ><v-icon small color="error">delete</v-icon></v-btn>
 
             <v-dialog
@@ -197,8 +201,8 @@ export default {
     },
     selectedWorkout: function () {
 
-          this.$store.commit('setData', this.selected);
-          console.log("commited selected workout to store")
+        this.$store.commit('setData', this.selected);
+        this.$router.push('/workout/edit');
     },
     toggleAll () {
         if (this.selected.length) this.selected = [];

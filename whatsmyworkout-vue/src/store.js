@@ -137,7 +137,14 @@ export default new Vuex.Store({
           }
       },
       setData (state, payload) {
-          state.data = payload;
+          if (payload[0].date_for_completion) {
+              payload[0].date_for_completion =  moment(payload[0].date_for_completion).format('YYYY-MM-DD');
+              state.data = payload;
+          }
+          else {
+              state.data = payload;
+          }
+
       },
       storeUserData (state, payload) {
           state.userAuth.user = payload;

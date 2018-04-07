@@ -604,10 +604,7 @@ export default {
 
   },
 
-  mounted: function () {
 
-      this.tmp.date_for_completion = moment(this.tmp.date_for_completion).format('YYYY-MM-DD');
-  },
   components: {
       updateExercise, EditCopiedExercises, ToggleExerciseNotes
   }
