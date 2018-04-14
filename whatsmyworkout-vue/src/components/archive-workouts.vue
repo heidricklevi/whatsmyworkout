@@ -121,7 +121,6 @@ import XLSX from 'xlsx'
 
 export default {
     name: 'archive-workouts',
-    components: { DownloadExcel, },
   data () {
     return {
       deleteDialog: false,
