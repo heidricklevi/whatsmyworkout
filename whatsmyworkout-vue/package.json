@@ -14,15 +14,18 @@
     "chart.js": "^2.7.1",
     "jwt-decode": "^2.2.0",
     "moment": "^2.20.1",
+    "papaparse": "^4.3.7",
     "vue-chartjs": "^3.2.1",
     "vue-event-calendar": "^1.5.2",
     "vue-fullcalendar": "^1.0.9",
+    "vue-json-excel": "^0.2.5",
     "vue-picture-input": "^2.1.5",
     "vue-router": "^2.6.0",
     "vue-the-mask": "^0.11.1",
     "vuejs-datepicker": "^0.9.26",
     "vuetify": "^1.0.0",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "xlsx": "^0.12.8"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",

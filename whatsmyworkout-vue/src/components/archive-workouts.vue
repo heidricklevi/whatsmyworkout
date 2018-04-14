@@ -53,7 +53,31 @@
                  <v-icon small class="blue--text">edit</v-icon>
             </v-btn>
                 <!--</router-link>-->
-                <v-btn  icon v-model="props.selected" @click.stop="deleteDialog = true" @click="props.selected = !props.selected" ><v-icon small color="error">delete</v-icon></v-btn>
+                <v-btn  icon v-model="props.selected"
+                        @click.stop="deleteDialog = true"
+                        @click="props.selected = !props.selected" >
+                    <v-icon small color="error">delete</v-icon>
+                </v-btn>
+                <!--<download-excel
+                    :data="props.item.exercises"
+                    :fields="toExportFieldNames"
+                    class="primary btn"
+                    name="workout.xls"
+
+
+                >
+                    Download
+
+                </download-excel>-->
+
+                <v-btn
+
+                        flat
+                        small
+                        @click="onExport(props.item)">
+                        Excel
+                    <v-icon >file_download</v-icon>
+                </v-btn>
 
             <v-dialog
                 v-model="deleteDialog"
@@ -89,11 +113,15 @@
 import axios from 'axios'
 import {baseURLLocal} from '../auth/auth-utils'
 import moment from 'moment'
+import DownloadExcel from 'vue-json-excel'
+import XLSX from 'xlsx'
+
 
 
 
 export default {
     name: 'archive-workouts',
+    components: { DownloadExcel, },
   data () {
     return {
       deleteDialog: false,
@@ -148,6 +176,22 @@ export default {
       deleteAlertValue: false,
       deleteAlertText: '',
       deleteAlertType: 'success',
+
+
+      toExportFieldNames: {
+                'Workout Name': 'title',
+                'Target Muscle': 'target_muscle',
+                'Training Type': 'training_type',
+                'Exercise': 'exercise_name',
+                'Sets': 'sets',
+                'Reps': 'reps',
+                'Set Weight': 'lifting_weight',
+                'Notes': 'notes'
+      },
+
+      propItem: {}
+
+
     }
 
   },
@@ -158,6 +202,53 @@ export default {
 
   },
   methods: {
+
+    onExport(workout) {
+
+       let ColInfo = [
+        {wch:40},
+        {wch:20},
+        {wch:20},
+        {wch:20}
+    ];
+
+        let newWorkout = this.prepareForExport(workout);
+        let wb = XLSX.utils.book_new({cellStyles: true});
+        let ws = XLSX.utils.json_to_sheet([newWorkout]);
+        let filename = newWorkout.title+ '_'+newWorkout.date_for_completion.replace(/\//g, '')+'.xlsx';
+
+        XLSX.utils.sheet_add_json(ws, newWorkout.exercises, {skipHeader: false, origin: -1});
+        ws["!cols"] = ColInfo;
+        XLSX.utils.book_append_sheet(wb, ws, "People");
+        XLSX.writeFile(wb, filename);
+
+
+    },
+    prepareForExport (workout) {
+          let formattedWorkoutObj = {};
+          formattedWorkoutObj.exercises = [{}];
+          let prop;
+
+          for (prop in workout) {
+              console.log(prop);
+              if (prop !== 'user' && prop !== 'id' && prop !== 'slug' && prop !== 'workout_image' && prop !== 'exercises') {
+                    formattedWorkoutObj[prop] = workout[prop];
+              }
+          }
+
+          for (let i = 0; i < workout.exercises.length; i++) {
+              console.log(i);
+
+              for (prop in workout.exercises[i]) {
+                  console.log(prop);
+                  if (prop !== 'user' && prop !== 'id' && prop !== 'created' && prop !== 'exercises' && prop !== 'target_muscle') {
+                     formattedWorkoutObj.exercises[i][prop] = workout.exercises[i][prop];
+                 }
+              }
+          }
+        console.log("formattedWorkoutObj", formattedWorkoutObj);
+        return formattedWorkoutObj;
+    },
     fetchWorkouts: function () {
           let self = this;
           this.loading = true;
@@ -168,6 +259,7 @@ export default {
                    self.dataTableItems = response.data;
                    for (var i = 0; i < self.dataTableItems.length; i++){
                        self.dataTableItems[i].date_for_completion = moment(self.dataTableItems[i].date_for_completion).format('MM/DD/YYYY');
+
                    }
           }).catch(function (err) {
               self.alert = true;
