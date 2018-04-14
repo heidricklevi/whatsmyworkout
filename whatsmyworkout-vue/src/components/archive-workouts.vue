@@ -113,7 +113,7 @@
 import axios from 'axios'
 import {baseURLLocal} from '../auth/auth-utils'
 import moment from 'moment'
-import DownloadExcel from 'vue-json-excel'
+
 import XLSX from 'xlsx'
 
 

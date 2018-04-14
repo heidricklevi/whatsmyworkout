@@ -6,7 +6,7 @@ import 'vue-event-calendar/dist/style.css' //^1.1.10, CSS has been extracted as 
 import vueEventCalendar from 'vue-event-calendar'
 import Vuex from 'vuex'
 import store from './store'
-import JsonExcel from 'vue-json-excel'
+
 
 
 Vue.use(vueEventCalendar, {locale: 'en'});
@@ -19,7 +19,7 @@ Vue.use(Vuetify, {
   }
 });
 Vue.use(Vuex);
-Vue.use(JsonExcel);
+
 
 
 
