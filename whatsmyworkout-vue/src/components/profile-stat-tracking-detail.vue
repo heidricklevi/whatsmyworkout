@@ -112,7 +112,7 @@
             </v-card>
         </v-flex>
 
-        <v-flex offset-md1 md5 xs12>
+        <v-flex offset-md1 md5 xs12 :class="{'mt-4': $vuetify.breakpoint.smAndDown}">
             <v-card class="pa-2">
 
                 <body-progress-chart :graphLabels="getGraphLabels"
@@ -122,7 +122,43 @@
                 </body-progress-chart>
 
             </v-card>
+             <v-flex xs12 class="mt-4">
+                <v-data-table
+                    :headers="headers"
+                    :items="bodyStats"
+                    :loading="loadingTable"
+                    class="elevation-1"
+                  >
+                    <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                    <template slot="items" slot-scope="props">
+                      <td class="text-xs-left">
+                          <v-btn icon @click="removeDialog(props.item)">
+                              <v-icon color="error">
+                                  remove_circle
+                              </v-icon>
+                          </v-btn>
+                      </td>
+                      <td class="text-xs-right">{{ props.item.weight }}</td>
+                      <td class="text-xs-right">{{ props.item.body_fat }}</td>
+                      <td class="text-xs-right">{{ props.item.created }}</td>
+                        <v-dialog
+                                width="750"
+                                v-model="deleteDialog">
+                            <v-card>
+                                <v-card-title>Remove Body Stat</v-card-title>
+                                <v-card-text>Are you sure you wish to remove this body stat?</v-card-text>
+                                <v-card-actions>
+                                    <v-btn flat @click="deleteDialog = false">Close</v-btn>
+                                    <v-btn flat :disabled="deleteDisabled" class="orange--text" @click="removeConfirm">Delete</v-btn>
+                                </v-card-actions>
+                            </v-card>
+                        </v-dialog>
+                    </template>
+                  </v-data-table>
+             </v-flex>
+
         </v-flex>
+
     </v-layout>
 </template>
 
@@ -170,6 +206,37 @@
                 graphLabels: [],
                 graphWeightData: [],
 
+                loadingTable:false,
+                headers: [
+                    {
+                        text: 'Actions',
+                        align: 'left',
+                        sortable: false,
+
+                    },
+                    {
+                        text: 'Weight (lbs.)',
+                        value: 'weight',
+                        sortable: false
+                    },
+                    {
+                        text: 'Body Fat (%)',
+                        value: 'body_fat',
+                        sortable: false
+                    },
+                    {
+                        text: 'Recorded',
+                        value: 'created'
+                    }
+                ],
+
+                deleteDialog: false,
+                deleteStat: false,
+                deleteDisabled: false,
+
+                statToDelete: null,
+
+
 
 
 
@@ -178,7 +245,9 @@
         },
 
         filters: {
-
+            moment(date) {
+                return moment(date).format("MMM Do YY");
+            },
             heightDisplay: function (hInches) {
 
                 return Math.floor(hInches / 12).toString() + '\'' + ' '+ (hInches%12).toString()+'\'\'';
@@ -191,6 +260,14 @@
             }
         },
         computed: {
+            bodyStatToBeRemoved: {
+                get() {
+                    return this.statToDelete
+                },
+                set(stat) {
+                    this.statToDelete = stat;
+                }
+            },
             computedClass: function () {
 
                 return this.edit? 'offset-xs6': 'text-xs-left';
@@ -215,6 +292,31 @@
 
         },
         methods: {
+
+            removeDialog(bodyStat) {
+                this.bodyStatToBeRemoved = bodyStat;
+                this.deleteDialog = true;
+            },
+
+            removeConfirm() {
+                let item = this.bodyStatToBeRemoved;
+                console.log(item);
+                this.deleteDisabled = true;
+                axios.delete(baseURLLocal+'v1/body-stats/'+item.id+'/', { params: { id: item.id} } ).then(response => {
+                        console.log(response);
+                        this.deleteDialog = false;
+                        this.deleteDisabled = false;
+                        this.fetchGraphData();
+
+                    }).catch(err => {
+                        this.deleteDisabled = false;
+                        console.log(err);
+
+                    });
+            },
+
+
+
 
             closeDialog: function () {
                 this.fetchGraphData();
@@ -257,9 +359,10 @@
                 let tempLabels = [];
                 let tempData = [];
                 let tempWeightData = [];
-
+                this.loadingTable = true;
                 axios.get(baseURLLocal+'v1/body-stats/').then(response =>{
                     this.loading = false;
+                    this.loadingTable = false;
                     let results = response.data.results;
 
                     for (let i = 0; i < results.length; i++) {
@@ -271,9 +374,12 @@
 
 
                     this.bodyStats = results;
+                    this.bodyStats.map(b => {
+                       b.created =  moment(b.created).format("MMM Do YY");
+                    });
 
                     this.currentBodyStats = results[0]; //get most recent stats
-                    this.currentBodyStats.created = moment(results[0].created).format("MMM Do YY, h:m a");
+                    //this.currentBodyStats.created = moment(results[0].created).format("MMM Do YY, h:m a");
 
                     this.$store.commit('setData', results[0]);
 
@@ -285,7 +391,7 @@
 
 
                 }).catch(err => {
-
+                    this.loadingTable = false;
                     this.alertVal = true;
                     this.alertText = 'Error Fetching Data: '+err.message;
                     this.color = 'error';

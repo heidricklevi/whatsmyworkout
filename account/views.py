@@ -93,6 +93,7 @@ class CreateUser(APIView):
 class BodyStatTrackingViewSet(viewsets.ModelViewSet):
 
     serializer_class = BodyStatSerializer
+    pagination_class = CustomExercisesPagination
     lookup_field = 'username'
 
     def get_queryset(self):
@@ -118,6 +119,18 @@ class BodyStatTrackingViewSet(viewsets.ModelViewSet):
             permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
 
         return [permission() for permission in permission_classes]
+
+    def destroy(self, request, *args, **kwargs):
+        to_be_removed = self.request.query_params.get('id', None)
+
+        if to_be_removed is not None:
+            body_stat = BodyStatTracking.objects.get(pk=to_be_removed)
+            removed = body_stat.delete()
+
+            if removed:
+                return Response({"status": "Successfully Deleted"}, status=status.HTTP_200_OK)
+
+        return Response({"status": "Error Deleting"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
