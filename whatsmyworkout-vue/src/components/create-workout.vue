@@ -15,10 +15,11 @@
                                         type="text"
                                         name="title"
                                         label="Workout Name"
-                                        counter max="99"
+                                        counter
+
                                         ref="title"
                                         :rules="[rules.required,
-                                        () => title.length <= 99 && title.length > 0 || 'The workout title should be between 1-99 characters', rules.workoutNameSpecialChars]"
+                                        () => title.length <= 25  || 'The workout title should be between 1-25 characters', rules.workoutNameSpecialChars]"
                                         required></v-text-field>
                             </v-flex>
                             <v-flex xs12 md8 offset-md1>
@@ -107,12 +108,12 @@
                             <v-flex md8 xs12 offset-md1>
                                 <div class="py-2">
                                     <v-text-field
-                                            title="Sets" l
+                                            title="Sets"
                                             label="Sets"
                                             v-model="sets"
                                             ref="sets"
                                             type="number"
-                                            :rules="[rules.required, rules.validSets]"></v-text-field>
+                                            :rules="[rules.required, rules.validSets, rules.num]"></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
@@ -133,14 +134,24 @@
                                             title="Lifting weight"
                                             label="Lifting Weight"
                                             type="number"
-                                            :rules="[rules.validLW]"
+                                            :rules="[rules.validLW, rules.num]"
                                             v-model="lifting_weight"
                                             suffix="lbs."></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
-                                <v-text-field title="exercise_notes" label="Notes about this exercise" v-model="exercise_notes"
-                                              multi-line counter max="255"></v-text-field>
+                                <v-text-field
+                                        title="exercise_notes"
+                                        label="Notes about this exercise"
+                                        v-model="exercise_notes"
+                                        multi-line
+                                        counter="50"
+                                        ref="notes"
+                                        :rules="[(notes) => {
+                                                return notes? notes.length <= 50 || 'Notes should be no more than 50 chars': true
+                                            },
+                                        ]"
+                                ></v-text-field>
                             </v-flex>
                             <div class="form-group row">
                                 <div class="col-8">
@@ -185,7 +196,14 @@
 
 
                                     Finish
-                                </v-btn>
+                        </v-btn>
+                        <v-btn
+                            flat
+                            class="grey--text text--darken-3"
+                            @click="e6 = 2"
+                        >
+                            Back
+                        </v-btn>
 
 
                     </v-stepper-content>
@@ -372,11 +390,13 @@
 
                     required: (val) => !!val || 'Cannot be blank.',
                     workoutNameSpecialChars: (val) => {
-                        return !/[^a-zA-Z0-9 '!]/.test(val) || 'Workout Name is Alphanumeric and can only include space, apostrophe and exclamation.';
+                        return !/[^a-zA-Z0-9 '!]/.test(val) || 'String is Alphanumeric and can only include space, apostrophe and exclamation.';
                     },
                     validSets: (val) => val > 0 || 'Enter valid Sets',
+                    num: (v) => !/[^0-9]/.test(v) || 'Invalid Characters',
                     validReps: (val) => val > 0 || 'Enter Valid Reps',
-                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)'
+                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)',
+
       },
           
 
@@ -533,6 +553,7 @@
                             self.exercisesToSubmit = [];
                             self.exerciseSubmissionPromises = [];
                             self.$refs.workoutForm.reset();
+                            self.fetchRecentFive();
                     }).catch( error => {
                        self.snackbarMessage = "There was an error adding exercises to your workout. Please try again later and double check your inputs: "+error.message;
                        self.snackbar = true;
@@ -623,24 +644,27 @@
               this.loading1 = false;
 
           },
+          fetchRecentFive() {
+              var self = this;
+
+                this.loading = true;
+                axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
+                    self.loading = false;
+                    self.recentWorkouts = response.data.results;
+
+
+
+                }).catch(function (e) {
+                    console.log('There was an error loading recent workouts');
+                    self.loading = false;
+                    self.alert = true;
+
+
+                })
+          }
       },
       mounted: function () {
-            var self = this;
-
-            this.loading = true;
-            axios.get(baseURLLocal+'v1/workouts/?recent=5').then(function (response) {
-                self.loading = false;
-                self.recentWorkouts = response.data.results;
-
-
-
-            }).catch(function (e) {
-                console.log('There was an error loading recent workouts');
-                self.loading = false;
-                self.alert = true;
-
-
-            })
+            this.fetchRecentFive();
       },
 }
 </script>
