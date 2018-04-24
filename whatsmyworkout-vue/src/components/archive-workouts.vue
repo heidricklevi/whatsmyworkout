@@ -68,12 +68,14 @@
             <td class="justify-center layout px-0">
                 <v-menu bottom>
                     <v-btn
+                            :disabled="optionsDisabled"
                             slot="activator"
                             icon>
                         <v-icon color="accent">more_vert</v-icon>
                     </v-btn>
                         <v-list dense>
                             <v-list-tile
+                                    :disabled="editDisabled"
                                     @click="selectedWorkout(props.item)">
                                 <v-list-tile-content>
                                 <v-list-tile-title>
@@ -85,7 +87,7 @@
                                 </v-list-tile-action>
                                 </v-list-tile>
                             <v-divider class="pa-0 ma-0"></v-divider>
-                                <v-list-tile @click="initiateRemove(props.item)">
+                                <v-list-tile @click="initiateRemove(props.item)" :disabled="removeDisabled">
                                     <v-list-tile-content>
                                     <v-list-tile-title>
                                         <span class="caption grey--text text--darken-3">Remove</span>
@@ -96,7 +98,7 @@
                                     </v-list-tile-action>
                                 </v-list-tile>
                             <v-divider class="pa-0 ma-0"></v-divider>
-                                <v-list-tile @click="onExport(props.item)">
+                                <v-list-tile @click="onExport(props.item)" :disabled="exportDisabled">
                                     <v-list-tile-content>
                                     <v-list-tile-title>
                                         <span class="caption grey--text text--darken-3">Export xlsx</span>
@@ -241,12 +243,32 @@ export default {
         bulkDeleteDialog: false,
         bulkDisabled: false,
 
+        removeDisabled: false,
+        editDisabled: false,
+        exportDisabled: false,
+        optionsDisabled: false,
+
+
 
     }
 
   },
   watch: {
-
+    selected() {
+        // bulk selected
+        if (this.selected.length > 1) {
+            this.optionsDisabled = true;
+            this.removeDisabled = true;
+            this.editDisabled = true;
+            this.exportDisabled = true;
+        }
+        else {
+            this.optionsDisabled = false;
+            this.removeDisabled = false;
+            this.editDisabled = false;
+            this.exportDisabled = false;
+        }
+    }
   },
   computed: {
 

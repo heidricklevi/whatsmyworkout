@@ -6,7 +6,7 @@
     export default {
         extends: VueCharts.Line,
         mixins: [VueCharts.mixins.reactiveProp],
-        props: ['chartData', 'options', 'graphLabels',],
+        props: ['chartData', 'options', 'graphLabels', 'maxType'],
         name: "max-progress-chart",
 
         methods: {
@@ -17,7 +17,7 @@
                             labels: this.graphLabels,
                             datasets: [
                                 {
-                                  label: '3 Rep Max (lbs.)',
+                                  label: `${this.maxType} Rep Max (lbs.)`,
                                   backgroundColor: '#90a4ae',
                                   data: this.data
                                 }, /*{

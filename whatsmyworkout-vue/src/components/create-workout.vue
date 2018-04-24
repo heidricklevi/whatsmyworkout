@@ -113,7 +113,7 @@
                                             v-model="sets"
                                             ref="sets"
                                             type="number"
-                                            :rules="[rules.required, rules.validSets, rules.num]"></v-text-field>
+                                            :rules="[rules.validSets, rules.required]"></v-text-field>
                                 </div>
                             </v-flex>
                             <v-flex md8 xs12 offset-md1>
@@ -124,7 +124,7 @@
                                             v-model="reps"
                                             type="number"
                                             ref="reps"
-                                            :rules="[rules.required, rules.validReps]">
+                                            :rules="[rules.validReps, rules.required ]">
                                     </v-text-field>
                                 </div>
                             </v-flex>
@@ -134,7 +134,7 @@
                                             title="Lifting weight"
                                             label="Lifting Weight"
                                             type="number"
-                                            :rules="[rules.validLW, rules.num]"
+                                            :rules="[rules.validLW]"
                                             v-model="lifting_weight"
                                             suffix="lbs."></v-text-field>
                                 </div>
@@ -392,10 +392,9 @@
                     workoutNameSpecialChars: (val) => {
                         return !/[^a-zA-Z0-9 '!]/.test(val) || 'String is Alphanumeric and can only include space, apostrophe and exclamation.';
                     },
-                    validSets: (val) => val > 0 || 'Enter valid Sets',
-                    num: (v) => !/[^0-9]/.test(v) || 'Invalid Characters',
-                    validReps: (val) => val > 0 || 'Enter Valid Reps',
-                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)',
+                    validSets: (val) => val > 0 && !/[^0-9]/.test(val) || 'Enter valid Sets',
+                    validReps: (val) => val > 0  && !/[^0-9]/.test(val) || 'Enter Valid Reps',
+                    validLW: (val) => val >= 0 && !/[^0-9]/.test(val) || 'Enter Valid Lifting Weight (lbs)',
 
       },
           

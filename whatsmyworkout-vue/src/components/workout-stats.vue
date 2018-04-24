@@ -62,12 +62,38 @@
             </v-card>
         </v-flex>
         <v-flex xs12 md6 offset-md1>
+            <v-card class="mb-1 blue-grey lighten-5">
+                <v-card-text>
+                    <p class="subheading grey--text text--darken-3 text-center mb-1 pb-1">Progress Chart Options</p>
+                    <v-layout row wrap justify-center>
+                        <v-flex xs4>
+                            <v-flex xs12>
+                                <p class="grey--text text--darken-1 my-0 py-0 text-xs-center">Max Type:</p>
+                            </v-flex>
+                        </v-flex>
+                        <v-flex xs12 md8>
+                            <v-flex xs12 class="text-xs-center">
+                                <v-radio-group :disabled="maxTypeRadioDisabled" v-model="maxTypeRadio" row class="py-0 my-0" @change="chartMaxType">
+                                    <v-radio label="1 Rep Max" value="1" class="my-0"></v-radio>
+                                    <v-radio label="3 Rep Max" value="3" class="my-0"></v-radio>
+                                </v-radio-group>
+                            </v-flex>
+                        </v-flex>
+                        <!--<v-flex xs4 style="border-right: 1px solid #4b5257">
+
+                        </v-flex>
+                        <v-flex xs4>
+
+                        </v-flex>-->
+                    </v-layout>
+                </v-card-text>
+            </v-card>
             <v-card class="pa-2">
-                <v-alert outline color="error" icon="warning" :value="noResults">
+                <v-alert outline color="warning" icon="warning" :value="noResults">
                         Chart Data not loaded. Please ensure you have recorded a Max for this target exercise.
                 </v-alert>
 
-                <max-progress-chart ref="liftProgressChart" :graphLabels="getGraphLabels"  :css-classes="cssClasses"
+                <max-progress-chart ref="liftProgressChart" :graphLabels="getGraphLabels"  :css-classes="cssClasses" :max-type="maxTypeRadio"
                                      :chart-data="getGraphData" :options="{responsive: true, maintainAspectRatio: false}"></max-progress-chart>
 
             </v-card>
@@ -95,6 +121,7 @@
         name: "workout-stats",
         data () {
             return {
+                maxTypeRadio: '3',
                 loading: this.computeLoading,
                 eSelectLoading: false,
                 target_muscles: [
@@ -123,6 +150,8 @@
                 cssClasses: "",
                 selectedExercise: [],
                 search: null,
+
+                maxTypeRadioDisabled: false,
             }
         },
         watch: {
@@ -182,6 +211,16 @@
             },
         },
         methods: {
+            chartMaxType(e) {
+                let queryVal = this.selectedExercise;
+                queryVal.maxType = this.maxTypeRadio;
+
+                this.maxTypeRadioDisabled = true;
+                this.setAndFetchMaxData(queryVal);
+
+
+
+            },
 
             querySelections (v) {
                 this.eSelectLoading = true;
@@ -217,16 +256,20 @@
                 this.selectedMuscle = queryVal.target_muscle;
                 this.selectedExercise = queryVal;
 
+                queryVal.maxType = this.maxTypeRadio;
+
                 console.log('queryVal', queryVal);
 
                 this.$store.dispatch('fetchGraphData', queryVal)
                     .then(() => {
                         this.graphLabels = this.$store.state.muscleHistoryGraphLabels;
                         this.graphData = this.$store.state.muscleHistoryGraphData;
+                        this.maxTypeRadioDisabled = false;
                         //this.loadingSet(false);
 
                     }).catch((err) => {
                         //this.loadingSet(false);
+                        this.maxTypeRadioDisabled = false;
                         console.log("Workout-stats.vue setAndFetch: fetchGraphData error:", err);
                     });
 
@@ -235,7 +278,7 @@
         },
         mounted: function () {
             let queryVal = this.selectedExercise.length > 0 ? this.selectedExercise: this.target_exercises[0];
-
+            queryVal.maxType = this.maxTypeRadio;
 
             this.loadingSet(true);
             this.setAndFetchMaxData(queryVal);
