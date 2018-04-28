@@ -604,31 +604,33 @@ export default {
             this.nextWorkoutItems[workoutIndex].exercises[exerciseIndex].isOpened = true;
 
         },
-        querySelections (v) {
-                this.loadingFriendSearch = true;
-                this.friendsList = [];
+        querySelections: _.debounce(function(v) {
+            this.loadingFriendSearch = true;
+            this.friendsList = [];
 
 
-                if (v) {
-                    axios.get(baseURLLocal+'v1/friends/find?search='+v).then(response => {
+            if (v) {
+                axios.get(baseURLLocal + 'v1/friends/find?search=' + v).then(response => {
 
                     this.friendsList = response.data.results.filter(e => {
                         return (e || '').from_user.username.toLowerCase().indexOf((v || '').toLowerCase()) > -1
                     });
 
                     this.loadingFriendSearch = false;
-                    }).catch(err => {
-                        this.friendsList = [];
-                        console.log(err);
-                    })
-                }
-
-                else {
+                }).catch(err => {
                     this.friendsList = [];
-                }
+                    console.log(err);
+                })
+            }
 
+            else {
+                this.friendsList = [];
+            }
+                },
 
-        },
+            500
+            ),
+
 
         onRemoveFriend(friend) {
 
@@ -692,7 +694,7 @@ export default {
             })
 
         },
-        resolveSearch(queryVal) {
+        resolveSearch: _.debounce(function(queryVal) {
             this.loading = true;
             this.items = [];
             var that = this;
@@ -718,6 +720,8 @@ export default {
                 this.loading = false;
             }
         },
+            500
+        ),
         commitToStore: function () {
             this.$store.commit('setData', [this.recentWorkouts]);
             console.log("Commited to store");

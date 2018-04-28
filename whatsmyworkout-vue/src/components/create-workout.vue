@@ -323,6 +323,7 @@
  import moment from 'moment'
  import axios from 'axios'
  import { devServer, baseURLLocal, login, userAuth } from '../auth/auth-utils'
+ import lodash from 'lodash'
 
 
 
@@ -394,7 +395,7 @@
                     },
                     validSets: (val) => val > 0 && !/[^0-9]/.test(val) || 'Enter valid Sets',
                     validReps: (val) => val > 0  && !/[^0-9]/.test(val) || 'Enter Valid Reps',
-                    validLW: (val) => val >= 0 && !/[^0-9]/.test(val) || 'Enter Valid Lifting Weight (lbs)',
+                    validLW: (val) => val >= 0 || 'Enter Valid Lifting Weight (lbs)',
 
       },
           
@@ -475,27 +476,31 @@
 
       },
       methods: {
-          continueExerciseForm () {
+          continueExerciseForm() {
 
               this.e6 = '3';
           },
-          querySelections (v) {
-                this.eSelectLoading = true;
-                //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
+          querySelections: _.debounce(function (v) {
+                  this.eSelectLoading = true;
+                  //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
 
-                axios.get(baseURLLocal+'v1/exercises/?target_muscle='+this.target_muscle).then(response => {
+                  axios.get(baseURLLocal + 'v1/exercises/?target_muscle=' + this.target_muscle).then(response => {
 
-                    this.target_exercises = response.data.results.filter(e => {
-                        return (e || '').exercise_name.toLowerCase().indexOf((v || '').toLowerCase()) > -1
-                    });
+                      this.target_exercises = response.data.results.filter(e => {
+                          return (e || '').exercise_name.toLowerCase().indexOf((v || '').toLowerCase()) > -1
+                      });
 
-                    this.eSelectLoading = false;
-                }).catch(err => {
-                    console.log(err);
-                    this.eSelectLoading = false;
-                })
+                      this.eSelectLoading = false;
+                  }).catch(err => {
+                      console.log(err);
+                      this.eSelectLoading = false;
+                  })
 
-            },
+              },
+              500
+          ),
+
+
         onFocus: function () {
             //this.$refs.workoutSubmit.click();
             //this.loader = 'loading2';

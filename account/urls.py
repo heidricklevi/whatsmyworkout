@@ -26,6 +26,7 @@ router.register(r'friends', FriendsViewSet, base_name='friends')
 router.register(r'friend-workouts', FriendWorkoutViewSet, base_name='friend-workouts')
 router.register(r'workout-copy', CopyFriendWorkoutViewSet, base_name='workout-copy')
 router.register(r'account-settings', AccountSettingsViewSet, base_name='account-settings')
+router.register(r'friend-profile', FriendProfileUserViewSet, base_name='friend-profile')
 
 urlpatterns = [
 

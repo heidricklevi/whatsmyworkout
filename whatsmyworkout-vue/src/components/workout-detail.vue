@@ -481,7 +481,7 @@ export default {
                 console.log(err)
             })
         },
-        querySelections (v) {
+        querySelections: _.debounce(function(v) {
                 this.eSelectLoading = true;
                 //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
 
@@ -497,8 +497,10 @@ export default {
                     this.eSelectLoading = false;
                 })
 
-        },
-      querySelectionsFriends(v) {
+            },
+            500
+        ),
+      querySelectionsFriends: _.debounce(function(v) {
             this.loadingFriendSearch = true;
             this.friendsList = [];
 
@@ -520,7 +522,9 @@ export default {
                 else {
                     this.friendsList = [];
                 }
-      },
+            },
+                500
+      ),
         addNewExercise() {
                 let newExercise = {};
                 this.$store.commit('setNewExerciseToggle', !this.$store.state.friendProfile.addNewExerciseToggle);

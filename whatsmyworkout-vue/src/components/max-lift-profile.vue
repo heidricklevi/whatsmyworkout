@@ -1,6 +1,5 @@
 <template>
     <v-container class="pa-0">
-        <v-layout row wrap>
             <v-flex xs12>
                 <v-tabs icons-and-text fixed-tabs centered color="accent" dark v-model="active">
                        <v-tabs-slider color="white"></v-tabs-slider>
@@ -198,7 +197,6 @@
 
 
 
-        </v-layout>
     </v-container>
 </template>
 
@@ -465,7 +463,7 @@
         created() {
 
             axios.all([this.getEarliest(), this.getLatest(), this.fetchData(), this.getMax()]).then(axios.spread(function (acct, perms) {
-
+                console.log('acct and perms', acct, perms);
             })).catch(err => {
                 console.log(err);
             })

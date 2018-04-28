@@ -278,7 +278,7 @@
 
             },
 
-            querySelections (v) {
+            querySelections: _.debounce(function(v) {
                 this.eSelectLoading = true;
                 if (!this.selectedMuscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
 
@@ -295,6 +295,8 @@
                 })
 
             },
+                500
+            ),
 
             fetchWorkoutData() {
                 this.loading = true;

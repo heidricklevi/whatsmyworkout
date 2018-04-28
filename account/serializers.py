@@ -86,19 +86,22 @@ class FollowSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class ListFriendSerializer(serializers.ModelSerializer):
+    avatar = serializers.ImageField(source='profile.avatar', required=False)
+
+    class Meta:
+        model = User
+        fields = ('id', 'username', 'avatar', 'last_login', 'date_joined')
+
+
 class FriendSerializer(serializers.ModelSerializer):
 
-    from_user = UserSerializer()
-    to_user = UserSerializer()
-
-    to_avatar = serializers.ImageField(source='to_user.avatar', required=False,)
-    to_username = serializers.CharField(source='to_user.username', required=False, allow_null=True)
-
-    from_user_username = serializers.CharField(source='from_user.username', required=False, allow_null=True)
+    from_user = ListFriendSerializer()
+    to_user = ListFriendSerializer()
 
     class Meta:
         model = Friend
-        fields = ('id', 'from_user', 'to_user', 'created', 'to_avatar', 'to_username', 'from_user_username')
+        fields = ('id', 'from_user', 'to_user', 'created')
 
 
 class ExercisesSerializer(serializers.ModelSerializer):

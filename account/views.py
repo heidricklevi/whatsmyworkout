@@ -46,17 +46,35 @@ class UserLogin(APIView):
 
 
 class UserViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
+    permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
 
     lookup_field = 'username'
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
 
+class FriendProfileUserViewSet(viewsets.ModelViewSet):
+    lookup_field = 'username'
+    queryset = User.objects.all()
+    serializer_class = ListFriendSerializer
+
+    def get_permissions(self):
+        """
+        Instantiates and returns the list of permissions that this view requires.
+        """
+
+        if self.action == 'retrieve':
+            permission_classes = [IsAccountOwnerOrIsFriend, permissions.IsAuthenticated]
+        else:
+            permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
+
+        return [permission() for permission in permission_classes]
+
+
 class UserSearchListView(generics.ListAPIView):
     permission_classes = [permissions.AllowAny]
     queryset = User.objects.all()
-    serializer_class = UserSerializer
+    serializer_class = ListFriendSerializer
     filter_backends = (filters.SearchFilter,)
     search_fields = ('username', 'email')
 

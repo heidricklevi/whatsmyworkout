@@ -29,15 +29,15 @@
                           </v-layout>
                         </v-card>
             </v-flex>
-            <v-flex md10 offset-md1 xs12>
-                <v-container class="mt-4 ">
+            <v-flex md11 offset-md1 xs12 >
+                <v-container class="mt-4 " justify-end>
                     <v-layout row wrap>
 
-                        <v-flex xs12>
+                        <v-flex xs12 md11>
                             <h6 class="title grey--text text--darken-3">Max Lift Progression</h6>
                             <h6 class="subheading grey--text text--darken-1">Core Movements Displayed</h6>
                         </v-flex>
-                        <v-flex xs12>
+                        <v-flex xs12 md11>
                             <max-lift-profile></max-lift-profile>
 
                          </v-flex>
@@ -501,7 +501,7 @@
                 })
 
             },
-            querySelections (v) {
+            querySelections: _.debounce(function (v) {
                 this.eSelectLoading = true;
                 //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
 
@@ -518,9 +518,15 @@
                 })
 
             },
+                500,
+            ),
             fetchProfileData () {
                 //this.loading = true;
-                axios.get(baseURLLocal+"v1/users/" + this.username +'/').then(response => {
+                let accountOwnerURL = `${baseURLLocal}v1/users/${this.username}/`;
+                let friendURL = `${baseURLLocal}v1/friend-profile/${this.username}/`;
+                let fetchProfileDataURL = this.userAuth.user.username === this.username? accountOwnerURL: friendURL;
+
+                axios.get(fetchProfileDataURL).then(response => {
                     //this.userProfileProp.user.profile_id = response.data.user.profile_id;
 
                     this.userProfileProp.user = response.data;

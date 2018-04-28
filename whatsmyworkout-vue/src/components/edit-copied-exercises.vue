@@ -455,7 +455,7 @@
                 })
 
             },
-            querySelections (v) {
+            querySelections: _.debounce(function (v) {
                 this.eSelectLoading = true;
                 //if (!this.target_muscle) { this.errorMessages = "Please choose target muscle before choosing an exercise. "}
 
@@ -472,6 +472,8 @@
                 })
 
             },
+                500
+            ),
             saveExerciseEdit(exercise) {
                 this.getEditExercise = !this.getEditExercise;
                 this.$store.commit('setNewExerciseToggle', false);
