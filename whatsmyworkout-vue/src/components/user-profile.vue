@@ -7,11 +7,11 @@
                 <v-layout row wrap>
                     <v-flex md8 xs12>
                         <router-link :to=" authUserProfileId === viewedUserProfileId ? '/user/profile-stats/detail/' : '' ">
-                            <h4 class="headline mb-0 ml-3" >Profile Stat Tracking</h4>
+                            <h4 class="headline mb-0 ml-3 grey--text text--darken-2" >Profile Metrics</h4>
                         </router-link>
                     </v-flex>
                     <v-flex md1 text-xs-right offset-xs-1 v-if="authUserProfileId === viewedUserProfileId">
-                        <v-btn  flat snall to="/user/profile-stats/detail/" >
+                        <v-btn  flat small to="/user/profile-stats/detail/" >
                             More
                             <v-icon color="accent">keyboard_arrow_right
                             </v-icon>

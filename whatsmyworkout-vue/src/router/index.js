@@ -17,6 +17,7 @@ import ProfileStatDetail from '../components/profile-stat-tracking-detail.vue'
 import PublicProfile from '../components/user-public-profile.vue'
 import ProfileSettings from '../components/profile-settings.vue'
 import AccountSettingsDetail from '../components/account-settings-detail.vue'
+import PasswordResetConfirm from '../components/password-reset-confirm.vue'
 import { getJWTHeader } from '../auth/auth-utils'
 import axios from 'axios'
 
@@ -27,7 +28,8 @@ Vue.use(Router);
      if (token) {
          axios.defaults.headers.common['Authorization'] = token;
      } else {
-         axios.defaults.headers.common['Authorization'] = null;
+       console.log("Delete header");
+         delete axios.defaults.headers.common['Authorization'];
          /*if setting null does not remove `Authorization` header then try
            delete axios.defaults.headers.common['Authorization'];
          */
@@ -111,7 +113,12 @@ export default new Router({
       component: WorkoutDetail,
       props: true,
 
-    }
+    },
+      {
+        path: '/password-reset-confirm/',
+        name: 'password-reset-confirm',
+        component: PasswordResetConfirm
+      }
   ],
 
 })

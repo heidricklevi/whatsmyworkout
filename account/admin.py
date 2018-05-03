@@ -25,6 +25,10 @@ class SubscriberAdmin(admin.ModelAdmin):
     pass
 
 
+class PasswordResetAdmin(admin.ModelAdmin):
+    list_display = ('user', 'token', 'expiry')
+
+
 class AccountSettingsAdmin(admin.ModelAdmin):
     pass
 
@@ -68,6 +72,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(PasswordReset, PasswordResetAdmin)
 admin.site.register(AccountSettings, AccountSettingsAdmin)
 admin.site.register(WorkoutNotificationSettings, WorkoutNotificationSettingsAdmin)
 admin.site.register(FriendSubscriptionSettings, FriendSubscriptionSettingsAdmin)

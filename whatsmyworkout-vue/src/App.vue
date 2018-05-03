@@ -5,6 +5,9 @@
     </dashboard>
      </div>
 </div>
+    <v-app v-else-if="$route.path != '/' && !isAuthenticated">
+        <router-view></router-view>
+    </v-app>
     <v-app v-else="isAuthenticated" standalone>
     <header id="header" style="position: relative; border-bottom: 1px solid #78909C; background-image: linear-gradient(-152deg, #6937EA 0%, #377FEA 65%);" >
     <div class="container ">
@@ -170,23 +173,22 @@
                 <div class="col-md-6 text-center">
                         <v-card >
                             <v-card-text>
-                                    <v-layout row wrap>
-                                        <v-flex xs12>
-                                            <v-subheader display-4>Provide your credentials to login</v-subheader>
+                                    <v-layout row wrap >
+                                        <v-flex xs12 class="text-xs-center">
+                                            <h6 class="grey--text text--darken-3">Provide your credentials to login</h6>
                                         </v-flex>
                                     </v-layout>
                                     <form v-on:submit.prevent="userLogin" method="post">
-                                        <v-layout row>
-                                            <v-flex xs11>
+                                        <v-layout row wrap justify-center>
+
+                                            <v-flex xs12 md7 text-xs-center>
                                                 <v-text-field v-model="loginUsername"
                                                               label="Username"
                                                               prepend-icon="account_circle"
                                                               required
                                                 ></v-text-field>
                                             </v-flex>
-                                        </v-layout>
-                                          <v-layout row>
-                                            <v-flex xs11>
+                                            <v-flex xs12 md7 text-xs-center>
                                                 <v-text-field v-model="loginPassword"
                                                                 label="Password"
                                                                 prepend-icon="vpn_key"
@@ -194,13 +196,17 @@
                                                                 required
                                                 ></v-text-field>
                                             </v-flex>
-                                        </v-layout>
-                                        <v-layout row>
+                                              <v-flex xs12 md7 text-xs-center>
+                                                  <v-btn small outline color="secondary" @click.prevent.stop="passwordResetDialog = !passwordResetDialog">
+                                                      Forgot Password
+                                                  </v-btn>
+                                          </v-flex>
                                             <v-flex xs12>
                                                 <input class="btn primary" type="submit" value="Login">
                                             </v-flex>
-                                        </v-layout>
+                                         </v-layout>
                                     </form>
+
                             </v-card-text>
                         </v-card>
                 </div>
@@ -208,6 +214,32 @@
             </div>
         </div>
     </div>
+    <v-layout row justify-center v-if="passwordResetDialog">
+    <v-dialog v-model="passwordResetDialog" max-width="500">
+       <v-flex xs12 >
+            <v-card class="elevation-12">
+              <v-toolbar dark class="blue lighten-1">
+                <v-toolbar-title>Password Reset</v-toolbar-title>
+                <v-spacer></v-spacer>
+
+              </v-toolbar>
+              <v-card-text>
+                <v-flex xs12>
+                    <p class="subheading grey--text text--darken-2">{{ resetText }}</p>
+                </v-flex>
+                <v-form v-model="passwordFormValid">
+                  <v-text-field v-model="forgotPasswordEmail" required prepend-icon="person" name="login" label="Email" type="text"></v-text-field>
+                </v-form>
+              </v-card-text>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn flat color="warning" @click.prevent.stop="closePasswordResetDialog">Close</v-btn>
+                <v-btn color="primary" :disabled="forgotPasswordDisabled" @click="submitPasswordResetRequest">Submit</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-flex>
+    </v-dialog>
+  </v-layout>
 </section>
 
 <section id="signup" style="background-image: linear-gradient(-45deg, #7954db 0%, #377FEA 75%);">
@@ -272,6 +304,7 @@
                                                           required
                                             ></v-text-field>
                                         </v-flex>
+
                                     </v-layout>
                                     <v-layout row>
                                         <v-flex xs12>
@@ -396,6 +429,13 @@ export default {
   name: 'app',
   data () {
     return {
+      passwordResetDialog: false,
+      forgotPasswordDisabled: false,
+      forgotPasswordEmail: null,
+      passwordFormValid: false,
+      resetText: 'Please provide the email address that was used when you setup your account.',
+
+
       drawer: true,
       alert: true,
       signUpErrorAlert: false,
@@ -422,6 +462,10 @@ export default {
     }
   },
     watch: {
+      $router () {
+          console.log(this.$route);
+
+      }
     },
     computed: {
       computedAuth: function () {
@@ -433,9 +477,28 @@ export default {
       },
     },
     methods: {
+      closePasswordResetDialog () {
+          this.passwordResetDialog = false;
+          this.resetText = 'Please provide the email address that was used when you setup your account.';
+      },
+      submitPasswordResetRequest () {
+        this.forgotPasswordDisabled = true;
+        let payload = { email: this.forgotPasswordEmail};
+        delete axios.defaults.headers.common['Authorization'];
+
+        axios.post(baseURLLocal+'v1/forgot-password-reset/', payload).then(response => {
+            this.forgotPasswordDisabled = false;
+            console.log(response);
+            this.resetText = response.data.status;
+        }).catch(err => {
+            this.forgotPasswordDisabled = false;
+            console.log(err);
+        })
+      },
        userLogin: function () {
           let credentials = { username: this.loginUsername, password: this.loginPassword };
-          this.$store.dispatch('login', credentials).then(() => {
+          this.$store.dispatch('login', credentials).then((r) => {
+              console.log('Login', r);
               this.$router.push('/user/dashboard')
           });
       },
@@ -445,6 +508,7 @@ export default {
         console.log("feedback submitted");
       },
       userSignUp: function () {
+        delete axios.defaults.headers.common['Authorization'];
         let self = this;
         let firstName = this.fullName.split(' ')[0];
         let lastName = this.fullName.split(' ')[1];
@@ -488,6 +552,12 @@ export default {
         this.$store.dispatch('fetchUserProfile').then(() => {
               this.$router.push('/user/dashboard')
           });
+
+
+    },
+
+    created () {
+      this.$router.push(this.$route.path);
     }
 }
 </script>

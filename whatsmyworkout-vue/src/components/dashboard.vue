@@ -136,7 +136,7 @@
             <p ><small>Last Build: </small>{{ "04/28/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.6.6.1 </p>
+            <p style="position: absolute; left: 50%">v0.6.7.0 </p>
 
 
 

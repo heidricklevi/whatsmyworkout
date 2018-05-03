@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
+from django.views import View
+
 from .serializers import *
 from rest_framework import status
 from rest_framework.views import APIView
@@ -18,8 +20,80 @@ from whatsmyworkout.config import *
 from reversion.models import Version
 from friendship.models import *
 from friendship.exceptions import *
+from django.utils import timezone
 import json
 from datetime import date
+import string
+import random
+
+
+class ConfirmPasswordReset(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def post(self, request, format=None):
+        json_content = json.loads(str(request.body.decode('utf-8')))
+        username = json_content['username']
+        token = json_content['token']
+        password = json_content['password']
+
+        try:
+            user = User.objects.get(username=username)
+        except:
+            user = None
+            return Response({'status': 'Username not found'}, status=status.HTTP_400_BAD_REQUEST)
+
+        try:
+            pass_obj = PasswordReset.objects.get(token=token)
+        except:
+            return Response({'status': 'Token Does not exist'}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user and pass_obj:
+            if timezone.now() < pass_obj.expiry and pass_obj.used is False:
+                user.set_password(password)
+                pass_obj.used = True
+                pass_obj.save()
+                user.save()
+                return Response({'status': 'Success'}, status=status.HTTP_200_OK)
+            else:
+                return Response({'Status': 'Invalid token'}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({'Status': 'Invalid data provided'}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ForgotPasswordReset(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    def random_password(self):
+        size = random.randint(8, 21)
+        token = ''.join(random.choice(string.ascii_letters + string.digits) for i in range(size))
+        return token
+
+    def post(self, request, format=None):
+        json_content = json.loads(str(request.body.decode('utf-8')))
+        email = json_content['email']
+
+        try:
+            user = User.objects.get(email=email)
+
+        except User.DoesNotExist:
+            user = None
+
+        if user:
+
+            expiry = datetime.datetime.now()+ datetime.timedelta(days=1)
+            token = self.random_password()
+            pass_reset = PasswordReset.objects.get_or_create(user=user, token=token, expiry=expiry)
+
+            message = EmailMultiAlternatives("Requested Password Reset",
+                                             from_email=email_config['DEFAULT_FROM_EMAIL'], to=[email])
+            html_email = render_to_string("password_reset_email.html",
+                                          {'username': user.username, 'password': token})
+            message.attach_alternative(html_email, 'text/html')
+            message.send()
+
+        print(user)
+        return Response({'status': 'Thank you. If an account with that email address exists, you will receive reset instructions via email. '},
+                        status=status.HTTP_200_OK)
 
 
 class UserLogin(APIView):
@@ -38,6 +112,8 @@ class UserLogin(APIView):
                 print('logging in')
                 login(request, user)
                 serialized = UserSerializer(user)
+                user.last_login = datetime.datetime.now()
+                user.save()
                 return Response(serialized.data)
             else:
                 return Response(status.HTTP_401_UNAUTHORIZED)

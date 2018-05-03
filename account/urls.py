@@ -51,6 +51,8 @@ urlpatterns = [
     url(r'^v1/history/$', views.ProfileHistory.as_view()),
     url(r'^v1/follow/$', views.FollowView.as_view()),
     url(r'^v1/user/friends/$', views.FriendsView.as_view()),
+    url(r'^v1/forgot-password-reset/$', views.ForgotPasswordReset.as_view()),
+    url(r'^v1/reset-password-confirm/$', views.ConfirmPasswordReset.as_view()),
 
 
     url(r'^v1/login/', obtain_jwt_token),
@@ -58,7 +60,7 @@ urlpatterns = [
     url(r'^api-token-refresh/', refresh_jwt_token),
 
 
-    url(r'^$', views.index, name='index'),
+    # url(r'^$', views.index, name='index'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

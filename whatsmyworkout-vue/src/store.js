@@ -177,6 +177,7 @@ export default new Vuex.Store({
 
             }).catch(function (errors) {
                 console.log(errors);
+                return errors
             })
 
 

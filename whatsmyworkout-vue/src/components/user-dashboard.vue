@@ -825,10 +825,6 @@ export default {
         border-bottom-color: rgba(0,0,0,.12);
     }
 
-    div.tabs__wrapper {
-        overflow-x: unset;
-    }
-
     .custom-loader {
         animation: loader 1s infinite;
         display: flex;

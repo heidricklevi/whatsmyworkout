@@ -8,6 +8,16 @@ import reversion
 import datetime
 
 
+class PasswordReset(models.Model):
+    token = models.CharField(max_length=128, null=False, unique=True)
+    user = models.ForeignKey(User)
+    expiry = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.user.username
+
+
 def upload_to(instance, filename):
     return 'users/images/%s/%s' % (instance.user.id, filename)
 

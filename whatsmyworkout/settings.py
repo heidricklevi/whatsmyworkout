@@ -90,7 +90,7 @@ INSTALLED_APPS = [
     'django_celery_results',
 ]
 
-EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
+# EMAIL_BACKEND = "anymail.backends.mailgun.EmailBackend"
 
 ANYMAIL = {
     # (exact settings here depend on your ESP...)
