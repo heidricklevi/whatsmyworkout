@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth import authenticate, login
 from django.views import View
+from rest_framework_jwt.views import ObtainJSONWebToken
 
 from .serializers import *
 from rest_framework import status
@@ -25,6 +26,8 @@ import json
 from datetime import date
 import string
 import random
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 
 
 class ConfirmPasswordReset(APIView):
@@ -96,29 +99,16 @@ class ForgotPasswordReset(APIView):
                         status=status.HTTP_200_OK)
 
 
-class UserLogin(APIView):
+@method_decorator(csrf_exempt, name='dispatch')
+class LoginJWT(ObtainJSONWebToken):
+    def post(self, request, *args, **kwargs):
+        response = super().post(request, *args, **kwargs)
 
-    permission_classes = [permissions.AllowAny]
-
-    def post(self, request, format=None):
-        json_content = json.loads(str(request.body.decode('utf-8')))
-
-        username = json_content['username']
-        password = json_content['password']
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                print('logging in')
-                login(request, user)
-                serialized = UserSerializer(user)
-                user.last_login = datetime.datetime.now()
-                user.save()
-                return Response(serialized.data)
-            else:
-                return Response(status.HTTP_401_UNAUTHORIZED)
-        else:
-            return Response(status.HTTP_401_UNAUTHORIZED)
+        if response.status_code == status.HTTP_200_OK:
+            user = User.objects.get(username=request.data['username'])
+            user.last_login = timezone.now()
+            user.save()
+        return response
 
 
 class UserViewSet(viewsets.ModelViewSet):

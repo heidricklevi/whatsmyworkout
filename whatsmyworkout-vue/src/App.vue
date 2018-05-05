@@ -497,11 +497,23 @@ export default {
       },
        userLogin: function () {
           let credentials = { username: this.loginUsername, password: this.loginPassword };
-          this.$store.dispatch('login', credentials).then((r) => {
+          /*this.$store.dispatch('login', credentials).then((r) => {
               console.log('Login', r);
               this.$router.push('/user/dashboard')
-          });
+          });*/
+
+           axios.post(baseURLLocal+'v1/login/', credentials
+            ).then(response => {
+                let JWT = response.data.token;
+                localStorage.setItem("JWT", JWT);
+                this.$store.commit('setUserAuth', response.data.user);
+                this.$router.push('/user/dashboard')
+            }).catch(err => {
+                console.log(err);
+
+            })
       },
+
       onFeedbackSubmit: function () {
 
         //stub until implemented
@@ -523,8 +535,6 @@ export default {
             profile: {
                 avatar: null,
                 gender: 'None',
-                body_fat: 0,
-                weight: 0,
                 about: 'Default About',
             }
         };

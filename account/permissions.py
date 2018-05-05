@@ -31,7 +31,7 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class IsAdminOrAccountOwner(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        return obj.id == request.user.id or request.user.is_superuser
+        return obj.user.id == request.user.id or request.user.is_superuser
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):
