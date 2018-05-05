@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cd /var/www/whatsmyworkout
+git reset
 sudo git pull https://github.com/heidricklevi/whatsmyworkout.git
 cd whatsmyworkout-vue
 npm run build
