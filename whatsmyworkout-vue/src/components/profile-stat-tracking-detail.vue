@@ -8,7 +8,7 @@
                 <v-card-text>
                     <h6 class="title grey--text text--darken-2">Most Recent Stats</h6>
                     <p class="text-xs-right caption grey--text text--lighten-1">{{ currentBodyStats.created }}</p>
-                    <v-flex xs2 offset-xs9>
+                    <v-flex xs3 offset-xs9>
                         <v-btn color="primary" class="pr-1"
                                block
                                small
@@ -420,5 +420,8 @@
         background-color: inherit!important;
     }
 
+    th {
+        padding-top: 20px;
+    }
 
 </style>

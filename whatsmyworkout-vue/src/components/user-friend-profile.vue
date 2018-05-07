@@ -7,7 +7,7 @@
                 <v-layout row wrap>
                     <v-flex md8>
                         <router-link :to=" authUserProfileId === viewedUserProfileId ? '/user/profile-stats/detail/' : '' ">
-                            <h4 class="headline mb-0 ml-3" >Profile Stat Tracking</h4>
+                            <h4 class="headline mb-0" >Profile Stat Tracking</h4>
                         </router-link>
                     </v-flex>
                     <v-flex md1 offset-xs2 v-if="authUserProfileId === viewedUserProfileId">

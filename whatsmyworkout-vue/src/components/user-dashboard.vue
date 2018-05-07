@@ -305,7 +305,7 @@
                             </v-flex>
                     <v-layout v-if="active == 'friends-1'">
 
-                      <v-flex xs10 offset-1 md10>
+                      <v-flex xs10 offset-xs1 md10>
                         <v-text-field
                           label="username"
                           append-icon="search"
@@ -370,7 +370,7 @@
                     </h5>
                 </v-card-title>
                 <v-divider></v-divider>
-                    <v-list dense v-if="getMyFriends.length > 0">
+                    <v-list  v-if="getMyFriends.length > 0">
                         <template v-for="(friend, i) in getMyFriendsListPagination">
                         <v-list-tile >
                             <v-list-tile-avatar>

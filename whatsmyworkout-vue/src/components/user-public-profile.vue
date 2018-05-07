@@ -12,9 +12,9 @@
             <v-flex md10 offset-md1 xs12>
                     <v-card class="blue-grey lighten-5" :class="{'mt-4': $vuetify.breakpoint.smAndDown }">
                           <v-layout row wrap >
-                            <v-flex xs5 offset-xs1 text-xs-left>
-                                <v-avatar><img :src="userProfileProp.user.avatar"></v-avatar>
-                                 <span class="subheading grey--text text--darken-4">{{ userProfileProp.user.username }}</span>
+                            <v-flex xs5 layout justify-start class="pl-2" align-center>
+                                <v-avatar :size="36"><img :src="userProfileProp.user.avatar"></v-avatar>
+                                 <span class="subheading grey--text text--darken-4 pl-3">{{ userProfileProp.user.username }}</span>
                             </v-flex>
                             <v-flex  xs6 text-xs-center fill-height>
                                 <v-avatar icon class="pr-0 mr-0"><v-icon color="primary">access_time</v-icon></v-avatar>
@@ -30,7 +30,7 @@
                         </v-card>
             </v-flex>
             <v-flex md11 offset-md1 xs12 >
-                <v-container class="mt-4 " justify-end>
+                <v-container class="mt-4 ">
                     <v-layout row wrap>
 
                         <v-flex xs12 md11>

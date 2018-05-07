@@ -8,3 +8,4 @@ npm run build
 yes | sudo cp -rf dist ../account/static/
 cd ..
 python3 manage.py collectstatic --noinput
+sudo systemctl restart apache2

@@ -31,7 +31,14 @@ class IsOwnerOrReadOnly(permissions.BasePermission):
 class IsAdminOrAccountOwner(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
-        return obj.user.id == request.user.id or request.user.is_superuser
+
+        try:
+            obj = obj.user
+        except AttributeError:
+            print('Catching Attribute Error in permissions check')
+            obj = obj
+
+        return obj.id == request.user.id or request.user.is_superuser
 
 
 class IsAdminOrReadOnly(permissions.BasePermission):

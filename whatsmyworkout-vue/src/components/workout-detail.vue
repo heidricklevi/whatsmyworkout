@@ -100,12 +100,12 @@
                                         </v-card>
 
                                 </v-flex>
-                                <v-flex xs10 offset-xs1 class="pt-0"><v-divider class="mt-1"></v-divider></v-flex>
+                                <v-flex xs12 class="pt-0"><v-divider class="mt-1"></v-divider></v-flex>
 
                             </v-layout>
                             <v-card-media :src="tmp.workout_image" contain height="300px">
                                 <v-layout row justify-center>
-                                    <v-flex text-xs-center xs12>
+                                    <v-flex text-xs-center xs12 class="pt-2">
                                         <h6 class="display-1 primary--text text--darken-2 ">
                                             {{ tmp.title }}</h6></v-flex></v-layout>
                             </v-card-media>
@@ -258,7 +258,7 @@
 
                                                 </v-select>
                                             </v-flex>-->
-                                          <v-list dense>
+                                          <v-list >
                                               <template v-for="(cExercise, i) in getCopiedExercises">
                                                 <div :class="{'mt-4': $vuetify.breakpoint.smAndDown, 'mb-5': $vuetify.breakpoint.smAndDown,}">
                                                     <edit-copied-exercises
