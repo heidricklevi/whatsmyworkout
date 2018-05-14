@@ -30,7 +30,7 @@
                         </v-card>
             </v-flex>
             <v-flex md11 offset-md1 xs12 >
-                <v-container class="mt-4 ">
+                <v-container fluid class="mt-4 pa-0">
                     <v-layout row wrap>
 
                         <v-flex xs12 md11>

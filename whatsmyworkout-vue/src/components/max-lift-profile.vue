@@ -20,7 +20,7 @@
                           :id="'tab-' + i"
                           >
 
-                           <v-container>
+                           <v-container class="pa-0">
                                <v-layout row wrap justify-center>
                                    <v-flex xs12  >
                                        <v-card v-if="active == 'tab-1'" color="blue-grey lighten-5">

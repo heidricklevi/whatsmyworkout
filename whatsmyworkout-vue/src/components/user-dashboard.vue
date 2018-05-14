@@ -4,110 +4,6 @@
         <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
                     {{ snackbarText1 }}
                 </v-snackbar>
-        <!--<v-flex xs12 offset-md1 md3>
-
-
-            <v-card v-if="recentWorkouts">
-
-                <v-flex xs12>
-                    <div class="pt-1 pl-1" style="display: inline-flex">
-                        <v-avatar>
-                            <img :src="userAuth.user.avatar">
-                        </v-avatar>
-                        <span class="title pl-2 pt-2 card-title grey--text">Next Workout </span>
-                        <div style="position: absolute; right: 0; top: 0;">
-                            <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout" style="margin-right: 0">
-                                <v-icon v-if="!isEmailWorkout">email</v-icon>
-                                <v-icon class="red--text" v-if="isEmailWorkout">cancel</v-icon>
-                            </v-btn>
-                            <router-link to="/workout/edit/">
-                                <v-btn icon class="mr-1" @click="commitToStore">
-                                    <v-icon>edit</v-icon>
-                                </v-btn>
-                            </router-link>
-                        </div>
-                    </div>
-
-                    <div style="margin-left: 15%; position:relative; top: -15px;">
-                        <v-icon class="mr-1">event</v-icon>
-                        <span class="caption">{{ recentWorkouts.date_for_completion | moment }}</span>
-                    </div>
-                </v-flex>
-
-
-                <v-divider></v-divider>
-                <v-card-title>
-                    <h3 class="headline">{{ recentWorkouts.title }}</h3>
-                </v-card-title>
-                <v-card-media id="workout-image" :src="recentWorkouts.workout_image" height="200px" contain>
-
-                </v-card-media>
-                <v-progress-circular style="position:absolute; top: 50%; right: 50%; "  v-if="loadingWorkout" indeterminate v-bind:size="50" class="primary--text"></v-progress-circular>
-                <v-divider></v-divider>
-                <v-card-actions>
-
-                    <v-btn flat class="blue--text text--darken-4 pl-0 pt-0" @click.native="viewExercises = !viewExercises">View Exercises</v-btn>
-                    <v-spacer></v-spacer>
-                    <v-btn icon @click.native="viewExercises = !viewExercises">
-                        <v-icon class="blue--text text--darken-4">{{ viewExercises ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                    </v-btn>
-                </v-card-actions>
-                <v-slide-y-transition>
-                    <v-card-text v-if="viewExercises">
-                        <v-list three-line subheader>
-                            <v-layout row justify-center>
-                                <v-flex xs6>
-                                    <v-subheader>Exercise</v-subheader>
-                                </v-flex>
-                                <v-flex xs3 offset-xs1>
-                                    <v-subheader class="text-xs-center">sets/reps</v-subheader>
-                                </v-flex>
-                            </v-layout>
-
-                            <template v-for="(exercise, i) in recentWorkouts.exercises">
-
-
-                                <v-list-tile style="padding: 0">
-                                    <v-list-tile-content>
-                                        <v-layout style="width: 100%" row wrap :key="exercise.exercise_name">
-
-
-                                            <v-flex style="display: flex;" xs12>
-                                                <v-flex xs1 class="ml-1">
-                                                    <div style="text-align: center;">{{ i+1 }}.</div>
-                                                </v-flex>
-                                                <v-flex xs8 class="body-1" style="word-wrap: break-word">
-                                                    {{ exercise.exercise_name }}
-                                                </v-flex>
-                                                <v-flex xs2 offset-xs1>
-                                                    <div>{{ exercise.sets }}/{{ exercise.reps }}</div>
-                                                </v-flex>
-                                            </v-flex>
-                                            <div style="position: relative; margin-left: 5%"><v-icon style="position: absolute; top: 0;" color=" ">fa-sticky-note-o</v-icon></div>
-                                            <div class="caption" style="word-wrap: break-word; margin: 2% 0 0 5%;">
-                                                {{ exercise.notes }}
-                                            </div>
-                                        </v-layout>
-                                        <v-layout style="text-align: center">
-                                            <div style="word-wrap: break-word; font-size: small; font-weight: 500">
-                                                Lifting Weight: <span style="font-style: italic" class="caption">{{ exercise.lifting_weight }}</span></div>
-                                        </v-layout>
-
-                                    </v-list-tile-content>
-
-                                </v-list-tile>
-                                <v-divider></v-divider>
-                            </template>
-                        </v-list>
-                    </v-card-text>
-                </v-slide-y-transition>
-            </v-card>
-         <v-card v-else="recentWorkouts">
-                <v-card-text>
-                    No upcoming workouts have been scheduled. Head on over <router-link to="/create-workout/">here</router-link> to create your workouts and see the next one scheduled show up here
-                </v-card-text>
-            </v-card>
-        </v-flex>-->
         <v-flex md3 xs12 offset-md1>
             <v-snackbar v-model="snackbar" :color="snackColor" :error="context === 'error'" :success="context === 'success'" :top="y === 'top'">
                             {{ snackbarText }}
@@ -129,10 +25,10 @@
                       >
                         <v-card>
                             <v-layout  row wrap>
-                                <v-flex xs8 md9>
+                                <v-flex xs8 md9 class="pa-0">
                                     <v-avatar class="ml-2 mt-2"><img :src="userAuth.user.avatar"></v-avatar>
                                     <div class="d-inline subheading  grey--text text--lighten-1 mt-0 mb-0 text-sm-center"
-                                                style="text-transform: uppercase; letter-spacing: 1px">
+                                                style="text-transform: uppercase; letter-spacing: 0.9px">
                                             Next Workout</div>
 
                                     <div class="caption text-md-center text-xs-right text-sm-center ml-4 pl-1" style="position: relative; top: -15px;">
@@ -140,7 +36,7 @@
                                         {{ props.item.date_for_completion | moment }}
                                     </div>
                                 </v-flex>
-                                <v-flex xs4 md3 text-xs-right>
+                                <v-flex xs4 md3 text-xs-right align-end class="pa-0">
 
                                     <v-btn icon @click.native="isEmailWorkout = !isEmailWorkout" class="ml-0 mr-0">
                                             <v-icon v-if="!isEmailWorkout" small color="accent">send</v-icon>
@@ -247,7 +143,7 @@
                                 </v-btn>
                             </v-card-actions>
                             <v-card-text v-if="viewExercises">
-                                <v-list dense>
+                                <v-list dense class="hidden-sm-and-down">
                                       <template v-for="(exercise, i) in props.item.exercises" v-if="props.item.exercises.length > 0">
                                     <v-list-tile  :key="exercise.id">
 
@@ -261,9 +157,33 @@
 
                                     </v-list-tile>
                                         <toggle-exercise-notes  v-if="exercise.notes" :exercise="exercise" :index="i" :opened="exercise.isOpened"></toggle-exercise-notes>
-                                          <v-divider class="mt-2"></v-divider>
+                                          <v-divider v-if="i !== props.item.exercises.length - 1"  class="mt-2"></v-divider>
                                           </template>
                                   </v-list>
+                                <v-layout row wrap class="hidden-md-and-up" v-for="(exercise, i) in props.item.exercises" v-if="props.item.exercises.length > 0">
+                                    <!--<v-list-tile  :key="exercise.id">
+
+                                      <v-list-tile-content class="grey--text text--darken-4">{{ i+1 }}. {{ exercise.exercise_name }}</v-list-tile-content>
+                                      <v-list-tile-content class="align-end grey--text text--darken-1 pt-2">{{ exercise.sets }} x {{ exercise.reps }}
+                                      <v-list-tile-content class="align-end caption grey--text text--lighten-1" v-if="exercise.lifting_weight">
+                                          @ {{ exercise.lifting_weight }} lbs.
+                                      </v-list-tile-content>
+                                      </v-list-tile-content>
+
+
+                                    </v-list-tile>-->
+                                    <v-flex xs8 text-xs-left>
+                                        <span class="grey--text text--darken-2">{{ i+1 }}.  {{ exercise.exercise_name }}</span>
+                                    </v-flex>
+                                    <v-flex xs4 text-xs-right>
+                                        <span  class="align-end grey--text text--darken-1 pt-2" style="font-size: 13px">{{ exercise.sets }} x {{ exercise.reps }}</span>
+                                        <p class="pb-0 mb-0 align-end caption grey--text text--lighten-1" v-if="exercise.lifting_weight">
+                                          @ {{ exercise.lifting_weight }} lbs.
+                                      </p>
+                                    </v-flex>
+                                        <toggle-exercise-notes  v-if="exercise.notes" :exercise="exercise" :index="i" :opened="exercise.isOpened"></toggle-exercise-notes>
+                                          <v-flex xs12 class="pa-0"><v-divider v-if="i !== props.item.exercises.length - 1"  class="mt-1 mb-2"></v-divider></v-flex>
+                                </v-layout>
                             </v-card-text>
                         </v-card>
                       </v-flex>

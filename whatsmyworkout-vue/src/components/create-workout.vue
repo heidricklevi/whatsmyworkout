@@ -716,21 +716,6 @@
         }
     
 
-    @media only screen and (max-width: 768px) {
-
-        div > div.row-margin-top {
-            margin: 0;
-        }
-        div.stepper > div.stepper__content {
-            padding: 16px 30px 16px 23px;
-        }
-        .non-mobile-margin {
-            margin-left: 0;
-        }
-
-    }
-
-
     div > div.row-margin-top {
         display: inline-block;
         width: 90%;

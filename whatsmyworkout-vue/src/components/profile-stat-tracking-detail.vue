@@ -8,15 +8,16 @@
                 <v-card-text>
                     <h6 class="title grey--text text--darken-2">Most Recent Stats</h6>
                     <p class="text-xs-right caption grey--text text--lighten-1">{{ currentBodyStats.created }}</p>
-                    <v-flex xs3 offset-xs9>
-                        <v-btn color="primary" class="pr-1"
+                    <v-flex xs4 text-xs-right>
+                        <v-btn color="primary"
+                               class="text-xs-right"
                                block
                                small
                                outline
                                flat
                                @click="edit = !edit">
                             Change
-                            <v-icon right small class="pr-2">edit</v-icon>
+                            <v-icon right small>edit</v-icon>
                         </v-btn>
                     </v-flex>
                 </v-card-text>
@@ -131,16 +132,16 @@
                   >
                     <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                     <template slot="items" slot-scope="props">
-                      <td class="text-xs-left">
+                      <td class="text-xs-left">{{ props.item.created }}</td>
+                      <td class="text-xs-left">{{ props.item.weight }}</td>
+                      <td class="text-xs-left">{{ props.item.body_fat }}</td>
+                        <td class="text-xs-center">
                           <v-btn icon @click="removeDialog(props.item)">
                               <v-icon color="error">
                                   remove_circle
                               </v-icon>
                           </v-btn>
                       </td>
-                      <td class="text-xs-right">{{ props.item.weight }}</td>
-                      <td class="text-xs-right">{{ props.item.body_fat }}</td>
-                      <td class="text-xs-right">{{ props.item.created }}</td>
                         <v-dialog
                                 width="750"
                                 v-model="deleteDialog">
@@ -206,28 +207,35 @@
                 graphLabels: [],
                 graphWeightData: [],
 
-                loadingTable:false,
+                loadingTable: false,
                 headers: [
-                    {
-                        text: 'Actions',
-                        align: 'left',
-                        sortable: false,
 
+                     {
+                        text: 'Date',
+                        value: 'created',
+                         class: 'pt-4'
                     },
+
                     {
                         text: 'Weight (lbs.)',
                         value: 'weight',
-                        sortable: false
+                        sortable: false,
+                        class: 'theader-padding'
                     },
                     {
                         text: 'Body Fat (%)',
                         value: 'body_fat',
-                        sortable: false
+                        sortable: false,
+                        class: 'theader-padding'
                     },
+
                     {
-                        text: 'Recorded',
-                        value: 'created'
-                    }
+                        text: 'Actions',
+                        align: 'left',
+                        sortable: false,
+                        class: 'theader-padding'
+
+                    },
                 ],
 
                 deleteDialog: false,
@@ -420,8 +428,8 @@
         background-color: inherit!important;
     }
 
-    th {
-        padding-top: 20px;
+    .theader-padding {
+        padding: 24px!important;
     }
 
 </style>

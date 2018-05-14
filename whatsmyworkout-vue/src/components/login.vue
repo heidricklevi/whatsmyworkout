@@ -42,8 +42,8 @@
 
 <script>
     import { login } from '../auth/auth-utils'
-
-
+    import { baseURLLocal } from "../auth/auth-utils";
+    import axios from 'axios'
 
     export default {
 
@@ -58,9 +58,16 @@
         methods: {
             userLogin: function () {
                 let credentials = {username: this.username, password: this.password};
-                this.$store.dispatch('login', credentials).then(() => {
-                    this.$router.push('/user/dashboard')
-                });
+                axios.post(baseURLLocal+'v1/login/', credentials
+                        ).then(response => {
+                            let JWT = response.data.token;
+                            localStorage.setItem("JWT", JWT);
+                            this.$store.commit('setUserAuth', response.data.user);
+                            this.$router.push('/user/dashboard')
+                        }).catch(err => {
+                            console.log(err);
+
+                        })
             }
         },
     }
@@ -68,14 +75,5 @@
 </script>
 
 <style>
-    #hero {
-        display: none;
-    }
 
-
-@media only screen and (max-width: 768px) {
-
-
-
-    }
 </style>

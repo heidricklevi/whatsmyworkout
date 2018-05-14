@@ -20,6 +20,8 @@ import AccountSettingsDetail from '../components/account-settings-detail.vue'
 import PasswordResetConfirm from '../components/password-reset-confirm.vue'
 import { getJWTHeader } from '../auth/auth-utils'
 import axios from 'axios'
+import requireAuth from './guards.js'
+
 
 Vue.use(Router);
 
@@ -46,49 +48,58 @@ export default new Router({
       {
         path: '/account/settings/',
         component: AccountSettingsDetail,
+          beforeEnter: requireAuth
       },
 
       {
         path: '/profile-settings/',
         component: ProfileSettings,
+          beforeEnter: requireAuth
       },
 
       {
         path: '/profile/:username',
         component: PublicProfile,
+          beforeEnter: requireAuth
       },
       {
         path: '/user/profile-stats/detail/',
         name: 'profile-stat-tracking-detail',
-        component: ProfileStatDetail
+        component: ProfileStatDetail,
+          beforeEnter: requireAuth
 
       },
     {
       path: '/user/dashboard/',
       name: 'user-dashboard',
-      component: userDashboard
+      component: userDashboard,
+      beforeEnter: requireAuth
     },
       {
         path: '/workout/stats/',
         name: 'workout-stats',
-        component: WorkoutStats
+        component: WorkoutStats,
+          beforeEnter: requireAuth
       },
     {
       path: '/dashboard/',
       name: 'dashboard',
-      component: Dashboard
+      component: Dashboard,
+        beforeEnter: requireAuth
     },
     {
       path: '/manage/workouts/',
       name: 'manage-workouts',
-      component: ManageWorkouts
+      component: ManageWorkouts,
+        beforeEnter: requireAuth
 
     },
     {
       path: '/create-workout/',
       name: 'create-workout',
       component: CreateWorkout,
-      props: { createWorkout: true }
+      props: { createWorkout: true },
+        beforeEnter: requireAuth
     },
     {
       path: '/login/',
@@ -99,12 +110,14 @@ export default new Router({
       path: '/account-settings/',
       name: 'account-settings',
       component: AccountSettings,
+        beforeEnter: requireAuth
 
     },
     {
       path: '/archived-workouts/',
       name: 'archive-workouts',
       component: ArchiveWorkouts,
+        beforeEnter: requireAuth
 
     },
     {
@@ -112,6 +125,7 @@ export default new Router({
       name: 'workout-detail',
       component: WorkoutDetail,
       props: true,
+      beforeEnter: requireAuth
 
     },
       {

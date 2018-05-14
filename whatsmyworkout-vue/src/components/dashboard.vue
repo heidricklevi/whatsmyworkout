@@ -133,10 +133,10 @@
             </v-container>
         </v-content>
         <v-footer class="pa-3" app fixed>
-            <p ><small>Last Build: </small>{{ "05/07/2018" | moment }}</p>
+            <p ><small>Last Build: </small>{{ "05/14/2018" | moment }}</p>
     <v-spacer></v-spacer>
     <div>© {{ new Date().getFullYear() }}</div>
-            <p style="position: absolute; left: 50%">v0.6.7.4 </p>
+            <p style="position: absolute; left: 50%">v0.6.7.5 </p>
 
 
 
@@ -277,29 +277,6 @@ export default {
     left: -99999px;
   }
 
-    .profile-card {
-        margin: 0 25% 0 35%;
-        width: 200px;
-        height: 200px;
-    }
-
-
-
-     @media only screen and (max-width: 960px) {
-
-        .profile-card {
-            margin: 0 25% 0 25%;
-            width: 200px;
-            height: 200px;
-        }
-
-        .container.fluid {
-
-            max-width: 100%;
-            margin: 15% 0 0 0 ;
-        }
-
-    }
     .scale-img {
 
         transform: scale(3, 2);
