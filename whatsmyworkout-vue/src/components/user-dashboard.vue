@@ -1,6 +1,9 @@
 <template>
     <v-layout row wrap>
-        <v-flex xs12 md4 ><user-profile :user-auth="userAuth" :class="{'mb-4': $vuetify.breakpoint.smAndDown }"></user-profile></v-flex>
+        <v-flex xs12 md4 >
+            <user-profile :user-auth="userAuth" :class="{'mb-4': $vuetify.breakpoint.smAndDown }"></user-profile>
+            <max-lifts-dashboard-widget class="mt-4"></max-lifts-dashboard-widget>
+        </v-flex>
         <v-snackbar v-model="snackbar1" :error="context1 === 'error'" :success="context1 === 'success'" :top="y === 'top'">
                     {{ snackbarText1 }}
                 </v-snackbar>
@@ -290,7 +293,7 @@
                     </h5>
                 </v-card-title>
                 <v-divider></v-divider>
-                    <v-list  v-if="getMyFriends.length > 0">
+                    <v-list  v-if="getMyFriends.length > 0" id="friends-list">
                         <template v-for="(friend, i) in getMyFriendsListPagination">
                         <v-list-tile >
                             <v-list-tile-avatar>
@@ -351,6 +354,7 @@ import userProfile from './user-profile.vue'
 import HandleSentFriendRequests from './handle-sent-friend-requests.vue'
 import HandleReceivedFriendRequests from './handle-received-friend-requests.vue'
 import ToggleExerciseNotes from './toggle-exercise-notes.vue'
+import MaxLiftsDashboardWidget from './max-lifts-dashboard-widget.vue'
 
 
 export default {
@@ -730,7 +734,7 @@ export default {
 
     },
     components: {
-        addFollow, userProfile, HandleSentFriendRequests, HandleReceivedFriendRequests, ToggleExerciseNotes
+        addFollow, userProfile, HandleSentFriendRequests, HandleReceivedFriendRequests, ToggleExerciseNotes, MaxLiftsDashboardWidget
     }
 
 
@@ -783,14 +787,13 @@ export default {
     }
   }
 
-    .card > .card__title {
-        display: block;
-    }
+  #friends-list a:hover {
+      color: #263238;
+  }
 
-    .card-title {
-        letter-spacing: 1.5px;
-        text-transform: uppercase;
-        margin-bottom: 0;
-    }
+  .widget-title {
+      letter-spacing: 2px!important;
+      text-transform: uppercase!important;
 
+  }
 </style>

@@ -2,8 +2,8 @@
 
                     <v-layout row wrap>
 
-                                        <v-flex xs12 text-xs-center md10 offset-md2 text-md-left >
-                                            <h6 class="headline  grey--text text--lighten-1">Profile Settings</h6>
+                                        <v-flex xs12 md11 offset-md1 >
+                                            <h6 class="headline text-xs-center  grey--text text--lighten-1 text-md-left">Profile Settings</h6>
                                         </v-flex>
 
                         <v-flex md4 offset-md1 xs12>

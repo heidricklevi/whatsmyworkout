@@ -262,6 +262,8 @@ class MaxLiftTrackingViewSet(viewsets.ModelViewSet):
             q = MaxLiftTracking.objects.filter(profile__user__username=friend). \
                 filter(exercise__exercise_name=exercise_name)\
                 .filter(max_type=max_type).order_by('-weight')[:1]
+        elif max:
+            q = q.filter(exercise__exercise_name=exercise_name).filter(max_type=max_type).order_by('-weight')[:1]
 
         return q
 
