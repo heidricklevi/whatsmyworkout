@@ -3,7 +3,6 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.contrib.auth.models import User
 from friendship.models import Friend
-
 import reversion
 import datetime
 
@@ -74,21 +73,21 @@ class Exercises(models.Model):
 class Exercise(models.Model):
 
     TARGET_MUSCLE = (('Back', 'Back'), ('Arms', 'Arms'),
-                     ('Legs', 'Legs'), ('Chest', 'Chest'),)
+                     ('Legs', 'Legs'), ('Chest', 'Chest'), ('Biceps', 'Biceps'), ('Triceps', 'Triceps'), ('Shoulders', 'Shoulders'))
 
     exercises = models.ForeignKey(Exercises, on_delete=models.CASCADE, blank=True, null=True)
     # workout = models.ForeignKey(Workout, on_delete=models.CASCADE, default=1)
     exercise_name = models.CharField(max_length=255, blank=True, null=True)
     lifting_weight = models.IntegerField(null=True, blank=True)
-    sets = models.IntegerField()
-    reps = models.IntegerField()
+    sets = models.CharField(max_length=28)
+    reps = models.CharField(max_length=28)
     notes = models.CharField(max_length=255, blank=True, null=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE, default=3)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     created = models.DateTimeField(auto_now_add=True, editable=False, blank=True, null=True)
 
     def __str__(self):
-        return self.exercise_name
+        return str(self.exercise_name)
 
     def save(self, force_insert=False, force_update=False, using=None,
              update_fields=None):
@@ -126,7 +125,37 @@ class MaxLiftTracking(models.Model):
         ordering = ['target_muscle', '-created']
 
 
-@reversion.register()
+class TargetMuscles(models.Model):
+    traps = 'Traps'
+    neck = 'Neck'
+    chest = 'Chest'
+    biceps = 'Biceps'
+    forearm = 'Forearms'
+    abs = 'Abs'
+    quads = 'Quads'
+    calves = 'Calves'
+    triceps = 'Triceps'
+    lats = 'Lats'
+    middle_back = 'Middle Back'
+    lower_back = 'Lower Back'
+    glutes = 'Glutes'
+    hamstrings = 'Hamstrings'
+
+    TARGET_MUSCLE_ = ((traps, 'Traps'), (neck, 'Neck'), (biceps, 'Biceps'),
+                     (forearm, 'Forearms'), (abs, 'Abs'), (quads, 'Quads'), (calves, 'Calves'),
+                     (triceps, 'Triceps'), (lats, 'Lats'), (middle_back, 'Middle Back'), (lower_back, 'Lower Back'),
+                     (glutes, 'Glutes'), (hamstrings, 'Hamstrings'), ('Back', 'Back'), ('Arms', 'Arms'),
+                     ('Legs', 'Legs'), (chest, 'Chest'), ('Shoulders', 'Shoulders'))
+
+    name = models.CharField(max_length=2555, choices=TARGET_MUSCLE_, default=1, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        ordering = ['name']
+
+
 class Workout(models.Model):
 
     endurance = 'Endurance'
@@ -152,7 +181,7 @@ class Workout(models.Model):
     TARGET_MUSCLE = ((traps, 'Traps'), (neck, 'Neck'), (biceps, 'Biceps'),
                      (forearm, 'Forearm'), (abs, 'Abs'), (quads, 'Quads'), (calves, 'Calves'),
                      (triceps, 'Triceps'), (lats, 'Lats'), (middle_back, 'Middle Back'), (lower_back, 'Lower Back'),
-                     (glutes, 'Glutes'), (hamstrings, 'Hamstrings'), ('Back', 'Back'), ('Arms', 'Arms'), ('Legs', 'Legs'), (chest, 'Chest'),)
+                     (glutes, 'Glutes'), (hamstrings, 'Hamstrings'), ('Back', 'Back'), ('Arms', 'Arms'), ('Legs', 'Legs'), (chest, 'Chest'), ('Shoulders', 'Shoulders'))
 
     TRAINING_TYPES = ((endurance, 'Endurance'), (strength, 'Strength Training'), (balance, 'Balance Focused'),
                       (flexibility, 'Flexibility Focused'))
@@ -164,6 +193,7 @@ class Workout(models.Model):
     title = models.CharField(max_length=150, )
     workout_image = models.ImageField(blank=True, null=True)
 
+    muscles = models.ManyToManyField(TargetMuscles, blank=True)
     slug = models.SlugField(max_length=255, blank=True, null=True)
     target_muscle = models.CharField(max_length=255, choices=TARGET_MUSCLE, default=1)
     training_type = models.CharField(max_length=255, choices=TRAINING_TYPES, default=1)
@@ -171,7 +201,8 @@ class Workout(models.Model):
     sent_notification = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
-        return self.title
+
+        return 'Workout Name: {}'.format(self.title)
 
 
 class WorkoutNotificationSettings(models.Model):

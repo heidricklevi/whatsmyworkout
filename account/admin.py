@@ -54,17 +54,22 @@ class FriendSubscriptionSettingsAdmin(admin.ModelAdmin):
     pass
 
 
+class TargetMusclesAdmin(admin.ModelAdmin):
+    pass
+
+
 class BodyStatTrackingAdmin(admin.ModelAdmin):
     readonly_fields = ('created', 'username')
 
 
-class WorkoutAdmin(VersionAdmin):
+class WorkoutAdmin(admin.ModelAdmin):
     list_display = ('user', 'title', 'target_muscle', 'training_type')
     prepopulated_fields = {'slug': ('date_for_completion', 'title',)}
+    empty_value_display = '-empty-'
 
 
 class ExercisesAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('exercise_name', 'target_muscle')
 
 
 class ExerciseAdmin(admin.ModelAdmin):
@@ -72,6 +77,7 @@ class ExerciseAdmin(admin.ModelAdmin):
 
 
 # admin.site.register(Subscriber, SubscriberAdmin)
+admin.site.register(TargetMuscles, TargetMusclesAdmin)
 admin.site.register(PasswordReset, PasswordResetAdmin)
 admin.site.register(AccountSettings, AccountSettingsAdmin)
 admin.site.register(WorkoutNotificationSettings, WorkoutNotificationSettingsAdmin)

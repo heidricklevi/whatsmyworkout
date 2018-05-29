@@ -227,22 +227,34 @@ class CopyExerciseSerializer(serializers.ModelSerializer):
     #     validated_data['exercises'] = exercises_instance
 
 
+class TargetMusclesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = TargetMuscles
+        fields = '__all__'
+
+
 class WorkoutSerializer(serializers.ModelSerializer):
     exercises = ExerciseSerializer(many=True, allow_null=True, required=False)
+    muscles = TargetMusclesSerializer(many=True, allow_null=True, required=False)
     workout_image = serializers.ImageField(required=False, allow_null=True)
     notes = serializers.CharField(max_length=255, source='exercises.notes', required=False, allow_null=True)
 
     class Meta:
         model = Workout
-        fields = ('id', 'user', 'exercises', 'date_for_completion', 'title', 'workout_image', 'slug', 'target_muscle', 'training_type', 'completed', 'notes')
+        fields = ('id', 'user', 'exercises', 'muscles', 'date_for_completion', 'title', 'workout_image',
+                  'slug', 'target_muscle', 'training_type', 'completed', 'notes')
         extra_kwargs = {
             'lifting_weight': {'validators': []},
         }
 
     def create(self, validated_data):
+        muscles = validated_data.pop('muscles')
+
         self.create_or_update(validated_data)
         self.set_workout_image(validated_data['target_muscle'], validated_data)
-        return super(WorkoutSerializer, self).create(validated_data)
+        instance = super(WorkoutSerializer, self).create(validated_data)
+        instance = self.create_associate_tagged_muscles(muscles, instance)
+        return instance
 
     def update(self, instance, validated_data):
 
@@ -257,6 +269,7 @@ class WorkoutSerializer(serializers.ModelSerializer):
         instance.target_muscle = validated_data.get('target_muscle', instance.target_muscle)
         instance.training_type = validated_data.get('training_type', instance.training_type)
         instance.workout_image = validated_data.get('workout_image', None)
+        instance.muscles = validated_data.get('muscles', instance.muscles)
 
         instance.save()
 
@@ -302,9 +315,25 @@ class WorkoutSerializer(serializers.ModelSerializer):
 
         return instance
 
+    def create_associate_tagged_muscles(self, muscles, workout_instance):
+        print(muscles)
+        print(workout_instance)
+
+        for muscle in muscles:
+            name = muscle.get('name')
+
+            m_obj = TargetMuscles.objects.get(name=name)
+            workout_instance.muscles.add(m_obj)
+
+        workout_instance.save()
+        return workout_instance
+
+
+
     def create_or_update(self, validated_data):
 
         exercises = validated_data.pop('exercises')
+
         for exercise in exercises:
             id = exercise.pop('workout_id', None)
             exercises_to_be_added = exercise.pop('exercises', None)

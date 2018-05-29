@@ -360,8 +360,8 @@
 
 import { baseURLLocal } from './auth/auth-utils'
 import axios from 'axios'
-import dashboard from '../src/components/dashboard.vue'
-import userDashboard from '../src/components/user-dashboard.vue'
+import dashboard from './components/shell-components/dashboard.vue'
+import userDashboard from './components/user-dashboard/user-dashboard.vue'
 
 export default {
   name: 'app',

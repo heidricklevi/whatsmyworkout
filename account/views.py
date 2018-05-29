@@ -473,6 +473,12 @@ class FriendsView(APIView):  # APIView for deleting friend
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+class TargetMusclesViewSet(viewsets.ModelViewSet):
+    permission_classes = [IsAdminOrReadOnly]
+    serializer_class = TargetMusclesSerializer
+    queryset = TargetMuscles.objects.all()
+
+
 class WorkoutViewSet(viewsets.ModelViewSet):
     permission_classes = [IsAdminOrAccountOwner, permissions.IsAuthenticated]
     serializer_class = WorkoutSerializer
@@ -659,7 +665,7 @@ class SendWorkoutEmail(APIView):
     def set_image(self, target_muscle):
         workout_image = None
         account = 'account'
-        dev_server = True
+        dev_server = False
 
         if dev_server:
             account = 'whatsmyworkout/account'
