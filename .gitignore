@@ -8,3 +8,4 @@ migrations/
 *.htaccess
 *dist/
 .vscode
+node_modules

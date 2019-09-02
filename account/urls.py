@@ -59,9 +59,6 @@ urlpatterns = [
     url(r'^v1/login/', LoginJWT.as_view()),
     url(r'^api-token-verify/', verify_jwt_token),
     url(r'^api-token-refresh/', refresh_jwt_token),
-
-
-    # url(r'^$', views.index, name='index'),
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)

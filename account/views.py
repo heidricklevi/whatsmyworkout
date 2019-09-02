@@ -694,7 +694,3 @@ class SendWorkoutEmail(APIView):
         #     Need to add default image
 
         return workout_image
-
-
-def index(request):
-    return render(request, 'index.html')

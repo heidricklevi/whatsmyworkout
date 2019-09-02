@@ -21,7 +21,7 @@ def upload_to(instance, filename):
     return 'users/images/%s/%s' % (instance.user.id, filename)
 
 
-@reversion.register()
+# @reversion.register()
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -36,7 +36,7 @@ class Profile(models.Model):
         return self.user.username
 
 
-@reversion.register()
+# @reversion.register()
 class BodyStatTracking(models.Model):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)

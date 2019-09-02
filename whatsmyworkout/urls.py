@@ -29,7 +29,6 @@ urlpatterns = [
     url(r"^friendship/", include('friendship.urls')),
     # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
     url(r'^', include('account.urls')),
-    url(r'^.*$', TemplateView.as_view(template_name="index.html")),
 ]
 
 
