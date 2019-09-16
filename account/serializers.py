@@ -319,8 +319,9 @@ class WorkoutSerializer(serializers.ModelSerializer):
         print(muscles)
         print(workout_instance)
 
-        for muscle in muscles:
-            name = muscle.get('name')
+        if muscles:
+            for muscle in muscles:
+              name = muscle.get('name')
 
             m_obj = TargetMuscles.objects.get(name=name)
             workout_instance.muscles.add(m_obj)

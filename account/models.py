@@ -9,7 +9,7 @@ import datetime
 
 class PasswordReset(models.Model):
     token = models.CharField(max_length=128, null=False, unique=True)
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     expiry = models.DateTimeField()
     used = models.BooleanField(default=False)
 
@@ -104,8 +104,8 @@ class MaxLiftTracking(models.Model):
 
     MAX_TYPES = ((one_rep, '1'), (three_rep, '3'),)
 
-    profile = models.ForeignKey(Profile)
-    exercise = models.ForeignKey(Exercises)
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    exercise = models.ForeignKey(Exercises, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True)
     max_type = models.CharField(max_length=255, choices=MAX_TYPES)
     weight = models.PositiveIntegerField(blank=True, null=True)
@@ -206,23 +206,23 @@ class Workout(models.Model):
 
 
 class WorkoutNotificationSettings(models.Model):
-    user = models.ForeignKey(User)
-    workout = models.ForeignKey(Workout, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    workout = models.ForeignKey(Workout, blank=True, null=True, on_delete=models.CASCADE)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     is_enabled = models.BooleanField(default=False)
     is_sent = models.BooleanField(default=False)
 
 
 class FriendSubscriptionSettings(models.Model):
-    user = models.ForeignKey(User)
-    friend = models.ForeignKey(Friend, null=True, blank=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    friend = models.ForeignKey(Friend, null=True, blank=True, on_delete=models.CASCADE)
     can_receive_content = models.BooleanField(default=False)
 
 
 class AccountSettings(models.Model):
-    user = models.OneToOneField(User)
-    workout_notification_settings = models.ForeignKey(WorkoutNotificationSettings, blank=True, null=True)
-    friend_subscription_settings = models.ForeignKey(FriendSubscriptionSettings, blank=True, null=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    workout_notification_settings = models.ForeignKey(WorkoutNotificationSettings, blank=True, null=True, on_delete=models.CASCADE)
+    friend_subscription_settings = models.ForeignKey(FriendSubscriptionSettings, blank=True, null=True, on_delete=models.CASCADE)
     friends_can_subscribe = models.BooleanField(default=False)
     receive_workout_notifications = models.BooleanField(default=True)
     receive_workouts_from_friends = models.BooleanField(default=False)

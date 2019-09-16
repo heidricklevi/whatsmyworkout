@@ -21,10 +21,9 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
-    url(r'^admin/', include(admin.site.urls)),
-    url(r'^api-auth/', include('rest_framework.urls',
-                               namespace='rest_framework')),
-    url(r'^account/', include('account.urls', namespace='account')),
+    url(r'^admin/', admin.site.urls),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^account/', include(('account.urls', 'account'), namespace='account')),
     url(r'^rest-auth/', include('rest_auth.urls')),
     url(r"^friendship/", include('friendship.urls')),
     # url(r'^rest-auth/registration/', include('rest_auth.registration.urls')),
