@@ -127,15 +127,14 @@ CSRF_TRUSTED_ORIGINS = (
 )
 
 CORS_ORIGIN_WHITELIST = (
-
     'http://127.0.0.1:8081',
     'localhost:8081/',
     'http://127.0.0.1:8081/'
+    'https://services.whatsmyworkout.co'
 )
 
 CORS_ALLOW_HEADERS = (
     'x-requested-with',
-
     'content-type',
     'accept',
     'origin',
