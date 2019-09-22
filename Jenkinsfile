@@ -1,6 +1,9 @@
 
 pipeline {
   agent any
+  environment {
+      PATH = "/usr/sbin:$PATH"
+  }
   stages {
     stage ('build') {
       steps {
