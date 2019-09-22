@@ -131,7 +131,9 @@ CORS_ORIGIN_WHITELIST = (
     'localhost:8081/',
     'http://127.0.0.1:8081/',
     'https://services.whatsmyworkout.co',
+    'services.whatsmyworkout.co',
     'https://www.whatsmyworkout.co',
+    'www.whatsmyworkout.co',
 )
 
 CORS_ALLOW_HEADERS = (
